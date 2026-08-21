@@ -1,0 +1,43 @@
+.custom-wizard-nav {
+  .nav-link {
+    background: transparent;
+    color: var(--vz-body-color);
+    border-radius: 6px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    .step-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(var(--vz-primary-rgb), 0.1);
+      color: var(--vz-primary);
+      font-size: 15px;
+    }
+
+    &.active {
+      background: var(--vz-primary);
+      color: #fff;
+
+      .step-icon {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+    }
+
+    &.done {
+      .step-icon {
+        background: rgba(var(--vz-success-rgb), 0.15);
+        color: var(--vz-success);
+      }
+    }
+  }
+}

@@ -1,0 +1,451 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">
+        {{ isEditMode ? 'Chỉnh sửa Hồ sơ Đăng ký Đề tài' : 'Tạo mới Hồ sơ Đăng ký Đề tài' }}
+        <span class="badge bg-primary-subtle text-primary fs-12 ms-2">
+          {{ proposal.target === 'GIANG_VIEN' ? 'Mẫu BM01A (Giảng viên)' : 'Mẫu BM01B (Sinh viên)' }}
+        </span>
+      </h4>
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a routerLink="/nckh/de-tai-cua-toi">Đề tài của tôi</a></li>
+          <li class="breadcrumb-item active">Soạn thảo BM01</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (alertMessage) {
+  <div class="alert alert-dismissible fade show p-3 mb-3" [ngClass]="'alert-' + alertType" role="alert">
+    <i class="ri-information-line me-2"></i> {{ alertMessage }}
+  </div>
+}
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card shadow-sm">
+      <div class="card-header bg-light-subtle py-3 border-bottom">
+        <!-- Wizard Navigation -->
+        <ul class="nav nav-pills nav-justified custom-wizard-nav" role="tablist">
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="currentStep === 1" [class.done]="currentStep > 1" (click)="setStep(1)" type="button">
+              <span class="step-icon"><i class="ri-information-line"></i></span>
+              <span class="step-title">1. Thông tin chung</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="currentStep === 2" [class.done]="currentStep > 2" (click)="setStep(2)" type="button">
+              <span class="step-icon"><i class="ri-file-text-line"></i></span>
+              <span class="step-title">2. Mục tiêu & Nội dung</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="currentStep === 3" [class.done]="currentStep > 3" (click)="setStep(3)" type="button">
+              <span class="step-icon"><i class="ri-group-line"></i></span>
+              <span class="step-title">3. Nhóm & Kinh phí</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="currentStep === 4" [class.done]="currentStep > 4" (click)="setStep(4)" type="button">
+              <span class="step-icon"><i class="ri-shield-check-line"></i></span>
+              <span class="step-title">4. Ký số & Nộp hồ sơ</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-body p-4">
+        <!-- ================= STEP 1: THÔNG TIN CHUNG ================= -->
+        @if (currentStep === 1) {
+          <div class="step-content">
+            <h5 class="mb-3 text-primary"><i class="ri-information-line me-1"></i> Thông tin chung về đề tài</h5>
+
+            <div class="row g-3">
+              <!-- Đợt đăng ký -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">Đợt đăng ký NCKH <span class="text-danger">*</span></label>
+                <select class="form-select" [value]="proposal.roundId" (change)="onRoundChange($event)">
+                  @for (r of rounds; track r.id) {
+                    <option [value]="r.id">{{ r.name }} (Đến {{ r.endDate }})</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Hình thức đăng ký -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">Hình thức đăng ký <span class="text-danger">*</span></label>
+                <div class="d-flex gap-3 mt-1">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="topicType" id="typeTuyens" 
+                           [checked]="proposal.type === 'TUYEN_CHON'" 
+                           (change)="onTypeChange('TUYEN_CHON')">
+                    <label class="form-check-label" for="typeTuyens">
+                      <strong>Tuyển chọn</strong> (Tự đề xuất đề tài)
+                    </label>
+                  </div>
+                  @if (proposal.target === 'GIANG_VIEN') {
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="topicType" id="typeGiaoTT" 
+                             [checked]="proposal.type === 'GIAO_TRUC_TIEP'" 
+                             (change)="onTypeChange('GIAO_TRUC_TIEP')">
+                      <label class="form-check-label" for="typeGiaoTT">
+                        <strong>Giao trực tiếp</strong> (Chọn từ danh mục)
+                      </label>
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <!-- Danh mục Đề tài Giao trực tiếp (nếu chọn Giao trực tiếp) -->
+              @if (proposal.type === 'GIAO_TRUC_TIEP') {
+                <div class="col-12">
+                  <div class="alert alert-warning-subtle border border-warning p-3">
+                    <h6 class="text-warning fw-bold mb-2"><i class="ri-list-check me-1"></i> Chọn đề tài từ Danh mục Giao trực tiếp của Đợt:</h6>
+                    <div class="row g-2">
+                      @for (dt of directTopics; track dt.id) {
+                        <div class="col-md-6">
+                          <div class="card border rounded p-2 mb-0" 
+                               [class.border-warning]="proposal.directTopicId === dt.id" 
+                               [class.bg-warning-subtle]="proposal.directTopicId === dt.id"
+                               style="cursor: pointer;" 
+                               (click)="onDirectTopicSelect(dt)">
+                            <div class="fw-semibold fs-13">{{ dt.name }}</div>
+                            <div class="text-muted fs-11 mt-1">
+                              Mã: <code>{{ dt.code }}</code> | Đơn vị: {{ dt.assignedFaculty }} | Kinh phí: {{ dt.budgetEst | number }} đ
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                    <div class="text-muted fs-11 mt-2">
+                      * <em>Lưu ý (PRD FR-14): Mỗi đề tài giao trực tiếp có 1 suất. Đề tài thuộc về hồ sơ được Trưởng Khoa duyệt sớm nhất.</em>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Tên đề tài -->
+              <div class="col-12">
+                <label class="form-label fw-semibold fs-13">Tên đề tài NCKH <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="2" [(ngModel)]="proposal.title" placeholder="Nhập tên đề tài đầy đủ"></textarea>
+              </div>
+
+              <!-- Lĩnh vực nghiên cứu -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">Lĩnh vực nghiên cứu <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" [(ngModel)]="proposal.field" placeholder="Ví dụ: Khoa học máy tính & Trí tuệ nhân tạo">
+              </div>
+
+              <!-- Khoa / Đơn vị -->
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">Khoa / Đơn vị chủ trì <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" [(ngModel)]="proposal.faculty" readonly>
+              </div>
+
+              <!-- Thời gian thực hiện -->
+              <div class="col-md-4">
+                <label class="form-label fw-semibold fs-13">Thời gian thực hiện (tháng) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" [(ngModel)]="proposal.durationMonths" min="3" max="24">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-semibold fs-13">Dự kiến bắt đầu</label>
+                <input type="date" class="form-control" [(ngModel)]="proposal.startDateExpected">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-semibold fs-13">Dự kiến kết thúc</label>
+                <input type="date" class="form-control" [(ngModel)]="proposal.endDateExpected">
+              </div>
+
+              <!-- Chọn Giảng viên hướng dẫn (bắt buộc nếu là Sinh viên - PRD FR-16) -->
+              @if (proposal.target === 'SINH_VIEN') {
+                <div class="col-12">
+                  <div class="card border border-info border-opacity-25 bg-info-subtle p-3 mb-0">
+                    <label class="form-label fw-bold text-info fs-13">
+                      <i class="ri-user-follow-line me-1"></i> Phân công Giảng viên hướng dẫn (GVHD) <span class="text-danger">*</span>
+                    </label>
+                    <select class="form-select" [value]="proposal.advisorId" (change)="onAdvisorChange($event)">
+                      @for (adv of advisorsList; track adv.id) {
+                        <option [value]="adv.id">{{ adv.fullName }} ({{ adv.academicTitle }} - {{ adv.unit }}) - {{ adv.email }}</option>
+                      }
+                    </select>
+                    <div class="text-muted fs-11 mt-1">
+                      Hồ sơ sinh viên sau khi nộp sẽ chuyển trực tiếp đến Giảng viên hướng dẫn để xét duyệt tuyến đầu.
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- ================= STEP 2: MỤC TIÊU & NỘI DUNG ================= -->
+        @if (currentStep === 2) {
+          <div class="step-content">
+            <h5 class="mb-3 text-primary"><i class="ri-file-text-line me-1"></i> Nội dung nghiên cứu & Sản phẩm dự kiến</h5>
+
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label fw-semibold fs-13">1. Tính cấp thiết của đề tài <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.necessity" placeholder="Trình bày bối cảnh, lý do chọn đề tài và khoảng trống nghiên cứu..."></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold fs-13">2. Mục tiêu nghiên cứu <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.objectives" placeholder="Mục tiêu tổng quát và các mục tiêu cụ thể cần đạt..."></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold fs-13">3. Nội dung nghiên cứu chính <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="4" [(ngModel)]="proposal.mainContents" placeholder="Liệt kê các gói công việc / nội dung nghiên cứu thực hiện..."></textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-semibold fs-13">4. Phương pháp nghiên cứu <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.methods" placeholder="Phương pháp thu thập dữ liệu, thuật toán, thực nghiệm..."></textarea>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">5. Sản phẩm dự kiến <span class="text-danger">*</span></label>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.expectedProducts" placeholder="Ví dụ: 01 Bài báo khoa học, 01 Phần mềm thử nghiệm, Báo cáo tổng kết..."></textarea>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">6. Khả năng ứng dụng & chuyển giao</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.applicability" placeholder="Địa chỉ áp dụng, khả năng phục vụ đào tạo hoặc chuyển giao công nghệ..."></textarea>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- ================= STEP 3: NHÓM & KINH PHÍ ================= -->
+        @if (currentStep === 3) {
+          <div class="step-content">
+            <h5 class="mb-3 text-primary"><i class="ri-group-line me-1"></i> Danh sách nhóm nghiên cứu & Dự trù kinh phí</h5>
+
+            <!-- Thông tin Chủ nhiệm -->
+            <div class="card bg-light border p-3 mb-3">
+              <h6 class="fw-bold fs-13 mb-2 text-dark">Chủ nhiệm đề tài (Bạn)</h6>
+              <div class="row g-2 fs-13">
+                <div class="col-md-3"><strong>Họ tên:</strong> {{ currentUser.fullName }}</div>
+                <div class="col-md-3"><strong>Mã định danh:</strong> {{ currentUser.identifierCode }}</div>
+                <div class="col-md-3"><strong>Đơn vị:</strong> {{ currentUser.unit }}</div>
+                <div class="col-md-3"><strong>Điện thoại:</strong> {{ currentUser.phone }}</div>
+              </div>
+            </div>
+
+            <!-- Bảng thành viên nhóm -->
+            <div class="card border p-3 mb-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <h6 class="fw-bold fs-13 mb-0">Thành viên tham gia nghiên cứu (nếu có)</h6>
+                <span class="text-muted fs-11">* Thành viên nhóm cũng được kiểm tra hạn ngạch $\le 2$ đề tài (FR-13).</span>
+              </div>
+
+              <!-- Form thêm thành viên -->
+              <div class="row g-2 mb-3 bg-light p-2 rounded">
+                <div class="col-md-3">
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="newMember.fullName" placeholder="Họ và tên thành viên">
+                </div>
+                <div class="col-md-2">
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="newMember.identifierCode" placeholder="Mã GV / Mã SV">
+                </div>
+                <div class="col-md-3">
+                  <input type="text" class="form-control form-control-sm" [(ngModel)]="newMember.unit" placeholder="Khoa / Đơn vị">
+                </div>
+                <div class="col-md-3">
+                  <select class="form-select form-select-sm" [(ngModel)]="newMember.roleInProject">
+                    <option value="Thành viên nghiên cứu chính">Thành viên nghiên cứu chính</option>
+                    <option value="Thư ký khoa học">Thư ký khoa học</option>
+                    <option value="Thành viên phối hợp">Thành viên phối hợp</option>
+                  </select>
+                </div>
+                <div class="col-md-1">
+                  <button type="button" class="btn btn-sm btn-primary w-100" (click)="addMember()">
+                    <i class="ri-add-line"></i> Thêm
+                  </button>
+                </div>
+              </div>
+
+              <!-- Danh sách đã thêm -->
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>STT</th>
+                      <th>Họ tên</th>
+                      <th>Mã GV/SV</th>
+                      <th>Khoa / Đơn vị</th>
+                      <th>Vai trò trong đề tài</th>
+                      <th class="text-center" style="width: 50px;">Xóa</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (m of proposal.members; track m.id; let idx = $index) {
+                      <tr>
+                        <td>{{ idx + 1 }}</td>
+                        <td class="fw-medium">{{ m.fullName }}</td>
+                        <td><code>{{ m.identifierCode }}</code></td>
+                        <td>{{ m.unit }}</td>
+                        <td><span class="badge bg-secondary-subtle text-secondary">{{ m.roleInProject }}</span></td>
+                        <td class="text-center">
+                          <button type="button" class="btn btn-sm btn-link link-danger p-0" (click)="removeMember(idx)">
+                            <i class="ri-delete-bin-line"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    } @empty {
+                      <tr>
+                        <td colspan="6" class="text-center py-2 text-muted fs-12">Chưa thêm thành viên phối hợp nào.</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Dự trù kinh phí -->
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">Tổng kinh phí đề xuất (VNĐ) <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" [(ngModel)]="proposal.budgetTotal" step="1000000">
+                  <span class="input-group-text">VNĐ</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold fs-13">Kinh phí đề nghị Trường cấp (VNĐ) <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="number" class="form-control" [(ngModel)]="proposal.budgetSchoolFunded" step="1000000">
+                  <span class="input-group-text">VNĐ</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- ================= STEP 4: KÝ SỐ & NỘP HỒ SƠ ================= -->
+        @if (currentStep === 4) {
+          <div class="step-content">
+            <h5 class="mb-3 text-primary"><i class="ri-shield-check-line me-1"></i> Pipeline Form/PDF & Ký số bên ngoài (PRD §3 Glossary)</h5>
+
+            <div class="row g-4">
+              <!-- Khung xem trước biểu mẫu -->
+              <div class="col-lg-7">
+                <div class="card border rounded shadow-none h-100">
+                  <div class="card-header bg-light py-2 d-flex align-items-center justify-content-between">
+                    <span class="fw-bold fs-13 text-uppercase">
+                      Xem trước biểu mẫu {{ proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B' }}
+                    </span>
+                    <span class="badge bg-primary">Bản xem trước</span>
+                  </div>
+                  <div class="card-body p-3 bg-white" style="max-height: 420px; overflow-y: auto; font-size: 13px;">
+                    <div class="text-center mb-3">
+                      <div class="fw-bold">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
+                      <div class="fw-bold text-decoration-underline">PHÒNG KHOA HỌC & CÔNG NGHỆ</div>
+                      <h6 class="mt-3 fw-bold text-uppercase">
+                        {{ proposal.target === 'GIANG_VIEN' ? 'ĐĂNG KÝ ĐỀ TÀI NCKH CẤP TRƯỜNG NĂM 2026 (BM01A)' : 'ĐĂNG KÝ ĐỀ TÀI NCKH SINH VIÊN (BM01B)' }}
+                      </h6>
+                    </div>
+
+                    <p><strong>1. Tên đề tài:</strong> {{ proposal.title || '(Chưa nhập tên đề tài)' }}</p>
+                    <p><strong>2. Chủ nhiệm đề tài:</strong> {{ currentUser.fullName }} (Mã số: {{ currentUser.identifierCode }})</p>
+                    @if (proposal.target === 'SINH_VIEN') {
+                      <p><strong>- Giảng viên hướng dẫn:</strong> {{ proposal.advisorName }} ({{ proposal.advisorTitle }})</p>
+                    }
+                    <p><strong>3. Đơn vị:</strong> {{ proposal.faculty }} | <strong>Lĩnh vực:</strong> {{ proposal.field }}</p>
+                    <p><strong>4. Thời gian:</strong> {{ proposal.durationMonths }} tháng</p>
+                    <p><strong>5. Mục tiêu nghiên cứu:</strong> {{ proposal.objectives || '...' }}</p>
+                    <p><strong>6. Sản phẩm dự kiến:</strong> {{ proposal.expectedProducts || '...' }}</p>
+                    <p><strong>7. Tổng kinh phí đề xuất:</strong> {{ proposal.budgetTotal | number }} VNĐ</p>
+                    <p><strong>8. Số thành viên tham gia:</strong> {{ proposal.members?.length || 0 }} thành viên</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Cột tải file và ký số -->
+              <div class="col-lg-5">
+                <div class="card border border-primary border-opacity-25 p-3 h-100 bg-light-subtle">
+                  <h6 class="fw-bold fs-14 text-primary mb-2">Bằng chứng Chữ ký số trên BM01</h6>
+                  <p class="text-muted fs-12 mb-3">
+                    Theo quy trình PRD (FR-19), bạn cần xuất bản in PDF, thực hiện ký số bên ngoài hệ thống và tải lên bản đã ký để hoàn tất nộp hồ sơ.
+                  </p>
+
+                  @if (proposal.signedPdfFile && proposal.signedPdfFile.signatureStatus === 'DA_KY') {
+                    <!-- Đã có file ký số -->
+                    <div class="card border border-success bg-success-subtle p-3 mb-3">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar-sm me-3 flex-shrink-0">
+                          <span class="avatar-title bg-success text-white rounded fs-2">
+                            <i class="ri-file-pdf-fill"></i>
+                          </span>
+                        </div>
+                        <div class="flex-grow-1 overflow-hidden">
+                          <h6 class="fs-13 fw-semibold text-truncate mb-1">{{ proposal.signedPdfFile.fileName }}</h6>
+                          <div class="text-muted fs-11"><i class="ri-shield-check-fill text-success me-1"></i> {{ proposal.signedPdfFile.signedBy }}</div>
+                          <div class="text-muted fs-11">Tải lên: {{ proposal.signedPdfFile.uploadedAt }} ({{ proposal.signedPdfFile.fileSize }})</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button type="button" class="btn btn-outline-secondary btn-sm w-100 mb-3" (click)="simulateDigitalSignature()">
+                      <i class="ri-refresh-line me-1"></i> Ký và tải lại bản khác
+                    </button>
+                  } @else {
+                    <!-- Chưa có file ký số -->
+                    <div class="text-center p-4 border border-dashed rounded bg-white mb-3">
+                      <i class="ri-upload-cloud-2-line fs-36 text-primary mb-2 d-block"></i>
+                      <div class="fw-semibold fs-13">Chưa có tệp PDF BM01 đã ký</div>
+                      <div class="text-muted fs-11 mt-1 mb-3">Bấm nút bên dưới để giả lập quy trình Ký số và đính kèm bản ký</div>
+                      
+                      <button type="button" class="btn btn-primary btn-sm" [disabled]="isSimulatingSign" (click)="simulateDigitalSignature()">
+                        @if (isSimulatingSign) {
+                          <span class="spinner-border spinner-border-sm me-1"></span> Đang ký số...
+                        } @else {
+                          <i class="ri-quill-pen-line me-1"></i> Giả lập Ký số & Upload PDF
+                        }
+                      </button>
+                    </div>
+                  }
+
+                  <div class="alert alert-info-subtle fs-11 p-2 mb-0">
+                    <i class="ri-information-line me-1"></i> Khi bấm <strong>Nộp hồ sơ</strong>, form BM01 sẽ khóa lại và chuyển sang Trưởng Khoa (đề tài GV) hoặc GVHD (đề tài SV) xét duyệt.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- ================= NAVIGATION BUTTONS ================= -->
+        <div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
+          <div>
+            @if (currentStep > 1) {
+              <button type="button" class="btn btn-light" (click)="prevStep()">
+                <i class="ri-arrow-left-line me-1"></i> Quay lại
+              </button>
+            }
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" (click)="saveDraft()">
+              <i class="ri-save-line me-1"></i> Lưu bản nháp
+            </button>
+
+            @if (currentStep < 4) {
+              <button type="button" class="btn btn-primary" (click)="nextStep()">
+                Tiếp tục <i class="ri-arrow-right-line ms-1"></i>
+              </button>
+            } @else {
+              <button type="button" class="btn btn-success waves-effect waves-light" (click)="submitProposal()">
+                <i class="ri-send-plane-fill me-1"></i> Nộp hồ sơ chính thức
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

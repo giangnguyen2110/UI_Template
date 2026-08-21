@@ -1,0 +1,12 @@
+.timeline-continue {
+  position: relative;
+  &:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 12px;
+    bottom: 0;
+    width: 2px;
+    background: var(--vz-border-color);
+  }
+}

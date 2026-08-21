@@ -1,0 +1,192 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Hồ sơ Đề tài của Tôi</h4>
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a routerLink="/nckh/dashboard">NCKH</a></li>
+          <li class="breadcrumb-item active">Hồ sơ của tôi</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (alertMessage) {
+  <div class="alert alert-dismissible fade show p-3 mb-3" [ngClass]="'alert-' + alertType" role="alert">
+    <i class="ri-information-line me-2"></i> {{ alertMessage }}
+  </div>
+}
+
+<!-- Thống kê Hạn ngạch & Nút tạo mới -->
+<div class="row mb-3">
+  <div class="col-12">
+    <div class="card mb-0 shadow-sm">
+      <div class="card-body py-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-sm">
+            <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+              <i class="ri-folder-shared-line"></i>
+            </span>
+          </div>
+          <div>
+            <h6 class="mb-1 fs-14">
+              Hạn ngạch đăng ký đề tài: 
+              <span class="fw-bold" [class.text-success]="activeQuota < 2" [class.text-danger]="activeQuota >= 2">
+                {{ activeQuota }} / 2 đề tài đang đợi xử lý
+              </span>
+            </h6>
+            <p class="text-muted fs-12 mb-0">
+              Theo quy định (PRD FR-13), mỗi cá nhân được có tối đa 2 đề tài đang chờ xử lý. Hồ sơ nháp không tính vào hạn ngạch.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <a routerLink="/nckh/dang-ky-moi" class="btn btn-primary waves-effect waves-light">
+            <i class="ri-add-line align-middle me-1"></i> Tạo hồ sơ đăng ký mới
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bộ lọc trạng thái & Bảng danh sách đề tài -->
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-transparent border-bottom">
+        <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0">
+          <li class="nav-item">
+            <a class="nav-link py-2" [class.active]="currentFilter === 'ALL'" href="javascript:void(0);" (click)="filterByStatus('ALL')">
+              Tất cả đề tài ({{ myProposals.length }})
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-2" [class.active]="currentFilter === 'NHAP'" href="javascript:void(0);" (click)="filterByStatus('NHAP')">
+              Bản nháp
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-2" [class.active]="currentFilter === 'PENDING'" href="javascript:void(0);" (click)="filterByStatus('PENDING')">
+              Đang chờ duyệt
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-2" [class.active]="currentFilter === 'REJECTED'" href="javascript:void(0);" (click)="filterByStatus('REJECTED')">
+              Cần sửa lại
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link py-2" [class.active]="currentFilter === 'APPROVED'" href="javascript:void(0);" (click)="filterByStatus('APPROVED')">
+              Đã qua Bước 01
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover table-nowrap align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" style="width: 50px;">STT</th>
+                <th scope="col">Mã & Tên đề tài</th>
+                <th scope="col">Đợt đăng ký</th>
+                <th scope="col">Hình thức</th>
+                <th scope="col">Kinh phí đề xuất</th>
+                <th scope="col">Bản ký PDF</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col" class="text-center" style="width: 140px;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of filteredProposals; track p.id; let idx = $index) {
+                <tr>
+                  <td>{{ idx + 1 }}</td>
+                  <td>
+                    <div class="d-flex flex-column">
+                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 320px;">
+                        {{ p.title }}
+                      </a>
+                      <span class="text-muted fs-11">Mã: <code>{{ p.code }}</code> (Phiên bản v{{ p.version }})</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="fs-12 text-truncate" style="max-width: 200px;">{{ p.roundName }}</div>
+                  </td>
+                  <td>
+                    <span class="badge" [class.bg-info-subtle]="p.type === 'TUYEN_CHON'" [class.text-info]="p.type === 'TUYEN_CHON'" [class.bg-warning-subtle]="p.type === 'GIAO_TRUC_TIEP'" [class.text-warning]="p.type === 'GIAO_TRUC_TIEP'">
+                      {{ p.type === 'TUYEN_CHON' ? 'Tuyển chọn' : 'Giao trực tiếp' }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="fw-medium fs-12">{{ p.budgetTotal | number }} đ</span>
+                  </td>
+                  <td>
+                    @if (p.signedPdfFile && p.signedPdfFile.signatureStatus === 'DA_KY') {
+                      <span class="badge bg-success-subtle text-success fs-11" title="Đã có chữ ký số hợp lệ">
+                        <i class="ri-check-line me-1"></i> Đã ký số
+                      </span>
+                    } @else {
+                      <span class="badge bg-warning-subtle text-warning fs-11">
+                        <i class="ri-file-warning-line me-1"></i> Chưa có bản ký
+                      </span>
+                    }
+                  </td>
+                  <td>
+                    <span [class]="getStatusBadge(p.status) + ' fs-11 py-1 px-2'">
+                      {{ p.statusText }}
+                    </span>
+                    @if (p.status === 'TRA_CHINH_SUA' && p.rejectionReason) {
+                      <div class="text-danger fs-11 mt-1 text-truncate" style="max-width: 250px;" [title]="p.rejectionReason">
+                        <i class="ri-error-warning-line me-1"></i> Lý do: {{ p.rejectionReason }}
+                      </div>
+                    }
+                  </td>
+                  <td class="text-center">
+                    <div class="d-flex justify-content-center gap-1">
+                      <!-- Xem chi tiết -->
+                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary btn-icon" title="Xem chi tiết">
+                        <i class="ri-eye-line"></i>
+                      </a>
+
+                      <!-- Sửa (khi Nháp hoặc Bị trả) -->
+                      @if (p.status === 'NHAP' || p.status === 'TRA_CHINH_SUA') {
+                        <a [routerLink]="['/nckh/chinh-sua', p.id]" class="btn btn-sm btn-soft-secondary btn-icon" title="Chỉnh sửa hồ sơ">
+                          <i class="ri-edit-line"></i>
+                        </a>
+                      }
+
+                      <!-- Nộp (khi Nháp) -->
+                      @if (p.status === 'NHAP') {
+                        <button type="button" class="btn btn-sm btn-soft-success btn-icon" (click)="submitProposal(p)" title="Nộp hồ sơ ngay">
+                          <i class="ri-send-plane-fill"></i>
+                        </button>
+                      }
+
+                      <!-- Xóa (chỉ khi Nháp) -->
+                      @if (p.status === 'NHAP') {
+                        <button type="button" class="btn btn-sm btn-soft-danger btn-icon" (click)="deleteProposal(p.id)" title="Xóa nháp">
+                          <i class="ri-delete-bin-line"></i>
+                        </button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="text-center py-4 text-muted">
+                    <i class="ri-folder-open-line fs-24 d-block mb-2 text-muted"></i>
+                    Không có đề tài nào trong danh mục này.
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
