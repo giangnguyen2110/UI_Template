@@ -73,18 +73,20 @@ export class ProposalFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.nckhDataService.currentUser$.subscribe(u => {
-      this.currentUser = u;
-      if (!this.isEditMode) {
-        this.proposal.target = (u.role === 'SINH_VIEN' ? 'SINH_VIEN' : 'GIANG_VIEN') as TopicTarget;
-        this.proposal.faculty = u.unit || 'Khoa Công nghệ thông tin';
-        if (u.role === 'SINH_VIEN') {
-          this.proposal.advisorId = 'u-gvhd-01';
-          this.proposal.advisorName = 'ThS. Phạm Hải Đăng';
-          this.proposal.advisorEmail = 'gvhd@gmail.com';
-          this.proposal.advisorTitle = 'Thạc sĩ';
-          this.proposal.durationMonths = 6;
-          this.proposal.budgetTotal = 10000000;
-          this.proposal.budgetSchoolFunded = 10000000;
+      if (u) {
+        this.currentUser = u;
+        if (!this.isEditMode) {
+          this.proposal.target = (u.role === 'SINH_VIEN' ? 'SINH_VIEN' : 'GIANG_VIEN') as TopicTarget;
+          this.proposal.faculty = u.unit || 'Khoa Công nghệ thông tin';
+          if (u.role === 'SINH_VIEN') {
+            this.proposal.advisorId = 'u-gvhd-01';
+            this.proposal.advisorName = 'ThS. Phạm Hải Đăng';
+            this.proposal.advisorEmail = 'gvhd@gmail.com';
+            this.proposal.advisorTitle = 'Thạc sĩ';
+            this.proposal.durationMonths = 6;
+            this.proposal.budgetTotal = 10000000;
+            this.proposal.budgetSchoolFunded = 10000000;
+          }
         }
       }
     });

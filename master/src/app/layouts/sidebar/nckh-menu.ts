@@ -2,7 +2,8 @@ import { MenuItem } from './menu.model';
 import { UserRole } from '../../core/models/nckh.model';
 import { MENU } from './menu';
 
-export function getMenuForRole(role: UserRole): MenuItem[] {
+export function getMenuForRole(role?: UserRole): MenuItem[] {
+  if (!role) return MENU;
   const commonTitle: MenuItem = {
     id: 1,
     label: 'DANH MỤC CHỨC NĂNG',

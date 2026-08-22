@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   menu: any;
   toggle: any = true;
   menuItems: MenuItem[] = [];
+  currentUser: any;
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
 
@@ -32,6 +33,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     // Dynamic Role-based Menu Items
     this.nckhDataService.currentUser$.subscribe(user => {
       if (user) {
+        this.currentUser = user;
         this.menuItems = getMenuForRole(user.role);
         setTimeout(() => {
           this.initActiveMenu();

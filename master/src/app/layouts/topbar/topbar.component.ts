@@ -54,7 +54,9 @@ export class TopbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.nckhDataService.currentUser$.subscribe(u => {
-      this.currentUserProfile = u;
+      if (u) {
+        this.currentUserProfile = u;
+      }
     });
 
     this.element = document.documentElement;
@@ -172,8 +174,7 @@ export class TopbarComponent implements OnInit {
   }
 
   logout() {
-    sessionStorage.removeItem('currentUserProfile');
-    sessionStorage.removeItem('currentUser');
+    this.nckhDataService.logout();
     this.router.navigate(['/auth/login']);
   }
 

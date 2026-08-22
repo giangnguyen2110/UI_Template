@@ -442,8 +442,8 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   providedIn: 'root'
 })
 export class NckhDataService {
-  private currentUserSubject: BehaviorSubject<UserProfile>;
-  public currentUser$: Observable<UserProfile>;
+  private currentUserSubject: BehaviorSubject<UserProfile | null>;
+  public currentUser$: Observable<UserProfile | null>;
 
   private roundsSubject: BehaviorSubject<RegistrationRound[]>;
   public rounds$: Observable<RegistrationRound[]>;
@@ -454,8 +454,8 @@ export class NckhDataService {
   constructor() {
     // Load currentUser
     const savedUser = sessionStorage.getItem('currentUserProfile');
-    const initialUser: UserProfile = savedUser ? JSON.parse(savedUser) : DEMO_USERS[0];
-    this.currentUserSubject = new BehaviorSubject<UserProfile>(initialUser);
+    const initialUser: UserProfile | null = savedUser ? JSON.parse(savedUser) : null;
+    this.currentUserSubject = new BehaviorSubject<UserProfile | null>(initialUser);
     this.currentUser$ = this.currentUserSubject.asObservable();
 
     // Load Rounds
@@ -473,7 +473,7 @@ export class NckhDataService {
 
   // --- AUTH & ROLE SWITCH ---
   public get currentUserValue(): UserProfile {
-    return this.currentUserSubject.value;
+    return this.currentUserSubject.value || DEMO_USERS[0];
   }
 
   public setCurrentUser(user: UserProfile) {
@@ -498,6 +498,12 @@ export class NckhDataService {
       return user;
     }
     return null;
+  }
+
+  public logout() {
+    sessionStorage.removeItem('currentUserProfile');
+    sessionStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
   }
 
   public switchRole(role: UserRole): UserProfile {

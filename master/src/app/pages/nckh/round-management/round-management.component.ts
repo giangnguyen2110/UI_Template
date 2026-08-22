@@ -56,7 +56,9 @@ export class RoundManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.nckhDataService.currentUser$.subscribe(u => {
-      this.currentUser = u;
+      if (u) {
+        this.currentUser = u;
+      }
     });
 
     this.nckhDataService.rounds$.subscribe(r => {

@@ -22,7 +22,9 @@ export class ProposalDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.nckhDataService.currentUser$.subscribe(u => {
-      this.currentUser = u;
+      if (u) {
+        this.currentUser = u;
+      }
     });
 
     this.route.params.subscribe(params => {

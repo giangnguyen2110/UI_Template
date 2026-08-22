@@ -25,8 +25,10 @@ export class MyProposalsComponent implements OnInit {
 
   ngOnInit(): void {
     this.nckhDataService.currentUser$.subscribe(u => {
-      this.currentUser = u;
-      this.loadProposals();
+      if (u) {
+        this.currentUser = u;
+        this.loadProposals();
+      }
     });
 
     this.nckhDataService.proposals$.subscribe(() => {
