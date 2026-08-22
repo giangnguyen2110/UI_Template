@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "dist/velzon/browser",
+  "outputDirectory": "browser",
   "rewrites": [
     {
       "source": "/(.*)",
