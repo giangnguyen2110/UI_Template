@@ -8,14 +8,14 @@ import { NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule } from '@ng-
 import { CountUpDirective } from 'ngx-countup';
 
 // Flat Picker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 
 // Feather Icon
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Component pages
@@ -24,8 +24,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { DetailsComponent } from './details/details.component';
 import { CreateComponent } from './create/create.component';
 
-import {DatePipe} from '@angular/common';
-
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -51,7 +50,7 @@ import {DatePipe} from '@angular/common';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class InvoicesModule { 
+export class InvoicesModule {
   constructor() {
     defineElement();
   }

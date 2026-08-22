@@ -6,12 +6,12 @@ import { NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule, NgbTooltipM
 // Counter
 import { CountUpDirective } from 'ngx-countup';
 // Flat Picker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 // Simple Bar
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Component pages
@@ -21,13 +21,12 @@ import { ListComponent } from './list/list.component';
 import { DetailsComponent } from './details/details.component';
 
 
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
     ListComponent,
-    DetailsComponent
-    
+    DetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -52,4 +51,4 @@ export class TicketsModule {
   constructor() {
     defineElement();
   }
- }
+}

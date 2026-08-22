@@ -15,7 +15,6 @@ export class ListViewComponent implements OnInit {
   // bread crumb items
   breadCrumbItems!: Array<{}>;
   listview: any;
-
   alllistview: any;
   searchResults: any;
   searchTerm: any;
@@ -50,8 +49,8 @@ export class ListViewComponent implements OnInit {
     }
   }
 
-   // Pagination
-   changePage() {
+  // Pagination
+  changePage() {
     this.listview = this.service.changePage(this.alllistview)
   }
 

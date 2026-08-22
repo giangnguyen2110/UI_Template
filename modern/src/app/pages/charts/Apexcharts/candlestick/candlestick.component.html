@@ -10,7 +10,7 @@
           </div><!-- end card header -->
 
           <div class="card-body">
-            <apx-chart [series]="basicCandlestickChart.series" [chart]="basicCandlestickChart.chart"
+            <apx-chart [series]="basicCandlestickChart.series" [chart]="basicCandlestickChart.chart" [plotOptions]="basicCandlestickChart.plotOptions"
             [xaxis]="basicCandlestickChart.xaxis" [yaxis]="basicCandlestickChart.yaxis"
             [title]="basicCandlestickChart.title" dir="ltr"></apx-chart>
           </div><!-- end card-body -->
@@ -53,7 +53,7 @@
 
           <div class="card-body">
             <apx-chart [series]="categoryXAxisChart.series" [chart]="categoryXAxisChart.chart"
-            [xaxis]="categoryXAxisChart.xaxis" [yaxis]="categoryXAxisChart.yaxis"
+            [xaxis]="categoryXAxisChart.xaxis" [plotOptions]="categoryXAxisChart.plotOptions" [yaxis]="categoryXAxisChart.yaxis"
             [title]="categoryXAxisChart.title" [tooltip]="categoryXAxisChart.tooltip" dir="ltr"></apx-chart>
           </div><!-- end card-body -->
       </div><!-- end card -->

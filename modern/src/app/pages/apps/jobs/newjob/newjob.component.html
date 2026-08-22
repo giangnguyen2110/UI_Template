@@ -98,7 +98,7 @@
                                     [ngClass]="{ 'is-invalid': submitted && form['experience'].errors }">
                                     <option value="">Select Experience</option>
                                     <option value="0 Year">0 Year</option>
-                                    <option value="2 Years">2 Years</option>
+                                    <option value="2 Yeasr">2 Years</option>
                                     <option value="3 Years">3 Years</option>
                                     <option value="4 Years">4 Years</option>
                                     <option value="5 Years">5 Years</option>
@@ -177,19 +177,11 @@
                                     type="text" value="Design, Remote" required formControlName="tags" />
                             </div>
 
-                            <!-- <div class="filter-choices-input">
-                                <ng-select [items]="Default1" [multiple]="true" bindLabel="name" [(ngModel)]="multiDefaultOption1">
-                                    <ng-template ng-optgroup-tmp let-item="item">
-                                        {{item.country || 'Unnamed group'}}
-                                    </ng-template>
-                                </ng-select>
-                            </div> -->
-
                         </div>
 
                         <div class="col-lg-12">
                             <div class="hstack justify-content-end gap-2">
-                                <button type="button" class="btn btn-ghost-danger"><i
+                                <button type="button" class="btn btn-ghost-danger material-shadow-none"><i
                                         class="ri-close-line align-bottom"></i> Cancel</button>
                                 <button type="submit" class="btn btn-primary">Add Job</button>
                             </div>

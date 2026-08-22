@@ -94,7 +94,6 @@ export class CoverComponent implements OnInit {
           length?.classList.add("invalid");
       }
     };
-
   }
 
   // convenience getter for easy access to form fields

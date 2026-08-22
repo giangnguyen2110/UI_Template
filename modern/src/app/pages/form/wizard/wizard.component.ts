@@ -27,20 +27,20 @@ export class WizardComponent implements OnInit {
     ];
   }
 
-       // File Upload
-       imageURL: any;
-       fileChange(event: any) {
-         let fileList: any = (event.target as HTMLInputElement);
-         let file: File = fileList.files[0];
-         const reader = new FileReader();
-         reader.onload = () => {
-           this.imageURL = reader.result as string;
-             document.querySelectorAll('#user-img').forEach((element: any) => {
-               element.src = this.imageURL;
-             });
-         }
-     
-         reader.readAsDataURL(file)
-       }
+   // File Upload
+   imageURL: any;
+   fileChange(event: any) {
+     let fileList: any = (event.target as HTMLInputElement);
+     let file: File = fileList.files[0];
+     const reader = new FileReader();
+     reader.onload = () => {
+       this.imageURL = reader.result as string;
+         document.querySelectorAll('#user-img').forEach((element: any) => {
+           element.src = this.imageURL;
+         });
+     }
+ 
+     reader.readAsDataURL(file)
+   }
 
 }

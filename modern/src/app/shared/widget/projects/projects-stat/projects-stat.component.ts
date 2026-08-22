@@ -23,13 +23,13 @@ export class ProjectsStatComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  
+
   num: number = 0;
   option = {
-  startVal: this.num,
-  useEasing: true,
-  duration: 2,
-  decimalPlaces: 2,
+    startVal: this.num,
+    useEasing: true,
+    duration: 2,
+    decimalPlaces: 2,
   };
 
 }

@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
@@ -31,25 +32,26 @@ import { InvoiceListModel } from 'src/app/store/Invoice/invoice_model';
  */
 export class ListComponent {
 
-   // bread crumb items
-   breadCrumbItems!: Array<{}>;
-   CustomersData!: InvoiceListModel[];
-   masterSelected!: boolean;
-   checkedList: any;
-   // Api Data
-   content?: any;
-   econtent?: any;
-   invoices?: any;
-   allinvoices: any;
-   searchResults: any;
-   searchTerm: any;
-   date: any;
-   status: any = '';
- 
-   constructor(private modalService: NgbModal, public service: PaginationService,
-     private formBuilder: UntypedFormBuilder, private restApiService: restApiService,
-     private store: Store<{ data: RootReducerState }>, private datePipe: DatePipe) {
-   }
+  // bread crumb items
+  breadCrumbItems!: Array<{}>;
+  CustomersData!: InvoiceListModel[];
+  masterSelected!: boolean;
+  checkedList: any;
+
+  // Api Data
+  content?: any;
+  econtent?: any;
+  invoices?: any;
+  allinvoices: any;
+  searchResults: any;
+  searchTerm: any;
+  date: any;
+  status: any='';
+
+  constructor(private modalService: NgbModal, public service: PaginationService,
+    private formBuilder: UntypedFormBuilder, private restApiService: restApiService,
+    private store: Store<{ data: RootReducerState }>, private datePipe: DatePipe) {
+  }
 
   ngOnInit(): void {
     /**
@@ -79,15 +81,15 @@ export class ListComponent {
 
   num: number = 0;
   option = {
-  startVal: this.num,
-  useEasing: true,
-  duration: 2,
-  decimalPlaces: 2,
+    startVal: this.num,
+    useEasing: true,
+    duration: 2,
+    decimalPlaces: 2,
   };
 
   /**
-   * Confirmation mail model
-   */
+  * Confirmation mail model
+  */
   deleteId: any;
   confirm(content: any, id: any) {
     this.deleteId = id;
@@ -107,8 +109,8 @@ export class ListComponent {
   }
 
   /**
-  * Multiple Delete
-  */
+   * Multiple Delete
+   */
   checkedValGet: any[] = [];
   deleteMultiple(content: any) {
     var checkboxes: any = document.getElementsByName('checkAll');
@@ -124,7 +126,7 @@ export class ListComponent {
       this.modalService.open(content, { centered: true });
     }
     else {
-      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#299cdb', });
+      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#29badb', });
     }
     this.checkedValGet = checkedVal;
   }
@@ -142,6 +144,7 @@ export class ListComponent {
     }
     this.checkedValGet = checkedVal
     checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+
   }
 
   // Select Checkbox value Get
@@ -158,7 +161,24 @@ export class ListComponent {
     checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
   }
 
-  
+  // Filtering
+  isstatus?: any
+  SearchData() {
+    var status = document.getElementById("idStatus") as HTMLInputElement;
+    var date = document.getElementById("isDate") as HTMLInputElement;
+    var dateVal = date.value ? this.datePipe.transform(new Date(date.value), "yyyy-MM-dd") : '';
+    if (status.value != 'all' && status.value != '' || dateVal != '') {
+      this.invoices = this.content.filter((list: any) => {
+        return this.datePipe.transform(new Date(list.date), "yyyy-MM-dd") == dateVal || list.status === status.value;
+      });
+    }
+    else {
+      this.invoices = this.content;
+    }
+  }
+
+
+
   // Pagination
   changePage() {
     this.invoices = this.service.changePage(this.allinvoices)
@@ -186,4 +206,5 @@ export class ListComponent {
       this.invoices = this.allinvoices
     }
   }
+
 }

@@ -13,7 +13,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
  */
 export class BasicComponent implements OnInit {
 
-   // Login Form
+   // Login passresetForm
    passresetForm!: UntypedFormGroup;
    submitted = false;
    passwordField!: boolean;
@@ -30,8 +30,8 @@ export class BasicComponent implements OnInit {
       * Form Validatyion
       */
       this.passresetForm = this.formBuilder.group({
-       password: ['', [Validators.required]],
-       cpassword: ['', [Validators.required]]
+        password: ['', [Validators.required]],
+        cpassword: ['', [Validators.required]]
      });
 
       // Password Validation set

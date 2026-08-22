@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-timeline',
@@ -21,21 +23,21 @@ export class TimelineComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Pages' },
       { label: 'Timeline', active: true }
     ];
   }
 
-    /**
-   * Swiper setting
-   */
-    config = {
-      infinite: true,
-      slidesToShow: 5,
-      slidesToScroll: 1,
-      autoplay: true,
-      arrows: false
-    };
+  /**
+ * Swiper setting
+ */
+  config = {
+    infinite: true,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: false,
+    arrows: false
+  };
 
 }

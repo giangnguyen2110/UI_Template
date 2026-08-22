@@ -10,7 +10,10 @@ const routes: Routes = [
         component: DashboardComponent
     },
     {
-      path: '', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule)
+      path: 'nckh', loadChildren: () => import('./nckh/nckh.module').then(m => m.NckhModule)
+    },
+    {
+      path: 'dashboards', loadChildren: () => import('./dashboards/dashboards.module').then(m => m.DashboardsModule)
     },
     {
       path: 'apps', loadChildren: () => import('./apps/apps.module').then(m => m.AppsModule)

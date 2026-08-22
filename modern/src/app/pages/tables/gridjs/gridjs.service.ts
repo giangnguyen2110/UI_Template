@@ -4,10 +4,9 @@ import {Injectable, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
 import {GridJsModel} from './gridjs.model';
-import { GridJs } from 'src/app/core/data';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
-
+import { GridJs } from 'src/app/core/data';
 
 interface SearchResult {
   countries: GridJsModel[];
@@ -24,7 +23,6 @@ interface State {
 }
 
 const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-
 
 
 function matches(country: GridJsModel, term: string, pipe: PipeTransform) {

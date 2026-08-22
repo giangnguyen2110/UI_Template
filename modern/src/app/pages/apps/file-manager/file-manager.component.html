@@ -1,5 +1,5 @@
 <div class="chat-wrapper d-lg-flex gap-1 mx-n4 mt-n4 p-1">
-    <div class="file-manager-sidebar" id="menusidebar">
+    <div class="file-manager-sidebar minimal-border" id="menusidebar">
         <div class="p-3 d-flex flex-column h-100">
             <div class="mb-3">
                 <h5 class="mb-0 fw-semibold">My Drive</h5>
@@ -11,14 +11,11 @@
             <ngx-simplebar class="mt-3 mx-n4 px-4 file-menu-sidebar-scroll">
                 <ul class="list-unstyled file-manager-menu">
                     <li>
-                        <a data-bs-toggle="collapse" href="javascript:void(0);" role="button" aria-expanded="true"
-                            aria-controls="collapseExample" (click)="collapse.toggle()"
-                            [attr.aria-expanded]="!isCollapsed">
-                            <i class="ri-folder-2-line align-bottom me-2"></i> <span class="file-list-link">My
+                        <a data-bs-toggle="collapse" href="javascript:void(0);" role="button" aria-expanded="true" aria-controls="collapseExample" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed">
+                            <i class="ri-folder-2-line align-bottom me-2 float-start"></i> <span class="file-list-link">My
                                 Drive</span>
                         </a>
-                        <div class="collapse show" id="collapseExample" #collapse="ngbCollapse"
-                            [(ngbCollapse)]="isCollapsed">
+                        <div class="collapse show" id="collapseExample" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
                             <ul class="sub-menu list-unstyled">
                                 <li>
                                     <a href="javascript:void(0);">Assets</a>
@@ -39,28 +36,18 @@
                         </div>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" (click)="changeProducts($event,'Documents')"><i
-                                class="ri-file-list-2-line align-bottom me-2"></i> <span
-                                class="file-list-link">Documents</span></a>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Documents')"><i class="ri-file-list-2-line align-bottom me-2 float-start"></i> <span class="file-list-link">Documents</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" (click)="changeProducts($event,'Media')"><i
-                                class="ri-image-2-line align-bottom me-2"></i> <span
-                                class="file-list-link">Media</span></a>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Media')"><i class="ri-image-2-line align-bottom me-2 float-start"></i> <span class="file-list-link">Media</span></a>
                     <li>
-                        <a href="javascript:void(0);" (click)="changeProducts($event,'Recents')"><i
-                                class="ri-history-line align-bottom me-2"></i> <span
-                                class="file-list-link">Recents</span></a>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Recent')"><i class="ri-history-line align-bottom me-2 float-start"></i> <span class="file-list-link">Recent</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" (click)="changeProducts($event,'Important')"><i
-                                class="ri-star-line align-bottom me-2"></i> <span
-                                class="file-list-link">Important</span></a>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Important')"><i class="ri-star-line align-bottom me-2 float-start"></i> <span class="file-list-link">Important</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0);" (click)="changeProducts($event,'Deleted')"><i
-                                class="ri-delete-bin-line align-bottom me-2"></i> <span
-                                class="file-list-link">Deleted</span></a>
+                        <a href="javascript:void(0);" (click)="changeProducts($event,'Deleted')"><i class="ri-delete-bin-line align-bottom me-2 float-start"></i> <span class="file-list-link">Deleted</span></a>
                     </li>
                 </ul>
             </ngx-simplebar>
@@ -74,8 +61,7 @@
                     </div>
                     <div class="flex-grow-1 ms-3 overflow-hidden">
                         <div class="progress mb-2 progress-sm">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%"
-                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <span class="text-muted fs-12 d-block text-truncate"><b>47.52</b>GB used of <b>119</b>GB</span>
                     </div>
@@ -83,7 +69,7 @@
             </div>
         </div>
     </div>
-    <div class="file-manager-content w-100 p-3 py-0">
+    <div class="file-manager-content minimal-border w-100 p-3 py-0">
         <ngx-simplebar class="mx-n3 pt-4 px-4 file-manager-content-scroll">
             <div id="folder-list" class="mb-2">
                 <div class="row justify-content-beetwen g-2 mb-3">
@@ -103,8 +89,7 @@
                     <!--end col-->
                     <div class="col-auto">
                         <div class="d-flex gap-2 align-items-start">
-                            <select class="form-control" data-choices data-choices-search-false
-                                name="choices-single-default" id="file-type" (click)="folderSearch();">
+                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="file-type" (click)="folderSearch();">
                                 <option value="">File Type</option>
                                 <option value="" selected>All</option>
                                 <option value="Projects">Projects</option>
@@ -112,9 +97,7 @@
                                 <option value="Media">Media</option>
                             </select>
 
-                            <button class="btn btn-primary w-sm create-folder-modal flex-shrink-0"
-                                data-bs-toggle="modal" data-bs-target="#createFolderModal"
-                                (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i> Create
+                            <button class="btn btn-success w-sm create-folder-modal flex-shrink-0" data-bs-toggle="modal" data-bs-target="#createFolderModal" (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i> Create
                                 Folders</button>
                         </div>
                     </div>
@@ -122,30 +105,23 @@
                 </div>
                 <!--end row-->
                 <div class="row" id="folderlist-data">
-                    @for(data of folderData; track $index){
+                    @for (data of folderData; track $index) {
                     <div class="col-xxl-3 col-6 folder-card" id="f-{{data.id}}">
                         <div class="card bg-light shadow-none" id="folder-1">
                             <div class="card-body">
                                 <div class="d-flex mb-1">
                                     <div class="form-check form-check-danger mb-3 fs-15 flex-grow-1">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="folderlistCheckbox_1">
+                                        <input class="form-check-input" type="checkbox" value="" id="folderlistCheckbox_1">
                                         <label class="form-check-label" for="folderlistCheckbox_1"></label>
                                     </div>
                                     <div class="dropdown" ngbDropdown>
-                                        <button class="btn btn-ghost-primary btn-icon btn-sm dropdown arrow-none"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                            ngbDropdownToggle>
+                                        <button class="btn btn-ghost-primary btn-icon btn-sm dropdown arrow-none d-block material-shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle>
                                             <i class="ri-more-2-fill fs-16 align-bottom"></i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                            <li><a class="dropdown-item view-item-btn"
-                                                    href="javascript:void(0);">Open</a></li>
-                                            <li><a class="dropdown-item edit-folder-list" href="javascript:void(0);" (click)="EditFolderModal(content,$index)"
-                                                    data-bs-toggle="modal" role="button">Rename</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);"
-                                                    (click)="confirm(deleteModel,data.id)" data-bs-toggle="modal"
-                                                    role="button">Delete</a></li>
+                                            <li><a class="dropdown-item view-item-btn" href="javascript:void(0);">Open</a></li>
+                                            <li><a class="dropdown-item edit-folder-list" href="javascript:void(0);" (click)="EditFolderModal(content,$index)">Rename</a></li>
+                                            <li><a class="dropdown-item" href="javascript:void(0);" (click)="confirm(deleteModel,data.id)" data-bs-toggle="modal" role="button">Delete</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -163,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                }
+                    }
                     <!--end col-->
                 </div>
                 <!--end row-->
@@ -172,9 +148,7 @@
                 <div class="d-flex align-items-center mb-3">
                     <h5 class="flex-grow-1 fs-16 mb-0" id="filetype-title">Recent File</h5>
                     <div class="flex-shrink-0">
-                        <button class="btn btn-primary createFile-modal" data-bs-toggle="modal"
-                            data-bs-target="#createFileModal" (click)="openRecentModal(recentContent)"><i
-                                class="ri-add-line align-bottom me-1"></i> Create File</button>
+                        <button class="btn btn-success createFile-modal" data-bs-toggle="modal" data-bs-target="#createFileModal" (click)="openRecentModal(recentContent)"><i class="ri-add-line align-bottom me-1"></i> Create File</button>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -189,7 +163,7 @@
                             </tr>
                         </thead>
                         <tbody id="file-list">
-                            @for(data of files; track $index){
+                            @for ( data of files; track $index) {
                             <tr id="r-{{data.id}}">
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -204,47 +178,35 @@
                                 <td class="filelist-create">{{data.date}}{{data.isIcon}}</td>
                                 <td>
                                     <div class="d-flex gap-3 justify-content-center">
-                                        <button type="button"
-                                            class="btn btn-ghost-primary btn-icon btn-sm Favorite-btn star-{{data.id}}"
-                                            [ngClass]="{'active': data.isIcon == true}" (click)="activeMenu(data.id)">
+                                        <button type="button" class="btn btn-ghost-primary btn-icon btn-sm favourite-btn star-{{data.id}}" [ngClass]="{'active': data.isIcon == true}" (click)="activeMenu(data.id)">
                                             <i class="ri-star-fill fs-13 align-bottom"></i>
                                         </button>
                                         <div class="dropdown" ngbDropdown>
-                                            <button class="btn btn-light btn-icon btn-sm dropdown arrow-none"
-                                                type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                                                ngbDropdownToggle>
+                                            <button class="btn btn-ghost-primary btn-icon btn-sm favourite-btn active arrow-none d-block" type="button" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle>
                                                 <i class="ri-more-fill align-bottom"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                                                <li><a class="dropdown-item viewfile-list" href="javascript:void(0);"
-                                                        (click)="editdata(data.id)">View</a></li>
-                                                <li><a class="dropdown-item edit-list" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-edit-id="1" role="button"
-                                                        (click)="editModal(recentContent,$index)">Rename</a></li>
+                                                <li><a class="dropdown-item viewfile-list" href="javascript:void(0);" (click)="editdata(data.id)">View</a></li>
+                                                <li><a class="dropdown-item edit-list" href="javascript:void(0);" data-bs-toggle="modal" data-edit-id="1" role="button" (click)="editModal(recentContent,$index)">Rename</a></li>
                                                 <li class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item remove-list" href="javascript:void(0);"
-                                                        data-id="1" data-bs-toggle="modal" role="button"
-                                                        (click)="confirm(deleteRecentModel,data.id)">Delete</a></li>
+                                                <li><a class="dropdown-item remove-list" href="javascript:void(0);" data-id="1" data-bs-toggle="modal" role="button" (click)="confirm(deleteRecentModel,data.id)">Delete</a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                        }
+                            }
                         </tbody>
                     </table>
                 </div>
                 <div class="align-items-center mt-2 row g-3 text-center text-sm-start">
                     <div class="col-sm">
-                        <div class="text-muted">Showing<span class="fw-semibold">{{service.endIndex}}</span> of <span
-                                class="fw-semibold">{{recentData?.length}}</span> Results
+                        <div class="text-muted">Showing<span class="fw-semibold">{{service.endIndex}}</span> of <span class="fw-semibold">{{recentData?.length}}</span> Results
                         </div>
                     </div>
                     <div class="col-sm-auto">
-                        <ul
-                            class="pagination pagination-separated pagination-sm justify-content-center justify-content-sm-start mb-0">
-                            <ngb-pagination [collectionSize]="recentData?.length" [(page)]="service.page" (pageChange)="changePage()"
-                                [pageSize]="service.pageSize">
+                        <ul class="pagination pagination-separated pagination-sm justify-content-center justify-content-sm-start mb-0">
+                            <ngb-pagination [collectionSize]="recentData?.length" [(page)]="service.page" [pageSize]="service.pageSize" (pageChange)="changePage()">
                             </ngb-pagination>
                         </ul>
                     </div>
@@ -252,24 +214,19 @@
             </div>
         </ngx-simplebar>
     </div>
-    <div class="file-manager-detail-content p-3 py-0">
+    <div class="file-manager-detail-content minimal-border p-3 py-0">
         <ngx-simplebar class="mx-n3 pt-3 px-3 file-detail-content-scroll">
             <div id="folder-overview">
                 <div class="d-flex align-items-center pb-3 border-bottom border-bottom-dashed">
                     <h5 class="flex-grow-1 fw-semibold mb-0">Overview</h5>
                     <div>
-                        <button type="button" class="btn btn-soft-danger btn-icon btn-sm fs-16 close-btn-overview"
-                            (click)="closeModel()">
+                        <button type="button" class="btn btn-soft-danger btn-icon btn-sm fs-16 close-btn-overview" (click)="closeModel()">
                             <i class="ri-close-fill align-bottom"></i>
                         </button>
                     </div>
                 </div>
                 <div id="simple_dount_chart" class="apex-charts mt-3" dir="ltr">
-                    <apx-chart [series]="simpleDonutChart.series" [labels]="simpleDonutChart.labels"
-                        [chart]="simpleDonutChart.chart" [plotOptions]="simpleDonutChart.plotOptions"
-                        [dataLabels]="simpleDonutChart.dataLabels" [legend]="simpleDonutChart.legend"
-                        [stroke]="simpleDonutChart.stroke" [yaxis]="simpleDonutChart.yaxis"
-                        [colors]="simpleDonutChart.colors" dir="ltr"></apx-chart>
+                    <apx-chart [series]="simpleDonutChart.series" [labels]="simpleDonutChart.labels" [chart]="simpleDonutChart.chart" [plotOptions]="simpleDonutChart.plotOptions" [dataLabels]="simpleDonutChart.dataLabels" [legend]="simpleDonutChart.legend" [stroke]="simpleDonutChart.stroke" [yaxis]="simpleDonutChart.yaxis" [colors]="simpleDonutChart.colors" dir="ltr"></apx-chart>
                 </div>
 
                 <div class="mt-4">
@@ -359,7 +316,7 @@
                     <div class="d-flex align-items-center pb-3 border-bottom border-bottom-dashed mb-3 gap-2">
                         <h5 class="flex-grow-1 fw-semibold mb-0">File Preview</h5>
                         <div>
-                            <button type="button" class="btn btn-ghost-primary btn-icon btn-sm fs-16 Favorite-btn">
+                            <button type="button" class="btn btn-ghost-primary btn-icon btn-sm fs-16 favourite-btn">
                                 <i class="ri-star-fill align-bottom"></i>
                             </button>
                             <button type="button" class="btn btn-soft-danger btn-icon btn-sm fs-16 close-btn-overview">
@@ -374,11 +331,9 @@
                                 <i class="ri-file-text-fill text-secondary"></i>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-icon btn-sm btn-ghost-success float-end fs-16"><i
-                                class="ri-share-forward-line"></i></button>
+                        <button type="button" class="btn btn-icon btn-sm btn-ghost-success float-end fs-16"><i class="ri-share-forward-line"></i></button>
                         <h5 class="fs-16 mb-1 file-name">html.docx</h5>
-                        <p class="text-muted mb-0 fs-12"><span class="file-size">0.3 KB</span>, <span
-                                class="create-date">19 Apr, 2022</span></p>
+                        <p class="text-muted mb-0 fs-12"><span class="file-size">0.3 KB</span>, <span class="create-date">19 Apr, 2022</span></p>
                     </div>
                     <div>
                         <h5 class="fs-12 text-uppercase text-muted mb-3">File Description :</h5>
@@ -434,11 +389,8 @@
 
                     <div class="mt-auto border-top border-top-dashed py-3">
                         <div class="hstack gap-2">
-                            <button type="button" class="btn btn-soft-primary w-100"><i
-                                    class="ri-download-2-line align-bottom me-1"></i> Download</button>
-                            <button type="button" class="btn btn-soft-danger w-100 remove-file-overview"
-                                data-remove-id="" data-bs-toggle="modal" data-bs-target="#removeFileItemModal"><i
-                                    class="ri-close-fill align-bottom me-1"></i> Delete</button>
+                            <button type="button" class="btn btn-soft-primary w-100"><i class="ri-download-2-line align-bottom me-1"></i> Download</button>
+                            <button type="button" class="btn btn-soft-danger w-100 remove-file-overview" data-remove-id="" data-bs-toggle="modal" data-bs-target="#removeFileItemModal"><i class="ri-close-fill align-bottom me-1"></i> Delete</button>
                         </div>
                     </div>
                 </div>
@@ -451,22 +403,18 @@
 <ng-template #content role="document" let-modal>
     <div class="modal-header p-3 bg-success-subtle">
         <h5 class="modal-title" id="createFolderModalLabel">Create Folder</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFolderBtn-close" aria-label="Close"
-            (click)="modal.dismiss('Cross click')"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFolderBtn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <form autocomplete="off" class="needs-validation createfolder-form" id="createfolder-form" novalidate
-            (ngSubmit)="saveFolder()" [formGroup]="folderForm">
+        <form autocomplete="off" class="needs-validation createfolder-form" id="createfolder-form" novalidate (ngSubmit)="saveFolder()" [formGroup]="folderForm">
             <div class="mb-4">
                 <label for="foldername-input" class="form-label">Folder Name</label>
-                <input type="text" class="form-control" id="foldername-input" required placeholder="Enter folder name"
-                    formControlName="title" [ngClass]="{ 'is-invalid': submitted && form['title'].errors }">
+                <input type="text" class="form-control" id="foldername-input" required placeholder="Enter folder name" formControlName="title" [ngClass]="{ 'is-invalid': submitted && form['title'].errors }">
                 <div class="invalid-feedback">Please enter a folder name.</div>
                 <input type="hidden" class="form-control" id="folderid-input" value="" placeholder="Enter folder name">
             </div>
             <div class="hstack gap-2 justify-content-end">
-                <button type="button" class="btn btn-ghost-success" data-bs-dismiss="modal"
-                    (click)="modal.close('Close click')"><i class="ri-close-line align-bottom"></i> Close</button>
+                <button type="button" class="btn btn-ghost-success material-shadow-none" data-bs-dismiss="modal" (click)="modal.close('Close click')"><i class="ri-close-line align-bottom"></i> Close</button>
                 <button type="submit" class="btn btn-primary" id="addNewFolder">Add Folder</button>
             </div>
         </form>
@@ -477,23 +425,19 @@
 <ng-template #deleteModel let-modal>
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
-                (click)="modal.dismiss('Cross click')"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
             <div class="mt-2 text-center">
-                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
-                    colors="primary:#f7b84b,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                 <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                     <h4>Are you sure ?</h4>
                     <p class="text-muted mx-4 mb-0">Are you sure you want to remove this folder ?</p>
                 </div>
             </div>
             <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
-                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                <button type="button" class="btn w-sm btn-danger" id="remove-folderList" (click)="deleteData(deleteId)"
-                    (click)="modal.close('Close click')">Yes, Delete It!</button>
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal" (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                <button type="button" class="btn w-sm btn-danger" id="remove-folderList" (click)="deleteData(deleteId)" (click)="modal.close('Close click')">Yes, Delete It!</button>
             </div>
         </div>
     </div><!-- /.modal-content -->
@@ -504,24 +448,19 @@
 <ng-template #recentContent role="document" let-modal>
     <div class="modal-header p-3 bg-success-subtle">
         <h5 class="modal-title" id="createFileModalLabel">Create File</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFileBtn-close" aria-label="Close"
-            (click)="modal.dismiss('Cross click')"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="addFileBtn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        <form autocomplete="off" class="needs-validation createfile-form" id="createfile-form" novalidate
-            (ngSubmit)="saveRecent()" [formGroup]="recentForm">
+        <form autocomplete="off" class="needs-validation createfile-form" id="createfile-form" novalidate (ngSubmit)="saveRecent()" [formGroup]="recentForm">
             <input type="hidden" name="id" value="" formControlName="id" />
             <div class="mb-4">
                 <label for="filename-input" class="form-label">File Name</label>
-                <input type="text" class="form-control" id="filename-input" value="" required
-                    placeholder="Enter file name" formControlName="icon_name"
-                    [ngClass]="{ 'is-invalid': submitted && form1['icon_name'].errors }">
+                <input type="text" class="form-control" id="filename-input" value="" required placeholder="Enter file name" formControlName="icon_name" [ngClass]="{ 'is-invalid': submitted && form1['icon_name'].errors }">
                 <div class="invalid-feedback">Please enter a file name.</div>
                 <input type="hidden" class="form-control" id="fileid-input" value="" placeholder="Enter file name">
             </div>
             <div class="hstack gap-2 justify-content-end">
-                <button type="button" class="btn btn-ghost-success" data-bs-dismiss="modal"><i
-                        class="ri-close-line align-bottom"></i> Close</button>
+                <button type="button" class="btn btn-ghost-success material-shadow-none" data-bs-dismiss="modal"><i class="ri-close-line align-bottom"></i> Close</button>
                 <button type="submit" class="btn btn-primary" id="addNewFile">Create</button>
             </div>
         </form>
@@ -532,23 +471,19 @@
 <ng-template #deleteRecentModel let-modal>
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"
-                (click)="modal.dismiss('Cross click')"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
             <div class="mt-2 text-center">
-                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
-                    colors="primary:#f7b84b,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                 <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                     <h4>Are you sure ?</h4>
                     <p class="text-muted mx-4 mb-0">Are you sure you want to remove this folder ?</p>
                 </div>
             </div>
             <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal"
-                    (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                <button type="button" class="btn w-sm btn-danger" id="remove-folderList"
-                    (click)="deleteRecentData(deleteId)" (click)="modal.close('Close click')">Yes, Delete It!</button>
+                <button class="btn btn-link link-success fw-medium text-decoration-none" data-bs-dismiss="modal" (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                <button type="button" class="btn w-sm btn-danger" id="remove-folderList" (click)="deleteRecentData(deleteId)" (click)="modal.close('Close click')">Yes, Delete It!</button>
             </div>
         </div>
     </div><!-- /.modal-content -->

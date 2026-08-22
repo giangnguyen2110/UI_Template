@@ -1,19 +1,16 @@
-import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
 import { UntypedFormBuilder, Validators, UntypedFormGroup, UntypedFormArray, AbstractControl } from '@angular/forms';
 
 
+// Sweet Alert
+import Swal from 'sweetalert2';
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { addApplication, deleteApplication, fetchApplicationData, updateApplication } from 'src/app/store/Jobs/jobs_action';
 import { selectJobsData, selectJobsLoading } from 'src/app/store/Jobs/jobs_selector';
 import { cloneDeep } from 'lodash';
 import { PaginationService } from 'src/app/core/services/pagination.service';
-
-// Sweet Alert
-import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-application',
@@ -27,7 +24,6 @@ export class ApplicationComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
   applications: any;
   masterSelected!: boolean;
-
   // Form
   applicationData!: UntypedFormGroup;
   submitted = false;
@@ -78,59 +74,59 @@ export class ApplicationComponent implements OnInit {
     });
   }
 
- // Pagination
- changePage() {
-  this.applications = this.service.changePage(this.allapplications)
-}
+  // Pagination
+  changePage() {
+    this.applications = this.service.changePage(this.allapplications)
+  }
 
-// Filter
-statusFilter() {
-  if (this.status != '') {
-    this.applications = this.allapplications.filter((app: any) => {
-      return app.status === this.status;
+  // Filter
+  statusFilter() {
+    if (this.status != '') {
+      this.applications = this.allapplications.filter((app: any) => {
+        return app.status === this.status;
+      });
+    } else {
+      this.applications = this.service.changePage(this.allapplications)
+    }
+  }
+
+  typeFilter() {
+    if (this.type != '') {
+      this.applications = this.allapplications.filter((app: any) => {
+        return app.type === this.type;
+      });
+    } else {
+      this.applications = this.service.changePage(this.allapplications)
+    }
+  }
+
+  // Search Data
+  performSearch(): void {
+    this.searchResults = this.allapplications.filter((item: any) => {
+      return (
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
     });
-  } else {
-    this.applications = this.service.changePage(this.allapplications)
+    this.applications = this.service.changePage(this.searchResults)
   }
-}
 
-typeFilter() {
-  if (this.type != '') {
-    this.applications = this.allapplications.filter((app: any) => {
-      return app.type === this.type;
-    });
-  } else {
-    this.applications = this.service.changePage(this.allapplications)
+  onNavChange(changeEvent: NgbNavChangeEvent) {
+    if (changeEvent.nextId === 1) {
+      this.applications = this.service.changePage(this.allapplications)
+    }
+    if (changeEvent.nextId === 2) {
+      this.applications = this.allapplications.filter((app:any) => app.status == 'New');
+    }
+    if (changeEvent.nextId === 3) {
+      this.applications = this.allapplications.filter((app:any) => app.status == 'Pending');
+    }
+    if (changeEvent.nextId === 4) {
+      this.applications = this.allapplications.filter((app:any) => app.status == 'Approved');
+    }
+    if (changeEvent.nextId === 5) {
+      this.applications = this.allapplications.filter((app:any) => app.status == 'Rejected');
+    }
   }
-}
-
-// Search Data
-performSearch(): void {
-  this.searchResults = this.allapplications.filter((item: any) => {
-    return (
-      item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  });
-  this.applications = this.service.changePage(this.searchResults)
-}
-
-onNavChange(changeEvent: NgbNavChangeEvent) {
-  if (changeEvent.nextId === 1) {
-    this.applications = this.service.changePage(this.allapplications)
-  }
-  if (changeEvent.nextId === 2) {
-    this.applications = this.allapplications.filter((app: any) => app.status == 'New');
-  }
-  if (changeEvent.nextId === 3) {
-    this.applications = this.allapplications.filter((app: any) => app.status == 'Pending');
-  }
-  if (changeEvent.nextId === 4) {
-    this.applications = this.allapplications.filter((app: any) => app.status == 'Approved');
-  }
-  if (changeEvent.nextId === 5) {
-    this.applications = this.allapplications.filter((app: any) => app.status == 'Rejected');
-  }
-}
 
   // Check Box Checked Value Get
   checkedValGet: any[] = [];
@@ -287,9 +283,8 @@ onNavChange(changeEvent: NgbNavChangeEvent) {
     });
   }
 
-    // Sort Data
-    onSort(column: any) {
-      this.applications = this.service.onSort(column, this.allapplications)
-    }
-
+  // Sort Data
+  onSort(column: any) {
+    this.applications = this.service.onSort(column, this.allapplications)
+  }
 }

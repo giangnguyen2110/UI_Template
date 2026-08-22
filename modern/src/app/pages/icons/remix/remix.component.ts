@@ -65,8 +65,6 @@ export class RemixComponent implements OnInit {
       const element: HTMLElement = document.getElementById('icons') as HTMLElement
       element.innerHTML = iconData
     }, 300);
-
-
   }
 
   /***
@@ -76,6 +74,9 @@ export class RemixComponent implements OnInit {
     return icon.version === 'Buildings';
   }
 
+
+  geticon() {
+  }
 
 
   /***

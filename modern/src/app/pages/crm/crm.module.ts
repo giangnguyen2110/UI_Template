@@ -4,13 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule, NgbTypeaheadModule, NgbTooltipModule, NgbDropdownModule, NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Flat Picker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 
 // Ng Select
 import { NgSelectModule } from '@ng-select/ng-select';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Component pages
@@ -21,11 +21,9 @@ import { CompaniesComponent } from './companies/companies.component';
 import { DealsComponent } from './deals/deals.component';
 import { LeadsComponent } from './leads/leads.component';
 
-import {DatePipe} from '@angular/common';
 import { SortByCrmPipe } from "../crm/sort-by.pipe";
 
-
-
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -54,7 +52,7 @@ import { SortByCrmPipe } from "../crm/sort-by.pipe";
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class CrmModule { 
+export class CrmModule {
   constructor() {
     defineElement();
   }

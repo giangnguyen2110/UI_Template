@@ -9,5 +9,4 @@ export interface MenuItem {
   parentId?: number;
   isLayout?: boolean;
   collapseid?: string;
-  isCollapsed?: any;
 }

@@ -32,7 +32,7 @@ export class LeafletComponent implements OnInit {
   /**
    * Basic Maps
    */
-    options = {
+   options = {
     layers: [
       tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -164,4 +164,7 @@ export class LeafletComponent implements OnInit {
     marker([39.73, -104.8]).bindPopup("This is Aurora"),
     marker([39.77, -105.23]).bindPopup("This is Golden")
   ];
+
+
+
 }

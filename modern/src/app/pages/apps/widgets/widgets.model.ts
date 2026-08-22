@@ -30,7 +30,9 @@ export interface TitleBox2Model {
   icon: string;
   counter: number;
   decimals: number;
+  counter2?: number;
   suffix: string;
+  suffix2?: string;
   prefix: string;
 }
 
@@ -52,7 +54,7 @@ export interface TitleBox3Model {
   subCounter: Array<{
     id?: any;
     counter: number;
-    decimals: number;
+   decimals: number;
     counter2?: number;
     suffix: string;
     suffix2?: string;
@@ -84,7 +86,7 @@ export interface TitleBox4Model {
 }
 
 /**
- * Title Box5 List
+ * Title Box4 List
  */
 export interface TitleBox5Model {
   id: any;
@@ -144,15 +146,6 @@ export interface widgetsTasksModel {
   date: string;
 }
 
-// Bank card List
-export interface BankModel {
-  id: any;
-  icon: string;
-  cardcolor: string;
-  card: string;
-  amount: string;
-}
-
 // Hot Product List
 export interface HotproductModel {
   id: any;
@@ -168,6 +161,15 @@ export interface CandidateModel {
   name: string;
   insta: string;
   designation: string;
+}
+
+// Bank card List
+export interface BankModel {
+  id: any;
+  icon: string;
+  cardcolor: string;
+  card: string;
+  amount: string;
 }
 
 import {

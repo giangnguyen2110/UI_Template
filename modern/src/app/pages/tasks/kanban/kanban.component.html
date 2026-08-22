@@ -18,22 +18,22 @@
             </div>
             <div class="col-auto ms-sm-auto">
                 <div class="avatar-group" id="newMembar">
-                    <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="Nancy" placement="top">
+                    <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="Nancy" placement="top">
                         <img src="assets/images/users/avatar-5.jpg" alt="" class="rounded-circle avatar-xs">
                     </a>
-                    <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="Frank" placement="top">
+                    <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="Frank" placement="top">
                         <img src="assets/images/users/avatar-3.jpg" alt="" class="rounded-circle avatar-xs">
                     </a>
-                    <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="Tonya" placement="top">
+                    <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="Tonya" placement="top">
                         <img src="assets/images/users/avatar-10.jpg" alt="" class="rounded-circle avatar-xs">
                     </a>
-                    <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="Thomas" placement="top">
+                    <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="Thomas" placement="top">
                         <img src="assets/images/users/avatar-8.jpg" alt="" class="rounded-circle avatar-xs">
                     </a>
-                    <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="Herbert" placement="top">
+                    <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="Herbert" placement="top">
                         <img src="assets/images/users/avatar-2.jpg" alt="" class="rounded-circle avatar-xs">
                     </a>
-                    <a data-bs-toggle="modal" class="avatar-group-item" (click)="openMemberModal(membercontent)">
+                    <a data-bs-toggle="modal" class="avatar-group-item material-shadow" (click)="openMemberModal(membercontent)">
                         <div class="avatar-xs">
                             <div class="avatar-title rounded-circle">
                                 +
@@ -50,12 +50,12 @@
     <div class="tasks-list">
         <div class="d-flex mb-3">
             <div class="flex-grow-1">
-                <h6 class="fs-14 text-uppercase fw-semibold mb-0">Unassigned <small class="badge bg-danger align-bottom ms-1">2</small></h6>
+                <h6 class="fs-14 text-uppercase fw-semibold mb-0">Unassigned <small class="badge bg-success align-bottom ms-1 totaltask-badge">2</small></h6>
             </div>
             <div class="flex-shrink-0">
                 <div class="dropdown card-header-dropdown" ngbDropdown>
                     <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                        <span class="fw-medium text-muted fs-13">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <span class="fw-medium text-muted fs-12">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                         <a class="dropdown-item" href="javascript:void(0);">Priority</a>
@@ -74,11 +74,11 @@
                         </ng-template>
                     </div>
                 </ng-container>
-            }
+                }
             </div>
         </ngx-simplebar>
         <div class="my-3">
-            <button class="btn btn-soft-info w-100" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
+            <button class="btn btn-soft-info w-100 d-none" id="add-btn" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
         </div>
     </div><!--end tasks-list-->
     <div class="tasks-list">
@@ -89,7 +89,7 @@
             <div class="flex-shrink-0">
                 <div class="dropdown card-header-dropdown" ngbDropdown>
                     <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                        <span class="fw-medium text-muted fs-13">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <span class="fw-medium text-muted fs-12">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                         <a class="dropdown-item" href="javascript:void(0);">Priority</a>
@@ -108,11 +108,11 @@
                         </ng-template>
                     </div>
                 </ng-container>
-            }
+                }
             </div>
         </ngx-simplebar>
         <div class="my-3">
-            <button class="btn btn-soft-info w-100" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
+            <button class="btn btn-soft-info w-100 d-none" id="add-btn" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
         </div>
     </div><!--end tasks-list-->
     <div class="tasks-list">
@@ -123,7 +123,7 @@
             <div class="flex-shrink-0">
                 <div class="dropdown card-header-dropdown" ngbDropdown>
                     <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                        <span class="fw-medium text-muted fs-13">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <span class="fw-medium text-muted fs-12">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                         <a class="dropdown-item" href="javascript:void(0);">Priority</a>
@@ -142,11 +142,11 @@
                         </ng-template>
                     </div>
                 </ng-container>
-            }
+                }
             </div>
         </ngx-simplebar>
         <div class="my-3">
-            <button class="btn btn-soft-info w-100" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
+            <button class="btn btn-soft-info w-100 d-none" id="add-btn" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
         </div>
     </div><!--end tasks-list-->
     <div class="tasks-list">
@@ -157,7 +157,7 @@
             <div class="flex-shrink-0">
                 <div class="dropdown card-header-dropdown" ngbDropdown>
                     <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                        <span class="fw-medium text-muted fs-13">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <span class="fw-medium text-muted fs-12">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                         <a class="dropdown-item" href="javascript:void(0);">Priority</a>
@@ -176,22 +176,22 @@
                         </ng-template>
                     </div>
                 </ng-container>
-            }
+                }
             </div>
         </ngx-simplebar>
         <div class="my-3">
-            <button class="btn btn-soft-info w-100" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
+            <button class="btn btn-soft-info w-100 d-none" id="add-btn" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
         </div>
     </div><!--end tasks-list-->
     <div class="tasks-list">
         <div class="d-flex mb-3">
             <div class="flex-grow-1">
-                <h6 class="fs-14 text-uppercase fw-semibold mb-0">Completed <small class="badge bg-danger align-bottom ms-1">1</small></h6>
+                <h6 class="fs-14 text-uppercase fw-semibold mb-0">Completed <small class="badge bg-success align-bottom ms-1">1</small></h6>
             </div>
             <div class="flex-shrink-0">
                 <div class="dropdown card-header-dropdown" ngbDropdown>
                     <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                        <span class="fw-medium text-muted fs-13">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <span class="fw-medium text-muted fs-12">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                         <a class="dropdown-item" href="javascript:void(0);">Priority</a>
@@ -201,7 +201,7 @@
             </div>
         </div>
         <ngx-simplebar class="tasklist-content">
-            <div id="inprogress-task" class="tasks" [dndDropzone] dndEffectAllowed="move" (dndDrop)="onDrop($event, completedTasks,'Progress-task')">
+            <div id="inprogress-task" class="tasks" dndDropzone dndEffectAllowed="move" (dndDrop)="onDrop($event, completedTasks,'Progress-task')">
                 <div class="dndPlaceholder" dndPlaceholderRef></div>
                 @for(task of completedTasks; track $index){
                 <ng-container>
@@ -210,22 +210,22 @@
                         </ng-template>
                     </div>
                 </ng-container>
-            }
+                }
             </div>
         </ngx-simplebar>
         <div class="my-3">
-            <button class="btn btn-soft-info w-100" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
+            <button class="btn btn-soft-info w-100 d-none" id="add-btn" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
         </div>
     </div><!--end tasks-list-->
     <div class="tasks-list">
         <div class="d-flex mb-3">
             <div class="flex-grow-1">
-                <h6 class="fs-14 text-uppercase fw-semibold mb-0">new <small class="badge bg-danger align-bottom ms-1">1</small></h6>
+                <h6 class="fs-14 text-uppercase fw-semibold mb-0">new <small class="badge bg-success align-bottom ms-1">1</small></h6>
             </div>
             <div class="flex-shrink-0">
                 <div class="dropdown card-header-dropdown" ngbDropdown>
                     <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                        <span class="fw-medium text-muted fs-13">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <span class="fw-medium text-muted fs-12">Priority<i class="mdi mdi-chevron-down ms-1"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                         <a class="dropdown-item" href="javascript:void(0);">Priority</a>
@@ -298,10 +298,9 @@
                     <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
-
         </ngx-simplebar>
         <div class="my-3">
-            <button class="btn btn-soft-info w-100" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
+            <button class="btn btn-soft-info w-100 d-none" id="add-btn" data-bs-toggle="modal" data-bs-target="#creatertaskModal" (click)="openAddModal(addcontent)">Add More</button>
         </div>
     </div><!--end tasks-list-->
 </div><!--end task-board-->
@@ -314,7 +313,7 @@
 
 <ng-template #membercontent role="document" let-modal>
     <div class="modal-header p-3 bg-warning-subtle">
-        <h5 class="modal-title" id="addmemberModalLabel">Add Member</h5>
+        <h5 class="modal-title" id="addmemberModalLabel"></h5>
         <button type="button" class="btn-close" id="btn-close-member" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
@@ -361,14 +360,15 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-light" data-bs-dismiss="modal" (click)="modal.close('Close click')"><i class="ri-close-line align-bottom me-1"></i> Close</button>
-        <button type="button" class="btn btn-success" id="addMember">Add Member</button>
+        <button type="button" class="btn btn-success" id="addMember" (click)="modal.dismiss('Cross click')">Add
+            Member</button>
     </div>
 </ng-template>
 
 <ng-template #content role="document" let-modal>
     <div class="modal-header p-3 bg-info-subtle">
         <h5 class="modal-title" id="createboardModalLabel">Add Board</h5>
-        <button type="button" class="btn-close" id="btn-close2" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        <button type="button" class="btn-close" id="addBoardBtn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
         <form action="#">
@@ -552,13 +552,15 @@
     <div class="card tasks-box">
         <div class="card-body">
             <div class="d-flex mb-2">
-                <h6 class="fs-16 mb-0 flex-grow-1 text-truncate"><a routerLink="/tasks/details" class="text-body">{{task.title}}</a></h6>
-                <div class="dropdown dropdown-menu-end" ngbDropdown>
+                <h6 class="fs-15 mb-0 flex-grow-1 text-truncate task-title"><a href="tasks/details">{{task.title}}</a>
+                </h6>
+                <div class="dropdown" ngbDropdown>
                     <a href="javascript:void(0);" class="text-muted arrow-none" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle><i class="ri-more-fill"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink1" ngbDropdownMenu>
-                        <li><a class="dropdown-item" routerLink="/tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted"></i> Edit</a></li>
-                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted"></i> Delete</a></li>
+                        <li><a class="dropdown-item" href="tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted float-start"></i> View</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted float-start"></i> Edit</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted float-start"></i>
+                                Delete</a></li>
                     </ul>
                 </div>
             </div>
@@ -570,25 +572,29 @@
                         <h6 class="text-muted mb-0"><span class="text-secondary">{{task.progress}}%</span> of 100%</h6>
                     </div>
                     <div class="flex-shrink-0">
-                        <span class="text-muted"><i class="ri-time-line align-bottom"></i> {{task.date}}</span>
+                        <span class="text-muted">{{task.date}}</span>
                     </div>
                 </div>
-                <ngb-progressbar [value]="task.progress" type="danger" class="progress-sm"></ngb-progressbar>
+                <div class="rounded-3">
+                    <ngb-progressbar [value]="task.progress" type="{{task.variant}}" class="progress-sm"></ngb-progressbar>
+                </div>
             </div>
-        }
+            }
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
-                    @for(role of task.roles; track $index){
-                    <span class="badge bg-primary-subtle text-primary">{{role}}</span>
-                    }
+                    <div class="d-flex gap-1">
+                        @for(role of task.roles; track $index){
+                        <span class="badge bg-primary-subtle text-primary">{{role}}</span>
+                        }
+                    </div>
                 </div>
                 <div class="flex-shrink-0">
                     <div class="avatar-group">
                         @for(user of task.users; track $index){
-                        <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="{{user.name}}" placement="top">
+                        <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="{{user.name}}" placement="top">
                             <img src="{{user.profile}}" alt="" class="rounded-circle avatar-xxs">
                         </a>
-                    }
+                        }
                     </div>
                 </div>
             </div>
@@ -597,13 +603,13 @@
             <div class="d-flex">
                 <div class="flex-grow-1">
                     @if(task.progress == 0){
-                    <span class="text-muted mb-0"><i class="ri-time-line align-bottom"></i> {{task.date}}</span>
-                    }@else{
+                    <h6 class="text-muted mb-0">{{task.date}}</h6>
+                    }@else(){
                     <h6 class="text-muted mb-0">{{task.id}}</h6>
                     }
                 </div>
                 <div class="flex-shrink-0">
-                    <ul class="link-inline mb-0">
+                    <ul class="link-inline mb-0 p-0">
                         <li class="list-inline-item">
                             <a href="javascript:void(0)" class="text-muted"><i class="ri-eye-line align-bottom"></i>
                                 {{task.view}}</a>
@@ -631,13 +637,14 @@
                 <div class="dropdown" ngbDropdown>
                     <a href="javascript:void(0);" class="text-muted arrow-none" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle><i class="ri-more-fill"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink1" ngbDropdownMenu>
-                        <li><a class="dropdown-item" routerLink="/tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted"></i> Edit</a></li>
-                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted"></i> Delete</a></li>
+                        <li><a class="dropdown-item" href="tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted float-start"></i> View</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted float-start"></i> Edit</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted float-start"></i>
+                                Delete</a></li>
                     </ul>
                 </div>
             </div>
-            <span class="fs-15 text-truncate"><a routerLink="/tasks/details">{{task.title}}</a></span>
+            <h6 class="fs-15 text-truncate"><a href="tasks/details">{{task.title}}</a></h6>
             <p class="text-muted">{{task.content}}</p>
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
@@ -650,10 +657,10 @@
                 <div class="flex-shrink-0">
                     <div class="avatar-group">
                         @for(user of task.users; track $index){
-                        <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="{{user.name}}" placement="top">
+                        <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="{{user.name}}" placement="top">
                             <img src="{{user.profile}}" alt="" class="rounded-circle avatar-xxs">
                         </a>
-                    }
+                        }
                     </div>
                 </div>
             </div>
@@ -665,7 +672,7 @@
                         {{task.date}}</span>
                 </div>
                 <div class="flex-shrink-0">
-                    <ul class="link-inline mb-0">
+                    <ul class="link-inline mb-0 p-0">
                         <li class="list-inline-item">
                             <a href="javascript:void(0)" class="text-muted"><i class="ri-eye-line align-bottom"></i>
                                 {{task.view}}</a>
@@ -696,16 +703,18 @@
                 <div class="dropdown" ngbDropdown>
                     <a href="javascript:void(0);" class="text-muted arrow-none" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle><i class="ri-more-fill"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink1" ngbDropdownMenu>
-                        <li><a class="dropdown-item" routerLink="/tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted"></i> Edit</a></li>
-                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted"></i> Delete</a></li>
+                        <li><a class="dropdown-item" href="tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted float-start"></i> View</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted float-start"></i> Edit</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted float-start"></i>
+                                Delete</a></li>
                     </ul>
                 </div>
             </div>
-            <h6 class="fs-15 text-truncate"><a routerLink="/tasks/details">{{task.title}}</a></h6>
-            @if(task.image){
+            <h6 class="fs-15 text-truncate"><a href="tasks/details">{{task.title}}</a></h6>
+            @if (task.image) {
             <img src="{{task.image}}" class="tasks-img rounded" />
-            }@else{
+            }
+            @else(){
             <p class="text-muted">{{task.content}}</p>
             }
             <div class="d-flex align-items-center">
@@ -719,10 +728,10 @@
                 <div class="flex-shrink-0">
                     <div class="avatar-group">
                         @for(user of task.users; track $index){
-                        <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="{{user.name}}" placement="top">
+                        <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="{{user.name}}" placement="top">
                             <img src="{{user.profile}}" alt="" class="rounded-circle avatar-xxs">
                         </a>
-                    }
+                        }
                     </div>
                 </div>
             </div>
@@ -734,7 +743,7 @@
                         {{task.date}}</span>
                 </div>
                 <div class="flex-shrink-0">
-                    <ul class="link-inline mb-0">
+                    <ul class="link-inline mb-0 p-0">
                         <li class="list-inline-item">
                             <a href="javascript:void(0)" class="text-muted"><i class="ri-eye-line align-bottom"></i>
                                 {{task.view}}</a>
@@ -765,16 +774,18 @@
                 <div class="dropdown" ngbDropdown>
                     <a href="javascript:void(0);" class="text-muted arrow-none" id="dropdownMenuLink1" data-bs-toggle="dropdown" aria-expanded="false" ngbDropdownToggle><i class="ri-more-fill"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink1" ngbDropdownMenu>
-                        <li><a class="dropdown-item" routerLink="/tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted"></i> Edit</a></li>
-                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted"></i> Delete</a></li>
+                        <li><a class="dropdown-item" href="tasks/details"><i class="ri-eye-fill align-bottom me-2 text-muted float-start"></i> View</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0);"><i class="ri-edit-2-line align-bottom me-2 text-muted float-start"></i> Edit</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="modal" (click)="confirm($event)"><i class="ri-delete-bin-5-line align-bottom me-2 text-muted float-start"></i>
+                                Delete</a></li>
                     </ul>
                 </div>
             </div>
-            <h6 class="fs-15 text-truncate"><a routerLink="/tasks/details">{{task.title}}</a></h6>
+            <h6 class="fs-15 text-truncate"><a href="tasks/details">{{task.title}}</a></h6>
             @if(task.image){
             <img src="{{task.image}}" class="tasks-img rounded" />
-            }@else{
+            }
+            @else () {
             <p class="text-muted">{{task.content}}</p>
             }
             <div class="d-flex align-items-center">
@@ -787,11 +798,11 @@
                 </div>
                 <div class="flex-shrink-0">
                     <div class="avatar-group">
-                        @for(user of task.users; track $index){
-                        <a href="javascript:void(0);" class="avatar-group-item" ngbTooltip="{{user.name}}" placement="top">
+                        @for( user of task.users; track $index){
+                        <a href="javascript: void(0);" class="avatar-group-item material-shadow" ngbTooltip="{{user.name}}" placement="top">
                             <img src="{{user.profile}}" alt="" class="rounded-circle avatar-xxs">
                         </a>
-                    }
+                        }
                     </div>
                 </div>
             </div>
@@ -803,7 +814,7 @@
                         {{task.date}}</span>
                 </div>
                 <div class="flex-shrink-0">
-                    <ul class="link-inline mb-0">
+                    <ul class="link-inline mb-0 p-0">
                         <li class="list-inline-item">
                             <a href="javascript:void(0)" class="text-muted"><i class="ri-eye-line align-bottom"></i>
                                 {{task.view}}</a>

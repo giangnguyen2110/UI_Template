@@ -4,7 +4,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Component
@@ -26,7 +26,7 @@ import { CoverComponent } from './cover/cover.component';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class LogoutModule { 
+export class LogoutModule {
   constructor() {
     defineElement();
   }

@@ -1,7 +1,9 @@
-import {Component, QueryList, ViewChildren} from '@angular/core';
-
+import { Component, QueryList, ViewChildren } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+// import { projectListWidgets } from './data';
 import { projectDocument, ProjectTeam } from 'src/app/core/data';
 
 @Component({
@@ -16,7 +18,6 @@ import { projectDocument, ProjectTeam } from 'src/app/core/data';
  */
 export class OverviewComponent {
 
- 
   projectListWidgets!: any;
   teamOverviewList: any;
   submitted = false;
@@ -33,20 +34,22 @@ export class OverviewComponent {
   }
 
 
-    /**
-   * Open modal
-   * @param content modal content
-   */
-     openModal(content: any) {
-      this.submitted = false;
-      this.modalService.open(content, { size: 'md', centered: true });
-    }
+  /**
+ * Open modal
+ * @param content modal content
+ */
+  openModal(content: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'md', centered: true });
+  }
+
 
   /**
-   * Active Toggle navbar
-   */
-  activeMenu(id:any) {            
-    document.querySelector('.star_'+id)?.classList.toggle('active');
+  * Active Toggle navbar
+  */
+  activeMenu(id: any) {
+    document.querySelector('.star_' + id)?.classList.toggle('active');
   }
+
 
 }

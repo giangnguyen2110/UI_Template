@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 // Light Box
 import { Lightbox } from 'ngx-lightbox';
@@ -29,7 +29,7 @@ export class SearchResultsComponent implements OnInit {
 
   constructor(private lightbox: Lightbox) {
     for (let i = 1; i <= 5; i++) {
-      const src = 'assets/images/small/img-'+i+'.jpg';
+      const src = 'assets/images/small/img-' + i + '.jpg';
       const caption = 'Image ' + i + ' caption here';
       const thumb = '../../../../assets/images/small/img-' + i + '-thumb.jpg';
       const item = {
@@ -45,13 +45,24 @@ export class SearchResultsComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Pages' },
       { label: 'Search Results', active: true }
     ];
 
     // Chat Data Get Function
     this._fetchData();
+
+    setTimeout(() => {
+      this.slideConfig = {
+        infinite: true,
+        slidesToShow: 6,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 100,
+        arrows: false
+      };
+    }, 0);
   }
 
   // Chat Data Fetch
@@ -65,8 +76,9 @@ export class SearchResultsComponent implements OnInit {
 
   open(index: number): void {
     // open lightbox
-    this.lightbox.open(this.images, index, { });
+    this.lightbox.open(this.images, index, {});
   }
+
 
   /**
    * Swiper setting
@@ -76,8 +88,9 @@ export class SearchResultsComponent implements OnInit {
     slidesToShow: 6,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 10000,
+    autoplaySpeed: 100,
     arrows: false
   };
+
 
 }

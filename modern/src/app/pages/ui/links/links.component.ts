@@ -23,10 +23,9 @@ export class LinksComponent {
     ];
   }
 
-
   /**
- * Show Code Toggle
- */
+    * Show Code Toggle
+    */
   ShowCode(event: any) {
     let card = event.target.closest('.card');
     const preview = card.children[1].children[1];

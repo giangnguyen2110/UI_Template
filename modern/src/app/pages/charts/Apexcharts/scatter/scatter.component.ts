@@ -315,6 +315,7 @@ private generateDayWiseTimeSeries(baseval: number, count: number, yrange: { max:
  * Scatter Images Chart
  */
   private _ScatterImagesChart(colors:any) {
+    console.log(colors);
     colors = this.getChartColorsArray(colors);
     this.ScatterImagesChart = {
       series: [{
@@ -389,8 +390,8 @@ private generateDayWiseTimeSeries(baseval: number, count: number, yrange: { max:
             opacity: 1,
             image: {
                 src: [
-                    "../../../../../assets/images/users/avatar-1.jpg",
-                    "../../../../../assets/images/users/avatar-2.jpg"
+                    "assets/images/users/avatar-1.jpg",
+                    "assets/images/users/avatar-2.jpg"
                 ],
                 width: 40,
                 height: 40

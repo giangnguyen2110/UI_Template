@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { joboverview } from 'src/app/core/data/jobList';
 
 // Data Get
-import { joboverview } from 'src/app/core/data/jobList';
 
 @Component({
     selector: 'app-overview',

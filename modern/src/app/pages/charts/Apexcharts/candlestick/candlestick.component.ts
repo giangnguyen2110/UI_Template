@@ -195,10 +195,10 @@ export const seriesDataLinear = [
 ];
 
 @Component({
-  selector: 'app-candlestick',
-  templateUrl: './candlestick.component.html',
-  styleUrls: ['./candlestick.component.scss'],
-  standalone: false
+    selector: 'app-candlestick',
+    templateUrl: './candlestick.component.html',
+    styleUrls: ['./candlestick.component.scss'],
+    standalone: false
 })
 
 /**
@@ -554,7 +554,7 @@ export class CandlestickComponent implements OnInit {
       ],
       chart: {
         type: "candlestick",
-        height: 200,
+        height: 185,
         id: "candles",
         toolbar: {
           autoSelected: "pan",
@@ -934,11 +934,11 @@ export class CandlestickComponent implements OnInit {
       }
     };
   }
-  
-  /**
+
+ /**
  * Category X-Axis
  */
-   private _candlestickLineChart(colors:any) {
+  private _candlestickLineChart(colors:any) {
     colors = this.getChartColorsArray(colors);
     this.candlestickLineChart = {
       series: [{
@@ -1183,5 +1183,5 @@ export class CandlestickComponent implements OnInit {
       }
     };
   }
-
+ 
 }

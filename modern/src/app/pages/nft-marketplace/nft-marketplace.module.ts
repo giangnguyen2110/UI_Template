@@ -30,7 +30,6 @@ import { MarketplaceComponent } from './marketplace/marketplace.component';
 import { RankingComponent } from './ranking/ranking.component';
 
 
-
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post',
   maxFilesize: 50,
@@ -47,7 +46,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     CollectionsComponent,
     ItemDetailsComponent,
     MarketplaceComponent,
-    RankingComponent,
+    RankingComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,13 @@
+.nav-tabs-custom {
+  border-bottom: 2px solid var(--vz-border-color);
+  .nav-link {
+    border: none;
+    font-weight: 500;
+    color: var(--vz-body-color);
+    &.active {
+      color: var(--vz-primary);
+      border-bottom: 2px solid var(--vz-primary);
+      background-color: transparent;
+    }
+  }
+}

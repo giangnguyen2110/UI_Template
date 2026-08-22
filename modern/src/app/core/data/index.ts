@@ -9,7 +9,7 @@ import { companieslist } from "./companiesList";
 import { Contacts, Companies, deals, Leads } from "./crm";
 import { Market, cryptoICOList, cryptoOrders, Transactions, BitcoinChart, litecoinChart, EatherreumChart, BinanceChart, DashChart, TetherChart, NeoChart, Wallets } from "./crypto"
 import { Customers } from "./customer";
-import { analyticstatData, analyticTopPages, BestSelling, TopSelling, Recentelling, statData, cryptostatData, cryptoBitcoinChart, cryptolitecoinChart, cryptoEatherreumChart, cryptoBinanceChart, cryptoDashChart, cryptoTetherChart, cryptoNeoChart, cryptoCurrencies, cryptoTopPerformers, cryptoNewsFeed } from "./dashboard";
+import { analyticstatData, analyticTopPages,BestSelling, TopSelling, Recentelling, statData, cryptostatData, cryptoBitcoinChart, cryptolitecoinChart, cryptoEatherreumChart, cryptoBinanceChart, cryptoDashChart, cryptoTetherChart, cryptoNeoChart, cryptoCurrencies, cryptoTopPerformers, cryptoNewsFeed } from "./dashboard";
 import { nftstatData, nftfeaturedData, nftrecentData, nfttopCollectionData, nftpopularData } from "./dashboardnft";
 import { projectstatData, ActiveProjects, MyTask, TeamMembers } from "./dashboardProject";
 import { Recommendedjob, jobcandidate } from "./dashboardJob";
@@ -38,7 +38,7 @@ import { ticketList } from "./ticketList";
 import { todoList, todoAssigned, todoProject } from "./todoList";
 import { tileBoxs1, tileBoxs2, tileBoxs3, tileBoxs4, otherWidgets, widgetsActivities, widgetsTasks, tileBoxs5, hotproducts, candidate, bank } from "./widget";
 import { apikeys } from "./apikey";
-import { ListJs, paginationlist, dataattribute, existingList, FuzzyList, GridJs } from "./tablelistjs";
+import { ListJs,paginationlist, dataattribute ,existingList, FuzzyList,GridJs } from "./tablelistjs";
 import { crmstatData, DealsStatus, UpcomingActivities, ClosingDeals } from "./dashboardCrm";
 
 export {
@@ -59,7 +59,7 @@ export {
     Transactions,
     BitcoinChart, litecoinChart, EatherreumChart, BinanceChart, DashChart, TetherChart, NeoChart, Wallets,
     Customers,
-    analyticstatData, analyticTopPages, BestSelling, TopSelling, Recentelling, statData, cryptostatData, cryptoBitcoinChart, cryptolitecoinChart, cryptoEatherreumChart, cryptoBinanceChart, cryptoDashChart, cryptoTetherChart, cryptoNeoChart, cryptoCurrencies, cryptoTopPerformers, cryptoNewsFeed,
+    analyticstatData, analyticTopPages,BestSelling, TopSelling, Recentelling, statData, cryptostatData, cryptoBitcoinChart, cryptolitecoinChart, cryptoEatherreumChart, cryptoBinanceChart, cryptoDashChart, cryptoTetherChart, cryptoNeoChart, cryptoCurrencies, cryptoTopPerformers, cryptoNewsFeed,
     nftstatData, nftfeaturedData, nftrecentData, nfttopCollectionData, nftpopularData,
     projectstatData, ActiveProjects, MyTask, TeamMembers,
     emailData,
@@ -67,7 +67,7 @@ export {
     IconsData,
     folderData, recentData,
     invoiceData,
-    joblist, jobgrid,
+    joblist,jobgrid,
     tasks,
     marketplaceData, tradingData, recentMarketData, popularData,
     icons,

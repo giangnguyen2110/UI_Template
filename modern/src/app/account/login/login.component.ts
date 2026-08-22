@@ -1,111 +1,98 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
-// Login Auth
-import { environment } from '../../../environments/environment';
-import { AuthenticationService } from '../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
-import { first } from 'rxjs/operators';
-import { ToastService } from './toast-service';
-import { Store } from '@ngrx/store';
-import { login } from 'src/app/store/Authentication/authentication.actions';
+import { NckhDataService, DEMO_USERS } from '../../core/services/nckh-data.service';
+import { UserRole } from '../../core/models/nckh.model';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    standalone: false
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
+  standalone: false
 })
-
-/**
- * Login Component
- */
 export class LoginComponent implements OnInit {
-
-  // Login Form
   loginForm!: UntypedFormGroup;
   submitted = false;
-  fieldTextType!: boolean;
+  fieldTextType = false;
   error = '';
-  returnUrl!: string;
-  // set the current year
   year: number = new Date().getFullYear();
 
-  constructor(private formBuilder: UntypedFormBuilder,private authenticationService: AuthenticationService,private router: Router,
-    private authFackservice: AuthfakeauthenticationService,private route: ActivatedRoute,
-    public toastservice: ToastService,
-    private store: Store) {
-      // redirect to home if already logged in
-      if (this.authenticationService.currentUserValue) {
-        this.router.navigate(['/']);
-      }
-     }
+  demoUsers = DEMO_USERS;
+
+  constructor(
+    private formBuilder: UntypedFormBuilder,
+    private router: Router,
+    private nckhDataService: NckhDataService
+  ) {}
 
   ngOnInit(): void {
-    if(sessionStorage.getItem('currentUser')) {
-      this.router.navigate(['/']);
-    }
-    /**
-     * Form Validatyion
-     */
-     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+    this.loginForm = this.formBuilder.group({
+      email: ['giangvien@gmail.com', [Validators.required, Validators.email]],
+      password: ['giangvien12345', [Validators.required]],
     });
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
-  /**
-   * Form submit
-   */
-   onSubmit() {
-    this.submitted = true;
-
-     // Login Api
-     this.store.dispatch(login({ email: this.f['email'].value, password: this.f['password'].value }));
-    //  this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data:any) => {      
-    //   if(data.status == 'success'){
-    //     sessionStorage.setItem('toast', 'true');
-    //     sessionStorage.setItem('currentUser', JSON.stringify(data.data));
-    //     sessionStorage.setItem('token', data.token);
-    //     this.router.navigate(['/']);
-    //   } else {
-    //     this.toastservice.show(data.data, { classname: 'bg-danger text-white', delay: 15000 });
-    //   }
-    // });
-
-    // stop here if form is invalid
-    // if (this.loginForm.invalid) {
-    //   return;
-    // } else {
-    //   if (environment.defaultauth === 'firebase') {
-    //     this.authenticationService.login(this.f['email'].value, this.f['password'].value).then((res: any) => {
-    //       this.router.navigate(['/']);
-    //     })
-    //       .catch(error => {
-    //         this.error = error ? error : '';
-    //       });
-    //   } else {
-    //     this.authFackservice.login(this.f['email'].value, this.f['password'].value).pipe(first()).subscribe(data => {
-    //           this.router.navigate(['/']);
-    //         },
-    //         error => {
-    //           this.error = error ? error : '';
-    //         });
-    //   }
-    // }
-  }
-
-  /**
-   * Password Hide/Show
-   */
-   toggleFieldTextType() {
+  toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
   }
 
+  // Chọn nhanh tài khoản demo
+  selectDemoUser(user: typeof DEMO_USERS[0]) {
+    this.loginForm.patchValue({
+      email: user.email,
+      password: user.password
+    });
+    this.executeLogin(user.email, user.password);
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.executeLogin(this.f['email'].value, this.f['password'].value);
+  }
+
+  private executeLogin(email: string, password?: string) {
+    const user = this.nckhDataService.loginByEmail(email, password);
+    if (user) {
+      this.error = '';
+      sessionStorage.setItem('toast', 'true');
+      this.router.navigate(['/']);
+    } else {
+      this.error = 'Email hoặc mật khẩu không chính xác. Vui lòng chọn tài khoản demo trong bảng bên dưới!';
+    }
+  }
+
+  getRoleBadgeClass(role: UserRole): string {
+    switch (role) {
+      case 'GIANG_VIEN': return 'badge bg-primary-subtle text-primary';
+      case 'SINH_VIEN': return 'badge bg-info-subtle text-info';
+      case 'TRUONG_KHOA': return 'badge bg-success-subtle text-success';
+      case 'GIANG_VIEN_HD': return 'badge bg-warning-subtle text-warning';
+      case 'P_KHCN': return 'badge bg-danger-subtle text-danger';
+      case 'CHU_TICH_HD': return 'badge bg-purple-subtle text-purple';
+      case 'HOI_DONG_MEMBER': return 'badge bg-secondary-subtle text-secondary';
+      case 'THU_KY_HD': return 'badge bg-dark-subtle text-dark';
+      case 'ADMIN': return 'badge bg-dark text-white';
+      default: return 'badge bg-primary';
+    }
+  }
+
+  getRoleIcon(role: UserRole): string {
+    switch (role) {
+      case 'GIANG_VIEN': return 'ri-user-star-line text-primary';
+      case 'SINH_VIEN': return 'ri-graduation-cap-line text-info';
+      case 'TRUONG_KHOA': return 'ri-award-line text-success';
+      case 'GIANG_VIEN_HD': return 'ri-user-follow-line text-warning';
+      case 'P_KHCN': return 'ri-building-line text-danger';
+      case 'CHU_TICH_HD': return 'ri-vip-crown-line text-purple';
+      case 'HOI_DONG_MEMBER': return 'ri-shield-user-line text-secondary';
+      case 'THU_KY_HD': return 'ri-file-edit-line text-dark';
+      case 'ADMIN': return 'ri-settings-4-line text-dark';
+      default: return 'ri-user-3-line text-primary';
+    }
+  }
 }

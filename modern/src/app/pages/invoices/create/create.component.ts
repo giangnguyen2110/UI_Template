@@ -24,9 +24,9 @@ export class CreateComponent implements OnInit {
   discountRate = 0.15;
 
   userForm: UntypedFormGroup;
+  
 
-
-  constructor(private formBuilder: UntypedFormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) { 
 
     this.userForm = this.formBuilder.group({
       items: this.formBuilder.array([
@@ -37,13 +37,13 @@ export class CreateComponent implements OnInit {
     /**
      * Form Validation
      */
-    this.InvoicesForm = this.formBuilder.group({
+     this.InvoicesForm = this.formBuilder.group({
       companyAddress: ['', [Validators.required]],
       companyaddpostalcode: ['', [Validators.required]],
       registrationNumber: ['', [Validators.required]],
       companyEmail: ['', [Validators.required]],
       companyWebsite: ['', [Validators.required]],
-      compnayContactno: ['', [Validators.required]],
+      companyContactno: ['', [Validators.required]],
       billingName: ['', [Validators.required]],
       billingAddress: ['', [Validators.required]],
       billingPhoneno: ['', [Validators.required]],
@@ -56,40 +56,37 @@ export class CreateComponent implements OnInit {
       productName: ['', [Validators.required]],
       rate: ['', [Validators.required]],
       items: [''],
-    });
+    });    
   }
 
   ngOnInit(): void {
     /**
     * BreadCrumb
     */
-    this.breadCrumbItems = [
+     this.breadCrumbItems = [
       { label: 'Invoices' },
       { label: 'Invoice Details', active: true }
     ];
 
-
+    
 
   }
 
   /**
    * Form data get
    */
-  get form() {
+   get form() {
     return this.InvoicesForm.controls;
   }
 
 
-  /**
- * Save user
- */
-  saveUser() {
-    this.submitted = true
-  }
+   /**
+  * Save user
+  */
+    saveUser() {
+      this.submitted = true
+    }
 
-  otherPayment(event: any) {
-    this.paymentSign = event.target.value
-  }
   // Default
   counter = 0;
   increment() {
@@ -106,26 +103,26 @@ export class CreateComponent implements OnInit {
     this.updateQuantity(itemAmount?.value, this.counter, priceselection);
   }
 
-  updateQuantity(amount: any, itemQuntity: any, priceselection: any) {
-    var linePrice = amount * itemQuntity;
+  updateQuantity(amount: any, itemQuntity: any, priceselection:any){
+    var linePrice = amount * itemQuntity;    
     priceselection.value = linePrice;
     this.recalculateCart();
   }
 
-  recalculateCart() {
+  recalculateCart(){
     var priceselection = document.querySelector(".product-line-price") as HTMLInputElement;
     this.subtotal = parseFloat(priceselection.value);
     var tax = this.subtotal * this.taxRate;
-    var discount = this.subtotal * this.discountRate;
-    var shipping = this.subtotal > 0 ? this.shippingRate : 0;
-    var total = this.subtotal + tax + shipping - discount;
-    var subTotal = document.getElementById("cart-subtotal") as HTMLInputElement;
+	  var discount = this.subtotal * this.discountRate;
+	  var shipping = this.subtotal > 0 ? this.shippingRate : 0;
+	  var total = this.subtotal + tax + shipping - discount;
+    var subTotal = document.getElementById("cart-subtotal") as HTMLInputElement;    
     var cartTax = document.getElementById("cart-tax") as HTMLInputElement;
     var cartShipping = document.getElementById("cart-shipping") as HTMLInputElement;
     var cartTotal = document.getElementById("cart-total") as HTMLInputElement;
     var cartDiscount = document.getElementById("cart-discount") as HTMLInputElement;
     var totalamountInput = document.getElementById("totalamountInput") as HTMLInputElement;
-    var amountTotalPay = document.getElementById("amountTotalPay") as HTMLInputElement;
+	  var amountTotalPay = document.getElementById("amountTotalPay") as HTMLInputElement;
 
     subTotal.value = priceselection.value;
     cartTax.value = this.paymentSign + tax;
@@ -145,11 +142,11 @@ export class CreateComponent implements OnInit {
 
   // Get Item Data 
   getItemFormControls(): AbstractControl[] {
-    return (<UntypedFormArray>this.userForm.get('items')).controls
+    return (<UntypedFormArray> this.userForm.get('items')).controls
   }
 
   // Remove Item
-  removeItem(index: any) {
+  removeItem(index:any) {
     (this.userForm.get('items') as UntypedFormArray).removeAt(index);
   }
 

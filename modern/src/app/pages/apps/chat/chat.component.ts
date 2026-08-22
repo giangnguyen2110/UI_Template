@@ -21,7 +21,8 @@ import { MessagesData, chatData, chatMessagesData, contactData, groupData } from
  * Chat Component
  */
 export class ChatComponent implements OnInit {
-
+  searchText :any;
+  searchMsgText:any;
   chatData!: ChatUser[];
   groupData!: GroupUser[];
   chatMessagesData!: ChatMessage[];
@@ -34,12 +35,11 @@ export class ChatComponent implements OnInit {
   isProfile: string = 'assets/images/users/avatar-2.jpg';
   username: any = 'Lisa Parker';
   @ViewChild('scrollRef') scrollRef:any;
+  images: { src: string; thumb: string; caption: string }[] = [];
   isreplyMessage = false;
   emoji = '';
 
-  images: { src: string; thumb: string; caption: string }[] = [];
-
-  constructor(public formBuilder: UntypedFormBuilder, private lightbox: Lightbox, private offcanvasService: NgbOffcanvas, private datePipe: DatePipe) { 
+  constructor(public formBuilder: UntypedFormBuilder, private lightbox: Lightbox, private datePipe: DatePipe, private offcanvasService: NgbOffcanvas) { 
     for (let i = 1; i <= 24; i++) {
       const src = '../../../../assets/images/small/img-' + i + '.jpg';
       const caption = 'Image ' + i + ' caption here';
@@ -68,6 +68,8 @@ export class ChatComponent implements OnInit {
     this.onListScroll();
   }
 
+
+
   ngAfterViewInit() {
     this.scrollRef.SimpleBar.getScrollElement().scrollTop = 300;
     this.onListScroll();
@@ -78,7 +80,14 @@ export class ChatComponent implements OnInit {
     this.groupData = groupData;
     this.chatData = chatData;
     this.chatMessagesData = MessagesData;
-    this.contactData = contactData;
+    this.contactData = contactData;    
+  }
+
+  /**
+   * Returns form
+   */
+   get form() {
+    return this.formData.controls;
   }
 
   onListScroll() {
@@ -90,60 +99,53 @@ export class ChatComponent implements OnInit {
   }
 
   /**
-   * Returns form
-   */
-   get form() {
-    return this.formData.controls;
-  }
-
-  /**
    * Save the message in chat
    */
-  messageSave() {
-    const message = this.formData.get('message')!.value;  
-    if (this.isreplyMessage == true) {
-     var itemReplyList:any = document.getElementById("users-chat")?.querySelector(".chat-conversation-list");
-     var dateTime = this.datePipe.transform(new Date(),"h:mm a");
-     var chatReplyUser = (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .conversation-name") as HTMLAreaElement).innerHTML;
-     var chatReplyMessage = (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .mb-0")as HTMLAreaElement).innerText;
- 
-     this.chatMessagesData.push({
-       align: 'right',
-       name: 'Marcus',
-       replayName: chatReplyUser,
-       replaymsg: chatReplyMessage,
-       message,
-       time: dateTime,
-     });
-     this.onListScroll();
- 
-   // Set Form Data Reset
-   this.formData = this.formBuilder.group({
-     message: null,
-   });
-   this.isreplyMessage = false;
+   messageSave() {
+     const message = this.formData.get('message')!.value;  
+     if (this.isreplyMessage == true) {
+      var itemReplyList:any = document.getElementById("users-chat")?.querySelector(".chat-conversation-list");
+      var dateTime = this.datePipe.transform(new Date(),"h:mm a");
+      var chatReplyUser = (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .conversation-name") as HTMLAreaElement).innerHTML;
+      var chatReplyMessage = (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .mb-0")as HTMLAreaElement).innerText;
+  
+      this.chatMessagesData.push({
+        align: 'right',
+        name: 'Marcus',
+        replayName: chatReplyUser,
+        replaymsg: chatReplyMessage,
+        message,
+        time: dateTime,
+      });
+      this.onListScroll();
+  
+    // Set Form Data Reset
+    this.formData = this.formBuilder.group({
+      message: null,
+    });
+    this.isreplyMessage = false;
 
-    }
-    else{
-     if (this.formData.valid && message) {
-       // Message Push in Chat
-       this.chatMessagesData.push({
-         align: 'right',
-         name: 'Marcus',
-         message,
-         time: this.datePipe.transform(new Date(),"h:mm a"),
-       });
-       this.onListScroll();
-       // Set Form Data Reset
-       this.formData = this.formBuilder.group({
-         message: null,
-       });
      }
-   }
-   document.querySelector('.replyCard')?.classList.remove('show');
-   this.emoji = '';
-   
-   this.submitted = true;
+     else{
+      if (this.formData.valid && message) {
+        // Message Push in Chat
+        this.chatMessagesData.push({
+          align: 'right',
+          name: 'Marcus',
+          message,
+          time: this.datePipe.transform(new Date(),"h:mm a"),
+        });
+        this.onListScroll();
+        // Set Form Data Reset
+        this.formData = this.formBuilder.group({
+          message: null,
+        });
+      }
+    }
+    document.querySelector('.replyCard')?.classList.remove('show');
+    this.emoji = '';
+    
+    this.submitted = true;
   }
 
   /***
@@ -162,24 +164,55 @@ export class ChatComponent implements OnInit {
     }
   }
 
-   /**
-   * SidebarHide modal
-   * @param content modal content
-   */
-  SidebarHide() {
-    const recentActivity = document.querySelector('.user-chat');
-      if(recentActivity != null){
-        recentActivity.classList.remove('user-chat-show');
-      }
-  }
-
   open(index: number): void {
     // open lightbox
     this.lightbox.open(this.images, index, { });
   }
 
-   // Contact Search
-   ContactSearch(){
+  close(): void {
+    // close lightbox programmatically
+    this.lightbox.close();
+  }
+
+ // Copy Message
+ copyMessage(event:any){
+  navigator.clipboard.writeText(event.target.closest('.chat-list').querySelector('.ctext-content').innerHTML);
+  (document.getElementById("copyClipBoard") as HTMLElement).style.display = "block";
+  setTimeout(() => {
+  (document.getElementById("copyClipBoard") as HTMLElement).style.display = "none";
+  }, 1000);
+}
+
+  // Delete Message
+  deleteMessage(event:any){
+    event.target.closest('.chat-list').remove();
+  }
+
+  // Replay Message
+  replyMessage(event:any,align:any){
+    this.isreplyMessage = true;
+    document.querySelector('.replyCard')?.classList.add('show');
+    var copyText = event.target.closest('.chat-list').querySelector('.ctext-content').innerHTML;
+    (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .mb-0") as HTMLAreaElement).innerHTML = copyText;
+    var msgOwnerName:any = event.target.closest(".chat-list").classList.contains("right") == true ? 'You' : document.querySelector('.username')?.innerHTML;
+    (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .conversation-name") as HTMLAreaElement).innerHTML = msgOwnerName;
+  }
+
+  closeReplay(){
+    document.querySelector('.replyCard')?.classList.remove('show');
+  }
+
+  // Delete All Message
+  deleteAllMessage(event:any){
+    var allMsgDelete:any = document.getElementById('users-conversation')?.querySelectorAll('.chat-list');
+    allMsgDelete.forEach((item:any)=>{
+      item.remove();
+    })
+  }
+  
+
+  // Contact Search
+  ContactSearch(){
     var input:any, filter:any, ul:any, li:any, a:any | undefined, i:any, txtValue:any;
     input = document.getElementById("searchContact") as HTMLAreaElement;
     filter = input.value.toUpperCase();
@@ -195,7 +228,8 @@ export class ChatComponent implements OnInit {
             li[i].style.display = "none";
         }
       }
-    })    
+    })
+    
   }
 
   // Message Search
@@ -216,81 +250,53 @@ export class ChatComponent implements OnInit {
     }
   }
 
-   // Filter Offcanvas Set
-   onChatInfoClicked(content: TemplateRef<any>) {    
+  //  Filter Offcanvas Set
+  openEnd(content: TemplateRef<any>) {    
     this.offcanvasService.open(content, { position: 'end' });
   }
 
-  // Replay Message
-  replyMessage(event:any,align:any){
-    this.isreplyMessage = true;
-    document.querySelector('.replyCard')?.classList.add('show');
-    var copyText = event.target.closest('.chat-list').querySelector('.ctext-content').innerHTML;
-    (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .mb-0") as HTMLAreaElement).innerHTML = copyText;
-    var msgOwnerName:any = event.target.closest(".chat-list").classList.contains("right") == true ? 'You' : document.querySelector('.username')?.innerHTML;
-    (document.querySelector(".replyCard .replymessage-block .flex-grow-1 .conversation-name") as HTMLAreaElement).innerHTML = msgOwnerName;
+
+  // Emoji Picker
+  showEmojiPicker = false;
+  sets:any = [
+    'native',
+    'google',
+    'twitter',
+    'facebook',
+    'emojione',
+    'apple',
+    'messenger'
+  ]
+  set:any = 'twitter';
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
   }
 
-  // Copy Message
-  copyMessage(event:any){
-    navigator.clipboard.writeText(event.target.closest('.chat-list').querySelector('.ctext-content').innerHTML);
-    (document.getElementById("copyClipBoard") as HTMLElement).style.display = "block";
-    setTimeout(() => {
-    (document.getElementById("copyClipBoard") as HTMLElement).style.display = "none";
-    }, 1000);
+  addEmoji(event:any) {
+    const { emoji } = this;
+    const text = `${emoji}${event.emoji.native}`;
+    this.emoji = text;
+    this.showEmojiPicker = false;
   }
 
-  // Delete Message
-  deleteMessage(event:any){
-    event.target.closest('.chat-list').remove();
+  onFocus() {
+    this.showEmojiPicker = false;
   }
-
-  // Delete All Message
-  deleteAllMessage(event:any){
-    var allMsgDelete:any = document.getElementById('users-conversation')?.querySelectorAll('.chat-list');
-    allMsgDelete.forEach((item:any)=>{
-      item.remove();
-    })
-  }
-
-   // Emoji Picker
-   showEmojiPicker = false;
-   sets:any = [
-     'native',
-     'google',
-     'twitter',
-     'facebook',
-     'emojione',
-     'apple',
-     'messenger'
-   ]
-   set:any = 'twitter';
-   toggleEmojiPicker() {
-     this.showEmojiPicker = !this.showEmojiPicker;
-   }
- 
-   addEmoji(event:any) {
-     const { emoji } = this;
-     const text = `${emoji}${event.emoji.native}`;
-     this.emoji = text;
-     this.showEmojiPicker = false;
-   }
- 
-   onFocus() {
-     this.showEmojiPicker = false;
-   }
-   onBlur() {
-   }
-
-   closeReplay(){
-    document.querySelector('.replyCard')?.classList.remove('show');
+  onBlur() {
   }
 
   /**
    * Delete Chat Contact Data 
    */
-   delete(event:any) {
+  delete(event:any) {
     event.target.closest('li')?.remove();
+  }
+
+  hideChat(){
+    const userChatShow = document.querySelector('.user-chat');
+    if(userChatShow != null){
+      userChatShow.classList.remove('user-chat-show');
+    }
   }
 
 }

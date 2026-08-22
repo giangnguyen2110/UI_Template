@@ -5,6 +5,27 @@ const LAYOUT_TYPES = {
   SEMIBOX: "semibox",
 }
 
+const LAYOUT_THEME = {
+  DEFAULT: "default",
+  SAAS: "saas",
+  CORPORATE: "corporate",
+  GALAXY: "galaxy",
+  MATERIAL: "material",
+  CREATIVE: "creative",
+  MINIMAL: "minimal",
+  MODERN: "modern",
+  INTERACTIVE: "interactive",
+  CLASSIC: "classic",
+  VINTAGE: "vintage",
+}
+
+const LAYOUT_THEME_COLOR = {
+  DEFAULT: "default",
+  GREEN: "green",
+  PURPLE: "purple",
+  BLUE: "blue",
+}
+
 const LAYOUT_MODE = {
   LIGHTMODE: "light",
   DARKMODE: "dark",
@@ -25,16 +46,16 @@ const LAYOUT_TOPBAR_COLOR_TYPES = {
   DARK: "dark",
 }
 
-const SIDEBAR_SIZE ={
-  LARGE : "lg",
-  MEDIUM : "md",
-  SMALL : "sm",
-  SMALLHOVER : "sm-hover"
+const SIDEBAR_SIZE = {
+  LARGE: "lg",
+  MEDIUM: "md",
+  SMALL: "sm",
+  SMALLHOVER: "sm-hover"
 }
 
 const SIDEBAR_VIEW = {
   DEFAULT: "default",
-  DETACHED : "detached"
+  DETACHED: "detached"
 }
 
 const SIDEBAR_COLOR = {
@@ -48,10 +69,16 @@ const SIDEBAR_COLOR = {
 
 const SIDEBAR_IMAGE = {
   NONE: "none",
-  IMAGE1 : "image-1",
-  IMAGE2 : "image-2",
-  IMAGE3 : "image-3",
-  IMAGE4 : "image-4"
+  IMAGE1: "image-1",
+  IMAGE2: "image-2",
+  IMAGE3: "image-3",
+  IMAGE4: "image-4"
+}
+const BACKGROUND_IMAGE = {
+  NONE: "none",
+  IMG1: "img-1",
+  IMG2: "img-2",
+  IMG3: "img-3",
 }
 
 const SIDEBAR_VISIBILITY = {
@@ -65,6 +92,8 @@ const PERLOADER_TYPES = {
 
 export {
   LAYOUT_TYPES,
+  LAYOUT_THEME,
+  LAYOUT_THEME_COLOR,
   LAYOUT_MODE,
   LAYOUT_WIDTH_TYPES,
   LAYOUT_POSITION_TYPES,
@@ -74,5 +103,6 @@ export {
   SIDEBAR_COLOR,
   SIDEBAR_IMAGE,
   SIDEBAR_VISIBILITY,
-  PERLOADER_TYPES
+  PERLOADER_TYPES,
+  BACKGROUND_IMAGE
 }

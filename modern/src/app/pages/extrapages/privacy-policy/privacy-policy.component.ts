@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrivacyPolicyComponent implements OnInit {
 
+
   // bread crumb items
   breadCrumbItems!: Array<{}>;
 
@@ -15,11 +16,12 @@ export class PrivacyPolicyComponent implements OnInit {
 
   ngOnInit(): void {
     /**
-     * BreadCrumb
-     */
+   * BreadCrumb
+   */
     this.breadCrumbItems = [
       { label: 'Pages' },
       { label: 'Privacy Policy', active: true }
     ];
   }
+
 }

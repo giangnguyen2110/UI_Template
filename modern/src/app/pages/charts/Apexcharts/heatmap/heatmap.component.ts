@@ -32,7 +32,7 @@ export class HeatmapComponent implements OnInit {
 
     // Chart Color Data Get Function
     this._basicHeatmapChart('["--vz-success", "--vz-secondary-bg"]');
-    this._multipleSeriesChart('["--vz-primary", "--vz-secondary", "--vz-success", "--vz-info", "--vz-warning", "--vz-danger", "--vz-dark", "--vz-primary", "--vz-secondary-bg"]');
+    this._multipleSeriesChart('["--vz-primary", "--vz-secondary", "--vz-success", "--vz-info", "--vz-warning", "--vz-danger", "--vz-body-color", "--vz-primary", "--vz-secondary-bg"]');
     this._colorRangeChart('["--vz-info", "--vz-success", "--vz-primary", "--vz-warning"]');
     this._rangeWithoutShadesChart('["--vz-info", "--vz-primary"]');
     }
@@ -82,253 +82,253 @@ private generateData(count: number, yrange: { max: number; min: number; }) {
   return series;
 }
 
-/**
+  /**
  * Basic Heatmap Chart
  */
- private _basicHeatmapChart(colors:any) {
-  colors = this.getChartColorsArray(colors);
-  this.basicHeatmapChart = {
-    series: [
-      {
-        name: "Metric1",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric2",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric3",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric4",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric5",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric6",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric7",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric8",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "Metric9",
-        data: this.generateData(18, {
-          min: 0,
-          max: 90,
-        }),
-      },
-    ],
-    chart: {
-      height: 450,
-      type: "heatmap",
-      toolbar: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: [colors[0]],
-    title: {
-      text: "HeatMap Chart (Single color)",
-      style: {
-        fontWeight: 500,
-      },
-    },
-    stroke: {
-      colors: [colors[1]]
-  }
-  };
-}
-
-/**
-* Heatmap - Multiple Series
-*/
-private _multipleSeriesChart(colors:any) {
-  colors = this.getChartColorsArray(colors);
-  this.multipleSeriesChart = {
-    series: [
-      {
-        name: "W1",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W2",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W3",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W4",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W5",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W6",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W7",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W8",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W9",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W10",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W11",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W12",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W13",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W14",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-      {
-        name: "W15",
-        data: this.generateData(8, {
-          min: 0,
-          max: 90,
-        }),
-      },
-    ],
-    chart: {
-      height: 450,
-      type: "heatmap",
-      toolbar: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: [colors[0], colors[1], colors[2], colors[3], colors[4], colors[5], colors[6], colors[7]],
-    xaxis: {
-      type: "category",
-      categories: [
-        "10:00",
-        "10:30",
-        "11:00",
-        "11:30",
-        "12:00",
-        "12:30",
-        "01:00",
-        "01:30",
+  private _basicHeatmapChart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.basicHeatmapChart = {
+      series: [
+        {
+          name: "Metric1",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric2",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric3",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric4",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric5",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric6",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric7",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric8",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "Metric9",
+          data: this.generateData(18, {
+            min: 0,
+            max: 90,
+          }),
+        },
       ],
-    },
-    title: {
-      text: "HeatMap Chart (Different color shades for each series)",
-      style: {
-        fontWeight: 500,
+      chart: {
+        height: 450,
+        type: "heatmap",
+        toolbar: {
+          show: false,
+        },
       },
-    },
-    grid: {
-      padding: {
-        right: 20,
+      dataLabels: {
+        enabled: false,
       },
-    },
-    stroke: {
-      colors: [colors[8]]
+      colors: [colors[0]],
+      title: {
+        text: "HeatMap Chart (Single color)",
+        style: {
+          fontWeight: 500,
+        },
+      },
+      stroke: {
+        colors: [colors[1]]
+    }
+    };
   }
-  };
-}
+
+  /**
+ * Heatmap - Multiple Series
+ */
+  private _multipleSeriesChart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.multipleSeriesChart = {
+      series: [
+        {
+          name: "W1",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W2",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W3",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W4",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W5",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W6",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W7",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W8",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W9",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W10",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W11",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W12",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W13",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W14",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+        {
+          name: "W15",
+          data: this.generateData(8, {
+            min: 0,
+            max: 90,
+          }),
+        },
+      ],
+      chart: {
+        height: 450,
+        type: "heatmap",
+        toolbar: {
+          show: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      colors: [colors[0], colors[1], colors[2], colors[3], colors[4], colors[5], colors[6], colors[7]],
+      xaxis: {
+        type: "category",
+        categories: [
+          "10:00",
+          "10:30",
+          "11:00",
+          "11:30",
+          "12:00",
+          "12:30",
+          "01:00",
+          "01:30",
+        ],
+      },
+      title: {
+        text: "HeatMap Chart (Different color shades for each series)",
+        style: {
+          fontWeight: 500,
+        },
+      },
+      grid: {
+        padding: {
+          right: 20,
+        },
+      },
+      stroke: {
+        colors: [colors[8]]
+    }
+    };
+  }
 
   /**
  * Heatmap Color Range

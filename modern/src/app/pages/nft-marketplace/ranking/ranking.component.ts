@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
@@ -19,31 +20,30 @@ import { PaginationService } from 'src/app/core/services/pagination.service';
  */
 export class RankingComponent {
 
- // bread crumb items
- breadCrumbItems!: Array<{}>;
+  // bread crumb items
+  breadCrumbItems!: Array<{}>;
 
- // Table data
- rankingData!: rankingModel[];
- searchResults: any;
- searchTerm: any;
- allrankingData!: any[];
+  // Table data
+  rankingData!: rankingModel[];
+  searchResults: any;
+  searchTerm: any;
+  allrankingData!: any[];
 
- constructor(private modalService: NgbModal, public service: PaginationService, private formBuilder: UntypedFormBuilder) {
- }
+  constructor(private modalService: NgbModal, public service: PaginationService, private formBuilder: UntypedFormBuilder) {
+  }
 
   ngOnInit(): void {
-     /**
-    * BreadCrumb
-    */
-      this.breadCrumbItems = [
-        { label: 'NFT Marketplace' },
-        { label: 'Ranking', active: true }
-      ];
+    /**
+   * BreadCrumb
+   */
+    this.breadCrumbItems = [
+      { label: 'NFT Marketplace' },
+      { label: 'Ranking', active: true }
+    ];
 
-         // FetchData
+    // FetchData
     this.allrankingData = rankingData
     this.rankingData = this.service.changePage(rankingData)
-
   }
 
   // Pagination

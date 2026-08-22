@@ -20,90 +20,90 @@ import { RadarComponent } from "./Apexcharts/radar/radar.component";
 import { PolarComponent } from "./Apexcharts/polar/polar.component";
 import { ChartjsComponent } from "./chartjs/chartjs.component";
 import { EchartComponent } from "./echart/echart.component";
-import { FunnelComponent } from './Apexcharts/funnel/funnel.component';
 import { RangeAreaComponent } from './Apexcharts/range-area/range-area.component';
-import { SlopeareaComponent } from './Apexcharts/slope/slopearea.component';
+import { FunnelComponent } from './Apexcharts/funnel/funnel.component';
+import { SlopeareaComponent } from './Apexcharts/slope-test/slopearea.component';
 
 const routes: Routes = [
   {
     path: "apex-line",
-    component:LineComponent
+    component: LineComponent
   },
   {
     path: "apex-area",
-    component:AreaComponent
+    component: AreaComponent
   },
   {
     path: "apex-column",
-    component:ColumnComponent
+    component: ColumnComponent
   },
   {
     path: "apex-bar",
-    component:BarComponent
+    component: BarComponent
   },
   {
     path: "apex-mixed",
-    component:MixedComponent
+    component: MixedComponent
   },
   {
     path: "apex-timeline",
-    component:TimelineComponent
+    component: TimelineComponent
   },
   {
     path: "apex-candlestick",
-    component:CandlestickComponent
+    component: CandlestickComponent
   },
   {
     path: "apex-boxplot",
-    component:BoxplotComponent
+    component: BoxplotComponent
   },
   {
     path: "apex-bubble",
-    component:BubbleComponent
+    component: BubbleComponent
   },
   {
     path: "apex-scatter",
-    component:ScatterComponent
+    component: ScatterComponent
   },
   {
     path: "apex-heatmap",
-    component:HeatmapComponent
+    component: HeatmapComponent
   },
   {
     path: "apex-treemap",
-    component:TreemapComponent
+    component: TreemapComponent
   },
   {
     path: "apex-pie",
-    component:PieComponent
+    component: PieComponent
   },
   {
     path: "apex-radialbar",
-    component:RadialbarComponent
+    component: RadialbarComponent
   },
   {
     path: "apex-radar",
-    component:RadarComponent
+    component: RadarComponent
   },
   {
     path: "apex-polar",
-    component:PolarComponent
-  },
-  {
-    path: "apex-funnel",
-    component:FunnelComponent
-  },
-  {
-    path: "apex-range-area",
-    component:RangeAreaComponent
+    component: PolarComponent
   },
   {
     path: "chartjs",
-    component:ChartjsComponent
+    component: ChartjsComponent
   },
   {
     path: "echarts",
-    component:EchartComponent
+    component: EchartComponent
+  },
+  {
+    path: "range-area",
+    component: RangeAreaComponent
+  },
+  {
+    path: "funnel",
+    component: FunnelComponent
   },
   {
     path: "slope",

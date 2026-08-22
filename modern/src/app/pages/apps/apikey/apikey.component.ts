@@ -1,19 +1,15 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UntypedFormBuilder, Validators, UntypedFormGroup, UntypedFormArray, AbstractControl } from '@angular/forms';
+import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
-
-
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { addApikey, deleteApikey, fetchApikeyData, updateApikey } from 'src/app/store/APIKey/apikey_action';
 import { selectApikeyData, selectApikeyLoading } from 'src/app/store/APIKey/apikey_selector';
 import { cloneDeep } from 'lodash';
 import { PaginationService } from 'src/app/core/services/pagination.service';
-
-
 
 @Component({
     selector: 'app-apikey',
@@ -43,7 +39,6 @@ export class ApikeyComponent implements OnInit {
     private store: Store<{ data: RootReducerState }>) {
   }
 
-
   ngOnInit(): void {
     /**
        * BreadCrumb
@@ -72,6 +67,7 @@ export class ApikeyComponent implements OnInit {
       this.allapikeys = cloneDeep(data);
       this.apikeys = this.service.changePage(this.allapikeys)
     });
+
   }
 
   num: number = 0;
@@ -94,7 +90,6 @@ export class ApikeyComponent implements OnInit {
 * @param content modal content
 */
   openModal(content: any) {
-    // this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
   }
 
@@ -132,6 +127,7 @@ export class ApikeyComponent implements OnInit {
     this.checkedValGet = checkedVal
     checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
   }
+
 
   // Pagination
   changePage() {
@@ -251,7 +247,7 @@ export class ApikeyComponent implements OnInit {
       this.store.dispatch(deleteApikey({ id: this.checkedValGet.toString() }));
     }
     this.masterSelected = false;
-    this.deleteId = ''
+    this.deleteId =''
     this.modalService.dismissAll('close click')
     let timerInterval: any;
     Swal.fire({

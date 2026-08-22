@@ -9,15 +9,13 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 //  Drag and drop
 import { DndModule } from 'ngx-drag-drop';
 // Flat Picker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 // Counter
 import { CountUpDirective } from 'ngx-countup';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
-
-
 
 // Component Pages
 import { TasksRoutingModule } from './tasks-routing.module';
@@ -51,7 +49,7 @@ import { DetailsComponent } from './details/details.component';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class TasksModule { 
+export class TasksModule {
   constructor() {
     defineElement();
   }

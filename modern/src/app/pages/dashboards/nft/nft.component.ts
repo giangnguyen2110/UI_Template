@@ -5,6 +5,7 @@ import { circle, latLng, tileLayer } from 'leaflet';
 
 import { featuredModel, recentModel, topCollectionModel, popularModel } from './nft.model';
 import { nftfeaturedData, nftpopularData, nftrecentData, nftstatData, nfttopCollectionData } from 'src/app/core/data';
+import { marketplaceChart, popularityChart } from 'src/app/shared/chartColor';
 
 @Component({
     selector: 'app-nft',
@@ -18,174 +19,173 @@ import { nftfeaturedData, nftpopularData, nftrecentData, nftstatData, nfttopColl
  */
 export class NftComponent implements OnInit {
 
-  // bread crumb items
-  breadCrumbItems!: Array<{}>;
-  statData!: any;
-  featuredData!:featuredModel[];
-  recentData!:recentModel[];
-  topCollectionData!:topCollectionModel[];
-  popularData!:popularModel[];
+    // bread crumb items
+    breadCrumbItems!: Array<{}>;
+    statData!: any;
+    featuredData!: featuredModel[];
+    recentData!: recentModel[];
+    topCollectionData!: topCollectionModel[];
+    popularData!: popularModel[];
 
-  MarketplaceChart: any;
-  popularityChart: any;
-  minichart1: any;
-  minichart2: any;
-  minichart3:any;
-  minichart4:any;
-  minichart5:any;
-  minichart6:any;
-  minichart7:any;
-  minichart8:any;
+    MarketplaceChart: any;
+    popularityChart: any;
+    minichart1: any;
+    minichart2: any;
+    minichart3: any;
+    minichart4: any;
+    minichart5: any;
+    minichart6: any;
+    minichart7: any;
+    minichart8: any;
 
-  // set the current year
-  year: number = new Date().getFullYear();
-  private _trialEndsAt: any;
-  private _diff?: any;
-  _days?: number;
-  _hours?: number;
-  _minutes?: number;
-  _seconds?: number;
+    // set the current year
+    year: number = new Date().getFullYear();
+    private _trialEndsAt: any;
+    private _diff?: any;
+    _days?: number;
+    _hours?: number;
+    _minutes?: number;
+    _seconds?: number;
 
-  constructor() { 
-    
-  }
+    constructor() {
+    }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
+        /**
+         * BreadCrumb
+         */
+        this.breadCrumbItems = [
+            { label: 'Dashboards' },
+            { label: 'NFT Dashboard', active: true }
+        ];
+
+        /**
+        * Fetches the data
+        */
+        this.fetchData();
+
+        this._marketplaceChart('["--vz-primary","--vz-success", "--vz-light"]');
+        this._popularityChart('["--vz-success", "--vz-warning"]');
+        this._minichart1Chart('["--vz-danger"]');
+        this._minichartsuccessChart('["--vz-success"]');
+
+        // Date Set
+        const currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + 1);
+        this._trialEndsAt = currentDate.toISOString().split('T')[0];
+
+        /**
+         * Count date set
+         */
+        interval(1000).pipe(map((x) => {
+            this._diff = Date.parse(this._trialEndsAt) - Date.parse(new Date().toString());
+        })).subscribe((x) => {
+            this._days = this.getDays(this._diff);
+            this._hours = this.getHours(this._diff);
+            this._minutes = this.getMinutes(this._diff);
+            this._seconds = this.getSeconds(this._diff);
+        });
+
+    }
+
+    num: number = 0;
+    option = {
+        startVal: this.num,
+        useEasing: true,
+        duration: 2,
+        decimalPlaces: 2,
+    };
+
     /**
-     * BreadCrumb
+     * Day Set
      */
-     this.breadCrumbItems = [
-      { label: 'Dashboards' },
-      { label: 'NFT Dashboard', active: true }
-    ];
+    getDays(t: number) {
+        return Math.floor(t / (1000 * 60 * 60 * 24));
+    }
 
-     /**
+    /**
+     * Hours Set
+     */
+    getHours(t: number) {
+        return Math.floor((t / (1000 * 60 * 60)) % 24);
+    }
+
+    /**
+     * Minutes set
+     */
+    getMinutes(t: number) {
+        return Math.floor((t / 1000 / 60) % 60);
+    }
+
+    /**
+     * Secound set
+     */
+    getSeconds(t: number) {
+        return Math.floor((t / 1000) % 60);
+    }
+
+    // Chart Colors Set
+    private getChartColorsArray(colors: any) {
+        colors = JSON.parse(colors);
+        return colors.map(function (value: any) {
+            var newValue = value.replace(" ", "");
+            if (newValue.indexOf(",") === -1) {
+                var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+                if (color) {
+                    color = color.replace(" ", "");
+                    return color;
+                }
+                else return newValue;;
+            } else {
+                var val = value.split(',');
+                if (val.length == 2) {
+                    var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+                    rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+                    return rgbaColor;
+                } else {
+                    return newValue;
+                }
+            }
+        });
+    }
+
+    /**
      * Fetches the data
      */
-      this.fetchData();
-
-    this._marketplaceChart('["--vz-primary","--vz-success", "--vz-light"]');
-    this._popularityChart('["--vz-success", "--vz-warning"]');
-    this._minichart1Chart('["--vz-danger"]');
-    this._minichartsuccessChart('["--vz-success"]');
-
-    // Date Set
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 1);
-    this._trialEndsAt = currentDate.toISOString().split('T')[0];
+    private fetchData() {
+        this.statData = nftstatData;
+        this.featuredData = nftfeaturedData;
+        this.recentData = nftrecentData;
+        this.topCollectionData = nfttopCollectionData;
+        this.popularData = nftpopularData;
+    }
 
     /**
-     * Count date set
-     */
-    interval(1000).pipe(map((x) => {
-        this._diff = Date.parse(this._trialEndsAt) - Date.parse(new Date().toString());
-    })).subscribe((x) => {
-        this._days = this.getDays(this._diff);
-        this._hours = this.getHours(this._diff);
-        this._minutes = this.getMinutes(this._diff);
-        this._seconds = this.getSeconds(this._diff);
-    });
-
-  }
-    
-  num: number = 0;
-  option = {
-  startVal: this.num,
-  useEasing: true,
-  duration: 2,
-  decimalPlaces: 2,
-  };
-
-  /**
-   * Day Set
-   */
-   getDays(t: number) {
-    return Math.floor(t / (1000 * 60 * 60 * 24));
-  }
-
-  /**
-   * Hours Set
-   */
-  getHours(t: number) {
-    return Math.floor((t / (1000 * 60 * 60)) % 24);
-  }
-
-  /**
-   * Minutes set
-   */
-  getMinutes(t: number) {
-    return Math.floor((t / 1000 / 60) % 60);
-  }
-
-  /**
-   * Secound set
-   */
-  getSeconds(t: number) {
-    return Math.floor((t / 1000) % 60);
-  }
-
-  // Chart Colors Set
-  private getChartColorsArray(colors:any) {
-    colors = JSON.parse(colors);
-    return colors.map(function (value:any) {
-      var newValue = value.replace(" ", "");
-      if (newValue.indexOf(",") === -1) {
-        var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-            if (color) {
-            color = color.replace(" ", "");
-            return color;
-            }
-            else return newValue;;
-        } else {
-            var val = value.split(',');
-            if (val.length == 2) {
-                var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-                rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
-                return rgbaColor;
-            } else {
-                return newValue;
-            }
-        }
-    });
-  }
-
-  /**
-   * Fetches the data
-   */
-   private fetchData() {
-    this.statData = nftstatData;
-    this.featuredData = nftfeaturedData;
-    this.recentData = nftrecentData;
-    this.topCollectionData = nfttopCollectionData;
-    this.popularData = nftpopularData;
-  }
-
-   /**
      * Swiper Responsive setting
      */
-   public Responsive = {
-    infinite: true,
-    slidesToShow: 3,
-    autoplay: true,
-    dots: false,
-    arrows: false
-};
+    public Responsive = {
+        infinite: true,
+        slidesToShow: 3,
+        autoplay: true,
+        dots: false,
+        arrows: false,
+    };
 
-/**
- * Top CollectionSwiper Responsive setting
- */
-public collection = {
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    arrows: false
-};
+    /**
+     * Top CollectionSwiper Responsive setting
+     */
+    public collection = {
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        arrows: false
+    };
 
     /**
     * Market Place Chart
     */
-     setmarketplacevalue(value: any) {
+    setmarketplacevalue(value: any) {
         if (value == 'all') {
             this.MarketplaceChart.series = [{
                 name: "Artwork",
@@ -244,105 +244,128 @@ public collection = {
         }
     }
 
-    private _marketplaceChart(colors:any) {
-  colors = this.getChartColorsArray(colors);
-  this.MarketplaceChart = {
-    series:  [{
-        name: "Artwork",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    },
-    {
-        name: "Auction",
-        data: [40, 120, 83, 45, 31, 74, 35, 34, 78]
-    },
-    {
-        name: "Creators",
-        data: [95, 35, 20, 130, 64, 22, 43, 45, 31]
-    }],
-    chart: {
-        height: 350,
-        type: 'line',
-        zoom: {
-            enabled: false
-        },
-        toolbar: {
-            show: false
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'smooth',
-        width: 3
-    },
-    colors: colors,
-    xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-    }
-  };
+    private _marketplaceChart(colors: any) {
+        colors = this.getChartColorsArray(colors);
+        this.MarketplaceChart = {
+            series: [{
+                name: "Artwork",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+            },
+            {
+                name: "Auction",
+                data: [40, 120, 83, 45, 31, 74, 35, 34, 78]
+            },
+            {
+                name: "Creators",
+                data: [95, 35, 20, 130, 64, 22, 43, 45, 31]
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                },
+                toolbar: {
+                    show: false
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth',
+                width: 3
+            },
+            colors: colors,
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            }
+        };
+        const attributeToMonitor = 'data-theme';
+
+        const observer = new MutationObserver(() => {
+            const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+            this._marketplaceChart(marketplaceChart(currentTheme));
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: [attributeToMonitor]
+        });
     }
 
     /**
     * Market Place Chart
     */
-    private _popularityChart(colors:any) {
+    private _popularityChart(colors: any) {
         colors = this.getChartColorsArray(colors);
         this.popularityChart = {
-        series: [{
-            name: 'Like',
-            data: [12.45, 16.2, 8.9, 11.42, 12.6, 18.1, 18.2, 14.16]
-        }, {
-            name: 'Share',
-            data: [-11.45, -15.42, -7.9, -12.42, -12.6, -18.1, -18.2, -14.16]
-        }],
-        chart: {
-            type: 'bar',
-            height: 260,
-            stacked: true,
-            toolbar: {
-                show: false
+            series: [{
+                name: 'Like',
+                data: [12.45, 16.2, 8.9, 11.42, 12.6, 18.1, 18.2, 14.16]
+            }, {
+                name: 'Share',
+                data: [-11.45, -15.42, -7.9, -12.42, -12.6, -18.1, -18.2, -14.16]
+            }],
+            chart: {
+                type: 'bar',
+                height: 260,
+                stacked: true,
+                toolbar: {
+                    show: false
+                },
             },
-        },
-        plotOptions: {
-            bar: {
-                columnWidth: '20%',
-                borderRadius: [4, 4]
+            plotOptions: {
+                bar: {
+                    columnWidth: '20%',
+                    borderRadius: [4, 4]
+                },
             },
-        },
-        colors: colors,
-        fill: {
-            opacity: 1
-        },
-        dataLabels: {
-            enabled: false,
-            textAnchor: 'top',
-        },  
-        yaxis: {
-            labels: {
-                show: false,
-                formatter: function (y:any) {
-                    return y.toFixed(0) + "%";
+            colors: colors,
+            fill: {
+                opacity: 1
+            },
+            dataLabels: {
+                enabled: false,
+                textAnchor: 'top',
+            },
+            yaxis: {
+                labels: {
+                    show: false,
+                    formatter: function (y: any) {
+                        return y.toFixed(0) + "%";
+                    }
+                }
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'right',
+            },
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                labels: {
+                    rotate: -90
                 }
             }
-        },
-        legend: {
-            position: 'top',
-            horizontalAlign: 'right',
-        },
-        xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-            labels: {
-                rotate: -90
-            }
-        }
         };
+
+        const attributeToMonitor = 'data-theme';
+
+        const observer = new MutationObserver(() => {
+            const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+            this._popularityChart(popularityChart(currentTheme));
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: [attributeToMonitor]
+        });
     }
 
     /**
     * Danger Mini Chart
     */
-     private _minichart1Chart(colors:any) {
+    private _minichart1Chart(colors: any) {
         colors = this.getChartColorsArray(colors);
         this.minichart1 = {
             series: [{
@@ -355,7 +378,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -371,7 +394,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -394,7 +417,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -410,7 +433,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -433,7 +456,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -449,7 +472,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -472,7 +495,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -488,7 +511,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -511,7 +534,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -527,7 +550,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -542,7 +565,7 @@ public collection = {
     /**
     * Success Mini Chart
     */
-     private _minichartsuccessChart(colors:any) {
+    private _minichartsuccessChart(colors: any) {
         colors = this.getChartColorsArray(colors);
         this.minichart4 = {
             series: [{
@@ -555,7 +578,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -571,7 +594,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -594,7 +617,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -610,7 +633,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -633,7 +656,7 @@ public collection = {
                 sparkline: {
                     enabled: true
                 }
-    
+
             },
             colors: colors,
             stroke: {
@@ -649,7 +672,7 @@ public collection = {
                 },
                 y: {
                     title: {
-                        formatter: function (seriesName:any) {
+                        formatter: function (seriesName: any) {
                             return ''
                         }
                     }
@@ -661,25 +684,25 @@ public collection = {
         };
     }
 
-     /**
-   * Sale Location Map
-   */
-   options = {
-    layers: [
-      tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        id: "mapbox/light-v9",
-        tileSize: 512,
-        zoomOffset: 0,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      })
-    ],
-    zoom: 1.1,
-    center: latLng(28, 1.5)
-  };
-  layers = [
-    circle([41.9, 12.45], { color: "#435fe3", opacity: 0.5, weight: 10, fillColor: "#435fe3", fillOpacity: 1, radius: 400000, }),
-    circle([12.05, -61.75], { color: "#435fe3", opacity: 0.5, weight: 10, fillColor: "#435fe3", fillOpacity: 1, radius: 400000, }),
-    circle([1.3, 103.8], { color: "#435fe3", opacity: 0.5, weight: 10, fillColor: "#435fe3", fillOpacity: 1, radius: 400000, }),
-  ];
+    /**
+  * Sale Location Map
+  */
+    options = {
+        layers: [
+            tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                id: "mapbox/light-v9",
+                tileSize: 512,
+                zoomOffset: 0,
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            })
+        ],
+        zoom: 1.1,
+        center: latLng(28, 1.5)
+    };
+    layers = [
+        circle([41.9, 12.45], { color: "#435fe3", opacity: 0.5, weight: 10, fillColor: "#435fe3", fillOpacity: 1, radius: 400000, }),
+        circle([12.05, -61.75], { color: "#435fe3", opacity: 0.5, weight: 10, fillColor: "#435fe3", fillOpacity: 1, radius: 400000, }),
+        circle([1.3, 103.8], { color: "#435fe3", opacity: 0.5, weight: 10, fillColor: "#435fe3", fillOpacity: 1, radius: 400000, }),
+    ];
 
 }

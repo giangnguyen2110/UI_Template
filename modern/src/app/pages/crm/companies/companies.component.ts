@@ -1,11 +1,17 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
+// Rest Api Service
+import { restApiService } from "../../../core/services/rest-api.service";
+
+// Csv File Export
+import { ngxCsv } from 'ngx-csv/ngx-csv';
+
 // Sweet Alert
 import Swal from 'sweetalert2';
-
 
 import { addCompany, deleteCompany, fetchCrmCompanyData, updateCompany } from 'src/app/store/CRM/crm_action';
 import { selectCRMLoading, selectCompanyData } from 'src/app/store/CRM/crm_selector';
@@ -13,8 +19,6 @@ import { cloneDeep } from 'lodash';
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { PaginationService } from 'src/app/core/services/pagination.service';
-// Csv File Export
-import { ngxCsv } from 'ngx-csv/ngx-csv';
 
 @Component({
     selector: 'app-companies',
@@ -46,7 +50,6 @@ export class CompaniesComponent {
   constructor(private modalService: NgbModal, public service: PaginationService,
     private formBuilder: UntypedFormBuilder, private store: Store<{ data: RootReducerState }>,) {
   }
-
 
   ngOnInit(): void {
     /**
@@ -89,7 +92,6 @@ export class CompaniesComponent {
       this.allcompany = cloneDeep(data);
       this.company = this.service.changePage(this.allcompany)
     });
-
   }
 
   changePage() {
@@ -181,81 +183,9 @@ export class CompaniesComponent {
   }
 
   /**
-   * Confirmation mail model
+   * View Data Get
+   * @param content modal content
    */
-  deleteId: any;
-  confirm(content: any, id: any) {
-    this.deleteId = id;
-    this.modalService.open(content, { centered: true });
-  }
-
-  // Delete Data
-  deleteData(id: any) {
-    if (id) {
-      this.store.dispatch(deleteCompany({ id: this.deleteId.toString() }));
-    } else {
-      this.store.dispatch(deleteCompany({ id: this.checkedValGet.toString() }));
-    }
-    this.deleteId = '';
-    this.masterSelected = false;
-  }
-
-  /**
-   * Multiple Delete
-   */
-  checkedValGet: any[] = [];
-  deleteMultiple(content: any) {
-    var checkboxes: any = document.getElementsByName('checkAll');
-    var result
-    var checkedVal: any[] = [];
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        result = checkboxes[i].value;
-        checkedVal.push(result);
-      }
-    }
-    if (checkedVal.length > 0) {
-      this.modalService.open(content, { centered: true });
-    }
-    else {
-      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#239eba', });
-    }
-    this.checkedValGet = checkedVal;
-  }
-
-  // The master checkbox will check/ uncheck all items
-  checkUncheckAll(ev: any) {
-    this.company.forEach((x: { state: any; }) => x.state = ev.target.checked)
-    var checkedVal: any[] = [];
-    var result
-    for (var i = 0; i < this.company.length; i++) {
-      if (this.company[i].state == true) {
-        result = this.company[i];
-        checkedVal.push(result);
-      }
-    }
-    this.checkedValGet = checkedVal
-    checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
-  }
-
-  // Select Checkbox value Get
-  onCheckboxChange(e: any) {
-    var checkedVal: any[] = [];
-    var result
-    for (var i = 0; i < this.company.length; i++) {
-      if (this.company[i].state == true) {
-        result = this.company[i];
-        checkedVal.push(result);
-      }
-    }
-    this.checkedValGet = checkedVal
-    checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
-  }
-
-  /**
- * View Data Get
- * @param content modal content
- */
   viewDataGet(id: any) {
     this.econtent = this.allcompany[id];
     var img_data = document.querySelector('.company-details img') as HTMLImageElement;
@@ -300,6 +230,80 @@ export class CompaniesComponent {
 
   }
 
+
+  /**
+  * Delete model
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      this.store.dispatch(deleteCompany({ id: this.deleteId.toString() }));
+    } else {
+      this.store.dispatch(deleteCompany({ id: this.checkedValGet.toString() }));
+    }
+    this.deleteId = '';
+    this.masterSelected = false;
+  }
+
+  /**
+   * Multiple Delete
+   */
+  checkedValGet: any[] = [];
+  deleteMultiple(content: any) {
+    var checkboxes: any = document.getElementsByName('checkAll');
+    var result
+    var checkedVal: any[] = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        result = checkboxes[i].value;
+        checkedVal.push(result);
+      }
+    }
+    if (checkedVal.length > 0) {
+      this.modalService.open(content, { centered: true });
+    }
+    else {
+      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#299cdb', });
+    }
+    this.checkedValGet = checkedVal;
+  }
+
+  // The master checkbox will check/ uncheck all items
+  checkUncheckAll(ev: any) {
+    this.company.forEach((x: { state: any; }) => x.state = ev.target.checked)
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.company.length; i++) {
+      if (this.company[i].state == true) {
+        result = this.company[i];
+        checkedVal.push(result);
+      }
+    }
+    this.checkedValGet = checkedVal
+    checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+
+  }
+
+  // Select Checkbox value Get
+  onCheckboxChange(e: any) {
+    var checkedVal: any[] = [];
+    var result
+    for (var i = 0; i < this.company.length; i++) {
+      if (this.company[i].state == true) {
+        result = this.company[i];
+        checkedVal.push(result);
+      }
+    }
+    this.checkedValGet = checkedVal
+    checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
+  }
+
   // Csv File Export
   csvFileExport() {
     var orders = {
@@ -326,6 +330,5 @@ export class CompaniesComponent {
       this.sortField = this.sortField.replace(/D/g, '')
     }
   }
-
 
 }

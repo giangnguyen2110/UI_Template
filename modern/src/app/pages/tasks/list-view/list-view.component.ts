@@ -2,7 +2,7 @@ import { Component, QueryList, ViewChildren } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, Validators, UntypedFormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl, Validators } from '@angular/forms';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -60,7 +60,7 @@ export class ListViewComponent {
     private formBuilder: UntypedFormBuilder,
     private store: Store<{ data: RootReducerState }>,
     private datePipe: DatePipe) {
-    this.subItem = []
+      this.subItem = []
   }
 
   ngOnInit(): void {
@@ -81,7 +81,6 @@ export class ListViewComponent {
       project: ['', [Validators.required]],
       task: ['', [Validators.required]],
       creater: ['', [Validators.required]],
-      subItem: this.formBuilder.array([]),
       dueDate: ['', [Validators.required]],
       status: ['', [Validators.required]],
       priority: ['', [Validators.required]]
@@ -90,6 +89,7 @@ export class ListViewComponent {
     /**
      * fetches data
      */
+
     this.store.dispatch(fetchTaskListData());
     this.store.select(selectTaskLoading).subscribe((data) => {
       if (data == false) {
@@ -109,10 +109,10 @@ export class ListViewComponent {
 
   num: number = 0;
   option = {
-  startVal: this.num,
-  useEasing: true,
-  duration: 2,
-  decimalPlaces: 2,
+    startVal: this.num,
+    useEasing: true,
+    duration: 2,
+    decimalPlaces: 2,
   };
 
   changePage() {
@@ -152,7 +152,7 @@ export class ListViewComponent {
         const taskId = (this.alltasks.length + 1).toString();
         this.tasksForm.controls['taskId'].setValue(taskId);
         this.tasksForm.controls['ids'].setValue(taskId);
-        const newData = { subItem: this.subItem, ...this.tasksForm.value };
+        const newData = {subItem:this.subItem,...this.tasksForm.value};
         this.store.dispatch(addTask({ newData }));
         let timerInterval: any;
         Swal.fire({
@@ -174,30 +174,17 @@ export class ListViewComponent {
     this.submitted = true
   }
 
-  // The master checkbox will check/ uncheck all items
-  checkUncheckAll(ev: any) {
-    this.tasks.forEach((x: { state: any; }) => x.state = ev.target.checked)
-    var checkedVal: any[] = [];
-    var result
-    for (var i = 0; i < this.tasks.length; i++) {
-      if (this.tasks[i].state == true) {
-        result = this.tasks[i];
-        checkedVal.push(result);
+  onCheckboxChange(e: any) {
+    for (var i = 0; i < this.AssignedData.length; i++){
+      if (this.AssignedData[i].img == e.target.value) {
+        if (this.subItem && this.subItem.includes(this.AssignedData[i])) {
+          this.subItem = this.subItem.filter((item:any) => item !== this.AssignedData[i]);
+        } else {
+          this.subItem.push(this.AssignedData[i])
+        }
       }
     }
-    this.checkedValGet = checkedVal
-    checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
   }
-
-  // Get List of Checked Items
-  // getCheckedItemList() {
-  //   this.checkedList = [];
-  //   for (var i = 0; i < this.CustomersData.length; i++) {
-  //     if (this.CustomersData[i].isSelected)
-  //       this.checkedList.push(this.CustomersData[i]);
-  //   }
-  //   this.checkedList = JSON.stringify(this.checkedList);
-  // }
 
   /**
    * Open Edit modal
@@ -264,9 +251,10 @@ export class ListViewComponent {
     this.checkedValGet = checkedVal;
   }
 
-  onCheckboxChange(e: any) {
-    const checkArray: UntypedFormArray = this.tasksForm.get('subItem') as UntypedFormArray;
-    checkArray.push(new UntypedFormControl(e.target.value));
+
+  // The master checkbox will check/ uncheck all items
+  checkUncheckAll(ev: any) {
+    this.tasks.forEach((x: { state: any; }) => x.state = ev.target.checked)
     var checkedVal: any[] = [];
     var result
     for (var i = 0; i < this.tasks.length; i++) {

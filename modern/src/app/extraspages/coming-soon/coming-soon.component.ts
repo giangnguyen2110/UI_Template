@@ -26,6 +26,7 @@ export class ComingSoonComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    document.documentElement.setAttribute('data-sidebar-size', 'lg');
     // Date Set
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 1);

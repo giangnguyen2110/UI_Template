@@ -1,7 +1,6 @@
 <!-- Start Breadcrumbs -->
 <app-breadcrumbs title="Colored Links" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
-
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
@@ -10,7 +9,8 @@
                 <div class="flex-shrink-0">
                     <div class="form-check form-switch form-switch-right form-switch-md">
                         <label for="link-colors-showcode" class="form-label text-muted">Show Code</label>
-                        <input class="form-check-input code-switcher" type="checkbox" id="link-colors-showcode" (click)="ShowCode($event)">
+                        <input class="form-check-input code-switcher" (click)="ShowCode($event)" type="checkbox"
+                            id="link-colors-showcode">
                     </div>
                 </div>
             </div><!-- end card header -->
@@ -60,7 +60,8 @@
                 <div class="flex-shrink-0">
                     <div class="form-check form-switch form-switch-right form-switch-md">
                         <label for="link-utilities-showcode" class="form-label text-muted">Show Code</label>
-                        <input class="form-check-input code-switcher" type="checkbox" id="link-utilities-showcode" (click)="ShowCode($event)">
+                        <input class="form-check-input code-switcher" (click)="ShowCode($event)" type="checkbox"
+                            id="link-utilities-showcode">
                     </div>
                 </div>
             </div><!-- end card header -->
@@ -128,7 +129,8 @@
                 <div class="flex-shrink-0">
                     <div class="form-check form-switch form-switch-right form-switch-md">
                         <label for="link-opacity-showcode" class="form-label text-muted">Show Code</label>
-                        <input class="form-check-input code-switcher" type="checkbox" id="link-opacity-showcode" (click)="ShowCode($event)">
+                        <input class="form-check-input code-switcher" (click)="ShowCode($event)" type="checkbox"
+                            id="link-opacity-showcode">
                     </div>
                 </div>
             </div><!-- end card header -->
@@ -166,7 +168,8 @@
                 <div class="flex-shrink-0">
                     <div class="form-check form-switch form-switch-right form-switch-md">
                         <label for="link-hover-opacity-showcode" class="form-label text-muted">Show Code</label>
-                        <input class="form-check-input code-switcher" type="checkbox" id="link-hover-opacity-showcode" (click)="ShowCode($event)">
+                        <input class="form-check-input code-switcher" (click)="ShowCode($event)" type="checkbox"
+                            id="link-hover-opacity-showcode">
                     </div>
                 </div>
             </div><!-- end card header -->
@@ -177,7 +180,8 @@
                     <p><a class="link-opacity-25-hover" href="javascript:void(0)">Link hover opacity 25</a></p>
                     <p><a class="link-opacity-50-hover" href="javascript:void(0)">Link hover opacity 50</a></p>
                     <p><a class="link-opacity-75-hover" href="javascript:void(0)">Link hover opacity 75</a></p>
-                    <p class="mb-0"><a class="link-opacity-100-hover" href="javascript:void(0)">Link hover opacity 100</a></p>
+                    <p class="mb-0"><a class="link-opacity-100-hover" href="javascript:void(0)">Link hover opacity
+                            100</a></p>
                 </div>
                 <div class="d-none code-view">
                     <pre class="language-markup"
@@ -204,22 +208,31 @@
                 <div class="flex-shrink-0">
                     <div class="form-check form-switch form-switch-right form-switch-md">
                         <label for="underline-color-showcode" class="form-label text-muted">Show Code</label>
-                        <input class="form-check-input code-switcher" type="checkbox" id="underline-color-showcode" (click)="ShowCode($event)">
+                        <input class="form-check-input code-switcher" (click)="ShowCode($event)" type="checkbox"
+                            id="underline-color-showcode">
                     </div>
                 </div>
             </div><!-- end card header -->
             <div class="card-body">
                 <p class="text-muted">Change the underline’s color independent of the link text color.</p>
                 <div class="live-preview">
-                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-primary">Primary underline</a></p>
-                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-secondary">Secondary underline</a>
+                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-primary">Primary
+                            underline</a></p>
+                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-secondary">Secondary
+                            underline</a>
                     </p>
-                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-success">Success underline</a></p>
-                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-danger">Danger underline</a></p>
-                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-warning">Warning underline</a></p>
-                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-info">Info underline</a></p>
-                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-light">Light underline</a></p>
-                    <p class="mb-0"><a href="javascript:void(0)" class="text-decoration-underline link-underline-dark">Dark underline</a>
+                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-success">Success
+                            underline</a></p>
+                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-danger">Danger
+                            underline</a></p>
+                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-warning">Warning
+                            underline</a></p>
+                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-info">Info
+                            underline</a></p>
+                    <p><a href="javascript:void(0)" class="text-decoration-underline link-underline-light">Light
+                            underline</a></p>
+                    <p class="mb-0"><a href="javascript:void(0)"
+                            class="text-decoration-underline link-underline-dark">Dark underline</a>
                     </p>
                 </div>
                 <div class="d-none code-view">
@@ -250,7 +263,7 @@
                 <div class="flex-shrink-0">
                     <div class="form-check form-switch form-switch-right form-switch-md">
                         <label for="underline-opacity-showcode" class="form-label text-muted">Show Code</label>
-                        <input class="form-check-input code-switcher" type="checkbox" id="underline-opacity-showcode" (click)="ShowCode($event)">
+                        <input class="form-check-input code-switcher" type="checkbox" id="underline-opacity-showcode">
                     </div>
                 </div>
             </div><!-- end card header -->
@@ -296,7 +309,8 @@
                 <div class="flex-shrink-0">
                     <div class="form-check form-switch form-switch-right form-switch-md">
                         <label for="underline-offset-showcode" class="form-label text-muted">Show Code</label>
-                        <input class="form-check-input code-switcher" type="checkbox" id="underline-offset-showcode" (click)="ShowCode($event)">
+                        <input class="form-check-input code-switcher" (click)="ShowCode($event)" type="checkbox"
+                            id="underline-offset-showcode">
                     </div>
                 </div>
             </div><!-- end card header -->
@@ -305,9 +319,12 @@
                     units to automatically scale with the element’s current <code>font-size</code>.</p>
                 <div class="live-preview">
                     <p><a href="javascript:void(0)">Default link</a></p>
-                    <p><a class="text-decoration-underline link-offset-1" href="javascript:void(0)">Offset 1 link</a></p>
-                    <p><a class="text-decoration-underline link-offset-2" href="javascript:void(0)">Offset 2 link</a></p>
-                    <p class="mb-0"><a class="text-decoration-underline link-offset-3" href="javascript:void(0)">Offset 3 link</a></p>
+                    <p><a class="text-decoration-underline link-offset-1" href="javascript:void(0)">Offset 1 link</a>
+                    </p>
+                    <p><a class="text-decoration-underline link-offset-2" href="javascript:void(0)">Offset 2 link</a>
+                    </p>
+                    <p class="mb-0"><a class="text-decoration-underline link-offset-3" href="javascript:void(0)">Offset
+                            3 link</a></p>
                 </div>
                 <div class="d-none code-view">
                     <pre

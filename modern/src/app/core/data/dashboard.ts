@@ -728,7 +728,7 @@ const analyticTopPages = [
       users: '10.9',
   },
   {
-      page: "/minton/pages-29739",
+      page: "/steex/pages-29739",
       active: '10',
       users: '07.3',
   }

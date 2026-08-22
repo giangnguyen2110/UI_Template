@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Component pages
+import { CalendarComponent } from './calendar/calendar/calendar.component';
+import { MonthGridComponent } from './calendar/month-grid/month-grid.component';
 import { ChatComponent } from "./chat/chat.component";
 import { MailboxComponent } from "./mailbox/mailbox.component";
 import { WidgetsComponent } from "./widgets/widgets.component";
@@ -10,17 +12,11 @@ import { EmailEcommerceComponent } from "./email/email-ecommerce/email-ecommerce
 import { FileManagerComponent } from "./file-manager/file-manager.component";
 import { TodoComponent } from "./todo/todo.component";
 import { ApikeyComponent } from './apikey/apikey.component';
-import { MainCalendarComponent } from './calendar/main-calendar/main-calendar.component';
-import { MonthGridComponent } from './calendar/month-grid/month-grid.component';
 
 const routes: Routes = [
   {
     path: "calendar",
-    component: MainCalendarComponent
-  },
-  {
-    path: "month-grid",
-    component: MonthGridComponent
+    component: CalendarComponent
   },
   {
     path: "chat",
@@ -53,6 +49,10 @@ const routes: Routes = [
   {
     path: "apikey",
     component: ApikeyComponent
+  },
+  {
+    path: "month-grid",
+    component: MonthGridComponent
   },
   {
     path: 'jobs', loadChildren: () => import('./jobs/jobs.module').then(m => m.JobsModule)

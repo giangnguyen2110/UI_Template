@@ -51,7 +51,7 @@
                             <!--end tr-->
                         </thead>
                         <tbody class="list form-check-all">
-                            @for(data of rankingData; track $index){
+                            @for ( data of rankingData; track $index) {
                             <tr>
                                 <td class="ranking text-info fw-semibold">
                                     {{data.ranking}}
@@ -71,12 +71,12 @@
                                 <td class="item">{{data.item}}</td>
                                 <td class="floor-price">{{data.floor_price}}</td>
                             </tr>
-                        }
+                            }
                             <!--end tr-->
                         </tbody>
                     </table>
                     <!--end table-->
-                   
+
                 </div>
                 <div class="d-flex justify-content-end mt-3">
                     <!-- Pagination -->

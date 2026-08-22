@@ -30,10 +30,10 @@
                     <div class="modal-body p-4">
                         <form [formGroup]="formData" (ngSubmit)="saveEvent()" class="needs-validation" name="event-form" id="form-event" novalidate>
                             @if(isEditMode){
-                            <div class="text-end">
+                            <div class="text-end" s>
                                 <a href="javascript:void(0);" class="btn btn-sm btn-soft-primary" id="edit-event-btn" data-id="edit-event" (click)="showeditEvent()" role="button">Edit</a>
                             </div>
-                        }
+                            }
                             @if(editEvent){
                             <div class="event-details">
                                 <div class="d-flex mb-2">
@@ -52,9 +52,9 @@
                                     </div>
                                     <div class="flex-grow-1">
                                         @if(editEvent.end){
-                                            <h6 class="d-block fw-semibold mb-0">
-                                                <span id="event-timepicker1-tag"></span> {{editEvent.start | date: 'h:mm a'}} - {{editEvent.end | date:'h:mm a'}} <span id="event-timepicker2-tag"></span>
-                                            </h6>
+                                        <h6 class="d-block fw-semibold mb-0">
+                                            <span id="event-timepicker1-tag"></span> {{editEvent.start | date: 'h:mm a'}} - {{editEvent.end | date:'h:mm a'}} <span id="event-timepicker2-tag"></span>
+                                        </h6>
                                         }@else{
                                         <h6 class="d-block fw-semibold mb-0">
                                             <span id="event-timepicker1-tag"></span> - <span id="event-timepicker2-tag"></span>

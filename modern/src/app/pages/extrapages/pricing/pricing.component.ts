@@ -37,7 +37,6 @@ export class PricingComponent implements OnInit {
     this._fetchData();
   }
 
-
   // Chat Data Fetch
   private _fetchData() {
     this.MonthlyPlan = MonthlyPlan;

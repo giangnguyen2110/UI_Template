@@ -1,10 +1,11 @@
-import {Component, QueryList, ViewChildren, ViewChild} from '@angular/core';
+import { Component, QueryList, ViewChildren, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, Validators, UntypedFormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTable } from '@angular/material/table';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-
+// Todo Services
+import { restApiService } from "../../../core/services/rest-api.service";
 
 // Sweet Alert
 import Swal from 'sweetalert2';
@@ -40,12 +41,12 @@ export class TodoComponent {
   unassignedTasks!: Task[];
   todoList!: Todo[];
   submitted = false;
-  ListJsDatas:any;
+  ListJsDatas: any;
   todoForm!: UntypedFormGroup;
   AssignedData!: Assigned[];
   projectList!: project[];
-  term:any;
-  todoDatas:any;
+  term: any;
+  todoDatas: any;
   selectedCity: any;
   dataSource: any;
 
@@ -53,48 +54,48 @@ export class TodoComponent {
   projectForm!: UntypedFormGroup;
   subItem: any = [];
 
-  @ViewChild('dataTable')
-  table!: MatTable<Todo>;
-  displayedColumns: string[] = ['task', 'subItem', 'dueDate', 'status', 'priority', 'action'];
-
   constructor(private modalService: NgbModal, private formBuilder: UntypedFormBuilder, private service: PaginationService,
     private store: Store<{ data: RootReducerState }>) {
   }
+
+  @ViewChild('dataTable')
+  table!: MatTable<Todo>;
+  displayedColumns: string[] = ['task', 'subItem', 'dueDate', 'status', 'priority', 'action'];
 
   ngOnInit(): void {
     /**
      * Form Validation
      */
-     this.todoForm = this.formBuilder.group({
+    this.todoForm = this.formBuilder.group({
       _id: [''],
       title: ['', [Validators.required]],
       status: ['New', [Validators.required]],
       priority: ['', [Validators.required]],
       due_date: ['', [Validators.required]],
-      subItem: ['', [Validators.required]],
     });
 
-   // Project Data
-   this.projectList = Object.assign([], todoProject);
-   this.AssignedData = todoAssigned;
+    // Project Data
+    this.projectList = Object.assign([], todoProject);
+    this.AssignedData = todoAssigned;
 
-   // Todo Data Get
-   this.store.dispatch(fetchTodoListData());
-   this.store.select(selectTodoLoading).subscribe((data) => {
-     if (data == false) {
-       document.getElementById('elmLoader')?.classList.add('d-none');
-     }
-   });
+    // Todo Data Get
+    this.store.dispatch(fetchTodoListData());
+    this.store.select(selectTodoLoading).subscribe((data) => {
+      if (data == false) {
+        document.getElementById('elmLoader')?.classList.add('d-none');
+      }
+    });
 
-   this.store.select(selectTodoData).subscribe((data) => {
-     this.todoDatas = data;
-     this.dataSource = cloneDeep(data);
-   });
+    this.store.select(selectTodoData).subscribe((data) => {
+      this.todoDatas = data;
+      this.dataSource = cloneDeep(data);
+    });
+
 
     /**
      * Recent Validation
     */
-     this.projectForm = this.formBuilder.group({
+    this.projectForm = this.formBuilder.group({
       ids: [''],
       title: ['', [Validators.required]]
     });
@@ -152,14 +153,15 @@ export class TodoComponent {
   * Delete Model Open
   */
   deleteId: any;
-  confirm(content: any,id:any) {
+  confirm(content: any, id: any) {
     this.deleteId = id;
     this.modalService.open(content, { centered: true });
   }
 
   // Delete Data
-  deleteData(id:any) {    
-    document.getElementById('row-'+id)?.remove();   
+  deleteData(id: any) {
+    this.deleteId = id;
+    document.getElementById('row-' + id)?.remove();
   }
 
   /**
@@ -175,7 +177,7 @@ export class TodoComponent {
   /**
    * Form data get
    */
-   get form() {
+  get form() {
     return this.todoForm.controls;
   }
 
@@ -185,7 +187,7 @@ export class TodoComponent {
   saveTodo() {
     if (this.todoForm.valid) {
       if (this.todoForm.get('_id')?.value) {
-        const updatedData = { assigned_to: this.subItem, ...this.todoForm.value };
+        const updatedData = {assigned_to:this.subItem,...this.todoForm.value};
 
         this.store.dispatch(updateTodo({ updatedData }));
       } else {
@@ -222,6 +224,10 @@ export class TodoComponent {
     this.submitted = true
   }
 
+  selectAssignee(id: any) {
+    this.subItem.push(this.AssignedData[id])
+  }
+
   /**
    * Open modal
    * @param content modal content
@@ -241,23 +247,23 @@ export class TodoComponent {
   }
 
   // Location Filter
-  taskFilter(){
+  taskFilter() {
     var status = (document.getElementById("choices-select-status") as HTMLInputElement).value;
-    if(status){
-      this.todoDatas = this.dataSource.filter( (data:any) => {
+    if (status) {
+      this.todoDatas = this.dataSource.filter((data: any) => {
         return data.status === status;
       });
     }
-    else{
+    else {
       this.todoDatas = this.dataSource
     }
   }
 
   // Sort filter
-  sortField:any;
-  sortBy:any
-  SortFilter(){
-    this.sortField = (document.getElementById("choices-select-sortlist") as HTMLInputElement).value;    
+  sortField: any;
+  sortBy: any
+  SortFilter() {
+    this.sortField = (document.getElementById("choices-select-sortlist") as HTMLInputElement).value;
     if (this.sortField[0] == 'A') {
       this.sortBy = 'desc';
       this.sortField = this.sortField.replace(/A/g, '')
@@ -269,13 +275,13 @@ export class TodoComponent {
   }
 
   // Checked Selected
-   checkUncheckAll(e:any,id:any) {    
-    var checkboxes:any = e.target.closest('tr').querySelector('#todo'+id);
-    var status:any = e.target.closest('tr').querySelector('.status');
-    if(checkboxes.checked){
+  checkUncheckAll(e: any, id: any) {
+    var checkboxes: any = e.target.closest('tr').querySelector('#todo' + id);
+    var status: any = e.target.closest('tr').querySelector('.status');
+    if (checkboxes.checked) {
       status.innerHTML = '<span class="badge text-uppercase bg-success-subtle text-success">Completed</span>'
     }
-    else{
+    else {
       status.innerHTML = '<span class="badge text-uppercase bg-secondary-subtle text-secondary">Inprogress</span>'
     }
   }
@@ -300,30 +306,31 @@ export class TodoComponent {
   /**
   * Save user
   */
-   saveRecent() {
+  saveRecent() {
     if (this.projectForm.valid) {
-        const id = "4";
-        const title = this.projectForm.get('title')?.value;
-        const coll = "newCollapsed";
-        const subItem = [
-          {
-            version: 'v1.0.0',
-            color: 'danger'
-          }
-        ];
-        this.projectList.push({
-          id,
-          title,
-          coll,
-          subItem
-        });
-        this.modalService.dismissAll();
+      const id = "4";
+      const title = this.projectForm.get('title')?.value;
+      const coll = "newCollapsed";
+      const subItem = [
+        {
+          version: 'v1.0.0',
+          color: 'danger'
+        }
+      ];
+      this.projectList.push({
+        id,
+        title,
+        coll,
+        subItem
+      });
+      this.modalService.dismissAll();
     }
     setTimeout(() => {
       this.projectForm.reset();
     }, 2000);
     this.submitted = true
   }
-  
 
+
+  setassign() { }
 }

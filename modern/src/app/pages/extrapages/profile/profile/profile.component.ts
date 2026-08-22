@@ -1,9 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
 import { TokenStorageService } from '../../../../core/services/token-storage.service';
 
-import { document, projectList } from 'src/app/core/data';
+
 import { projectListModel, documentModel } from './profile.model';
+import { document, projectList } from 'src/app/core/data';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 
 @Component({
@@ -16,7 +22,7 @@ import { PaginationService } from 'src/app/core/services/pagination.service';
 /**
  * Profile Component
  */
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
   projectList!: projectListModel[];
   document!: documentModel[];
@@ -24,22 +30,22 @@ export class ProfileComponent implements OnInit {
   allprojectList: any;
 
 
-  constructor( private TokenStorageService: TokenStorageService, public service: PaginationService) {
+  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private TokenStorageService: TokenStorageService, public service: PaginationService) {
 
   }
 
   ngOnInit(): void {
-    this.userData =  this.TokenStorageService.getUser();  
+    this.userData = this.TokenStorageService.getUser();
     /**
      * Fetches the data
      */
-     this.fetchData();
+    this.fetchData();
   }
 
   /**
    * Fetches the data
    */
-   private fetchData() {
+  private fetchData() {
     this.document = document;
     this.projectList = projectList;
     this.allprojectList = projectList;
@@ -49,16 +55,37 @@ export class ProfileComponent implements OnInit {
    * Swiper setting
    */
   config = {
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    arrows: false
+    slidesPerView: 3,
+    initialSlide: 0,
+    spaceBetween: 25,
+    breakpoints: {
+      768: {
+        slidesPerView: 2,
+      },
+      1200: {
+        slidesPerView: 3,
+      }
+    }
   };
 
+  // Pagination
+  changePage() {
+    this.projectList = this.service.changePage(this.allprojectList)
+  }
 
-   
-  
+  /**
+   * Confirmation mail model
+   */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
 
-   
+  // Delete Data
+  deleteData(id: any) {
+    this.document.slice(id, 1)
+    this.modalService.dismissAll()
+  }
+
 }

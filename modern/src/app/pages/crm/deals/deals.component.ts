@@ -23,8 +23,9 @@ export class DealsComponent implements OnInit {
   submitted = false;
   deals: any;
 
+  constructor(private modalService: NgbModal,private store: Store<{ data: RootReducerState }>) { }
 
-  constructor(private modalService: NgbModal, private store: Store<{ data: RootReducerState }>) { }
+
 
   ngOnInit(): void {
     /**
@@ -35,22 +36,21 @@ export class DealsComponent implements OnInit {
       { label: 'Deals', active: true }
     ];
 
-       /**
- * fetches data
- */
-       this.store.dispatch(fetchCrmDealData());
-       this.store.select(selectCRMLoading).subscribe((data) => {
-         if (data == false) {
-           document.getElementById('elmLoader')?.classList.add('d-none');
-         }
-       });
-   
-       this.store.select(selectDealData).subscribe((data) => {
-         this.deals = data;
-         // this.alldeals = cloneDeep(data);
-         // this.company = this.service.changePage(this.allcompany)
-       });
-       
+        /**
+     * fetches data
+     */
+        this.store.dispatch(fetchCrmDealData());
+        this.store.select(selectCRMLoading).subscribe((data) => {
+          if (data == false) {
+            document.getElementById('elmLoader')?.classList.add('d-none');
+          }
+        });
+    
+        this.store.select(selectDealData).subscribe((data) => {
+          this.deals = data;
+          // this.alldeals = cloneDeep(data);
+          // this.company = this.service.changePage(this.allcompany)
+        });
   }
 
   /**

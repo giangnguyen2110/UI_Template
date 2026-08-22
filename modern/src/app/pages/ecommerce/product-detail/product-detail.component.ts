@@ -1,12 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+// Products Services
+import { restApiService } from "../../../core/services/rest-api.service";
 
-// Swiper Slider
+import { productList } from 'src/app/core/data/product';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
-
-import { productModel, productList } from '../product.model';
-
+import { fetchProductListData } from 'src/app/store/Ecommerce/ecommerce_action';
+import { selectProductData } from 'src/app/store/Ecommerce/ecommerce_selector';
+import { RootReducerState } from 'src/app/store';
+import { Store } from '@ngrx/store';
+import { productListModel } from 'src/app/store/Ecommerce/ecommerce_model';
 
 @Component({
     selector: 'app-product-detail',
@@ -22,24 +26,18 @@ export class ProductDetailComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
-  public productDetail!: productModel[];
-  isImage;
+  public productDetail!: productListModel[];
+  // isImage;
   defaultSelect = 2;
   readonly = false;
+  content?: any;
   products: any;
 
   @ViewChild('slickModal') slickModal!: SlickCarouselComponent;
 
-  constructor(private route: ActivatedRoute, private modalService: NgbModal) {
+  constructor(public restApiService: restApiService) {
 
-    this.products = this.route.snapshot.params
-
-    this.route.params.subscribe(params =>
-      this.productDetail = productList.filter(function (product) {
-        return product.id == parseInt(params['id'])
-      })
-    );
-    this.isImage = this.productDetail[0].images[0];
+    this.productDetail = productList;
   }
 
   ngOnInit(): void {
@@ -53,8 +51,8 @@ export class ProductDetailComponent implements OnInit {
   }
 
   /**
- * Swiper setting
- */
+   * Swiper setting
+   */
   config = {
     infinite: true,
     slidesToShow: 1,
@@ -83,5 +81,4 @@ export class ProductDetailComponent implements OnInit {
     event.target.closest('.swiperlist').classList.add('swiper-slide-thumb-active')
     this.slickModal.slickGoTo(id)
   }
-
 }

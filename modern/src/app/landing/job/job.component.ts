@@ -10,13 +10,15 @@ export class JobComponent implements OnInit {
 
   currentSection = 'home';
   public isCollapsed = true;
-  
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-      scrollTo(section: string, offset: number = 0) {
+  
+
+  scrollTo(section: string, offset: number = 0) {
     const element = document.getElementById(section);
     if (element) {
       const topPos = element.getBoundingClientRect().top + window.pageYOffset + offset;
@@ -28,8 +30,6 @@ export class JobComponent implements OnInit {
 
     this.onSectionChange(section);
   }
-
-
   /**
 * Section changed method
 * @param sectionId specify the current sectionID

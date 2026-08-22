@@ -7,7 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 // Ui Switch
 import { UiSwitchModule } from 'ngx-ui-switch';
 // FlatPicker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 // Color Picker
 import { ColorPickerDirective } from 'ngx-color-picker';
 // Mask
@@ -24,10 +24,10 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 // Auto Complate
-import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Component pages
@@ -77,23 +77,23 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     UiSwitchModule,
     FlatpickrDirective,
     ColorPickerDirective,
-    NgxMaskDirective, 
+    NgxMaskDirective,
     NgxMaskPipe,
     NgxSliderModule,
     CdkStepperModule,
     NgStepperModule,
     CKEditorModule,
-    DropzoneModule,
     AutocompleteLibModule,
     FormRoutingModule,
-    SharedModule
+    SharedModule,
+    DropzoneModule,
   ],
-  providers:[
+  providers: [
     provideNgxMask(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class FormModule { 
+export class FormModule {
   constructor() {
     defineElement();
   }

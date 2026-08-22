@@ -1,7 +1,8 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 
-
-import {creatorsModel, creatorsListModel} from './creators.model';
+import { creatorsModel, creatorsListModel } from './creators.model';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { creatorsData, creatorsListData } from 'src/app/core/data';
 
@@ -33,31 +34,29 @@ export class CreatorsComponent {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'NFT Marketplace' },
       { label: 'Creators', active: true }
     ];
 
-     // FetchData
-     this.creatorsData = creatorsData;
-     this.creatorsListData = creatorsListData;
-     this.allcreatorsListData = creatorsListData;
+      // FetchData
+      this.creatorsData = creatorsData;
+      this.creatorsListData = creatorsListData;
+      this.allcreatorsListData = creatorsListData;
   }
 
+  // Pagination
+  changePage() {
+    this.creatorsListData = this.service.changePage(this.allcreatorsListData)
+  }
 
-    // Pagination
-    changePage() {
-      this.creatorsListData = this.service.changePage(this.allcreatorsListData)
-    }
-  
-    // Search Data
-    performSearch(): void {
-      this.searchResults = creatorsListData.filter((item: any) => {
-        return (
-          item.title.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-      });
-      this.creatorsListData = this.service.changePage(this.searchResults)
-    }
-    
+  // Search Data
+  performSearch(): void {
+    this.searchResults = creatorsListData.filter((item: any) => {
+      return (
+        item.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    });
+    this.creatorsListData = this.service.changePage(this.searchResults)
+  }
 }

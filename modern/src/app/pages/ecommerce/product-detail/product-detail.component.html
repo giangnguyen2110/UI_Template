@@ -8,32 +8,25 @@
             <div class="card-body">
                 <div class="row gx-lg-5">
                     <div class="col-xl-4 col-md-8 mx-auto">
-                        @if(products._id){
-                            <div class="product-img-slider sticky-side-div">
-                                <div class="swiper-slide">
-                                    <img src="assets/images/products/{{products.image}}" alt="" class="img-fluid d-block" />
-                                </div>
-                            </div>
-                        }@else{
                         <div class="product-img-slider sticky-side-div" dir="ltr">
                             <ngx-slick-carousel [config]="config" class="carousel" #slickModal="slick-carousel" (afterChange)="slickChange($event)">
-                                @for(i of productDetail[0].images; track $index){
+                                @for(i of productDetail[0].images;track $index){
                                 <div class="swiper-slide" ngxSlickItem>
                                     <img src="{{i}}" alt="" class="img-fluid d-block" />
                                 </div>
-                            }
+                                }
                             </ngx-slick-carousel>
                             <ngx-slick-carousel class="carousel swiper product-nav-slider mt-2" [config]="slidesConfig">
-                                @for(i of productDetail[0].images; track $index){
+                                @for(i of productDetail[0].images;track $index){
                                 <div ngxSlickItem class="swiper-slide swiperlist me-2" (click)="slidePreview($index,$event)">
                                     <div class="nav-slide-item">
                                         <img src="{{i}}" alt="" class="img-fluid d-block">
                                     </div>
                                 </div>
-                            }
+                                }
                             </ngx-slick-carousel>
                         </div>
-                        }
+
                     </div>
                     <!-- end col -->
 
@@ -41,50 +34,27 @@
                         <div class="mt-xl-0 mt-5">
                             <div class="d-flex">
                                 <div class="flex-grow-1">
-                                    @if(products._id){
-                                    <h4>{{products.name}}</h4>
-                                    }@else{
                                     <h4>{{productDetail[0].name}}</h4>
-                                    }
                                     <div class="hstack gap-3 flex-wrap">
-                                        @if(products._id){
-                                            <div><a href="javascript:void(0);"
-                                                class="text-primary d-block">{{products.category}}</a></div>
-                                        }@else{
-                                        <div><a href="javascript:void(0);"
-                                                class="text-primary d-block">{{productDetail[0].category}}</a></div>
-                                       
-                                        }
+                                        <div><a href="javascript:void(0);" class="text-primary d-block">{{productDetail[0].category}}</a></div>
                                         <div class="vr"></div>
-                                        <div class="text-muted">Seller : <span
-                                                class="text-body fw-medium">{{productDetail[0].seller}}</span></div>
+                                        <div class="text-muted">Seller : <span class="text-body fw-medium">{{productDetail[0].seller}}</span></div>
                                         <div class="vr"></div>
-                                        <div class="text-muted">Published : <span
-                                                class="text-body fw-medium">{{productDetail[0].published}}</span></div>
+                                        <div class="text-muted">Published : <span class="text-body fw-medium">{{productDetail[0].published}}</span></div>
                                     </div>
                                 </div>
                                 <div class="flex-shrink-0">
                                     <div>
-                                        <a routerLink="/ecommerce/add-product" class="btn btn-light"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i
-                                                class="ri-pencil-fill align-bottom"></i></a>
+                                        <a routerLink="/ecommerce/add-product" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="ri-pencil-fill align-bottom"></i></a>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="d-flex flex-wrap gap-2 align-items-center mt-3">
                                 <div class="text-muted fs-16">
-                                    <ngb-rating [rate]="productDetail[0].ratings" class="mdi mdi-star text-warning"
-                                        [max]=4></ngb-rating>
+                                    <!-- <ngb-rating [rate]="this.content?.rating" class="mdi mdi-star text-warning" [max]=4></ngb-rating> -->
                                 </div>
-                                @if(products._id){
-                                    <div class="text-muted">( {{products.rating}}k Customer Review )
-                                    </div>
-                                }@else{
-                                <div class="text-muted">( {{productDetail[0].reviewCount}}k
-                                    Customer Review )</div>
-                               
-                            }
+                                <div class="text-muted">( {{products?.rating}}k Customer Review )</div>
                             </div>
 
                             <div class="row mt-4">
@@ -98,11 +68,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <p class="text-muted mb-1">Price :</p>
-                                                @if(products._id){
-                                                    <h5 class="mb-0">${{products.price}}</h5>
-                                                }@else{
-                                                <h5 class="mb-0">${{productDetail[0].price}}</h5>
-                                                }
+                                                <h5 class=" mb-0">${{productDetail[0].price}}</h5>
                                             </div>
                                         </div>
                                     </div>
@@ -134,11 +100,7 @@
                                             </div>
                                             <div class="flex-grow-1">
                                                 <p class="text-muted mb-1">Available Stocks :</p>
-                                                @if(products._id){
-                                                <h5 class="mb-0">{{products.stock}}</h5>
-                                                }@else{
                                                 <h5 class="mb-0">{{productDetail[0].stocks}}</h5>
-                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -165,19 +127,16 @@
                             <div class="row">
                                 <div class="col-xl-6">
                                     <div class=" mt-4">
-                                        <h5 class="fs-15">Sizes :</h5>
+                                        <h5 class="fs-14">Sizes :</h5>
                                         <div class="d-flex flex-wrap gap-2">
-                                            @for(i of productDetail[0].sizes; track $index){
+                                            @for (i of productDetail[0].sizes; track $index) {
                                             <div ngbTooltip="{{i.key}}" placement="top">
-                                                @if(i.key == 'Out of Stock'){
-                                                <input type="radio" class="btn-check" name="productsize-radio"
-                                                    id="productsize-radio1" disabled>
+                                                @if (i.key == 'Out of Stock') {
+                                                <input type="radio" class="btn-check" name="productsize-radio" id="productsize-radio1" disabled>
                                                 }
-                                                <label
-                                                    class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center"
-                                                    for="productsize-radio1">{{i.value}}</label>
+                                                <label class="btn btn-soft-primary avatar-xs rounded-circle p-0 d-flex justify-content-center align-items-center" for="productsize-radio1">{{i.value}}</label>
                                             </div>
-                                        }
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -185,23 +144,21 @@
 
                                 <div class="col-xl-6">
                                     <div class=" mt-4">
-                                        <h5 class="fs-15">Colors :</h5>
+                                        <h5 class="fs-14">Colors :</h5>
                                         <div class="d-flex flex-wrap gap-2">
-                                            @for(i of productDetail[0].colors; track $index){
+                                            @for (i of productDetail[0].colors; track $index) {
                                             <div ngbTooltip="{{i.key}}" placement="top">
                                                 @if(i.key == 'Out of Stock'){
-                                                    <button type="button"
-                                                    class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 {{i.value}}" disabled>
+                                                <button type="button" class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 {{i.value}}" disabled>
                                                     <i class="ri-checkbox-blank-circle-fill"></i>
                                                 </button>
-                                                }@else{
-                                                <button type="button"
-                                                    class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 {{i.value}}">
+                                                }@else(){
+                                                <button type="button" class="btn avatar-xs p-0 d-flex align-items-center justify-content-center border rounded-circle fs-20 {{i.value}}">
                                                     <i class="ri-checkbox-blank-circle-fill"></i>
                                                 </button>
                                                 }
                                             </div>
-                                        }
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -210,47 +167,43 @@
                             <!-- end row -->
 
                             <div class="mt-4 text-muted">
-                                <h5 class="fs-15">Description :</h5>
+                                <h5 class="fs-14">Description :</h5>
                                 <p>{{productDetail[0].description}}</p>
                             </div>
 
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="mt-3">
-                                        <h5 class="fs-15">Features :</h5>
-                                        @for(i of productDetail[0].features; track $index){
+                                        <h5 class="fs-14">Features :</h5>
                                         <ul class="list-unstyled">
-                                            <li class="py-1"><i
-                                                    class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                {{i}}</li>
+                                            @for (i of productDetail[0].features; track $index) {
+                                            <li class="py-1"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> {{i}}</li>
+                                            }
                                         </ul>
-                                    }
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mt-3">
-                                        <h5 class="fs-15">Services :</h5>
-                                        @for(i of productDetail[0].services; track $index){
+                                        <h5 class="fs-14">Services :</h5>
                                         <ul class="list-unstyled product-desc-list">
+                                            @for (i of productDetail[0].services; track $index) {
                                             <li class="py-1">{{i}}</li>
+                                            }
                                         </ul>
-                                    }
                                     </div>
                                 </div>
                             </div>
 
 
                             <div class="product-content mt-5">
-                                <h5 class="fs-15 mb-3">Product Description :</h5>
-                                <ul ngbNav #customNav="ngbNav" [activeId]="1"
-                                    class="nav nav-tabs nav-tabs-custom nav-success" role="tablist">
+                                <h5 class="fs-14 mb-3">Product Description :</h5>
+                                <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav nav-tabs nav-tabs-custom nav-success" role="tablist">
                                     <li [ngbNavItem]="1" class="nav-item">
                                         <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
                                             Specification
                                         </a>
                                         <ng-template ngbNavContent>
-                                            <div class="tab-pane fade show active" id="nav-speci" role="tabpanel"
-                                                aria-labelledby="nav-speci-tab">
+                                            <div class="tab-pane fade show active" id="nav-speci" role="tabpanel" aria-labelledby="nav-speci-tab">
                                                 <div class="table-responsive">
                                                     <table class="table mb-0">
                                                         <tbody>
@@ -286,25 +239,13 @@
                                         </a>
                                         <ng-template ngbNavContent>
                                             <div>
-                                                <h5 class="mb-3">Tommy Hilfiger Sweatshirt for Men (Pink)</h5>
-                                                <p>Tommy Hilfiger men striped pink sweatshirt. Crafted with cotton.
-                                                    Material composition is 100% organic cotton. This is one of the
-                                                    world’s leading designer lifestyle brands and is internationally
-                                                    recognized for celebrating the essence of classic American cool
-                                                    style, featuring preppy with a twist designs.</p>
+                                                <h5 class="font-size-16 mb-3">Tommy Hilfiger Sweatshirt for Men (Pink)</h5>
+                                                <p>Tommy Hilfiger men striped pink sweatshirt. Crafted with cotton. Material composition is 100% organic cotton. This is one of the world’s leading designer lifestyle brands and is internationally recognized for celebrating the essence of classic American cool style, featuring preppy with a twist designs.</p>
                                                 <div>
-                                                    <p class="mb-2"><i
-                                                            class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                        Machine Wash</p>
-                                                    <p class="mb-2"><i
-                                                            class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                        Fit Type: Regular</p>
-                                                    <p class="mb-2"><i
-                                                            class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                        100% Cotton</p>
-                                                    <p class="mb-0"><i
-                                                            class="mdi mdi-circle-medium me-1 text-muted align-middle"></i>
-                                                        Long sleeve</p>
+                                                    <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Machine Wash</p>
+                                                    <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Fit Type: Regular</p>
+                                                    <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> 100% Cotton</p>
+                                                    <p class="mb-0"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Long sleeve</p>
                                                 </div>
                                             </div>
                                         </ng-template>
@@ -328,9 +269,7 @@
                                                 <div class="bg-light px-3 py-2 rounded-2 mb-2">
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-grow-1">
-                                                            <ngb-rating [rate]="productDetail[0].ratings"
-                                                                class="fs-16 align-middle text-warning"
-                                                                [max]=4></ngb-rating>
+                                                            <ngb-rating [rate]="productDetail[0].ratings" class="fs-16 align-middle text-warning" [max]=4></ngb-rating>
                                                         </div>
                                                         <div class="flex-shrink-0">
                                                             <h6 class="mb-0">{{productDetail[0].ratings}} out of 5</h6>
@@ -338,9 +277,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-center">
-                                                    <div class="text-muted">Total <span
-                                                            class="fw-medium">{{productDetail[0].reviewCount}}k</span>
-                                                        reviews</div>
+                                                    <div class="text-muted">Total <span class="fw-medium">{{productDetail[0].reviewCount}}k</span> reviews</div>
                                                 </div>
                                             </div>
 
@@ -354,9 +291,7 @@
                                                     <div class="col">
                                                         <div class="p-2">
                                                             <div class="progress animated-progess progress-sm">
-                                                                <div class="progress-bar bg-success" role="progressbar"
-                                                                    style="width: 50.16%" aria-valuenow="50.16"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-success" role="progressbar" style="width: 50.16%" aria-valuenow="50.16" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -377,9 +312,7 @@
                                                     <div class="col">
                                                         <div class="p-2">
                                                             <div class="progress animated-progess progress-sm">
-                                                                <div class="progress-bar bg-success" role="progressbar"
-                                                                    style="width: 19.32%" aria-valuenow="19.32"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-success" role="progressbar" style="width: 19.32%" aria-valuenow="19.32" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -400,9 +333,7 @@
                                                     <div class="col">
                                                         <div class="p-2">
                                                             <div class="progress animated-progess progress-sm">
-                                                                <div class="progress-bar bg-success" role="progressbar"
-                                                                    style="width: 18.12%" aria-valuenow="18.12"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-success" role="progressbar" style="width: 18.12%" aria-valuenow="18.12" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -423,9 +354,7 @@
                                                     <div class="col">
                                                         <div class="p-2">
                                                             <div class="progress animated-progess progress-sm">
-                                                                <div class="progress-bar bg-warning" role="progressbar"
-                                                                    style="width: 7.42%" aria-valuenow="7.42"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 7.42%" aria-valuenow="7.42" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -447,9 +376,7 @@
                                                     <div class="col">
                                                         <div class="p-2">
                                                             <div class="progress animated-progess progress-sm">
-                                                                <div class="progress-bar bg-danger" role="progressbar"
-                                                                    style="width: 4.98%" aria-valuenow="4.98"
-                                                                    aria-valuemin="0" aria-valuemax="100"></div>
+                                                                <div class="progress-bar bg-danger" role="progressbar" style="width: 4.98%" aria-valuenow="4.98" aria-valuemin="0" aria-valuemax="100"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -468,7 +395,7 @@
                                     <div class="col-lg-8">
                                         <div class="ps-lg-4">
                                             <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <h5 class="fs-15">Reviews: </h5>
+                                                <h5 class="fs-14">Reviews: </h5>
                                             </div>
 
                                             <ngx-simplebar class="me-lg-n3 pe-lg-4" style="max-height: 225px;">
@@ -477,34 +404,29 @@
                                                         <div class="border border-dashed rounded p-3">
                                                             <div class="d-flex align-items-start mb-3">
                                                                 <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0"><i
-                                                                            class="mdi mdi-star"></i> 4.2</div>
+                                                                    <div class="badge rounded-pill bg-success mb-0"><i class="mdi mdi-star"></i> 4.2</div>
                                                                     <div class="vr"></div>
                                                                     <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">Superb sweatshirt. I
-                                                                            loved it. It is for winter.</p>
+                                                                        <p class="text-muted mb-0">Superb sweatshirt. I loved it. It is for winter.</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
 
                                                             <div class="d-flex flex-grow-1 gap-2 mb-3">
                                                                 <a href="javascript:void(0);" class="d-block">
-                                                                    <img src="assets/images/small/img-12.jpg" alt=""
-                                                                        class="avatar-sm rounded object-fit-cover">
+                                                                    <img src="assets/images/small/img-12.jpg" alt="" class="avatar-sm rounded object-fit-cover material-shadow">
                                                                 </a>
                                                                 <a href="javascript:void(0);" class="d-block">
-                                                                    <img src="assets/images/small/img-11.jpg" alt=""
-                                                                        class="avatar-sm rounded object-fit-cover">
+                                                                    <img src="assets/images/small/img-11.jpg" alt="" class="avatar-sm rounded object-fit-cover material-shadow">
                                                                 </a>
                                                                 <a href="javascript:void(0);" class="d-block">
-                                                                    <img src="assets/images/small/img-10.jpg" alt=""
-                                                                        class="avatar-sm rounded object-fit-cover">
+                                                                    <img src="assets/images/small/img-10.jpg" alt="" class="avatar-sm rounded object-fit-cover material-shadow">
                                                                 </a>
                                                             </div>
 
                                                             <div class="d-flex align-items-end">
                                                                 <div class="flex-grow-1">
-                                                                    <h5 class="fs-15 mb-0">Henry</h5>
+                                                                    <h5 class="fs-14 mb-0">Henry</h5>
                                                                 </div>
 
                                                                 <div class="flex-shrink-0">
@@ -517,12 +439,10 @@
                                                         <div class="border border-dashed rounded p-3">
                                                             <div class="d-flex align-items-start mb-3">
                                                                 <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0"><i
-                                                                            class="mdi mdi-star"></i> 4.0</div>
+                                                                    <div class="badge rounded-pill bg-success mb-0"><i class="mdi mdi-star"></i> 4.0</div>
                                                                     <div class="vr"></div>
                                                                     <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">Great at this price,
-                                                                            Product quality and look is awesome.</p>
+                                                                        <p class="text-muted mb-0">Great at this price, Product quality and look is awesome.</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -542,12 +462,10 @@
                                                         <div class="border border-dashed rounded p-3">
                                                             <div class="d-flex align-items-start mb-3">
                                                                 <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0"><i
-                                                                            class="mdi mdi-star"></i> 4.2</div>
+                                                                    <div class="badge rounded-pill bg-success mb-0"><i class="mdi mdi-star"></i> 4.2</div>
                                                                     <div class="vr"></div>
                                                                     <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">Good product. I am so
-                                                                            happy.</p>
+                                                                        <p class="text-muted mb-0">Good product. I am so happy.</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -567,12 +485,10 @@
                                                         <div class="border border-dashed rounded p-3">
                                                             <div class="d-flex align-items-start mb-3">
                                                                 <div class="hstack gap-3">
-                                                                    <div class="badge rounded-pill bg-success mb-0"><i
-                                                                            class="mdi mdi-star"></i> 4.1</div>
+                                                                    <div class="badge rounded-pill bg-success mb-0"><i class="mdi mdi-star"></i> 4.1</div>
                                                                     <div class="vr"></div>
                                                                     <div class="flex-grow-1">
-                                                                        <p class="text-muted mb-0">Nice Product, Good
-                                                                            Quality.</p>
+                                                                        <p class="text-muted mb-0">Nice Product, Good Quality.</p>
                                                                     </div>
                                                                 </div>
                                                             </div>

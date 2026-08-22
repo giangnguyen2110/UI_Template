@@ -5,16 +5,13 @@ import { NgbDropdownModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // FlatPicker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 
 // Simplebar
 import { SimplebarAngularModule } from 'simplebar-angular';
 
-// Ng Search 
-import { NgPipesModule } from 'ngx-pipes';
-
 // Load Icon
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Component pages
@@ -24,25 +21,32 @@ import { BasicComponent } from './basic/basic.component';
 import { GridjsComponent } from './gridjs/gridjs.component';
 import { ListjsComponent } from './listjs/listjs.component';
 
+// Ng Search 
+import { NgPipesModule } from 'ngx-pipes';
 
+// Sorting page
+import { NgbdListSortableHeader } from './listjs/listjs-sortable.directive'
 
-@NgModule({ declarations: [
-        BasicComponent,
-        GridjsComponent,
-        ListjsComponent
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgbDropdownModule,
-        NgbPaginationModule,
-        NgbTypeaheadModule,
-        FlatpickrDirective,
-        TablesRoutingModule,
-        SharedModule,
-        SimplebarAngularModule,
-        NgPipesModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
-export class TablesModule { 
+@NgModule({
+  declarations: [
+    BasicComponent,
+    GridjsComponent,
+    ListjsComponent,
+    NgbdListSortableHeader
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbDropdownModule,
+    NgbPaginationModule,
+    NgbTypeaheadModule,
+    FlatpickrDirective,
+    TablesRoutingModule,
+    SharedModule,
+    SimplebarAngularModule,
+    NgPipesModule], providers: [provideHttpClient(withInterceptorsFromDi())]
+})
+export class TablesModule {
   constructor() {
     defineElement();
   }

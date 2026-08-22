@@ -4,8 +4,8 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { initialState } from 'src/app/store/layouts/layout-reducers';
-import { getLayoutMode, getLayoutPosition, getLayoutTheme, getLayoutWith, getPreloader, getSidebarColor, getSidebarImage, getSidebarSize, getSidebarView, getSidebarVisibilitye, getTopbarColor } from 'src/app/store/layouts/layout-selector';
-import { changeDataPreloader, changeLayoutPosition, changeLayoutWidth, changeMode, changeSidebarColor, changeSidebarImage, changeSidebarSize, changeSidebarView, changeSidebarVisibility, changeTopbar, changelayout } from 'src/app/store/layouts/layout-action';
+import { getBackgroundImage, getLayoutMode, getLayoutPosition, getLayoutTheme, getLayoutWith, getPreloader, getSidebarColor, getSidebarImage, getSidebarSize, getSidebarView, getSidebarVisibilitye, getTheme, getThemeColor, getTopbarColor } from 'src/app/store/layouts/layout-selector';
+import { changeBackgrounImage, changeDataPreloader, changeLayoutPosition, changeLayoutWidth, changeMode, changeSidebarColor, changeSidebarImage, changeSidebarSize, changeSidebarView, changeSidebarVisibility, changeTheme, changeThemeColor, changeTopbar, changelayout } from 'src/app/store/layouts/layout-action';
 
 @Component({
     selector: 'app-rightsidebar',
@@ -20,6 +20,8 @@ import { changeDataPreloader, changeLayoutPosition, changeLayoutWidth, changeMod
 export class RightsidebarComponent implements OnInit {
 
   layout: string | undefined;
+  theme: string | undefined;
+  themecolor: string | undefined;
   mode: string | undefined;
   width: string | undefined;
   position: string | undefined;
@@ -32,11 +34,12 @@ export class RightsidebarComponent implements OnInit {
   sidebarVisibility: any;
   preLoader: any;
   grd: any;
+  backgroundImage: any
 
   @ViewChild('filtetcontent') filtetcontent!: TemplateRef<any>;
   @Output() settingsButtonClicked = new EventEmitter();
 
-  constructor(private eventService: EventService, private offcanvasService: NgbOffcanvas,private store: Store<RootReducerState>) { }
+  constructor(private eventService: EventService, private offcanvasService: NgbOffcanvas, private store: Store<RootReducerState>) { }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -47,6 +50,8 @@ export class RightsidebarComponent implements OnInit {
 
     this.store.select('layout').subscribe((data) => {
       this.layout = data.LAYOUT;
+      this.theme = data.LAYOUT_THEME;
+      this.themecolor = data.LAYOUT_THEME_COLOR;
       this.mode = data.LAYOUT_MODE;
       this.width = data.LAYOUT_WIDTH;
       this.position = data.LAYOUT_POSITION;
@@ -132,6 +137,59 @@ export class RightsidebarComponent implements OnInit {
     }, 100);
   }
 
+  // Show Profile Sidebar
+  showSidebarProgile(event: any) {
+    if (event.target.checked == true) {
+      document.documentElement.setAttribute("data-sidebar-user-show", "")
+    } else {
+      document.documentElement.removeAttribute("data-sidebar-user-show")
+    }
+  }
+
+  // Theme Change
+  changelayoutTheme(theme: string) {
+    this.theme = theme;
+    this.store.dispatch(changeTheme({ theme }));
+    this.store.select(getTheme).subscribe((theme) => {
+      document.documentElement.setAttribute('data-theme', theme)
+    })
+
+    if (theme == 'saas') {
+      const layout = 'horizontal';
+      this.store.dispatch(changelayout({ layout }));
+    } else if (theme == 'creative') {
+      const layout = 'twocolumn';
+      this.store.dispatch(changelayout({ layout }));
+    } else {
+      const layout = 'vertical';
+      this.store.dispatch(changelayout({ layout }));
+    }
+
+    if (theme == 'galaxy') {
+      this.store.dispatch(changeMode({ mode: 'dark' }));
+    } else {
+      this.store.dispatch(changeMode({ mode: 'light' }));
+    }
+
+    if (theme == 'modern') {
+      this.store.dispatch(changeSidebarSize({ sidebarSize: 'sm-hover' }));
+    } else {
+      this.store.dispatch(changeSidebarSize({ sidebarSize: 'lg' }));
+    }
+
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
+  }
+
+  // Change Theme Color
+  changeColor(themecolor: string) {
+    this.themecolor = themecolor;
+    this.store.dispatch(changeThemeColor({ themecolor }));
+    this.store.select(getThemeColor).subscribe((themecolor) => {
+      document.documentElement.setAttribute('data-theme-colors', themecolor)
+    })
+  }
 
   // Mode Change
   changeLayoutMode(mode: string) {
@@ -173,7 +231,7 @@ export class RightsidebarComponent implements OnInit {
     this.store.select(getLayoutPosition).subscribe((position) => {
       document.documentElement.setAttribute('data-layout-position', position);
     })
-   
+
   }
 
   // Topbar Change
@@ -218,6 +276,15 @@ export class RightsidebarComponent implements OnInit {
     this.store.dispatch(changeSidebarImage({ sidebarImage }));
     this.store.select(getSidebarImage).subscribe((image) => {
       document.documentElement.setAttribute('data-sidebar-image', image);
+    })
+  }
+
+  // Sidebar Image Change
+  changeBackgroundImage(backgroundImage: string) {
+    this.backgroundImage = backgroundImage;
+    this.store.dispatch(changeBackgrounImage({ backgroundImage }));
+    this.store.select(getBackgroundImage).subscribe((image) => {
+      document.documentElement.setAttribute('data-body-image', image);
     })
   }
 

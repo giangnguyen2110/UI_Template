@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card mt-n4 mx-n4">
-            <div class="bg-secondary-subtle">
+            <div class="bg-warning-subtle">
                 <div class="card-body px-4 pb-4">
                     <div class="row mb-3">
                         <div class="col-md">
@@ -31,13 +31,13 @@
                         </div>
                         <div class="col-md-auto">
                             <div class="hstack gap-1 flex-wrap mt-4 mt-md-0">
-                                <button type="button" class="btn btn-icon btn-sm btn-ghost-warning fs-16">
+                                <button type="button" class="btn btn-icon btn-sm btn-ghost-warning fs-16 material-shadow-none">
                                     <i class="ri-star-fill"></i>
                                 </button>
-                                <button type="button" class="btn btn-icon btn-sm btn-ghost-primary fs-16">
+                                <button type="button" class="btn btn-icon btn-sm btn-ghost-primary fs-16 material-shadow-none">
                                     <i class="ri-share-line"></i>
                                 </button>
-                                <button type="button" class="btn btn-icon btn-sm btn-ghost-primary fs-16">
+                                <button type="button" class="btn btn-icon btn-sm btn-ghost-primary fs-16 material-shadow-none">
                                     <i class="ri-flag-line"></i>
                                 </button>
                             </div>
@@ -71,7 +71,7 @@
                 <div>
                     <h5 class="mb-3">Responsibilities of Product Designer</h5>
                     <p class="text-muted">Provided below are the responsibilities of a Product Designer:</p>
-                    <ul class="text-muted vstack gap-2">
+                    <ul class="text-muted vstack gap-2 ul-padd">
                         <li>
                             To visualise and create drawings and design concepts to determine the best product.
                         </li>
@@ -94,7 +94,7 @@
 
                 <div>
                     <h5 class="mb-3">Skill & Experience</h5>
-                    <ul class="text-muted vstack gap-2">
+                    <ul class="text-muted vstack gap-2 ul-padd">
                         <li>
                             Communication skills
                         <li>
@@ -126,20 +126,16 @@
                         <h5 class="mb-0">Share this job:</h5>
                     </li>
                     <li class="list-inline-item">
-                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-info"><i
-                                class="ri-facebook-line"></i></a>
+                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-info"><i class="ri-facebook-line"></i></a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-success"><i
-                                class="ri-whatsapp-line"></i></a>
+                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-success"><i class="ri-whatsapp-line"></i></a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-secondary"><i
-                                class="ri-twitter-line"></i></a>
+                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-secondary"><i class="ri-twitter-line"></i></a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-danger"><i
-                                class="ri-mail-line"></i></a>
+                        <a href="javascript:void(0);" class="btn btn-icon btn-soft-danger"><i class="ri-mail-line"></i></a>
                     </li>
                 </ul>
             </div>
@@ -152,17 +148,15 @@
                         <h5 class="mb-0">Related Jobs</h5>
                     </div>
                     <div class="flex-shrink-0">
-                        <a href="javascript:void(0);" class="btn btn-ghost-success">View All <i
-                                class="ri-arrow-right-line ms-1 align-bottom"></i></a>
+                        <a href="javascript:void(0);" class="btn btn-ghost-success material-shadow-none">View All <i class="ri-arrow-right-line ms-1 align-bottom"></i></a>
                     </div>
                 </div>
             </div>
-            @for(job of relatedjobs; track $index){
+            @for ( job of relatedjobs; track $index) {
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-icon btn-soft-primary float-end" data-bs-toggle="button"
-                            aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
+                        <button type="button" class="btn btn-icon btn-soft-primary float-end" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                         <div class="avatar-sm mb-4">
                             <div class="avatar-title bg-secondary-subtle rounded">
                                 <img src="{{job.logo}}" alt="" class="avatar-xxs" />
@@ -186,14 +180,14 @@
                         <p class="text-muted">{{job.content}}</p>
 
                         <div class="hstack gap-2">
-                            @for(type of job.type; track $index){
+                            @for ( type of job.type; track $index) {
                             <span class="badge" [ngClass]="{ 'bg-success-subtle text-success': type === 'Full Time', 
                                 'bg-primary-subtle text-primary': type === 'Freelance', 
                                 'bg-danger-subtle text-danger': type === 'Urgent', 
                                 'bg-warning-subtle text-warning': type === 'Part Time', 
                                 'bg-info-subtle text-info': type === 'Private'}">{{type}}
                             </span>
-                        }
+                            }
                         </div>
 
                         <div class="mt-4 hstack gap-2">
@@ -203,7 +197,7 @@
                     </div>
                 </div>
             </div>
-        }
+            }
         </div>
     </div>
     <div class="col-xxl-3">
@@ -257,8 +251,7 @@
                 </div>
                 <div class="mt-4 pt-2 hstack gap-2">
                     <a href="javascript:void(0);" class="btn btn-primary w-100">Apply Now</a>
-                    <a href="javascript:void(0);" class="btn btn-soft-danger btn-icon custom-toggle flex-shrink-0"
-                        data-bs-toggle="button">
+                    <a href="javascript:void(0);" class="btn btn-soft-danger btn-icon custom-toggle flex-shrink-0" data-bs-toggle="button">
                         <span class="icon-on"><i class="ri-bookmark-line align-bottom"></i></span>
                         <span class="icon-off"><i class="ri-bookmark-3-fill align-bottom"></i></span>
                     </a>
@@ -335,10 +328,7 @@
             </div>
             <div class="card-body">
                 <div class="ratio ratio-4x3">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1861227.8137337372!2d51.654904288504646!3d24.33915646928631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e48dfb1ab12bd%3A0x33d32f56c0080aa7!2sUnited%20Arab%20Emirates!5e0!3m2!1sen!2sin!4v1664257145153!5m2!1sen!2sin"
-                        height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1861227.8137337372!2d51.654904288504646!3d24.33915646928631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e48dfb1ab12bd%3A0x33d32f56c0080aa7!2sUnited%20Arab%20Emirates!5e0!3m2!1sen!2sin!4v1664257145153!5m2!1sen!2sin" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>

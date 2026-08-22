@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { candidatelist } from 'src/app/core/data';
 
-
 @Component({
     selector: 'app-grid-view',
     templateUrl: './grid-view.component.html',
@@ -18,6 +17,7 @@ export class GridViewComponent implements OnInit {
   allgridList: any;
   searchResults: any;
   searchTerm: any;
+
 
   constructor(public service: PaginationService) {
     this.service.pageSize = 20
@@ -40,7 +40,6 @@ export class GridViewComponent implements OnInit {
 
   }
 
-  
   ngOnDestroy() {
     this.service.pageSize = 8
   }

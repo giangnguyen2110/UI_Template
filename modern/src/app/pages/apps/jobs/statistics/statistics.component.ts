@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DealTypeCharts, simpleDonutChart } from 'src/app/shared/chartColor';
 
 @Component({
     selector: 'app-statistics',
@@ -26,8 +27,8 @@ export class StatisticsComponent implements OnInit {
     this._interviewChart('["--vz-success" , "--vz-transparent"]');
     this._rejectedChart('["--vz-danger", "--vz-transparent"]');
     this._visitorChart('["--vz-primary", "--vz-secondary", "--vz-success", "--vz-info","--vz-warning", "--vz-danger"]');
-    this._simpleDonutChart('["--vz-primary", "--vz-secondary", "--vz-warning"]');
-    this._DealTypeChart('["--vz-info", "--vz-secondary"]');
+    this._simpleDonutChart('["--vz-primary", "--vz-warning", "--vz-info"]');
+    this._DealTypeChart('["--vz-primary", "--vz-info"]');
     this._splineAreaChart('["--vz-success","--vz-primary", "--vz-info", "--vz-danger"]');
   }
 
@@ -370,6 +371,17 @@ export class StatisticsComponent implements OnInit {
       },
       colors: colors
     };
+    const attributeToMonitor = 'data-theme';
+
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+      this._simpleDonutChart(simpleDonutChart(currentTheme));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: [attributeToMonitor]
+    });
   }
 
   /**
@@ -426,6 +438,17 @@ export class StatisticsComponent implements OnInit {
         categories: ['2016', '2017', '2018', '2019', '2020', '2021']
       }
     };
+    const attributeToMonitor = 'data-theme';
+
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+      this._DealTypeChart(DealTypeCharts(currentTheme));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: [attributeToMonitor]
+    });
   }
 
   /**

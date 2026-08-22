@@ -24,7 +24,7 @@ export class BoxplotComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Apexcharts' },
       { label: 'Boxplot Charts', active: true }
     ];
@@ -36,35 +36,35 @@ export class BoxplotComponent implements OnInit {
   }
 
   // Chart Colors Set
-  private getChartColorsArray(colors:any) {
+  private getChartColorsArray(colors: any) {
     colors = JSON.parse(colors);
-    return colors.map(function (value:any) {
+    return colors.map(function (value: any) {
       var newValue = value.replace(" ", "");
       if (newValue.indexOf(",") === -1) {
         var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-            if (color) {
-            color = color.replace(" ", "");
-            return color;
-            }
-            else return newValue;;
-        } else {
-            var val = value.split(',');
-            if (val.length == 2) {
-                var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-                rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
-                return rgbaColor;
-            } else {
-                return newValue;
-            }
+        if (color) {
+          color = color.replace(" ", "");
+          return color;
         }
+        else return newValue;;
+      } else {
+        var val = value.split(',');
+        if (val.length == 2) {
+          var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+          rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+          return rgbaColor;
+        } else {
+          return newValue;
+        }
+      }
     });
   }
 
   /**
  * Basic Box Chart
  */
-   private _basicBoxChart(colors:any) {
-    colors = this.getChartColorsArray(colors);    
+  private _basicBoxChart(colors: any) {
+    colors = this.getChartColorsArray(colors);
     this.basicBoxChart = {
       series: [
         {
@@ -125,13 +125,13 @@ export class BoxplotComponent implements OnInit {
       },
 
     };
-   }
+  }
 
-   /**
-  * Boxplot with Scatter Chart
-  */
-  private _scatterBoxChart(colors:any) {
-  colors = this.getChartColorsArray(colors);    
+  /**
+ * Boxplot with Scatter Chart
+ */
+  private _scatterBoxChart(colors: any) {
+    colors = this.getChartColorsArray(colors);
     this.scatterBoxChart = {
       series: [
         {
@@ -230,66 +230,67 @@ export class BoxplotComponent implements OnInit {
   /**
   * Boxplot with Horizontal Chart
   */
-   private _horizontalBoxChart(colors:any) {
-    colors = this.getChartColorsArray(colors);    
-      this.horizontalBoxChart = {
-        series: [
-          {
-              data: [
-                  {
-                      x: 'Category A',
-                      y: [54, 66, 69, 75, 88]
-                  },
-                  {
-                      x: 'Category B',
-                      y: [43, 65, 69, 76, 81]
-                  },
-                  {
-                      x: 'Category C',
-                      y: [31, 39, 45, 51, 59]
-                  },
-                  {
-                      x: 'Category D',
-                      y: [39, 46, 55, 65, 71]
-                  },
-                  {
-                      x: 'Category E',
-                      y: [29, 31, 35, 39, 44]
-                  },
-                  {
-                      x: 'Category F',
-                      y: [41, 49, 58, 61, 67]
-                  },
-                  {
-                      x: 'Category G',
-                      y: [54, 59, 66, 71, 88]
-                  }
-              ]
-          }
-        ],
-        chart: {
-          type: 'boxPlot',
-          height: 350,
-          toolbar: {
-              show: false
-          }
+  private _horizontalBoxChart(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.horizontalBoxChart = {
+      series: [
+        {
+          data: [
+            {
+              x: 'Category A',
+              y: [54, 66, 69, 75, 88]
+            },
+            {
+              x: 'Category B',
+              y: [43, 65, 69, 76, 81]
+            },
+            {
+              x: 'Category C',
+              y: [31, 39, 45, 51, 59]
+            },
+            {
+              x: 'Category D',
+              y: [39, 46, 55, 65, 71]
+            },
+            {
+              x: 'Category E',
+              y: [29, 31, 35, 39, 44]
+            },
+            {
+              x: 'Category F',
+              y: [41, 49, 58, 61, 67]
+            },
+            {
+              x: 'Category G',
+              y: [54, 59, 66, 71, 88]
+            }
+          ]
+        }
+      ],
+      chart: {
+        type: 'boxPlot',
+        height: 350,
+        toolbar: {
+          show: false
+        }
       },
       plotOptions: {
-          bar: {
-              horizontal: true,
-              barHeight: '50%'
-          },
-          boxPlot: {
-              colors: {
-                  upper: colors[0],
-                  lower: colors[1]
-              }
+        bar: {
+          horizontal: true,
+          barHeight: '50%'
+        },
+        boxPlot: {
+          colors: {
+            upper: colors[0],
+            lower: colors[1]
           }
+        }
       },
+
       stroke: {
-          colors: [colors[2]]
+        colors: [colors[0]]
       },
-      };
-}
+    };
+  }
 
 }

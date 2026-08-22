@@ -15,6 +15,7 @@ export class CoverComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    document.documentElement.setAttribute('data-sidebar-size', 'lg');
   }
 
 }

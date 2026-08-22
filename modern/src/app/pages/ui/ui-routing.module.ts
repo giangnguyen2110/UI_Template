@@ -102,10 +102,6 @@ const routes: Routes = [
         component: ListComponent
     },
     {
-        path: 'links',
-        component: LinksComponent
-    },
-    {
         path: 'general',
         component: GeneralComponent
     },
@@ -116,6 +112,10 @@ const routes: Routes = [
     {
         path: 'utilities',
         component: UtilitiesComponent
+    },
+    {
+        path: 'links',
+        component: LinksComponent
     },
 ];
 

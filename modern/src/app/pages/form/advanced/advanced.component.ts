@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { chatMessagesData } from 'src/app/core/data/advancedForm';
+
 @Component({
     selector: 'app-advanced',
     templateUrl: './advanced.component.html',
@@ -28,11 +28,11 @@ export class AdvancedComponent implements OnInit {
     ];
   }
 
-   /**
+  /**
    * Default Select2
    */
-    selectedAccount = 'This is a placeholder';
-    public Default = chatMessagesData;
+   selectedAccount = 'This is a placeholder';
+   public Default = chatMessagesData;
 
   keyword = 'name';
   // Fruit Data

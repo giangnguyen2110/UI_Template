@@ -1,0 +1,1 @@
+var e={API_URL:"https://api-node.themesbrand.website/",headerToken:{Authorization:`Bearer ${sessionStorage.getItem("token")}`},AUTH_API:"https://api-node.themesbrand.website/auth/",product:"apps/product",productDelete:"apps/product/",order:"apps/order",orderId:"apps/order/",customer:"apps/customer"};export{e as a};

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-orders-details',
@@ -16,20 +15,31 @@ export class OrdersDetailsComponent implements OnInit {
 
   // bread crumb items
   breadCrumbItems!: Array<{}>;
+  submitted = false;
 
-  constructor() {
+  constructor(private modalService: NgbModal) {
 
-   }
+  }
 
   ngOnInit(): void {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Ecommerce' },
       { label: 'Order Details', active: true }
     ];
 
+  }
+
+ /**
+   * Open modal
+   * @param content modal content
+   */
+
+  openModal(content: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'md', centered: true });
   }
 
 }

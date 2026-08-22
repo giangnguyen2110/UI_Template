@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
+
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { addFile, addFolder, deleteFile, deleteFolder, fetchFileData, fetchFolderData, updateFile, updateFolder } from 'src/app/store/File Manager/filemanager_action';
@@ -9,7 +12,6 @@ import { selectFileData, selectFileLoading, selectFolderData } from 'src/app/sto
 import { cloneDeep } from 'lodash';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { FolderModel } from 'src/app/store/File Manager/filemanager_model';
-
 
 @Component({
     selector: 'app-file-manager',
@@ -22,7 +24,6 @@ import { FolderModel } from 'src/app/store/File Manager/filemanager_model';
  * FileManager Component
  */
 export class FileManagerComponent implements OnInit {
-
 
   folderData!: FolderModel[];
   submitted = false;
@@ -41,7 +42,6 @@ export class FileManagerComponent implements OnInit {
     private store: Store<{ data: RootReducerState }>) {
     this.service.pageSize = 5
   }
-
 
   ngOnInit(): void {
 
@@ -68,23 +68,47 @@ export class FileManagerComponent implements OnInit {
 
     this._simpleDonutChart('["--vz-info", "--vz-danger", "--vz-primary", "--vz-success"]');
 
-     // Compose Model Hide/Show
-     var isShowMenu = false;
-     document.querySelectorAll(".file-menu-btn").forEach(function (item) {
-       item.addEventListener("click", function (e) {
-         e.preventDefault();
-         isShowMenu = true;
-         document.getElementById('menusidebar')?.classList.add("menubar-show");
-       });
-     });
-     document.querySelector('.chat-wrapper')?.addEventListener('click', function () {
-       if (document.querySelector(".file-manager-sidebar")?.classList.contains('menubar-show')) {
-         if (!isShowMenu) {
-           document.querySelector(".file-manager-sidebar")?.classList.remove("menubar-show");
-         }
-         isShowMenu = false;
-       }
-     });
+    // Compose Model Hide/Show
+    var isShowMenu = false;
+    document.querySelectorAll(".file-menu-btn").forEach(function (item) {
+      item.addEventListener("click", function (e) {
+        e.preventDefault();
+        isShowMenu = true;
+        document.getElementById('menusidebar')?.classList.add("menubar-show");
+      });
+    });
+    document.querySelector('.chat-wrapper')?.addEventListener('click', function () {
+      if (document.querySelector(".file-manager-sidebar")?.classList.contains('menubar-show')) {
+        if (!isShowMenu) {
+          document.querySelector(".file-manager-sidebar")?.classList.remove("menubar-show");
+        }
+        isShowMenu = false;
+      }
+    });
+  }
+
+  // Chat Data Fetch
+  private _fetchData() {
+
+    this.store.dispatch(fetchFolderData());
+    this.store.dispatch(fetchFileData());
+    this.store.select(selectFileLoading).subscribe((data) => {
+      if (data == false) {
+        document.getElementById('elmLoader')?.classList.add('d-none');
+      }
+    });
+
+    this.store.select(selectFolderData).subscribe((data) => {
+      this.folderData = data;
+      this.allfolder = cloneDeep(data);
+      this.folderData = this.service.changePage(this.allfolder)
+    });
+
+    this.store.select(selectFileData).subscribe((data) => {
+      this.files = data;
+      this.recentData = cloneDeep(data);
+      this.files = this.service.changePage(this.recentData)
+    });
   }
 
   // Chart Colors Set
@@ -112,28 +136,7 @@ export class FileManagerComponent implements OnInit {
     });
   }
 
-  // Chat Data Fetch
-  private _fetchData() {
-    this.store.dispatch(fetchFolderData());
-    this.store.dispatch(fetchFileData());
-    this.store.select(selectFileLoading).subscribe((data) => {
-      if (data == false) {
-        document.getElementById('elmLoader')?.classList.add('d-none');
-      }
-    });
 
-    this.store.select(selectFolderData).subscribe((data) => {
-      this.folderData = data;
-      this.allfolder = cloneDeep(data);
-      this.folderData = this.service.changePage(this.allfolder)
-    });
-
-    this.store.select(selectFileData).subscribe((data) => {
-      this.files = data;
-      this.recentData = cloneDeep(data);
-      this.files = this.service.changePage(this.recentData)
-    });
-  }
 
   /**
    * Open modal
@@ -190,7 +193,6 @@ export class FileManagerComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 
-
   // Delete Data
   deleteData(id: any) {
     this.store.dispatch(deleteFolder({ id: this.deleteId.toString() }));
@@ -200,7 +202,6 @@ export class FileManagerComponent implements OnInit {
   deleteRecentData(id: any) {
     this.store.dispatch(deleteFile({ id: this.deleteId.toString() }));
   }
-
 
   // Folder Filter
   folderSearch() {
@@ -276,14 +277,13 @@ export class FileManagerComponent implements OnInit {
     this.submitted = true
   }
 
-  EditFolderModal(content:any,id:any) {
+  EditFolderModal(content: any, id: any) {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
     this.folderList = this.allfolder[id];
     this.folderForm.controls['title'].setValue(this.folderList.title);
     this.folderForm.controls['id'].setValue(this.folderList.id);
   }
-
   /**
    * Open modal
    * @param content modal content
@@ -319,6 +319,7 @@ export class FileManagerComponent implements OnInit {
       },
       colors: colors
     };
+
   }
 
   /**
@@ -355,7 +356,6 @@ export class FileManagerComponent implements OnInit {
   */
   changeProducts(e: any, name: any) {
 
-
     (document.getElementById("folder-list") as HTMLElement).style.display = "none";
     this.files.subscribe((x: any) => {
       this.recentData = x.filter((product: any) => {
@@ -364,7 +364,6 @@ export class FileManagerComponent implements OnInit {
     });
   }
 
-  
   // Pagination
   changePage() {
     this.files = this.service.changePage(this.recentData)

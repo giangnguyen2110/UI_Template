@@ -20,18 +20,17 @@
             <div class="card-body p-4">
                 <div class="text-center">
                     <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                        <img src="assets/images/users/avatar-1.jpg"
-                            class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                        <img src="assets/images/users/avatar-1.jpg" class="rounded-circle avatar-xl img-thumbnail user-profile-image material-shadow" alt="user-profile-image">
                         <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                             <input id="profile-img-file-input" type="file" class="profile-img-file-input">
                             <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                <span class="avatar-title rounded-circle bg-light text-body">
+                                <span class="avatar-title rounded-circle bg-light text-body material-shadow">
                                     <i class="ri-camera-fill"></i>
                                 </span>
                             </label>
                         </div>
                     </div>
-                    <h5 class="fs-17 mb-1">{{userData.first_name}}
+                    <h5 class="fs-16 mb-1">{{userData.first_name}}
                         {{userData.last_name}}</h5>
                     <p class="text-muted mb-0">{{userData.designation}}</p>
                 </div>
@@ -44,13 +43,11 @@
                         <h5 class="card-title mb-0">Complete Your Profile</h5>
                     </div>
                     <div class="flex-shrink-0">
-                        <a href="javascript:void(0);" class="badge bg-light text-primary fs-12"><i
-                                class="ri-edit-box-line align-bottom me-1"></i> Edit</a>
+                        <a href="javascript:void(0);" class="badge bg-light text-primary fs-12"><i class="ri-edit-box-line align-bottom me-1"></i> Edit</a>
                     </div>
                 </div>
                 <div class="progress animated-progess custom-progress progress-label">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="30"
-                        aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
                         <div class="label">30%</div>
                     </div>
                 </div>
@@ -63,29 +60,26 @@
                         <h5 class="card-title mb-0">Portfolio</h5>
                     </div>
                     <div class="flex-shrink-0">
-                        <a href="javascript:void(0);" class="badge bg-light text-primary fs-12"><i
-                                class="ri-add-fill align-bottom me-1"></i> Add</a>
+                        <a href="javascript:void(0);" class="badge bg-light text-primary fs-12"><i class="ri-add-fill align-bottom me-1"></i> Add</a>
                     </div>
                 </div>
-                @for(data of userData.portfolio; track $index){
+                @for ( data of userData.portfolio; track $index) {
                 <div class="mb-3 d-flex">
                     <div class="avatar-xs d-block flex-shrink-0 me-3">
-                        <span class="avatar-title rounded-circle fs-16 bg-{{data.bg_color}} text-light">
+                        <span class="avatar-title rounded-circle fs-16 bg-{{data.bg_color}} material-shadow">
                             <i class="ri-{{data.logo}}-fill"></i>
                         </span>
                     </div>
-                    <input type="email" class="form-control" id="gitUsername" placeholder="Username"
-                        value="{{data.link}}">
+                    <input type="email" class="form-control" id="gitUsername" placeholder="Username" value="{{data.link}}">
                 </div>
-            }
+                }
             </div>
         </div><!--end card-->
     </div><!--end col-->
     <div class="col-xxl-9">
         <div class="card mt-xxl-n5">
             <div class="card-header">
-                <ul ngbNav #customNav="ngbNav" [activeId]="1"
-                    class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
+                <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
                     <li [ngbNavItem]="1" class="nav-item">
                         <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
                             <i class="fas fa-home"></i>
@@ -97,37 +91,31 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="firstnameInput" class="form-label">First Name</label>
-                                            <input type="text" class="form-control" id="firstnameInput"
-                                                placeholder="Enter your firstname" value="{{userData.first_name}}">
+                                            <input type="text" class="form-control" id="firstnameInput" placeholder="Enter your firstname" value="{{userData.first_name}}">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="lastnameInput" class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" id="lastnameInput"
-                                                placeholder="Enter your lastname" value="{{userData.last_name}}">
+                                            <input type="text" class="form-control" id="lastnameInput" placeholder="Enter your lastname" value="{{userData.last_name}}">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="phonenumberInput" class="form-label">Phone Number</label>
-                                            <input type="text" class="form-control" id="phonenumberInput"
-                                                placeholder="Enter your phone number" value="{{userData.phone}}">
+                                            <input type="text" class="form-control" id="phonenumberInput" placeholder="Enter your phone number" value="{{userData.phone}}">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="emailInput" class="form-label">Email Address</label>
-                                            <input type="email" class="form-control" id="emailInput"
-                                                placeholder="Enter your email" value="{{userData.email}}">
+                                            <input type="email" class="form-control" id="emailInput" placeholder="Enter your email" value="{{userData.email}}">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="JoiningdatInput" class="form-label">Joining Date</label>
-                                            <input class="form-control flatpickr-input" type="text"
-                                                placeholder="Select date" mwlFlatpickr [altInput]="true"
-                                                [convertModelValue]="true" value="{{userData.joining_date}}">
+                                            <input class="form-control flatpickr-input" type="text" placeholder="Select date" mwlFlatpickr [altInput]="true" [convertModelValue]="true" value="{{userData.joining_date}}">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-12">
@@ -139,46 +127,37 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="designationInput" class="form-label">Designation</label>
-                                            <input type="text" class="form-control" id="designationInput"
-                                                placeholder="Designation" value="{{userData.designation}}">
+                                            <input type="text" class="form-control" id="designationInput" placeholder="Designation" value="{{userData.designation}}">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="websiteInput1" class="form-label">Website</label>
-                                            <input type="text" class="form-control" id="websiteInput1"
-                                                placeholder="www.example.com" value="{{userData.website}}" />
+                                            <input type="text" class="form-control" id="websiteInput1" placeholder="www.example.com" value="{{userData.website}}" />
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="cityInput" class="form-label">City</label>
-                                            <input type="text" class="form-control" id="cityInput" placeholder="City"
-                                                value="{{userData.city}}" />
+                                            <input type="text" class="form-control" id="cityInput" placeholder="City" value="{{userData.city}}" />
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="countryInput" class="form-label">Country</label>
-                                            <input type="text" class="form-control" id="countryInput"
-                                                placeholder="Country" value="{{userData.country}}" />
+                                            <input type="text" class="form-control" id="countryInput" placeholder="Country" value="{{userData.country}}" />
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-4">
                                         <div class="mb-3">
                                             <label for="zipcodeInput" class="form-label">Zip Code</label>
-                                            <input type="text" class="form-control" minlength="5" maxlength="6"
-                                                id="zipcodeInput" placeholder="Enter zipcode"
-                                                value="{{userData.zipcode}}">
+                                            <input type="text" class="form-control" minlength="5" maxlength="6" id="zipcodeInput" placeholder="Enter zipcode" value="{{userData.zipcode}}">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3 pb-2">
-                                            <label for="exampleFormControlTextarea"
-                                                class="form-label">Description</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea"
-                                                placeholder="Enter your description"
-                                                rows="3">{{userData.description}}</textarea>
+                                            <label for="exampleFormControlTextarea" class="form-label">Description</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea" placeholder="Enter your description" rows="3">{{userData.description}}</textarea>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-12">
@@ -202,29 +181,25 @@
                                     <div class="col-lg-4">
                                         <div>
                                             <label for="oldpasswordInput" class="form-label">Old Password*</label>
-                                            <input type="password" class="form-control" id="oldpasswordInput"
-                                                placeholder="Enter current password">
+                                            <input type="password" class="form-control" id="oldpasswordInput" placeholder="Enter current password">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-4">
                                         <div>
                                             <label for="newpasswordInput" class="form-label">New Password*</label>
-                                            <input type="password" class="form-control" id="newpasswordInput"
-                                                placeholder="Enter new password">
+                                            <input type="password" class="form-control" id="newpasswordInput" placeholder="Enter new password">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-4">
                                         <div>
                                             <label for="confirmpasswordInput" class="form-label">Confirm
                                                 Password*</label>
-                                            <input type="password" class="form-control" id="confirmpasswordInput"
-                                                placeholder="Confirm password">
+                                            <input type="password" class="form-control" id="confirmpasswordInput" placeholder="Confirm password">
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <a href="javascript:void(0);"
-                                                class="link-primary text-decoration-underline">Forgot Password ?</a>
+                                            <a href="javascript:void(0);" class="link-primary text-decoration-underline">Forgot Password ?</a>
                                         </div>
                                     </div><!--end col-->
                                     <div class="col-lg-12">
@@ -242,7 +217,7 @@
                             </div>
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 material-shadow">
                                         <i class="ri-smartphone-line"></i>
                                     </div>
                                 </div>
@@ -256,7 +231,7 @@
                             </div>
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 material-shadow">
                                         <i class="ri-tablet-line"></i>
                                     </div>
                                 </div>
@@ -270,7 +245,7 @@
                             </div>
                             <div class="d-flex align-items-center mb-3">
                                 <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 material-shadow">
                                         <i class="ri-smartphone-line"></i>
                                     </div>
                                 </div>
@@ -284,7 +259,7 @@
                             </div>
                             <div class="d-flex align-items-center">
                                 <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
+                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18 material-shadow">
                                         <i class="ri-macbook-line"></i>
                                     </div>
                                 </div>
@@ -311,16 +286,14 @@
                                             <div class="col-lg-12">
                                                 <div class="mb-3">
                                                     <label for="jobTitle" class="form-label">Job Title</label>
-                                                    <input type="text" class="form-control" id="jobTitle"
-                                                        placeholder="Job title" value="{{userData.job_title}}">
+                                                    <input type="text" class="form-control" id="jobTitle" placeholder="Job title" value="{{userData.job_title}}">
                                                 </div>
                                             </div>
                                             <!--end col-->
                                             <div class="col-lg-6">
                                                 <div class="mb-3">
                                                     <label for="companyName" class="form-label">Company Name</label>
-                                                    <input type="text" class="form-control" id="companyName"
-                                                        placeholder="Company name" value="{{userData.company_name}}">
+                                                    <input type="text" class="form-control" id="companyName" placeholder="Company name" value="{{userData.company_name}}">
                                                 </div>
                                             </div>
                                             <!--end col-->
@@ -330,9 +303,7 @@
                                                         Years</label>
                                                     <div class="row">
                                                         <div class="col-lg-5">
-                                                            <select class="form-control" data-choices
-                                                                data-choices-search-false name="experienceYear"
-                                                                id="experienceYear">
+                                                            <select class="form-control" data-choices data-choices-search-false name="experienceYear" id="experienceYear">
                                                                 <option value="">Select years</option>
                                                                 <option value="Choice 1">2001</option>
                                                                 <option value="Choice 2">2002</option>
@@ -364,9 +335,7 @@
                                                         </div>
                                                         <!--end col-->
                                                         <div class="col-lg-5">
-                                                            <select class="form-control" data-choices
-                                                                data-choices-search-false
-                                                                name="choices-single-default2">
+                                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default2">
                                                                 <option value="">Select years</option>
                                                                 <option value="Choice 1">2001</option>
                                                                 <option value="Choice 2">2002</option>
@@ -402,13 +371,12 @@
                                                 <div class="mb-3">
                                                     <label for="jobDescription" class="form-label">Job
                                                         Description</label>
-                                                    <textarea class="form-control" id="jobDescription" rows="3"
-                                                        placeholder="Enter description">{{userData.job_description}}</textarea>
+                                                    <textarea class="form-control" id="jobDescription" rows="3" placeholder="Enter description">{{userData.job_description}}</textarea>
                                                 </div>
                                             </div>
                                             <!--end col-->
                                             <div class="hstack gap-2 justify-content-end">
-                                                <a class="btn btn-success" href="javascript:deleteEl(1)">Delete</a>
+                                                <a class="btn btn-success" href="javascript:void(0);">Delete</a>
                                             </div>
                                         </div>
                                         <!--end row-->
@@ -420,7 +388,7 @@
                                 <div class="col-lg-12">
                                     <div class="hstack gap-2">
                                         <button type="submit" class="btn btn-success">Update</button>
-                                        <a href="javascript:new_link()" class="btn btn-primary">Add New</a>
+                                        <a href="javascript:void(0);" class="btn btn-primary">Add New</a>
                                     </div>
                                 </div>
                                 <!--end col-->
@@ -437,7 +405,7 @@
                                 <h5 class="card-title text-decoration-underline mb-3">Security:</h5>
                                 <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0">
                                     <div class="flex-grow-1">
-                                        <h6 class="fs-15 mb-1">Two-factor Authentication</h6>
+                                        <h6 class="fs-14 mb-1">Two-factor Authentication</h6>
                                         <p class="text-muted">Two-factor authentication is an enhanced security meansur.
                                             Once enabled, you'll be required to give two types of identification when
                                             you log into Google Authentication and SMS are Supported.</p>
@@ -449,7 +417,7 @@
                                 </div>
                                 <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
                                     <div class="flex-grow-1">
-                                        <h6 class="fs-15 mb-1">Secondary Verification</h6>
+                                        <h6 class="fs-14 mb-1">Secondary Verification</h6>
                                         <p class="text-muted">The first factor is a password and the second commonly
                                             includes a text with a code sent to your smartphone, or biometrics using
                                             your fingerprint, face, or retina.</p>
@@ -461,7 +429,7 @@
                                 </div>
                                 <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
                                     <div class="flex-grow-1">
-                                        <h6 class="fs-15 mb-1">Backup Codes</h6>
+                                        <h6 class="fs-14 mb-1">Backup Codes</h6>
                                         <p class="text-muted mb-sm-0">A backup code is automatically generated for you
                                             when you turn on two-factor authentication through your iOS or Android
                                             Twitter app. You can also generate a backup code on twitter.com.</p>
@@ -483,8 +451,7 @@
                                         </div>
                                         <div class="flex-shrink-0">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="directMessage" checked />
+                                                <input class="form-check-input" type="checkbox" role="switch" id="directMessage" checked />
                                             </div>
                                         </div>
                                     </li>
@@ -499,8 +466,7 @@
                                         </div>
                                         <div class="flex-shrink-0">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="desktopNotification" checked />
+                                                <input class="form-check-input" type="checkbox" role="switch" id="desktopNotification" checked />
                                             </div>
                                         </div>
                                     </li>
@@ -514,8 +480,7 @@
                                         </div>
                                         <div class="flex-shrink-0">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="emailNotification" />
+                                                <input class="form-check-input" type="checkbox" role="switch" id="emailNotification" />
                                             </div>
                                         </div>
                                     </li>
@@ -529,8 +494,7 @@
                                         </div>
                                         <div class="flex-shrink-0">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="chatNotification" />
+                                                <input class="form-check-input" type="checkbox" role="switch" id="chatNotification" />
                                             </div>
                                         </div>
                                     </li>
@@ -544,8 +508,7 @@
                                         </div>
                                         <div class="flex-shrink-0">
                                             <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch"
-                                                    id="purchaesNotification" />
+                                                <input class="form-check-input" type="checkbox" role="switch" id="purchaesNotification" />
                                             </div>
                                         </div>
                                     </li>
@@ -557,9 +520,7 @@
                                     to "Your data & privacy options." Delete your Profile Account. Follow the
                                     instructions to delete your account :</p>
                                 <div>
-                                    <input type="password" class="form-control" id="passwordInput"
-                                        placeholder="Enter your password" value="make@321654987"
-                                        style="max-width: 265px;">
+                                    <input type="password" class="form-control" id="passwordInput" placeholder="Enter your password" value="make@321654987" style="max-width: 265px;">
                                 </div>
                                 <div class="hstack gap-2 mt-3">
                                     <a href="javascript:void(0);" class="btn btn-soft-danger">Close & Delete This

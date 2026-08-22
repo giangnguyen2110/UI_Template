@@ -20,7 +20,8 @@ export class IndexComponent implements OnInit {
 
   ngOnInit(): void {
   }
-      scrollTo(section: string, offset: number = 0) {
+
+    scrollTo(section: string, offset: number = 0) {
     const element = document.getElementById(section);
     if (element) {
       const topPos = element.getBoundingClientRect().top + window.pageYOffset + offset;
@@ -32,9 +33,6 @@ export class IndexComponent implements OnInit {
 
     this.onSectionChange(section);
   }
-
-
-
   /**
    * Window scroll method
    */
@@ -65,8 +63,8 @@ export class IndexComponent implements OnInit {
     }
 
   /**
-  * Toggle navbar
-  */
+   * Toggle navbar
+   */
   toggleMenu() {
     document.getElementById('navbarSupportedContent')?.classList.toggle('show');
   }

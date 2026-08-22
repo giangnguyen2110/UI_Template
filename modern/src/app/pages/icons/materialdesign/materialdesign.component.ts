@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { icons } from 'src/app/core/data';
 import { ToastService } from '../toast-service';
+import { icons } from 'src/app/core/data';
 
 @Component({
     selector: 'app-materialdesign',
@@ -40,6 +40,7 @@ export class MaterialdesignComponent implements OnInit {
       this.icons.forEach((icon) => {
         var item = this.getIconItem(icon, this.isNew(icon));
         document.getElementById('icons')?.appendChild(item);
+
         if (this.isNew(icon)) {
           var newItem = this.getIconItem(icon, false);
           document.getElementById('newIcons')?.appendChild(newItem);
@@ -49,7 +50,6 @@ export class MaterialdesignComponent implements OnInit {
         this.iconsCount++;
       });
     }, 300);
-
 
   }
 
@@ -76,6 +76,7 @@ export class MaterialdesignComponent implements OnInit {
     var span = document.createElement('span');
     span.appendChild(document.createTextNode('mdi-' + icon.name));
     div.appendChild(span);
+
     return div;
   }
 
@@ -89,4 +90,5 @@ export class MaterialdesignComponent implements OnInit {
     navigator.clipboard.writeText(icon);
     this.toastService.show(icon + ' icon Copied Successfully !!!', { classname: 'bg-success text-center text-white', delay: 5000 });
   }
+
 }

@@ -1,6 +1,6 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 // Drag and drop
 import { DndDropEvent } from 'ngx-drag-drop';
 import { Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import { fetchKanbanListData } from 'src/app/store/Task/task_action';
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { selectKanbanData, selectTaskLoading } from 'src/app/store/Task/task_selector';
+
 @Component({
     selector: 'app-kanban',
     templateUrl: './kanban.component.html',
@@ -71,11 +72,9 @@ export class KanbanComponent implements OnInit {
   onDrop(event: DndDropEvent, filteredList?: any[], targetStatus?: string) {
     if (filteredList && event.dropEffect === 'move') {
       let index = event.index;
-
       if (typeof index === 'undefined') {
         index = filteredList.length;
       }
-
       filteredList.splice(index, 0, event.data);
     }
   }
@@ -83,6 +82,7 @@ export class KanbanComponent implements OnInit {
   /**
    * Data Fetch
    */
+  // 
   private _fetchData() {
     this.store.dispatch(fetchKanbanListData());
     this.store.select(selectTaskLoading).subscribe((data) => {
@@ -102,6 +102,8 @@ export class KanbanComponent implements OnInit {
     });
 
   }
+
+
   /**
   * Open modal
   * @param content modal content
@@ -144,9 +146,8 @@ export class KanbanComponent implements OnInit {
     }).then(result => {
       if (result.value) {
         ev.target.closest('.tasks .tasks-box').remove()
-        Swal.fire('Deleted!', 'Mail has been deleted.', 'success');
+        Swal.fire('Deleted!', 'Task has been deleted.', 'success');
       }
     });
   }
-
 }

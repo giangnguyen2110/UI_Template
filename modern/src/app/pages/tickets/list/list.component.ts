@@ -1,10 +1,13 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
+// Date Format
+import { DatePipe } from '@angular/common';
 
 // Rest Api Service
 import { restApiService } from "../../../core/services/rest-api.service";
@@ -15,9 +18,6 @@ import { selectTicketData, selectTicketLoading } from 'src/app/store/Ticket/tick
 import { cloneDeep } from 'lodash';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { TicketListModel } from 'src/app/store/Ticket/ticket_model';
-
-// Date Format
-import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-list',
@@ -31,30 +31,30 @@ import { DatePipe } from '@angular/common';
  */
 export class ListComponent {
 
- // bread crumb items
- breadCrumbItems!: Array<{}>;
- ordersForm!: UntypedFormGroup;
- CustomersData!: TicketListModel[];
- masterSelected!: boolean;
- checkedList: any;
- submitted = false;
+  // bread crumb items
+  breadCrumbItems!: Array<{}>;
+  ordersForm!: UntypedFormGroup;
+  CustomersData!: TicketListModel[];
+  masterSelected!: boolean;
+  checkedList: any;
+  submitted = false;
 
- // Api Data
- content?: any;
- lists?: any;
- econtent?: any;
- alllists: any;
- searchResults: any;
- searchTerm: any;
- date: any;
- status: any = '';
+  // Api Data
+  content?: any;
+  lists?: any;
+  econtent?: any;
+  alllists: any;
+  searchResults: any;
+  searchTerm: any;
+  date: any;
+  status: any = '';
 
- constructor(private modalService: NgbModal,
-   public service: PaginationService,
-   private formBuilder: UntypedFormBuilder,
-   private store: Store<{ data: RootReducerState }>,
-   private datePipe: DatePipe) {
- }
+  constructor(private modalService: NgbModal,
+    public service: PaginationService,
+    private formBuilder: UntypedFormBuilder,
+    private store: Store<{ data: RootReducerState }>,
+    private datePipe: DatePipe) {
+  }
 
 
   ngOnInit(): void {
@@ -107,8 +107,8 @@ export class ListComponent {
   };
 
   /**
- * Confirmation mail model
- */
+  * Confirmation mail model
+  */
   deleteId: any;
   confirm(content: any, id: any) {
     this.deleteId = id;
@@ -144,7 +144,7 @@ export class ListComponent {
       this.modalService.open(content, { centered: true });
     }
     else {
-      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#239eba', });
+      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#299cdb', });
     }
     this.checkedValGet = checkedVal;
   }
@@ -163,6 +163,7 @@ export class ListComponent {
     this.checkedValGet = checkedVal
     checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
   }
+
 
   // Select Checkbox value Get
   onCheckboxChange(e: any) {
@@ -195,8 +196,8 @@ export class ListComponent {
   }
 
   /**
-    * Save user
-    */
+  * Save user
+  */
   saveUser() {
     if (this.ordersForm.valid) {
       if (this.ordersForm.get('id')?.value) {
@@ -268,34 +269,36 @@ export class ListComponent {
     }
   }
 
-// Pagination
-changePage() {
-  this.lists = this.service.changePage(this.alllists)
-}
-
-// Search Data
-performSearch(): void {
-  this.searchResults = this.alllists.filter((item: any) => {
-    return (
-      item.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      item.client.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      item.assigned.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  });
-  this.lists = this.service.changePage(this.searchResults)
-}
-
-// Filter
-statusFilter() {
-  if (this.status != '') {
-    this.lists = this.alllists.filter((ticket: any) => ticket.status == this.status);
-  } else {
+  // Pagination
+  changePage() {
     this.lists = this.service.changePage(this.alllists)
   }
-}
 
-// Sort Data
-onSort(column: any) {
-  this.lists = this.service.onSort(column, this.lists)
-}
+  // Search Data
+  performSearch(): void {
+    this.searchResults = this.alllists.filter((item: any) => {
+      return (
+        item.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.client.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.assigned.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    });
+    this.lists = this.service.changePage(this.searchResults)
+  }
+
+  // Filter
+  statusFilter() {
+    if (this.status != '') {
+      this.lists = this.alllists.filter((ticket: any) => ticket.status == this.status);
+    } else {
+      this.lists = this.service.changePage(this.alllists)
+    }
+  }
+
+  // Sort Data
+  onSort(column: any) {
+    this.lists = this.service.onSort(column, this.lists)
+  }
+
+
 }

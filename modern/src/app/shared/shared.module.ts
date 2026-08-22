@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbNavModule, NgbAccordionModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -23,6 +23,7 @@ import { TeamComponent } from './landing/index/team/team.component';
 import { ContactComponent } from './landing/index/contact/contact.component';
 import { FooterComponent } from './landing/index/footer/footer.component';
 import { ScrollspyDirective } from './scrollspy.directive';
+import { LandingScrollspyDirective } from './landingscrollspy.directive';
 
 // NFT Landing 
 import { MarketPlaceComponent } from './landing/nft/market-place/market-place.component';
@@ -33,13 +34,13 @@ import { DiscoverComponent } from './landing/nft/discover/discover.component';
 import { TopCreatorComponent } from './landing/nft/top-creator/top-creator.component';
 
 // Job Landing 
-import { BlogComponent } from './landing/job/blog/blog.component';
-import { CandidateComponent } from './landing/job/candidate/candidate.component';
 import { ProcessComponent } from './landing/job/process/process.component';
-import { JobFooterComponent } from './landing/job/job-footer/job-footer.component';
 import { FindjobsComponent } from './landing/job/findjobs/findjobs.component';
+import { CandidatesComponent } from './landing/job/candidates/candidates.component';
+import { BlogComponent } from './landing/job/blog/blog.component';
 import { JobcategoriesComponent } from './landing/job/jobcategories/jobcategories.component';
-import { LandingScrollspyDirective } from './landingscrollspy.directive';
+import { JobFooterComponent } from './landing/job/job-footer/job-footer.component';
+
 
 @NgModule({
   declarations: [
@@ -57,20 +58,20 @@ import { LandingScrollspyDirective } from './landingscrollspy.directive';
     TeamComponent,
     ContactComponent,
     FooterComponent,
-    ScrollspyDirective,
-    LandingScrollspyDirective,
     MarketPlaceComponent,
     WalletComponent,
     FeaturesComponent,
     CategoriesComponent,
     DiscoverComponent,
     TopCreatorComponent,
-    BlogComponent,
-    CandidateComponent,
     ProcessComponent,
-    JobFooterComponent,
     FindjobsComponent,
-    JobcategoriesComponent
+    CandidatesComponent,
+    BlogComponent,
+    JobcategoriesComponent,
+    JobFooterComponent,
+    ScrollspyDirective,
+    LandingScrollspyDirective
   ],
   imports: [
     CommonModule,
@@ -80,34 +81,9 @@ import { LandingScrollspyDirective } from './landingscrollspy.directive';
     SlickCarouselModule,
     CountUpDirective
   ],
-  exports: [
-    BreadcrumbsComponent,
-    ClientLogoComponent,
-    ServicesComponent,
-    CollectionComponent,
-    CtaComponent,
-    DesignedComponent,
-    PlanComponent,
-    FaqsComponent,
-    ReviewComponent,
-    CounterComponent,
-    WorkProcessComponent,
-    TeamComponent,
-    ContactComponent,
-    FooterComponent,
-    ScrollspyDirective,
-    LandingScrollspyDirective,
-    WalletComponent,
-    MarketPlaceComponent,
-    FeaturesComponent,
-    CategoriesComponent,
-    DiscoverComponent,
-    TopCreatorComponent,
-    ProcessComponent,
-    FindjobsComponent,
-    CandidateComponent,
-    BlogComponent,
-    JobcategoriesComponent,
-    JobFooterComponent]
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  exports: [BreadcrumbsComponent, ClientLogoComponent, ServicesComponent, CollectionComponent, CtaComponent, DesignedComponent, PlanComponent, FaqsComponent, ReviewComponent, CounterComponent, WorkProcessComponent, TeamComponent, ContactComponent, FooterComponent, 
+    WalletComponent, MarketPlaceComponent, FeaturesComponent, CategoriesComponent, DiscoverComponent, TopCreatorComponent,   ScrollspyDirective,
+    LandingScrollspyDirective, ProcessComponent, FindjobsComponent, CandidatesComponent, BlogComponent, JobcategoriesComponent, JobFooterComponent]
 })
 export class SharedModule { }

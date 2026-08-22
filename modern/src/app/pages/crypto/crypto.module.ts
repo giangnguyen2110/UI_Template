@@ -6,7 +6,7 @@ import { NgbPaginationModule, NgbTypeaheadModule, NgbNavModule, NgbDropdownModul
 // Counter
 import { CountUpDirective } from 'ngx-countup';
 // Flat Picker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 
 // Swiper Slider
 import { SlickCarouselModule } from 'ngx-slick-carousel';
@@ -22,10 +22,6 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 // NG2 Search Filter
 import { NgPipesModule } from 'ngx-pipes';
 
-// Load Icons
-import { defineElement } from '@lordicon/element';
-import lottie from 'lottie-web';
-
 // Component pages
 import { CryptoRoutingModule } from './crypto-routing.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -35,6 +31,13 @@ import { OrdersComponent } from './orders/orders.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { IcoComponent } from './ico/ico.component';
 import { KycComponent } from './kyc/kyc.component';
+
+
+import { DatePipe } from '@angular/common';
+
+// Load Icons
+import { defineElement } from "@lordicon/element";
+import lottie from 'lottie-web';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -51,8 +54,10 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     OrdersComponent,
     WalletComponent,
     IcoComponent,
-    KycComponent
+    KycComponent,
   ],
+
+
   imports: [
     CommonModule,
     FormsModule,
@@ -72,7 +77,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class CryptoModule { 
+export class CryptoModule {
   constructor() {
     defineElement();
   }

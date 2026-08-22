@@ -1,27 +1,25 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
+// Date Format
+import { DatePipe } from '@angular/common';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
 
-// Date Format
-import { DatePipe } from '@angular/common';
-
 // Csv File Export
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 
+// Rest Api Service
+import { restApiService } from "../../../core/services/rest-api.service";
 import { Store } from '@ngrx/store';
 import { RootReducerState } from 'src/app/store';
 import { addCustomer, deleteCustomer, fetchCustomerListData, updateCustomer } from 'src/app/store/Ecommerce/ecommerce_action';
 import { selectCustomerData, selectDataLoading } from 'src/app/store/Ecommerce/ecommerce_selector';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { cloneDeep } from 'lodash';
-
-// Rest Api Service
-import { restApiService } from "../../../core/services/rest-api.service";
-
 
 @Component({
     selector: 'app-customers',
@@ -41,21 +39,20 @@ export class CustomersComponent {
   customerForm!: UntypedFormGroup;
   masterSelected!: boolean;
   checkedList: any;
-
   content?: any;
   customers?: any;
 
- // Table data
- customerList: any;
- searchTerm: any;
- filterDate: any;
- status: any = '';
- searchResults: any;
+  // Table data
+  customerList: any;
+  searchTerm: any;
+  filterDate: any;
+  status: any = '';
+  searchResults: any;
 
- constructor(private modalService: NgbModal, public service: PaginationService,
-   private formBuilder: UntypedFormBuilder,
-   private restApiService: restApiService, private store: Store<{ data: RootReducerState }>) {
- }
+  constructor(private modalService: NgbModal, public service: PaginationService,
+    private formBuilder: UntypedFormBuilder,
+    private restApiService: restApiService, private store: Store<{ data: RootReducerState }>) {
+  }
 
   ngOnInit(): void {
     /**
@@ -78,21 +75,20 @@ export class CustomersComponent {
       status: ['', [Validators.required]]
     });
 
-     // Fetch Data
-     this.store.dispatch(fetchCustomerListData());
-     this.store.select(selectDataLoading).subscribe((data) => {
-       if (data == false) {
-         document.getElementById('elmLoader')?.classList.add('d-none');
-       }
-     });
- 
-     this.store.select(selectCustomerData).subscribe((data) => {
-       this.customers = data;
-       this.customerList = cloneDeep(data);
-       this.customers = this.service.changePage(this.customerList)
-     });
-  }
+    // Fetch Data
+    this.store.dispatch(fetchCustomerListData());
+    this.store.select(selectDataLoading).subscribe((data) => {
+      if (data == false) {
+        document.getElementById('elmLoader')?.classList.add('d-none');
+      }
+    });
 
+    this.store.select(selectCustomerData).subscribe((data) => {
+      this.customers = data;
+      this.customerList = cloneDeep(data);
+      this.customers = this.service.changePage(this.customerList)
+    });
+  }
 
   changePage() {
     this.customers = this.service.changePage(this.customerList)
@@ -129,9 +125,52 @@ export class CustomersComponent {
   }
 
   /**
-  * Open modal
-  * @param content modal content
+  * Confirmation mail model
   */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      this.store.dispatch(deleteCustomer({ id: this.deleteId.toString() }));
+    } else {
+      this.store.dispatch(deleteCustomer({ id: this.checkedValGet.toString() }));
+    }
+    this.deleteId = ''
+    this.masterSelected = false
+  }
+
+  /**
+  * Multiple Delete
+  */
+  checkedValGet: any[] = [];
+  deleteMultiple(content: any) {
+    var checkboxes: any = document.getElementsByName('checkAll');
+    var result
+    var checkedVal: any[] = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        result = checkboxes[i].value;
+        checkedVal.push(result);
+      }
+    }
+    if (checkedVal.length > 0) {
+      this.modalService.open(content, { centered: true });
+    }
+    else {
+      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#299cdb', });
+    }
+    this.checkedValGet = checkedVal;
+  }
+
+  /**
+* Open modal
+* @param content modal content
+*/
   openModal(content: any) {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
@@ -231,65 +270,8 @@ export class CustomersComponent {
     this.customerForm.controls['date'].setValue(this.econtent.date);
     this.customerForm.controls['status'].setValue(this.econtent.status);
     this.customerForm.controls['_id'].setValue(this.econtent._id);
-  }
 
-  /**
-* Confirmation mail model
-*/
-  deleteId: any;
-  confirm(content: any, id: any) {
-    this.deleteId = id;
-    this.modalService.open(content, { centered: true });
   }
-
-  // Delete Data
-  deleteData(id: any) {
-    if (id) {
-      this.store.dispatch(deleteCustomer({ id: this.deleteId.toString() }));
-    } else {
-      this.store.dispatch(deleteCustomer({ id: this.checkedValGet.toString() }));
-    }
-    this.deleteId = ''
-    this.masterSelected = false
-  }
-
-  /**
-  * Multiple Delete
-  */
-  checkedValGet: any[] = [];
-  deleteMultiple(content: any) {
-    var checkboxes: any = document.getElementsByName('checkAll');
-    var result
-    var checkedVal: any[] = [];
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        result = checkboxes[i].value;
-        checkedVal.push(result);
-      }
-    }
-    if (checkedVal.length > 0) {
-      this.modalService.open(content, { centered: true });
-    }
-    else {
-      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#239eba', });
-    }
-    this.checkedValGet = checkedVal;
-  }
-
-  // Filtering
-  // SearchData() {
-  //   var status = document.getElementById("idStatus") as HTMLInputElement;
-  //   var date = document.getElementById("isDate") as HTMLInputElement;
-  //   var dateVal = date.value ? this.datePipe.transform(new Date(date.value), "yyyy-MM-dd") : '';
-  //   if (status.value != 'all' && status.value != '' || dateVal != '') {
-  //     this.customers = this.content.filter((customer: any) => {
-  //       return this.datePipe.transform(new Date(customer.date), "yyyy-MM-dd") == dateVal || customer.status === status.value;
-  //     });
-  //   }
-  //   else {
-  //     this.customers = this.content
-  //   }
-  // }
 
   // Csv File Export
   csvFileExport() {
@@ -304,7 +286,12 @@ export class CustomersComponent {
       noDownload: false,
       headers: ["id", "customer Id", "customer", "email", "phone", "date", "status"]
     };
-    new ngxCsv(this.content, "customers", customer);
+    new ngxCsv(this.customers, "customers", customer);
   }
+  /**
+  * Sort table data
+  * @param param0 sort the column
+  *
+  */
 
 }

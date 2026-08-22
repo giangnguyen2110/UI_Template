@@ -9,12 +9,11 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 import { SimplebarAngularModule } from 'simplebar-angular';
 
-// Masonry
 import { NgxMasonryModule } from 'ngx-masonry';
 
 import { UiRoutingModule } from './ui-routing.module';
@@ -38,16 +37,17 @@ import { MediaComponent } from './media/media.component';
 import { VideoComponent } from './video/video.component';
 import { TypographyComponent } from './typography/typography.component';
 import { ListComponent } from './list/list.component';
-import { LinksComponent } from './links/links.component';
 import { GeneralComponent } from './general/general.component';
 import { RibbonsComponent } from './ribbons/ribbons.component';
 import { UtilitiesComponent } from './utilities/utilities.component';
 import { ToastsContainer } from './notifications/toasts-container.component';
+import { LinksComponent } from './links/links.component';
 
 @NgModule({
-  declarations: [AlertsComponent, ButtonsComponent, BadgesComponent, ColorsComponent, CardsComponent, CarouselComponent, DropdownsComponent, GridComponent, ImagesComponent, LinksComponent,LinksComponent,TabsComponent, AccordionsComponent, ModalsComponent, PlaceholderComponent, ProgressComponent, NotificationsComponent, MediaComponent, VideoComponent, TypographyComponent, ListComponent, GeneralComponent, RibbonsComponent, UtilitiesComponent,
-    ToastsContainer
-    ],
+  declarations: [AlertsComponent, ButtonsComponent, BadgesComponent, ColorsComponent, CardsComponent, CarouselComponent, DropdownsComponent, GridComponent, ImagesComponent, TabsComponent, AccordionsComponent, ModalsComponent, PlaceholderComponent, ProgressComponent, NotificationsComponent, MediaComponent, VideoComponent, TypographyComponent, ListComponent, GeneralComponent, RibbonsComponent, UtilitiesComponent,
+    ToastsContainer,
+    LinksComponent
+  ],
   imports: [
     CommonModule,
     UiRoutingModule,
@@ -70,7 +70,7 @@ import { ToastsContainer } from './notifications/toasts-container.component';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class UiModule { 
+export class UiModule {
   constructor() {
     defineElement();
   }

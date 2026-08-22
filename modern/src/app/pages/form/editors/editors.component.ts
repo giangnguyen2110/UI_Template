@@ -4,20 +4,20 @@ import { Component, OnInit } from '@angular/core';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
-    selector: 'app-editors',
-    templateUrl: './editors.component.html',
-    styleUrls: ['./editors.component.scss'],
-    standalone: false
+  selector: 'app-editors',
+  templateUrl: './editors.component.html',
+  styleUrls: ['./editors.component.scss'],
+  standalone: false
 })
 
 /**
  * Editors Component
  */
 export class EditorsComponent implements OnInit {
-
+  public Editor = ClassicEditor;
   // bread crumb items
   breadCrumbItems!: Array<{}>;
-  public Editor = ClassicEditor;
+  public editorData = '<p>Hello, CKEditor 5!</p>';
 
   constructor() { }
 
@@ -25,7 +25,7 @@ export class EditorsComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Forms' },
       { label: 'Editors', active: true }
     ];

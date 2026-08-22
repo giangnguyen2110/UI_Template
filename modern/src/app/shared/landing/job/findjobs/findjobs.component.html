@@ -3,8 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-7">
                 <div class="text-center mb-5">
-                    <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">Find Your <span
-                            class="text-primary">Career</span> You Deserve it</h1>
+                    <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">Find Your <span class="text-primary">Career</span> You Deserve it</h1>
                     <p class="text-muted">Post a job to tell us about your project. We'll quickly match you with the
                         right freelancers.</p>
                 </div>
@@ -14,7 +13,7 @@
         <!-- end row -->
 
         <div class="row">
-            @for(job of findjobs; track $index){
+            @for ( job of findjobs; track $index) {
             <div class="col-lg-6">
                 <div class="card shadow-lg">
                     <div class="card-body">
@@ -40,33 +39,24 @@
                                     </li>
                                 </ul>
                                 <div class="hstack gap-2">
-                                    @for(skill of job.skill; track $index){
-                                    <span class="badge" [ngClass]="{'bg-success-subtle text-success': skill == 'Design' || skill == 'Manager' || skill == 'Full Time',
-                                    'bg-danger-subtle text-danger': skill == 'UI/UX' || skill == 'HR',
-                                    'bg-primary-subtle text-primary':skill == 'Adobe XD' || skill == 'Sales' || skill == 'Fashion',
-                                    'bg-secondary-subtle text-secondary': skill == 'Product','bg-info-subtle text-info': skill == 'Bussiness' || skill == 'Remote',
-                                    'bg-warning-subtle text-warning':skill == 'Marketing'}">{{skill}}</span>
+                                    @for ( skill of job.skill; track $index) {
+                                    <span class="badge" [ngClass]=" {'bg-success-subtle text-success': skill=='Design' || skill=='Manager' || skill=='Full Time' , 'bg-danger-subtle text-danger' : skill=='UI/UX' || skill=='HR' , 'bg-primary-subtle text-primary' :skill=='Adobe XD' || skill=='Sales' || skill=='Fashion' , 'bg-secondary-subtle text-secondary' : skill=='Product' ,'bg-info-subtle text-info': skill=='Bussiness' || skill=='Remote' , 'bg-warning-subtle text-warning' :skill=='Marketing' }">{{skill}}</span>
                                     }
                                 </div>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-ghost-primary btn-icon custom-toggle"
-                                    data-bs-toggle="button">
-                                    <i class="icon-on"
-                                        [ngClass]="job.bookmark == true ? 'ri-bookmark-fill':'ri-bookmark-line'"></i>
-                                    <!-- <span class="icon-on"><i class="ri-bookmark-line"></i></span>
-                                    <span class="icon-off"><i class="ri-bookmark-fill"></i></span> -->
+                                <button type="button" class="btn btn-ghost-primary btn-icon custom-toggle" data-bs-toggle="button">
+                                    <i class="icon-on" [ngClass]="job.bookmark == true ? 'ri-bookmark-fill':'ri-bookmark-line'"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        }
+            }
             <div class="col-lg-12">
                 <div class="text-center mt-4">
-                    <a href="javascript:void(0);" class="btn btn-ghost-primary">View More Jobs <i
-                            class="ri-arrow-right-line align-bottom"></i></a>
+                    <a href="javascript:void(0);" class="btn btn-ghost-primary">View More Jobs <i class="ri-arrow-right-line align-bottom"></i></a>
                 </div>
             </div>
         </div>
@@ -80,8 +70,7 @@
             <div class="col-lg-6 order-2 order-lg-1">
                 <div class="text-muted mt-5 mt-lg-0">
                     <h5 class="fs-12 text-uppercase text-success">Hot Featured Company</h5>
-                    <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">Get <span
-                            class="text-primary">10,000+</span> Featured Companies</h1>
+                    <h1 class="mb-3 ff-secondary fw-semibold text-capitalize lh-base">Get <span class="text-primary">10,000+</span> Featured Companies</h1>
                     <p class="ff-secondary mb-2">The demand for content writing services is growing. This is because
                         content is required in almost every industry. <b>Many companies have discovered how effective
                             content marketing is.</b> This is a major reason for this increase in demand.</p>
@@ -89,8 +78,7 @@
                         articles to help brands showcase their products.</p>
 
                     <div class="mt-4">
-                        <a routerLink="" class="btn btn-primary">View More Companies <i
-                                class="ri-arrow-right-line align-middle ms-1"></i></a>
+                        <a routerLink="/" class="btn btn-primary">View More Companies <i class="ri-arrow-right-line align-middle ms-1"></i></a>
                     </div>
                 </div>
             </div>
@@ -99,9 +87,7 @@
                 <div>
                     <div class="card shadow-lg">
                         <div class="card-body">
-                            <button type="button" class="btn btn-icon btn-soft-primary float-end"
-                                data-bs-toggle="button" aria-pressed="true"><i
-                                    class="mdi mdi-cards-heart fs-16"></i></button>
+                            <button type="button" class="btn btn-icon btn-soft-primary float-end" data-bs-toggle="button" aria-pressed="true"><i class="mdi mdi-cards-heart fs-16"></i></button>
                             <div class="avatar-sm mb-4">
                                 <div class="avatar-title bg-secondary-subtle rounded">
                                     <img src="assets/images/companies/img-1.png" alt="" class="avatar-xxs">
@@ -143,43 +129,37 @@
                             <h5 class="text-white fs-16 mb-4">10,000+ Featured Companies</h5>
 
                             <div class="d-flex gap-1">
-                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="Brent Gonzalez">
+                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Brent Gonzalez">
                                     <div class="avatar-xs">
                                         <div class="avatar-title bg-light bg-opacity-25 rounded-circle">
                                             <img src="assets/images/companies/img-5.png" alt="" height="15">
                                         </div>
                                     </div>
                                 </a>
-                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="Brent Gonzalez">
+                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Brent Gonzalez">
                                     <div class="avatar-xs">
                                         <div class="avatar-title bg-light bg-opacity-25 rounded-circle">
                                             <img src="assets/images/companies/img-2.png" alt="" height="15">
                                         </div>
                                     </div>
                                 </a>
-                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="Brent Gonzalez">
+                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Brent Gonzalez">
                                     <div class="avatar-xs">
                                         <div class="avatar-title bg-light bg-opacity-25 rounded-circle">
                                             <img src="assets/images/companies/img-8.png" alt="" height="15">
                                         </div>
                                     </div>
                                 </a>
-                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="Brent Gonzalez">
+                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Brent Gonzalez">
                                     <div class="avatar-xs">
                                         <div class="avatar-title bg-light bg-opacity-25 rounded-circle">
                                             <img src="assets/images/companies/img-7.png" alt="" height="15">
                                         </div>
                                     </div>
                                 </a>
-                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover"
-                                    data-bs-placement="top" title="More Companies">
+                                <a href="javascript: void(0);" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="More Companies">
                                     <div class="avatar-xs">
-                                        <div
-                                            class="avatar-title fs-11 rounded-circle bg-light bg-opacity-25 text-white">
+                                        <div class="avatar-title fs-11 rounded-circle bg-light bg-opacity-25 text-white">
                                             1k+
                                         </div>
                                     </div>

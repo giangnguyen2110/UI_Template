@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule, NgbNavModule, NgbAccordionModule, NgbRatingModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
+// Mask
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask'
+
 // Range Slider
 import { NgxSliderModule } from 'ngx-slider-v2';
 // Simple bar
 import { SimplebarAngularModule } from 'simplebar-angular';
 // Swiper Slider
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+
 // Ck Editer
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 // File Uploads
@@ -16,16 +20,17 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 // Flat Picker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 // Ng Select
 import { NgSelectModule } from '@ng-select/ng-select';
+
 // Apex Chart Package
 import { NgApexchartsModule } from 'ng-apexcharts';
 // Count
 import { CountUpDirective } from 'ngx-countup';
 
 // Load Icon
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Component Pages
@@ -41,9 +46,8 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SellersComponent } from './sellers/sellers.component';
 import { SellerDetailsComponent } from './seller-details/seller-details.component';
+
 import { DatePipe } from '@angular/common';
-
-
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post',
@@ -63,7 +67,6 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     CheckoutComponent,
     SellersComponent,
     SellerDetailsComponent
-    
   ],
   imports: [
     CommonModule,
@@ -86,9 +89,12 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     NgApexchartsModule,
     CountUpDirective,
     EcommerceRoutingModule,
-    SharedModule
+    SharedModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
+    provideNgxMask(),
     DatePipe,
     {
       provide: DROPZONE_CONFIG,

@@ -140,7 +140,6 @@ export class PieComponent implements OnInit {
  */
   private _monochromePieChart(colors:any) {
     colors = this.getChartColorsArray(colors);
-    
     this.monochromePieChart = {
       series: [25, 15, 44, 55, 41, 17],
       chart: {
@@ -289,7 +288,7 @@ export class PieComponent implements OnInit {
       palette: "palette2",
     },
     title: {
-      text: "Favorite Movie Type",
+      text: "Favourite Movie Type",
       style: {
         fontWeight: 500,
       },
@@ -318,7 +317,7 @@ private _pieWithImageChart(colors:any) {
       opacity: 0.85,
       image: {
         src: [
-          '../../../../../assets/images/small/img-3.jpg', '../../../../../assets/images/small/img-5.jpg', '../../../../../assets/images/small/img-2.jpg',
+          'assets/images/small/img-3.jpg', 'assets/images/small/img-5.jpg', 'assets/images/small/img-2.jpg',
         ],
         width: 25,
       },
@@ -342,4 +341,7 @@ private _pieWithImageChart(colors:any) {
     },
   };
 }
+
+  
+
 }

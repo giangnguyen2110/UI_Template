@@ -4,7 +4,9 @@ import { CommonModule } from '@angular/common';
 // Feather Icon
 import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbToastModule
+} from '@ng-bootstrap/ng-bootstrap';
 
 // Component pages
 import { IconsRoutingModule } from './icons-routing.module';
@@ -15,6 +17,8 @@ import { FeatherComponent } from './feather/feather.component';
 import { RemixComponent } from './remix/remix.component';
 import { LineawesomeComponent } from './lineawesome/lineawesome.component';
 import { IconsCryptoComponent } from './icons-crypto/icons-crypto.component';
+import { ToastsContainericon } from './boxicons/toasts-container.component';
+import { ToastsContainerfeathericon } from './feather/toasts-container.component';
 import { ToastsContainerallicon } from './toasts-container.component';
 
 @NgModule({
@@ -24,6 +28,8 @@ import { ToastsContainerallicon } from './toasts-container.component';
     FeatherComponent,
     RemixComponent,
     LineawesomeComponent,
+    ToastsContainericon,
+    ToastsContainerfeathericon,
     ToastsContainerallicon,
     IconsCryptoComponent
   ],

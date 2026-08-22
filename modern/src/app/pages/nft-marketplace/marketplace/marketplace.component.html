@@ -10,13 +10,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="row g-1 mb-3">
-                            @for(user of data.images; track $index){
+                            @for(user of data.images ; track $index){
+
                             <div class="col-lg-6">
-                                @for(user of user.image; track $index){
+                                @for(user of user.image ;track $index){
                                 <img src="{{user.img}}" alt="" class="img-fluid rounded mt-1">
                                 }
                             </div>
-                        }
+                            }
                             <!--end col-->
                         </div>
                         <!--end row-->
@@ -25,7 +26,7 @@
                     </div>
                 </div>
             </div>
-        }
+            }
         </div>
     </div>
     <!--end col-->
@@ -36,8 +37,11 @@
         <div class="card bg-primary" style="background-image: url('assets/images/nft/bg-pattern.png');">
             <div class="card-body p-4">
                 <span class="badge bg-info fw-medium mb-3 fs-12">Trending Artwork</span>
-                <h2 class="text-white lh-base">Discover, Collect, Sell and Create your own NFT</h2>
-                <p class="text-white text-opacity-75 mb-3">Take advantage of the first text-based NFT. Select a text or write your own and let it live forever on the Ethereum blockchain you or future owners can add text to an existing ChainText token..</p>
+                <h3 class="text-white lh-base">Discover, Collect, Sell and Create your own NFT</h3>
+                <p class="text-white text-opacity-75 mb-3">Take advantage of the first text-based NFT. Select a text or
+                    write your
+                    own and let it live forever on the Ethereum blockchain you or future owners can add text to an
+                    existing ChainText token..</p>
                 <div class="hstack gap-2">
                     <a routerLink="/marletplace/create" class="btn btn-success">Create NFT</a>
                     <a routerLink="/marletplace/explore" class="btn btn-danger">Explore Now</a>
@@ -51,10 +55,12 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="card overflow-hidden shadow-none">
-            <div class="card-body bg-danger-subtle text-danger fw-semibold d-flex">
+        <div class="card overflow-hidden shadow-none material-shadow">
+            <div class="card-body bg-success-subtle text-success fw-semibold d-flex">
                 <marquee class="fs-14">
-                    NFT art is a digital asset that is collectable, unique, and non-transferrable, Cortes explained. Every NFT is unique in it's creative design and cannot be duplicated, making them limited and rare. NFTs get their value because the transaction proves ownership of the art.
+                    NFT art is a digital asset that is collectable, unique, and non-transferrable, Cortes explained.
+                    Every NFT is unique in it's creative design and cannot be duplicated, making them limited and rare.
+                    NFTs get their value because the transaction proves ownership of the art.
                 </marquee>
             </div>
         </div>
@@ -77,7 +83,8 @@
 </div>
 
 <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
-    @for(data of tradingData; track $index){
+    @for(data of tradingData; track $index ){
+
     <div class="col">
         <div class="card explore-box">
             <div class="card-body">
@@ -99,14 +106,15 @@
                     </div>
                 </div>
                 <div class="mt-3">
-                    <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> {{data.likes}} </p>
+                    <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i>
+                        {{data.likes}} </p>
                     <h5 class="text-success"><i class="mdi mdi-ethereum"></i> {{data.price}} </h5>
-                    <h6 class="fs-16 mb-0"><a routerLink="/marletplace/item-details" class="text-body">{{data.category}}</a></h6>
+                    <h6 class="fs-16 mb-0"><a routerLink="/marletplace/item-details">{{data.category}}</a></h6>
                 </div>
             </div>
         </div>
     </div>
-}
+    }
     <!--end col-->
 </div>
 <!--end row-->
@@ -125,7 +133,7 @@
 </div>
 
 <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
-    @for(data of recentData; track $index){
+    @for( data of recentData ;track $index){
     <div class="col">
         <div class="card explore-box card-animate">
             <div class="bookmark-icon position-absolute top-0 end-0 p-2">
@@ -139,21 +147,22 @@
                 </div>
             </div>
             <div class="card-body">
-                <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i> {{data.likes}} </p>
-                <h5 class="mb-1"><a routerLink="/marletplace/item-details" class="text-body">{{data.title}}</a></h5>
+                <p class="fw-medium mb-0 float-end"><i class="mdi mdi-heart text-danger align-middle"></i>
+                    {{data.likes}} </p>
+                <h5 class="mb-1"><a routerLink="/marletplace/item-details">{{data.title}}</a></h5>
                 <p class="text-muted mb-0">{{data.category}}</p>
             </div>
             <div class="card-footer border-top border-top-dashed">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1 fs-14">
-                        <i class="ri-price-tag-3-fill text-warning align-bottom me-1"></i> Highest: <span class="fw-medium">{{data.highest}}</span>
+                        <i class="ri-price-tag-3-fill text-warning align-bottom mx-1"></i> Highest: <span class="fw-medium">{{data.highest}}</span>
                     </div>
                     <h5 class="flex-shrink-0 fs-14 text-primary mb-0">{{data.price}}</h5>
                 </div>
             </div>
         </div>
     </div>
-}
+    }
 </div>
 
 <div class="row">
@@ -170,27 +179,25 @@
 </div>
 
 <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-md-2 row-cols-1">
-    @for(data of popularData; track $index){
+    @for( data of popularData; track $index){
     <div class="col">
         <div class="card">
             <img src="{{data.cardImg}}" alt="" class="card-img-top object-fit-cover" height="120">
             <div class="card-body text-center">
                 <img src="{{data.img}}" alt="" class="avatar-md mt-n5 rounded-circle mx-auto d-block object-fit-cover">
-                <h5 class="mt-3 mb-1"><a href="javascript:void(0);" class="text-body">{{data.author}}</a></h5>
+                <h5 class="mt-3 mb-1"><a routerLink="/pages/profile">{{data.author}}</a></h5>
                 <p class="text-muted">{{data.products}} Products</p>
                 <div>
                     <button class="btn btn-primary btn-sm" [ngClass]="{'btn-soft-primary': data.isFollow != true}">
                         @if(data.isFollow == true){
                         <span>Follow</span>
-                        }@else{
-                        <span>Unfollow</span>
-                        }
-                    </button>
+                        }@else(){
+                        <span>Unfollow</span>}</button>
                 </div>
             </div>
         </div>
     </div>
-}
+    }
     <!--end col-->
 </div>
 <!--end row-->

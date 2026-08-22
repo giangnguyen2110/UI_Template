@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Ck Editer
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
     selector: 'app-add-product',
@@ -25,7 +25,7 @@ export class AddProductComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Ecommerce' },
       { label: 'Create Product', active: true }
     ];
@@ -34,9 +34,9 @@ export class AddProductComponent implements OnInit {
   /**
   * Multiple Default Select2
   */
-   selectValue = ['Choice 1', 'Choice 2', 'Choice 3'];
+  selectValue = ['Choice 1', 'Choice 2', 'Choice 3'];
 
-   // File Upload
+  // File Upload
   imageURL: string | undefined;
   fileChange(event: any) {
     let fileList: any = (event.target as HTMLInputElement);
@@ -50,5 +50,4 @@ export class AddProductComponent implements OnInit {
     }
     reader.readAsDataURL(file)
   }
-  
 }

@@ -1,4 +1,4 @@
-import {StepOptions} from 'shepherd.js';
+import Step, { StepOptions } from 'shepherd.js';
 
 export const builtInButtons = {
   cancel: {
@@ -40,6 +40,9 @@ export const steps: StepOptions[] = [
       element: '.actions',
       on: 'bottom'
     },
+    // popperOptions: {
+    //   modifiers: [{ name: 'offset', options: { offset: [0, 12] } }],
+    // },
     buttons: [
       builtInButtons.next
     ],
@@ -53,7 +56,10 @@ export const steps: StepOptions[] = [
       element: '.get-started',
       on: 'bottom'
     },
-    buttons: [
+    // popperOptions: {
+    //   modifiers: [{ name: 'offset', options: { offset: [0, 12] } }],
+    // },
+    buttons: [  
       builtInButtons.back,
       builtInButtons.next
     ],
@@ -67,6 +73,9 @@ export const steps: StepOptions[] = [
       element: '.contributors',
       on: 'bottom'
     },
+    // popperOptions: {
+    //   modifiers: [{ name: 'offset', options: { offset: [0, 12] } }],
+    // },
     buttons: [
       builtInButtons.back,
       builtInButtons.next
@@ -81,6 +90,9 @@ export const steps: StepOptions[] = [
       element: '.getProduct',
       on: 'bottom'
     },
+    // popperOptions: {
+    //   modifiers: [{ name: 'offset', options: { offset: [0, 12] } }],
+    // },
     buttons: [
       builtInButtons.back,
       builtInButtons.next
@@ -95,6 +107,9 @@ export const steps: StepOptions[] = [
       element: '.ThankYou',
       on: 'bottom'
     },
+    // popperOptions: {
+    //   modifiers: { name: 'offset', options: { offset: [0, 12] } },
+    // },
     buttons: [
       builtInButtons.back,
       builtInButtons.finish

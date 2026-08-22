@@ -1,6 +1,8 @@
-import {Component, QueryList, ViewChildren} from '@angular/core';
+import { Component, QueryList, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { fetchSellerListData } from 'src/app/store/Ecommerce/ecommerce_action';
 import { selectDataLoading, selectSellerData } from 'src/app/store/Ecommerce/ecommerce_selector';
 import { RootReducerState } from 'src/app/store';
@@ -20,25 +22,25 @@ import { PaginationService } from 'src/app/core/services/pagination.service';
  */
 export class SellersComponent {
 
-   // bread crumb items
-   breadCrumbItems!: Array<{}>;
-   submitted = false;
-   sellerList: any;
-   sellers?: any;
-   category: any = '';
-   searchResults: any;
-   searchTerm: any;
- 
-   constructor(private modalService: NgbModal,
-     public service: PaginationService,
-     private store: Store<{ data: RootReducerState }>) {
-   }
+  // bread crumb items
+  breadCrumbItems!: Array<{}>;
+  submitted = false;
+  sellerList: any;
+  sellers?: any;
+  category: any = '';
+  searchResults: any;
+  searchTerm: any;
+
+  constructor(private modalService: NgbModal,
+    public service: PaginationService,
+    private store: Store<{ data: RootReducerState }>) {
+  }
 
   ngOnInit(): void {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Ecommerce' },
       { label: 'Sellers', active: true }
     ];
@@ -46,7 +48,7 @@ export class SellersComponent {
     /**
      * Fetches the data
      */
-     this.fetchData();
+    this.fetchData();
   }
 
   /**
@@ -65,15 +67,7 @@ export class SellersComponent {
       this.sellerList = cloneDeep(data);
       this.sellers = this.service.changePage(this.sellerList)
     });
-  }
 
-  /**
-   * Open modal
-   * @param content modal content
-   */
-   openModal(content: any) {
-    this.submitted = false;
-    this.modalService.open(content, { size: 'lg', centered: true });
   }
 
   // Pagination
@@ -81,27 +75,35 @@ export class SellersComponent {
     this.sellers = this.service.changePage(this.sellerList)
   }
 
+  /**
+   * Open modal
+   * @param content modal content
+   */
+  openModal(content: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'lg', centered: true });
+  }
 
+  // Category Filter
+  categoryFilter() {
+    if (this.category != 'All' && this.category != '') {
+      this.sellers = this.sellerList.filter((seller: any) => seller.category == this.category);
+    } else {
+      this.sellers = this.sellerList
+    }
+  }
 
-    // Category Filter
-    categoryFilter() {
-      if (this.category != 'All' && this.category != '') {
-        this.sellers = this.sellerList.filter((seller: any) => seller.category == this.category);
-      } else {
-        this.sellers = this.sellerList
-      }
-    }
-  
-    // Search
-    performSearch() {
-      this.searchResults = this.sellerList.filter((item: any) => {
-        return (
-          item.category.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          item.sellername.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-      });
-      this.sellers = this.service.changePage(this.searchResults)
-  
-    }
+  // Search
+  performSearch() {
+    this.searchResults = this.sellerList.filter((item: any) => {
+      return (
+        item.category.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        item.sellername.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    });
+    this.sellers = this.service.changePage(this.searchResults)
+   
+  }
+
 }

@@ -37,7 +37,7 @@ export class ReviewComponent implements OnInit {
   /**
    * Swiper Responsive setting
    */
-  public review= {
+   public review= {
     initialSlide: 0,
     slidesPerView: 1,
     pagination: true,

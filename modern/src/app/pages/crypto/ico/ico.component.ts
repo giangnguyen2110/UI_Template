@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { cryptoICOList } from 'src/app/core/data';
 import { ICOModel } from 'src/app/store/Crypto/crypto_model';
 
@@ -26,7 +27,7 @@ export class IcoComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Crypto' },
       { label: 'ICO List', active: true }
     ];
@@ -41,10 +42,9 @@ export class IcoComponent implements OnInit {
     this.chatMessageDatas = Object.assign([], this.chatMessagesData);
   }
 
-  
   // Filtering
-  isstatus?:any
-  SearchData(){
+  isstatus?: any
+  SearchData() {
     var status = (document.getElementById("choices-single-default2") as HTMLInputElement).value;
     var rating = (document.getElementById("choices-single-default") as HTMLInputElement).value;
     var date = (document.getElementById("isDate") as HTMLInputElement).value;

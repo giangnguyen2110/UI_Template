@@ -20,7 +20,8 @@ export class NftComponent implements OnInit {
   ngOnInit(): void {
   }
 
-      scrollTo(section: string, offset: number = 0) {
+  
+    scrollTo(section: string, offset: number = 0) {
     const element = document.getElementById(section);
     if (element) {
       const topPos = element.getBoundingClientRect().top + window.pageYOffset + offset;
@@ -32,8 +33,6 @@ export class NftComponent implements OnInit {
 
     this.onSectionChange(section);
   }
-
-
   /**
    * Window scroll method
    */

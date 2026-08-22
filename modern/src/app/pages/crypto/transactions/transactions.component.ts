@@ -1,6 +1,4 @@
-import {Component, QueryList, ViewChildren} from '@angular/core';
-
-
+import { Component, QueryList, ViewChildren } from '@angular/core';
 
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
@@ -8,6 +6,7 @@ import { PaginationService } from 'src/app/core/services/pagination.service';
 import { fetchCryptoTransactionData } from 'src/app/store/Crypto/crypto_action';
 import { selectCryptoLoading, selectTransacrionData } from 'src/app/store/Crypto/crypto_selector';
 import { cloneDeep } from 'lodash';
+
 
 @Component({
     selector: 'app-transactions',
@@ -37,35 +36,31 @@ export class TransactionsComponent {
     private store: Store<{ data: RootReducerState }>) {
   }
 
-
   ngOnInit(): void {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Crypto' },
       { label: 'Transactions', active: true }
     ];
     // this.service.currency = 'All'
-       // Fetch Data
-       this.store.dispatch(fetchCryptoTransactionData());
-       this.store.select(selectCryptoLoading).subscribe((data) => {
-         if (data == false) {
-           document.getElementById('elmLoader')?.classList.add('d-none');
-         }
-       });
-   
-       this.store.select(selectTransacrionData).subscribe((data) => {
-         this.transactions = data;
-         this.TransactionList = cloneDeep(data);
-         this.transactions = this.service.changePage(this.TransactionList)
-       });
 
+    // Fetch Data
+    this.store.dispatch(fetchCryptoTransactionData());
+    this.store.select(selectCryptoLoading).subscribe((data) => {
+      if (data == false) {
+        document.getElementById('elmLoader')?.classList.add('d-none');
+      }
+    });
+
+    this.store.select(selectTransacrionData).subscribe((data) => {
+      this.transactions = data;
+      this.TransactionList = cloneDeep(data);
+      this.transactions = this.service.changePage(this.TransactionList)
+    });
   }
 
-  /**
-   * Swiper setting
-   */
   num: number = 0;
   option = {
     startVal: this.num,
@@ -73,18 +68,15 @@ export class TransactionsComponent {
     duration: 2,
     decimalPlaces: 2,
   };
-  
+
   /**
    * Swiper setting
    */
   config = {
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    arrows: false
+    initialSlide: 0,
+    slidesPerView: 1
   };
-  
+
   CurrencyFilter() {
     if (this.currency != '') {
       this.transactions = this.TransactionList.filter((item: any) => item.currency == this.currency);
@@ -121,5 +113,5 @@ export class TransactionsComponent {
   onSort(column: any) {
     this.transactions = this.service.onSort(column, this.transactions)
   }
-
 }
+

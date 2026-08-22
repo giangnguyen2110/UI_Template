@@ -8,12 +8,11 @@
         <div class="card crm-widget">
             <div class="card-body p-0">
                 <div class="row row-cols-xxl-5 row-cols-md-3 row-cols-1 g-0">
-                    @for(stat of statData; track $index){
+                    @for ( stat of statData; track $index) {
                     <div>
-                        <app-crm-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon"
-                            [profit]="stat.profit"></app-crm-stat>
+                        <app-crm-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon" [profit]="stat.profit" [sign]="stat.sign" [percentage]="stat.percentage"></app-crm-stat>
                     </div>
-                }
+                    }
                 </div><!-- end row -->
             </div><!-- end card body -->
         </div><!-- end card -->
@@ -27,9 +26,8 @@
                 <h4 class="card-title mb-0 flex-grow-1">Sales Forecast</h4>
                 <div class="flex-shrink-0">
                     <div class="dropdown card-header-dropdown" ngbDropdown>
-                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                            <span class="fw-semibold text-uppercase fs-13">Sort by: </span><span class="text-muted">Nov
+                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                            <span class="fw-semibold text-uppercase fs-12">Sort by: </span><span class="text-muted">Nov
                                 2021<i class="mdi mdi-chevron-down ms-1"></i></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
@@ -47,12 +45,7 @@
             </div><!-- end card header -->
             <div class="card-body pb-0">
                 <div class="mb-n3">
-                    <apx-chart [series]="salesForecastChart.series" [chart]="salesForecastChart.chart"
-                        [colors]="salesForecastChart.colors" [dataLabels]="salesForecastChart.dataLabels"
-                        [plotOptions]="salesForecastChart.plotOptions" [yaxis]="salesForecastChart.yaxis"
-                        [legend]="salesForecastChart.legend" [fill]="salesForecastChart.fill"
-                        [stroke]="salesForecastChart.stroke" [tooltip]="salesForecastChart.tooltip"
-                        [xaxis]="salesForecastChart.xaxis" dir="ltr"></apx-chart>
+                    <apx-chart [series]="salesForecastChart.series" [chart]="salesForecastChart.chart" [colors]="salesForecastChart.colors" [dataLabels]="salesForecastChart.dataLabels" [plotOptions]="salesForecastChart.plotOptions" [yaxis]="salesForecastChart.yaxis" [legend]="salesForecastChart.legend" [fill]="salesForecastChart.fill" [stroke]="salesForecastChart.stroke" [tooltip]="salesForecastChart.tooltip" [xaxis]="salesForecastChart.xaxis" dir="ltr"></apx-chart>
                 </div>
             </div>
         </div><!-- end card -->
@@ -64,29 +57,21 @@
                 <h4 class="card-title mb-0 flex-grow-1">Deal Type</h4>
                 <div class="flex-shrink-0">
                     <div class="dropdown card-header-dropdown" ngbDropdown>
-                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                            <span class="fw-semibold text-uppercase fs-13">Sort by: </span><span
-                                class="text-muted">Monthly<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                            <span class="fw-semibold text-uppercase fs-12">Sort by: </span><span class="text-muted">Monthly<i class="mdi mdi-chevron-down ms-1"></i></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setdealvalue('today')">Today</a>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setdealvalue('weekly')">Weekly</a>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setdealvalue('monthly')">Monthly</a>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setdealvalue('yearly')">Yearly</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setdealvalue('today')">Today</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setdealvalue('weekly')">Weekly</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setdealvalue('monthly')">Monthly</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setdealvalue('yearly')">Yearly</a>
                         </div>
                     </div>
                 </div>
             </div><!-- end card header -->
             <div class="card-body pb-0">
                 <div class="mb-n3">
-                    <apx-chart [series]="DealTypeChart.series" [chart]="DealTypeChart.chart"
-                        [stroke]="DealTypeChart.stroke" [fill]="DealTypeChart.fill" [markers]="DealTypeChart.markers"
-                        [colors]="DealTypeChart.colors" [xaxis]="DealTypeChart.xaxis" dir="ltr"></apx-chart>
+                    <apx-chart [series]="DealTypeChart.series" [chart]="DealTypeChart.chart" [stroke]="DealTypeChart.stroke" [fill]="DealTypeChart.fill" [markers]="DealTypeChart.markers" [colors]="DealTypeChart.colors" [xaxis]="DealTypeChart.xaxis" dir="ltr"></apx-chart>
                 </div>
             </div><!-- end card body -->
         </div><!-- end card -->
@@ -98,20 +83,14 @@
                 <h4 class="card-title mb-0 flex-grow-1">Balance Overview</h4>
                 <div class="flex-shrink-0">
                     <div class="dropdown card-header-dropdown" ngbDropdown>
-                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                            <span class="fw-semibold text-uppercase fs-13">Sort by: </span><span
-                                class="text-muted">Current Year<i class="mdi mdi-chevron-down ms-1"></i></span>
+                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                            <span class="fw-semibold text-uppercase fs-12">Sort by: </span><span class="text-muted">Current Year<i class="mdi mdi-chevron-down ms-1"></i></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setbalancevalue('today')">Today</a>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setbalancevalue('last_week')">Last Week</a>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setbalancevalue('last_month')">Last Month</a>
-                            <a class="dropdown-item" href="javascript:void(0);"
-                                (click)="setbalancevalue('current_year')">Current Year</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setbalancevalue('today')">Today</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setbalancevalue('last_week')">Last Week</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setbalancevalue('last_month')">Last Month</a>
+                            <a class="dropdown-item" href="javascript:void(0);" (click)="setbalancevalue('current_year')">Current Year</a>
                         </div>
                     </div>
                 </div>
@@ -119,23 +98,18 @@
             <div class="card-body px-0">
                 <ul class="list-inline main-chart text-center mb-0">
                     <li class="list-inline-item chart-border-left me-0 border-0">
-                        <h4 class="text-primary">$584k <span
-                                class="text-muted d-inline-block fs-13 align-middle ms-2">Revenue</span></h4>
+                        <h4 class="text-primary">$584k <span class="text-muted d-inline-block fs-13 align-middle ms-2">Revenue</span></h4>
                     </li>
                     <li class="list-inline-item chart-border-left me-0">
                         <h4>$497k<span class="text-muted d-inline-block fs-13 align-middle ms-2">Expenses</span>
                         </h4>
                     </li>
                     <li class="list-inline-item chart-border-left me-0">
-                        <h4><span data-plugin="counterup">3.6</span>%<span
-                                class="text-muted d-inline-block fs-13 align-middle ms-2">Profit Ratio</span></h4>
+                        <h4><span data-plugin="counterup">3.6</span>%<span class="text-muted d-inline-block fs-13 align-middle ms-2">Profit Ratio</span></h4>
                     </li>
                 </ul>
                 <div class="mb-n3">
-                    <apx-chart [series]="splineAreaChart.series" [chart]="splineAreaChart.chart"
-                        [dataLabels]="splineAreaChart.dataLabels" [stroke]="splineAreaChart.stroke"
-                        [xaxis]="splineAreaChart.xaxis" [yaxis]="splineAreaChart.yaxis"
-                        [colors]="splineAreaChart.colors" [fill]="splineAreaChart.fill" dir="ltr"></apx-chart>
+                    <apx-chart [series]="splineAreaChart.series" [chart]="splineAreaChart.chart" [dataLabels]="splineAreaChart.dataLabels" [stroke]="splineAreaChart.stroke" [xaxis]="splineAreaChart.xaxis" [yaxis]="splineAreaChart.yaxis" [colors]="splineAreaChart.colors" [fill]="splineAreaChart.fill" dir="ltr"></apx-chart>
                 </div>
             </div>
         </div><!-- end card -->
@@ -149,10 +123,8 @@
                 <h4 class="card-title mb-0 flex-grow-1">Deals Status</h4>
                 <div class="flex-shrink-0">
                     <div class="dropdown card-header-dropdown" ngbDropdown>
-                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                            <span class="text-muted">02 Nov 2021 to 31 Dec 2021<i
-                                    class="mdi mdi-chevron-down ms-1"></i></span>
+                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                            <span class="text-muted">02 Nov 2021 to 31 Dec 2021<i class="mdi mdi-chevron-down ms-1"></i></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                             <a class="dropdown-item" href="javascript:void(0);">Today</a>
@@ -178,10 +150,8 @@
                 <h4 class="card-title mb-0 flex-grow-1">My Tasks</h4>
                 <div class="flex-shrink-0">
                     <div class="dropdown card-header-dropdown" ngbDropdown>
-                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                            <span class="text-muted"><i
-                                    class="ri-settings-4-line align-middle mx-1 fs-15"></i>Settings</span>
+                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                            <span class="text-muted"><i class="ri-settings-4-line align-bottom mx-1 fs-15"></i>Settings</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
                             <a class="dropdown-item" href="javascript:void(0);">Edit</a>
@@ -195,11 +165,9 @@
 
                 <div class="align-items-center p-3 justify-content-between d-flex">
                     <div class="flex-shrink-0">
-                        <div class="text-muted"><span class="fw-semibold">4</span> of <span
-                                class="fw-semibold">10</span> remaining</div>
+                        <div class="text-muted"><span class="fw-semibold">4</span> of <span class="fw-semibold">10</span> remaining</div>
                     </div>
-                    <button type="button" class="btn btn-sm btn-secondary" routerLink="/tasks/list-view"><i
-                            class="ri-add-line align-middle me-1"></i> Add Task</button>
+                    <button type="button" class="btn btn-sm btn-success" routerLink="/tasks/list-view"><i class="ri-add-line align-middle me-1"></i> Add Task</button>
                 </div><!-- end card header -->
 
                 <ngx-simplebar style="max-height: 219px;">
@@ -214,7 +182,7 @@
                                         nothing slips through cracks</label>
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
-                                    <p class="text-muted fs-13 mb-0">15 Sep, 2021</p>
+                                    <p class="text-muted fs-12 mb-0">15 Sep, 2021</p>
                                 </div>
                             </div>
                         </li>
@@ -228,7 +196,7 @@
                                         sales upcampaign</label>
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
-                                    <p class="text-muted fs-13 mb-0">20 Sep, 2021</p>
+                                    <p class="text-muted fs-12 mb-0">20 Sep, 2021</p>
                                 </div>
                             </div>
                         </li>
@@ -242,7 +210,7 @@
                                         checking with sales team</label>
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
-                                    <p class="text-muted fs-13 mb-0">24 Sep, 2021</p>
+                                    <p class="text-muted fs-12 mb-0">24 Sep, 2021</p>
                                 </div>
                             </div>
                         </li>
@@ -256,7 +224,7 @@
                                         viewed from the individual view</label>
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
-                                    <p class="text-muted fs-13 mb-0">27 Sep, 2021</p>
+                                    <p class="text-muted fs-12 mb-0">27 Sep, 2021</p>
                                 </div>
                             </div>
                         </li>
@@ -270,7 +238,7 @@
                                         page</label>
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
-                                    <p class="text-muted fs-13 mb-0">27 Sep, 2021</p>
+                                    <p class="text-muted fs-12 mb-0">27 Sep, 2021</p>
                                 </div>
                             </div>
                         </li>
@@ -284,14 +252,14 @@
                                         and documentation for velzon admin</label>
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
-                                    <p class="text-muted fs-13 mb-0">27 Sep, 2021</p>
+                                    <p class="text-muted fs-12 mb-0">27 Sep, 2021</p>
                                 </div>
                             </div>
                         </li>
                     </ul><!-- end ul -->
                 </ngx-simplebar>
                 <div class="p-3 pt-2">
-                    <a href="javascript:void(0);" class="text-muted text-decoration-underline">Show more...</a>
+                    <a routerLink="/tasks/list-view" class="text-muted text-decoration-underline">Show more...</a>
                 </div>
             </div><!-- end card body -->
         </div><!-- end card -->
@@ -305,8 +273,7 @@
                 <h4 class="card-title mb-0 flex-grow-1">Upcoming Activities</h4>
                 <div class="flex-shrink-0">
                     <div class="dropdown card-header-dropdown" ngbDropdown>
-                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                        <a class="text-reset dropdown-btn arrow-none" href="javascript:void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                             <span class="text-muted fs-18"><i class="mdi mdi-dots-vertical"></i></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
@@ -322,13 +289,11 @@
                 </ul><!-- end -->
                 <div class="align-items-center mt-2 row g-3 text-center text-sm-start">
                     <div class="col-sm">
-                        <div class="text-muted">Showing<span class="fw-semibold">4</span> of <span
-                                class="fw-semibold">125</span> Results
+                        <div class="text-muted">Showing<span class="fw-semibold">4</span> of <span class="fw-semibold">125</span> Results
                         </div>
                     </div>
                     <div class="col-sm-auto">
-                        <ul
-                            class="pagination pagination-separated pagination-sm justify-content-center justify-content-sm-start mb-0">
+                        <ul class="pagination pagination-separated pagination-sm justify-content-center justify-content-sm-start mb-0">
                             <li class="page-item disabled">
                                 <a href="javascript:void(0);" class="page-link">←</a>
                             </li>

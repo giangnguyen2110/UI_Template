@@ -1,22 +1,22 @@
-import {Component, QueryList, ViewChildren} from '@angular/core';
-
+import { Component, QueryList, ViewChildren } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GlobalComponent } from '../../../global-component';
 
 // Sweet Alert
 import Swal from 'sweetalert2';
 
+
 // Products Services
+import { Router } from '@angular/router';
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { selectDataLoading, selectProductData } from 'src/app/store/Ecommerce/ecommerce_selector';
 import { PaginationService } from 'src/app/core/services/pagination.service';
 import { cloneDeep } from 'lodash';
 import { deleteProduct, fetchProductListData } from 'src/app/store/Ecommerce/ecommerce_action';
-// Products Services
-
-import { restApiService } from "../../../core/services/rest-api.service";
-import { GlobalComponent } from '../../../global-component';
-import { Router } from '@angular/router';
+import { revenueChart } from 'src/app/shared/chartColor';
 
 @Component({
     selector: 'app-seller-details',
@@ -49,38 +49,31 @@ export class SellerDetailsComponent {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Ecommerce' },
       { label: 'Seller Details', active: true }
     ];
 
-     // Chart Color Data Get Function
-     this._analyticsChart('["--vz-primary", "--vz-success", "--vz-danger"]');
+    // Chart Color Data Get Function
+    this._analyticsChart('["--vz-primary", "--vz-success", "--vz-danger"]');
 
-     /**
+    /**
      * fetches data
      */
-     this.store.dispatch(fetchProductListData());
-     this.store.select(selectDataLoading).subscribe((data) => {
-       if (data == false) {
-         document.getElementById('elmLoader')?.classList.add('d-none');
-       }
-     });
- 
-     this.store.select(selectProductData).subscribe((data) => {
-       this.products = data;
-       this.allproducts = cloneDeep(data);
-       this.products = this.service.changePage(this.allproducts)
-     });
-  }
+    this.store.dispatch(fetchProductListData());
+    this.store.select(selectDataLoading).subscribe((data) => {
+      if (data == false) {
+        document.getElementById('elmLoader')?.classList.add('d-none');
+      }
+    });
 
-  num: number = 0;
-  option = {
-    startVal: this.num,
-    useEasing: true,
-    duration: 2,
-    decimalPlaces: 2,
-  };
+    this.store.select(selectProductData).subscribe((data) => {
+      this.products = data;
+      this.allproducts = cloneDeep(data);
+      this.products = this.service.changePage(this.allproducts)
+    });
+
+  }
 
   changePage() {
     this.products = this.service.changePage(this.allproducts)
@@ -98,80 +91,43 @@ export class SellerDetailsComponent {
     this.products = this.service.changePage(this.searchResults)
   }
 
+  num: number = 0;
+  option = {
+    startVal: this.num,
+    useEasing: true,
+    duration: 2,
+    decimalPlaces: 2,
+  };
 
-  /**
-    * Confirmation mail model
-  */
-  deleteId: any;
-    confirm(content:any,id:any) {
-      this.deleteId = id;
-      this.modalService.open(content, { centered: true });
-  }
-
-
-  // Delete Data
-  deleteData(id:any) {    
-    if (id) {
-      this.store.dispatch(deleteProduct({ id: this.deleteId.toString() }));
-    } else {
-      this.store.dispatch(deleteProduct({ id: this.checkedValGet.toString() }));
-      (document.getElementById("selection-element") as HTMLElement).style.display = "none"
-    }
-    this.deleteId = ''
-  }
-
-  /**
-  * Multiple Delete
-  */
-   checkedValGet: any[] = [];
-   deleteMultiple(content:any){
-     var checkboxes:any = document.getElementsByName('checkAll');
-     var result
-     var checkedVal: any[] = [];
-     for (var i = 0; i < checkboxes.length; i++) {
-       if (checkboxes[i].checked) {
-           result = checkboxes[i].value;
-           checkedVal.push(result);   
-       }
-     }
-     if(checkedVal.length > 0){
-       this.modalService.open(content, { centered: true });
-     }
-     else{
-       Swal.fire({text:'Please select at least one checkbox',confirmButtonColor: '#299cdb',});
-     }
-     this.checkedValGet = checkedVal;
-   }
-
-   // Chart Colors Set
-  private getChartColorsArray(colors:any) {
+  // Chart Colors Set
+  private getChartColorsArray(colors: any) {
     colors = JSON.parse(colors);
-    return colors.map(function (value:any) {
+    return colors.map(function (value: any) {
       var newValue = value.replace(" ", "");
       if (newValue.indexOf(",") === -1) {
         var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-            if (color) {
-            color = color.replace(" ", "");
-            return color;
-            }
-            else return newValue;;
-        } else {
-            var val = value.split(',');
-            if (val.length == 2) {
-                var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-                rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
-                return rgbaColor;
-            } else {
-                return newValue;
-            }
+        if (color) {
+          color = color.replace(" ", "");
+          return color;
         }
+        else return newValue;;
+      } else {
+        var val = value.split(',');
+        if (val.length == 2) {
+          var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+          rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+          return rgbaColor;
+        } else {
+          return newValue;
+        }
+      }
     });
   }
 
   /**
  * Sales Analytics Chart
  */
-   setrevenuevalue(value: any) {
+  setrevenuevalue(value: any) {
     if (value == 'all') {
       this.analyticsChart.series = [{
         name: 'Orders',
@@ -234,33 +190,33 @@ export class SellerDetailsComponent {
     }
   }
 
-   private _analyticsChart(colors:any) {
+  private _analyticsChart(colors: any) {
     colors = this.getChartColorsArray(colors);
     this.analyticsChart = {
       series: [{
-          name: "Orders",
-          type: "area",
-          data: [34, 65, 46, 68, 49, 61, 42, 44, 78, 52, 63, 67],
-        },
-        {
-            name: "Earnings",
-            type: "bar",
-            data: [
-                89.25, 98.58, 68.74, 108.87, 77.54, 84.03, 51.24, 28.57, 92.57, 42.36,
-                88.51, 36.57,
-            ],
-        },
-        {
-          name: 'Refunds',
-          type: 'line',
-          data: [8, 12, 7, 17, 21, 11, 5, 9, 7, 29, 12, 35]
-        }
+        name: "Orders",
+        type: "area",
+        data: [34, 65, 46, 68, 49, 61, 42, 44, 78, 52, 63, 67],
+      },
+      {
+        name: "Earnings",
+        type: "bar",
+        data: [
+          89.25, 98.58, 68.74, 108.87, 77.54, 84.03, 51.24, 28.57, 92.57, 42.36,
+          88.51, 36.57,
+        ],
+      },
+      {
+        name: 'Refunds',
+        type: 'line',
+        data: [8, 12, 7, 17, 21, 11, 5, 9, 7, 29, 12, 35]
+      }
       ],
       chart: {
         height: 370,
         type: "line",
         toolbar: {
-            show: false,
+          show: false,
         },
       },
       stroke: {
@@ -275,48 +231,48 @@ export class SellerDetailsComponent {
         size: [0, 0, 0],
         strokeWidth: 2,
         hover: {
-            size: 4,
+          size: 4,
         },
       },
       xaxis: {
         categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
         ],
         axisTicks: {
-            show: false,
+          show: false,
         },
         axisBorder: {
-            show: false,
+          show: false,
         },
       },
       grid: {
         show: true,
         xaxis: {
-            lines: {
-                show: true,
-            },
+          lines: {
+            show: true,
+          },
         },
         yaxis: {
-            lines: {
-                show: false,
-            },
+          lines: {
+            show: false,
+          },
         },
         padding: {
-            top: 0,
-            right: -2,
-            bottom: 15,
-            left: 10,
+          top: 0,
+          right: -2,
+          bottom: 15,
+          left: 10,
         },
       },
       legend: {
@@ -325,28 +281,83 @@ export class SellerDetailsComponent {
         offsetX: 0,
         offsetY: -5,
         markers: {
-            width: 9,
-            height: 9,
-            radius: 6,
+          width: 9,
+          height: 9,
+          radius: 6,
         },
         itemMargin: {
-            horizontal: 10,
-            vertical: 0,
+          horizontal: 10,
+          vertical: 0,
         },
       },
       plotOptions: {
         bar: {
-            columnWidth: "30%",
-            barHeight: "70%",
+          columnWidth: "30%",
+          barHeight: "70%",
         },
       },
       colors: colors,
 
     };
+
+    const attributeToMonitor = 'data-theme';
+
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+      this._analyticsChart(revenueChart(currentTheme));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: [attributeToMonitor]
+    });
+  }
+
+  /**
+  * Confirmation mail model
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      this.store.dispatch(deleteProduct({ id: this.deleteId.toString() }));
+    } else {
+      this.store.dispatch(deleteProduct({ id: this.checkedValGet.toString() }));
+      (document.getElementById("selection-element") as HTMLElement).style.display = "none"
+    }
+    this.deleteId = ''
+  }
+
+  /**
+  * Multiple Delete
+  */
+  checkedValGet: any[] = [];
+  deleteMultiple(content: any) {
+    var checkboxes: any = document.getElementsByName('checkAll');
+    var result
+    var checkedVal: any[] = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        result = checkboxes[i].value;
+        checkedVal.push(result);
+      }
+    }
+    if (checkedVal.length > 0) {
+      this.modalService.open(content, { centered: true });
+    }
+    else {
+      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#299cdb', });
+    }
+    this.checkedValGet = checkedVal;
   }
 
   godetail(id: any) {
-    this.router.navigate(['/ecommerce/product-detail/1', this.products[id]])
+    this.router.navigate(['/ecommerce/product-detail/', this.products[id]])
   }
 
   /**
@@ -362,13 +373,14 @@ export class SellerDetailsComponent {
     vertical: true // Enable vertical sliding
   };
 
-    /**
+
+  /**
 * Sort table data
 * @param param0 sort the column
 *
 */
-onSort(column: any) {
-  this.products = this.service.onSort(column, this.products)
-}
+  onSort(column: any) {
+    this.products = this.service.onSort(column, this.products)
+  }
 
 }

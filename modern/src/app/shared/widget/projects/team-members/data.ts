@@ -31,7 +31,7 @@ import { ChartType } from './team-members.model';
             }
         }
     },
-    colors: ["#5ea3cb"]
+    colors: ["#405189"]
 };
 
 /**
@@ -64,7 +64,7 @@ import { ChartType } from './team-members.model';
             }
         }
     },
-    colors: ["#5ea3cb"]
+    colors: ["#405189"]
 };
 
 /**
@@ -97,7 +97,7 @@ import { ChartType } from './team-members.model';
             }
         }
     },
-    colors: ["#5ea3cb"]
+    colors: ["#405189"]
 };
 
 /**
@@ -163,7 +163,7 @@ import { ChartType } from './team-members.model';
             }
         }
     },
-    colors: ["#5ea3cb"]
+    colors: ["#405189"]
 };
 
 /**
@@ -229,7 +229,7 @@ import { ChartType } from './team-members.model';
             }
         }
     },
-    colors: ["#5ea3cb"]
+    colors: ["#405189"]
 };
 
 export { status1, status2, status3, status4, status5, status6, status7 };

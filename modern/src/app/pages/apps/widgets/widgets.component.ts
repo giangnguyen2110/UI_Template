@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { circle, latLng, tileLayer } from 'leaflet';
 
-import { TitleBox1Model, TitleBox2Model, TitleBox3Model, TitleBox4Model, otherWidgetsModel, widgetsActivitiesModel, widgetsTasksModel, TitleBox5Model, HotproductModel, CandidateModel, BankModel } from './widgets.model';
-import { bank, candidate, hotproducts, otherWidgets, tileBoxs1, tileBoxs2, tileBoxs3, tileBoxs4, tileBoxs5, widgetsActivities, widgetsTasks } from 'src/app/core/data';
-
+import { TitleBox1Model, TitleBox2Model, TitleBox3Model, TitleBox4Model, otherWidgetsModel, widgetsActivitiesModel, widgetsTasksModel, TitleBox5Model, HotproductModel, BankModel, CandidateModel } from './widgets.model';
 import { UntypedFormBuilder, Validators, UntypedFormGroup, UntypedFormArray, AbstractControl } from '@angular/forms';
+import { bank, candidate, hotproducts, otherWidgets, tileBoxs1, tileBoxs2, tileBoxs3, tileBoxs4, tileBoxs5, widgetsActivities, widgetsTasks } from 'src/app/core/data';
+import { AudiencesMetrics, countries_charts } from 'src/app/shared/chartColor';
 
 @Component({
     selector: 'app-widgets',
@@ -70,6 +69,7 @@ export class WidgetsComponent implements OnInit {
     this._applicationChart('["--vz-success" , "--vz-transparent"]');
     this._interviewChart('["--vz-danger" , "--vz-transparent"]');
     this._hiredChart('["--vz-success", "--vz-transparent"]');
+
     // Validation
     this.customcardData = this.formBuilder.group({
       card_no: ['', [Validators.required]],
@@ -228,11 +228,22 @@ export class WidgetsComponent implements OnInit {
         categories: ['India', 'United States', 'China', 'Indonesia', 'Russia', 'Bangladesh', 'Canada', 'Brazil', 'Vietnam', 'UK'],
       },
     };
+    const attributeToMonitor = 'data-theme';
+
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+      this._basicBarChart(countries_charts(currentTheme));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: [attributeToMonitor]
+    });
   }
 
   /**
-* Application Chart
-*/
+  * Application Chart
+  */
   private _applicationChart(colors: any) {
     colors = this.getChartColorsArray(colors);
     this.ApplicationChart = {
@@ -272,8 +283,8 @@ export class WidgetsComponent implements OnInit {
   }
 
   /**
-  * Interviewed Chart
-  */
+ * Interviewed Chart
+ */
   private _interviewChart(colors: any) {
     colors = this.getChartColorsArray(colors);
     this.InterviewedChart = {
@@ -353,7 +364,6 @@ export class WidgetsComponent implements OnInit {
     };
   }
 
-
   /**
  * Basic Column Charts
  */
@@ -426,6 +436,17 @@ export class WidgetsComponent implements OnInit {
         opacity: 1
       }
     };
+    const attributeToMonitor = 'data-theme';
+
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+      this._basicColumnChart(AudiencesMetrics(currentTheme));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: [attributeToMonitor]
+    });
   }
 
   /**
@@ -702,7 +723,6 @@ export class WidgetsComponent implements OnInit {
     duration: 2,
     decimalPlaces: 2,
   };
-
   // open Candidate Detail
   opendetail(id: any) {
     this.candidatedetail = this.candidates[id]

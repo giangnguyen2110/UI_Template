@@ -1,5 +1,6 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-
+import { DecimalPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, UntypedFormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 // Range Slider
@@ -9,17 +10,15 @@ import { Options } from 'ngx-slider-v2';
 import Swal from 'sweetalert2';
 
 // Products Services
+import { restApiService } from "../../../core/services/rest-api.service";
+import { GlobalComponent } from '../../../global-component';
+import { Router } from '@angular/router';
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { deleteProduct, fetchProductListData } from 'src/app/store/Ecommerce/ecommerce_action';
 import { selectDataLoading, selectProductData } from 'src/app/store/Ecommerce/ecommerce_selector';
 import { cloneDeep } from 'lodash';
 import { PaginationService } from 'src/app/core/services/pagination.service';
-
-// Products Services
-import { restApiService } from "../../../core/services/rest-api.service";
-import { GlobalComponent } from '../../../global-component';
-import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-products',
@@ -62,10 +61,10 @@ export class ProductsComponent {
   kids: any = 0;
   totalpublish: any = 0;
 
- // Table data
+  // Table data
   // allproductList: any;
   searchTerm: any;
-
+  
   searchproducts: any;
   publishedproduct: any;
   ProductFilter: any;
@@ -91,19 +90,20 @@ export class ProductsComponent {
     ];
 
 
-    // Fetch Data
-    this.store.dispatch(fetchProductListData());
-    this.store.select(selectDataLoading).subscribe((data) => {
-      if (data == false) {
-        document.getElementById('elmLoader')?.classList.add('d-none');
-      }
-    });
-
-    this.store.select(selectProductData).subscribe((data) => {
-      this.products = data;
-      this.allproduct = cloneDeep(data);
-      this.products = this.service.changePage(this.allproduct)
-    });
+   
+     // Fetch Data
+     this.store.dispatch(fetchProductListData());
+     this.store.select(selectDataLoading).subscribe((data) => {
+       if (data == false) {
+         document.getElementById('elmLoader')?.classList.add('d-none');
+       }
+     });
+ 
+     this.store.select(selectProductData).subscribe((data) => {
+       this.products = data;
+       this.allproduct = cloneDeep(data);
+       this.products = this.service.changePage(this.allproduct)
+     });
 
     setTimeout(() => {
       for (var i = 0; i < this.allproducts?.length; i++) {
@@ -142,20 +142,20 @@ export class ProductsComponent {
     });
   }
 
-    // Search Data
-    performSearch(): void {
-      this.searchResults = this.allproduct.filter((item: any) => {
-        return (item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-      });
-      // this.orderes = this.searchResults.slice(0, 10);
-      this.products = this.service.changePage(this.searchResults)
-    }
-  
-    changePage() {
-      this.products = this.service.changePage(this.allproduct)
-    }
-    
+// Search Data
+performSearch(): void {
+  this.searchResults = this.allproduct.filter((item: any) => {
+    return ( item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  });
+  // this.orderes = this.searchResults.slice(0, 10);
+  this.products = this.service.changePage(this.searchResults)
+}
+
+changePage() {
+  this.products = this.service.changePage(this.allproduct)
+}
+
   /**
 * change navigation
 */
@@ -165,7 +165,7 @@ export class ProductsComponent {
     }
     if (changeEvent.nextId === 2) {
       this.activeindex = '2'
-      this.products = this.allproduct.filter((product: any) => product.status == 'published');
+      this.products = this.allproduct.filter((product:any) => product.status == 'published');
     }
     if (changeEvent.nextId === 3) {
       this.activeindex = '3'
@@ -198,7 +198,7 @@ export class ProductsComponent {
       this.store.dispatch(deleteProduct({ id: this.checkedValGet.toString() }));
       (document.getElementById("selection-element") as HTMLElement).style.display = "none"
     }
-    this.deleteId = ''
+    this.deleteId=''
   }
 
   // Price Slider
@@ -261,9 +261,9 @@ export class ProductsComponent {
     if (e.target.checked) {
       this.discountRates.push(e.target.defaultValue)
 
-      this.products = this.allproduct.filter((product: any) => {
-        return product.rating > e.target.defaultValue;
-      });
+        this.products = this.allproduct.filter((product: any) => {
+          return product.rating > e.target.defaultValue;
+        });
     } else {
       for (var i = 0; i < this.discountRates.length; i++) {
         if (this.discountRates[i] === e.target.defaultValue) {
@@ -281,7 +281,7 @@ export class ProductsComponent {
   changeRating(e: any, rate: any) {
     if (e.target.checked) {
       this.Rating.push(e.target.defaultValue)
-      this.products = this.allproduct.filter((product: any) => product.rating >= rate);
+      this.products = this.allproduct.filter((product:any) => product.rating >= rate);
     }
     else {
       for (var i = 0; i < this.Rating.length; i++) {
@@ -312,7 +312,7 @@ export class ProductsComponent {
         }
       })
     });
-    this.products = this.allproduct.filter((product: any) => product.category == category);
+    this.products = this.allproduct.filter((product:any) => product.category == category);
   }
 
 
@@ -400,4 +400,5 @@ export class ProductsComponent {
   gopublishdetail(id: any) {
     this.router.navigate(['/ecommerce/product-detail/'])
   }
+
 }

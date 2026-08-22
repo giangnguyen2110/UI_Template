@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +34,8 @@ import { TwoColumnSidebarComponent } from './two-column-sidebar/two-column-sideb
     HorizontalComponent,
     HorizontalTopbarComponent,
     TwoColumnComponent,
-    TwoColumnSidebarComponent
+    TwoColumnSidebarComponent,
+
   ],
   imports: [
     CommonModule,
@@ -43,11 +44,12 @@ import { TwoColumnSidebarComponent } from './two-column-sidebar/two-column-sideb
     NgbNavModule,
     SimplebarAngularModule,
     TranslateModule,
-    FormsModule,
     NgbCollapseModule,
-    ReactiveFormsModule
+    FormsModule, ReactiveFormsModule
   ],
-  providers: [LanguageService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
+  providers: [LanguageService]
 })
 export class LayoutsModule { }

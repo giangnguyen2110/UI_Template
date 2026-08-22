@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // Ck Editer
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
     selector: 'app-create',

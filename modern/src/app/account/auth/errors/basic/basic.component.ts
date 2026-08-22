@@ -18,6 +18,7 @@ export class BasicComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    document.documentElement.setAttribute('data-sidebar-size', 'lg');
   }
 
 }

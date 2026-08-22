@@ -10,7 +10,7 @@ export const MENU: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARD.TEXT',
     collapseid: 'sidebarDashboards',
-    icon: 'home',
+    icon: 'ri-dashboard-2-line',
     subItems: [
       {
         id: 3,
@@ -66,13 +66,12 @@ export const MENU: MenuItem[] = [
     id: 8,
     label: 'MENUITEMS.APPS.TEXT',
     collapseid: 'sidebarApps',
-    icon: 'grid',
+    icon: 'ri-apps-2-line',
     subItems: [
       {
         id: 9,
         label: 'MENUITEMS.APPS.LIST.CALENDAR',
         link: '/calendar',
-        parentId: 8,
         subItems: [
           {
             id: 9,
@@ -140,7 +139,7 @@ export const MENU: MenuItem[] = [
           {
             id: 14,
             label: 'MENUITEMS.APPS.LIST.PRODUCTDETAILS',
-            link: '/ecommerce/product-detail/1',
+            link: '/ecommerce/product-detail',
             parentId: 12
           },
           {
@@ -530,7 +529,7 @@ export const MENU: MenuItem[] = [
     id: 55,
     label: 'MENUITEMS.AUTHENTICATION.TEXT',
     collapseid: 'sidebarAuth',
-    icon: 'users',
+    icon: 'ri-account-circle-line',
     subItems: [
       {
         id: 56,
@@ -726,7 +725,7 @@ export const MENU: MenuItem[] = [
   {
     id: 82,
     label: 'MENUITEMS.PAGES.TEXT',
-    icon: 'command',
+    icon: 'ri-pages-line',
     collapseid: 'sidebarPages',
     subItems: [
       {
@@ -847,10 +846,10 @@ export const MENU: MenuItem[] = [
     ]
   },
   {
-    id: 131,
+    id: 97,
     label: 'MENUITEMS.LANDING.TEXT',
     collapseid: 'sidebarUI',
-    icon: 'airplay',
+    icon: 'ri-rocket-line',
     subItems: [
       {
         id: 85,
@@ -881,7 +880,7 @@ export const MENU: MenuItem[] = [
     id: 97,
     label: 'MENUITEMS.BASEUI.TEXT',
     collapseid: 'sidebarBasicUI',
-    icon: 'package',
+    icon: 'ri-pencil-ruler-2-line',
     subItems: [
       {
         id: 98,
@@ -1030,7 +1029,7 @@ export const MENU: MenuItem[] = [
   {
     id: 121,
     label: 'MENUITEMS.ADVANCEUI.TEXT',
-    icon: 'layers',
+    icon: 'ri-stack-line',
     collapseid: 'sidebarAdvanceUI',
     badge: {
       variant: 'bg-success',
@@ -1084,13 +1083,13 @@ export const MENU: MenuItem[] = [
   {
     id: 131,
     label: 'MENUITEMS.WIDGETS.TEXT',
-    icon: 'copy',
+    icon: 'ri-honour-line',
     link: '/widgets'
   },
   {
     id: 132,
     label: 'MENUITEMS.FORMS.TEXT',
-    icon: 'file-text',
+    icon: 'ri-file-list-3-line',
     collapseid: 'sidebarForms',
     subItems: [
       {
@@ -1171,7 +1170,7 @@ export const MENU: MenuItem[] = [
     id: 145,
     label: 'MENUITEMS.TABLES.TEXT',
     collapseid: 'sidebarTables',
-    icon: 'database',
+    icon: 'ri-layout-grid-line',
     subItems: [
       {
         id: 146,
@@ -1197,7 +1196,7 @@ export const MENU: MenuItem[] = [
     id: 149,
     label: 'MENUITEMS.CHARTS.TEXT',
     collapseid: 'sidebarCharts',
-    icon: 'pie-chart',
+    icon: 'ri-pie-chart-line',
     subItems: [
       {
         id: 150,
@@ -1329,7 +1328,7 @@ export const MENU: MenuItem[] = [
               text: 'MENUITEMS.DASHBOARD.BADGE',
             },
             parentId: 150
-          },
+          }
         ]
       },
       {
@@ -1349,7 +1348,7 @@ export const MENU: MenuItem[] = [
   {
     id: 169,
     label: 'MENUITEMS.ICONS.TEXT',
-    icon: 'archive',
+    icon: 'ri-compasses-2-line',
     collapseid: 'sidebarIcons',
     subItems: [
       {
@@ -1393,7 +1392,7 @@ export const MENU: MenuItem[] = [
   {
     id: 175,
     label: 'MENUITEMS.MAPS.TEXT',
-    icon: 'map-pin',
+    icon: 'ri-map-pin-line',
     collapseid: 'sidebarMaps',
     subItems: [
       {
@@ -1413,7 +1412,7 @@ export const MENU: MenuItem[] = [
   {
     id: 179,
     label: 'MENUITEMS.MULTILEVEL.TEXT',
-    icon: 'share-2',
+    icon: 'ri-share-line',
     collapseid: 'sidebarMultilevel',
     subItems: [
       {

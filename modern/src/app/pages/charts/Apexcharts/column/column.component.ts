@@ -29,8 +29,8 @@ export class ColumnComponent implements OnInit {
   dynamicQuarterLoadedChart: any;
   distributedColumnChart: any;
   groupLabelChart: any;
-  groupedstackedChart: any;
-  dumbbellChart: any;
+  groupedstackedcolumns: any;
+  dumbbellchart: any;
 
   constructor() { }
 
@@ -52,12 +52,12 @@ export class ColumnComponent implements OnInit {
     this._ColumnWithRotatedChart('["--vz-info"]');
     this._ColumnWithNagetiveChart('["--vz-success", "--vz-danger", "--vz-warning"]');
     this._rangeColumnChart('["--vz-primary", "--vz-success"]');
-    this._dynamicQuarterLoadedChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-dark", "--vz-info"]');
+    this._dynamicQuarterLoadedChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-body-color", "--vz-info"]');
     this._dynamicLoadedChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-body-color", "--vz-info"]');
-    this._distributedColumnChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-dark", "--vz-info"]')
+    this._distributedColumnChart('["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-body-color", "--vz-info"]')
     this._groupLabelChart('["--vz-info"]')
-    this._groupedstackedChart('["--vz-success", "--vz-primary","--vz-secondary", "--vz-danger"]')
-    this._dumbbellChart('["--vz-success", "--vz-primary"]')
+    this._groupedstackedcolumns('["--vz-success", "--vz-primary","--vz-secondary", "--vz-danger"]')
+    this._dumbbellchart('["--vz-success", "--vz-primary"]')
   }
 
   // Chart Colors Set
@@ -741,7 +741,6 @@ export class ColumnComponent implements OnInit {
           rotate: -90,
         },
       },
-      colors: colors
     };
   }
 
@@ -1111,8 +1110,8 @@ export class ColumnComponent implements OnInit {
   }
 
   /**
- * Column with Group Label Charts
-   */
+  * Column with Group Label Charts
+  */
   private _groupLabelChart(colors: any) {
     colors = this.getChartColorsArray(colors);
     this.groupLabelChart = {
@@ -1184,12 +1183,13 @@ export class ColumnComponent implements OnInit {
     };
   }
 
+
   /**
-* Column with Group Stacked Charts
- */
-  private _groupedstackedChart(colors: any) {
+* Grouped stacked columns
+*/
+  private _groupedstackedcolumns(colors: any) {
     colors = this.getChartColorsArray(colors);
-    this.groupedstackedChart = {
+    this.groupedstackedcolumns = {
       series: [
         {
           name: 'Q1 Budget',
@@ -1221,11 +1221,7 @@ export class ColumnComponent implements OnInit {
         width: 1,
         colors: ['#fff']
       },
-      dataLabels: {
-        formatter: (val: any) => {
-          return val / 1000 + 'K'
-        }
-      },
+
       plotOptions: {
         bar: {
           horizontal: false
@@ -1245,25 +1241,20 @@ export class ColumnComponent implements OnInit {
         opacity: 1
       },
       colors: colors,
-      yaxis: {
-        labels: {
-          formatter: (val: any) => {
-            return val / 1000 + 'K'
-          }
-        }
-      },
+
       legend: {
         position: 'top',
         horizontalAlign: 'left'
       }
-    }
+    };
   }
+
   /**
- * Dumbbell Charts
-   */
-  private _dumbbellChart(colors: any) {
+* dumbbellchart columns
+*/
+  private _dumbbellchart(colors: any) {
     colors = this.getChartColorsArray(colors);
-    this.dumbbellChart = {
+    this.dumbbellchart = {
       series: [
         {
           data: [
@@ -1343,7 +1334,7 @@ export class ColumnComponent implements OnInit {
       xaxis: {
         tickPlacement: 'on'
       }
-    }
+    };
   }
 
 }

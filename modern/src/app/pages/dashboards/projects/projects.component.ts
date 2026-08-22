@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { ActiveProjects, MyTask, TeamMembers, projectstatData } from 'src/app/core/data';
+import { OverviewChart, status7 } from 'src/app/shared/chartColor';
+
 
 
 @Component({
@@ -23,17 +24,16 @@ export class ProjectsComponent implements OnInit {
   MyTask: any;
   TeamMembers: any;
   status7: any;
+  @ViewChild('scrollRef') scrollRef: any;
 
-  @ViewChild('scrollRef') scrollRef:any;
-
-  constructor() { 
+  constructor() {
   }
 
   ngOnInit(): void {
     /**
      * BreadCrumb
      */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Dashboards' },
       { label: 'Projects', active: true }
     ];
@@ -41,9 +41,9 @@ export class ProjectsComponent implements OnInit {
     /**
      * Fetches the data
      */
-     this.fetchData();
+    this.fetchData();
 
-     // Chart Color Data Get Function
+    // Chart Color Data Get Function
     this._OverviewChart('["--vz-primary", "--vz-warning", "--vz-success"]');
     this._status7('["--vz-success", "--vz-primary", "--vz-warning", "--vz-danger"]');
 
@@ -60,37 +60,37 @@ export class ProjectsComponent implements OnInit {
     duration: 2,
     decimalPlaces: 2,
   };
-  
-   // Chart Colors Set
-   private getChartColorsArray(colors:any) {
+
+  // Chart Colors Set
+  private getChartColorsArray(colors: any) {
     colors = JSON.parse(colors);
-    return colors.map(function (value:any) {
+    return colors.map(function (value: any) {
       var newValue = value.replace(" ", "");
       if (newValue.indexOf(",") === -1) {
         var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
-            if (color) {
-            color = color.replace(" ", "");
-            return color;
-            }
-            else return newValue;;
-        } else {
-            var val = value.split(',');
-            if (val.length == 2) {
-                var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
-                rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
-                return rgbaColor;
-            } else {
-                return newValue;
-            }
+        if (color) {
+          color = color.replace(" ", "");
+          return color;
         }
+        else return newValue;;
+      } else {
+        var val = value.split(',');
+        if (val.length == 2) {
+          var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+          rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+          return rgbaColor;
+        } else {
+          return newValue;
+        }
+      }
     });
   }
-
 
   /**
  * Projects Overview
  */
-   setprojectvalue(value: any) {
+
+  setprojectvalue(value: any) {
     if (value == 'all') {
       this.OverviewChart.series = [{
         name: 'Number of Projects',
@@ -153,7 +153,7 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-   private _OverviewChart(colors:any) {
+  private _OverviewChart(colors: any) {
     colors = this.getChartColorsArray(colors);
     this.OverviewChart = {
       series: [{
@@ -170,160 +170,182 @@ export class ProjectsComponent implements OnInit {
         data: [8, 12, 7, 17, 21, 11, 5, 9, 7, 29, 12, 35]
       }],
       chart: {
-          height: 374,
-          type: 'line',
-          toolbar: {
-              show: false,
-          }
+        height: 374,
+        type: 'line',
+        toolbar: {
+          show: false,
+        }
       },
       stroke: {
-          curve: 'smooth',
-          dashArray: [0, 3, 0],
-          width: [0,1, 0],
+        curve: 'smooth',
+        dashArray: [0, 3, 0],
+        width: [0, 1, 0],
       },
       fill: {
-          opacity: [1, 0.1, 1]
+        opacity: [1, 0.1, 1]
       },
       markers: {
-          size: [0, 4, 0],
-          strokeWidth: 2,
-          hover: {
-              size: 4,
-          }
+        size: [0, 4, 0],
+        strokeWidth: 2,
+        hover: {
+          size: 4,
+        }
       },
       xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          axisTicks: {
-              show: false
-          },
-          axisBorder: {
-              show: false
-          }
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        axisTicks: {
+          show: false
+        },
+        axisBorder: {
+          show: false
+        }
       },
       grid: {
-          show: true,
-          xaxis: {
-              lines: {
-                  show: true,
-              }
-          },
-          yaxis: {
-              lines: {
-                  show: false,
-              }
-          },
-          padding: {
-              top: 0,
-              right: -2,
-              bottom: 15,
-              left: 10
-          },
+        show: true,
+        xaxis: {
+          lines: {
+            show: true,
+          }
+        },
+        yaxis: {
+          lines: {
+            show: false,
+          }
+        },
+        padding: {
+          top: 0,
+          right: -2,
+          bottom: 15,
+          left: 10
+        },
       },
       legend: {
-          show: true,
-          horizontalAlign: 'center',
-          offsetX: 0,
-          offsetY: -5,
-          markers: {
-              width: 9,
-              height: 9,
-              radius: 6,
-          },
-          itemMargin: {
-              horizontal: 10,
-              vertical: 0
-          },
+        show: true,
+        horizontalAlign: 'center',
+        offsetX: 0,
+        offsetY: -5,
+        markers: {
+          width: 9,
+          height: 9,
+          radius: 6,
+        },
+        itemMargin: {
+          horizontal: 10,
+          vertical: 0
+        },
       },
       plotOptions: {
-          bar: {
-              columnWidth: '30%',
-              barHeight: '70%'
-          }
+        bar: {
+          columnWidth: '30%',
+          barHeight: '70%'
+        }
       },
       colors: colors,
       tooltip: {
-      shared: true,
-      y: [{
-          formatter: function (y:any) {
-            if(typeof y !== "undefined") {
-              return  y.toFixed(0);
-            }
-            return y;
-            
-          }
-        }, {
-          formatter: function (y:any) {
-            if(typeof y !== "undefined") {
-              return   "$" + y.toFixed(2) + "k";
-            }
-            return y;
-            
-          }
-        }, {
-          formatter: function (y:any) {
-            if(typeof y !== "undefined") {
+        shared: true,
+        y: [{
+          formatter: function (y: any) {
+            if (typeof y !== "undefined") {
               return y.toFixed(0);
             }
             return y;
-            
+
+          }
+        }, {
+          formatter: function (y: any) {
+            if (typeof y !== "undefined") {
+              return "$" + y.toFixed(2) + "k";
+            }
+            return y;
+
+          }
+        }, {
+          formatter: function (y: any) {
+            if (typeof y !== "undefined") {
+              return y.toFixed(0);
+            }
+            return y;
+
           }
         }]
       }
     };
+    const attributeToMonitor = 'data-theme';
+
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+      this._OverviewChart(OverviewChart(currentTheme));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: [attributeToMonitor]
+    });
   }
 
-   /**
+  /**
  *  Status7
  */
-    setstatusvalue(value: any) {
-      if (value == 'all') {
-        this.status7.series = [125, 42, 58, 89]
-      }
-      if (value == '7') {
-        this.status7.series = [25, 52, 158, 99]
-      }
-      if (value == '30') {
-        this.status7.series = [35, 22, 98, 99]
-      }
-      if (value == '90') {
-        this.status7.series = [105, 32, 68, 79]
-      }
+  setstatusvalue(value: any) {
+    if (value == 'all') {
+      this.status7.series = [125, 42, 58, 89]
     }
+    if (value == '7') {
+      this.status7.series = [25, 52, 158, 99]
+    }
+    if (value == '30') {
+      this.status7.series = [35, 22, 98, 99]
+    }
+    if (value == '90') {
+      this.status7.series = [105, 32, 68, 79]
+    }
+  }
 
-    private _status7(colors:any) {
-      colors = this.getChartColorsArray(colors);
-      this.status7 = {
-        series: [125, 42, 58, 89],
-        labels: ["Completed", "In Progress", "Yet to Start", "Cancelled"],
-        chart: {
-            type: "donut",
-            height: 230,
+  private _status7(colors: any) {
+    colors = this.getChartColorsArray(colors);
+    this.status7 = {
+      series: [125, 42, 58, 89],
+      labels: ["Completed", "In Progress", "Yet to Start", "Cancelled"],
+      chart: {
+        type: "donut",
+        height: 230,
+      },
+      plotOptions: {
+        pie: {
+          offsetX: 0,
+          offsetY: 0,
+          donut: {
+            size: "90%",
+            labels: {
+              show: false,
+            }
+          },
         },
-        plotOptions: {
-            pie: {
-                offsetX: 0,
-                offsetY: 0,
-                donut: {
-                    size: "90%",
-                    labels: {
-                        show: false,
-                    }
-                },
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        legend: {
-            show: false,
-        },
-        stroke: {
-            lineCap: "round",
-            width: 0
-        },
-        colors: colors
-      };
-    }
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        lineCap: "round",
+        width: 0
+      },
+      colors: colors
+    };
+    const attributeToMonitor = 'data-theme';
+
+    const observer = new MutationObserver(() => {
+      const currentTheme = document.documentElement.getAttribute(attributeToMonitor);
+      this._status7(status7(currentTheme));
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: [attributeToMonitor]
+    });
+  }
 
   /**
    * Fetches the data

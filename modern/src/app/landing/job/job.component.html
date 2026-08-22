@@ -15,8 +15,8 @@
                     <i class="mdi mdi-menu"></i>
                 </button>
 
-                <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
+              <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mt-2 mt-lg-0" id="navbar-example">
                         <li class="nav-item">
                             <a class="nav-link active" href="javascript:void(0);"
                                 [ngClass]="{'active':currentSection === 'hero'}" (click)="scrollTo('hero')">Home</a>
@@ -49,11 +49,10 @@
                     </ul>
 
                     <div class="">
-                        <a routerLink="/auth/signin/basic" class="btn btn-soft-primary"><i
+                        <a routerLink="/auth/signin/basic" class="btn btn-soft-secondary"><i
                                 class="ri-user-3-line align-bottom me-1"></i> Login & Register</a>
                     </div>
                 </div>
-
             </div>
         </nav>
         <!-- end navbar -->
@@ -65,7 +64,8 @@
                     <div class="col-lg-6">
                         <div>
                             <h1 class="display-6 fw-semibold text-capitalize mb-3 lh-base">Find your next job and build
-                                your dream here</h1>
+                                your
+                                dream here</h1>
                             <p class="lead text-muted lh-base mb-4">Find jobs, create trackable resumes and enrich your
                                 applications. Carefully crafted after analyzing the needs of different industries.</p>
                             <form action="#" class="job-panel-filter">
@@ -113,7 +113,7 @@
                     <!--end col-->
                     <div class="col-lg-4">
                         <div class="position-relative home-img text-center mt-5 mt-lg-0">
-                            <div class="bg-white p-3 rounded shadow-lg inquiry-box">
+                            <div class="card p-3 rounded shadow-lg inquiry-box">
                                 <div class="d-flex align-items-center">
                                     <div class="avatar-sm flex-shrink-0 me-3">
                                         <div class="avatar-title bg-warning-subtle text-warning rounded fs-18">
@@ -128,14 +128,14 @@
                                 <h5 class="fs-15 lh-base mb-3">Applications</h5>
                                 <div class="avatar-group">
                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
-                                        data-bs-trigger="hover" data-bs-placement="top" title="Brent Gonzalez">
+                                        data-bs-trigger="hover" data-bs-placement="top" ngbTooltip="Brent Gonzalez">
                                         <div class="avatar-xs">
                                             <img src="assets/images/users/avatar-3.jpg" alt=""
                                                 class="rounded-circle img-fluid">
                                         </div>
                                     </a>
                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
-                                        data-bs-trigger="hover" data-bs-placement="top" title="Ellen Smith">
+                                        data-bs-trigger="hover" data-bs-placement="top" ngbTooltip="Ellen Smith">
                                         <div class="avatar-xs">
                                             <div class="avatar-title rounded-circle bg-danger">
                                                 S
@@ -143,7 +143,7 @@
                                         </div>
                                     </a>
                                     <a href="javascript: void(0);" class="avatar-group-item" data-bs-toggle="tooltip"
-                                        data-bs-trigger="hover" data-bs-placement="top" title="Ellen Smith">
+                                        data-bs-trigger="hover" data-bs-placement="top" ngbTooltip="Ellen Smith">
                                         <div class="avatar-xs">
                                             <img src="assets/images/users/avatar-10.jpg" alt=""
                                                 class="rounded-circle img-fluid">
@@ -195,7 +195,7 @@
         <app-process></app-process>
         <app-jobcategories></app-jobcategories>
         <app-findjobs></app-findjobs>
-        <app-candidate></app-candidate>
+        <app-candidates></app-candidates>
         <app-blog></app-blog>
         <app-job-footer></app-job-footer>
 

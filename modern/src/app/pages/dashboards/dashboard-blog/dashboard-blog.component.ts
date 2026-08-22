@@ -6,10 +6,10 @@ import { FeatherIconsModule } from 'src/app/shared-modules/feather-icons.module'
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
-    selector: 'app-dashboard-blog',
-    imports: [SharedModule, NgApexchartsModule, SimplebarAngularModule, FeatherIconsModule],
-    templateUrl: './dashboard-blog.component.html',
-    styleUrl: './dashboard-blog.component.scss'
+  selector: 'app-dashboard-blog',
+  imports: [SharedModule, NgApexchartsModule, SimplebarAngularModule, FeatherIconsModule],
+  templateUrl: './dashboard-blog.component.html',
+  styleUrl: './dashboard-blog.component.scss'
 })
 export class DashboardBlogComponent {
   breadCrumbItems!: Array<{}>;
@@ -122,7 +122,7 @@ export class DashboardBlogComponent {
     this.gradientCircleChart = {
       series: [44, 55, 24],
       chart: {
-        height: 240,
+        height: 210,
         type: 'donut',
       },
       plotOptions: {

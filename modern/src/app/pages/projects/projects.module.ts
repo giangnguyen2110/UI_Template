@@ -11,16 +11,18 @@ import { SimplebarAngularModule } from 'simplebar-angular';
 // Ck Editer
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 // Flat Picker
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 // File Uploads
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 // Ng Select
 import { NgSelectModule } from '@ng-select/ng-select';
+
 // Load Icon
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
+
 // Component Pages
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { SharedModule } from '../../shared/shared.module';

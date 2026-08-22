@@ -1,26 +1,24 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
-
+import { Component, QueryList, ViewChildren, Input } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Observable, take } from 'rxjs';
 import { NgbModal, NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
-
-// Sweet Alert
-import Swal from 'sweetalert2';
+import { UntypedFormBuilder, UntypedFormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+// Date Format
+import { DatePipe } from '@angular/common';
 
 // Csv File Export
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 
-// Date Format
-import { DatePipe } from '@angular/common';
+// Sweet Alert
+import Swal from 'sweetalert2';
 
+// Rest Api Service
 import { addOrder, deleteOrder, fetchorderListData, updateOrder } from 'src/app/store/Ecommerce/ecommerce_action';
 import { RootReducerState } from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { selectDataLoading, selectOrderData } from 'src/app/store/Ecommerce/ecommerce_selector';
 import { cloneDeep } from 'lodash';
 import { PaginationService } from 'src/app/core/services/pagination.service';
-
-// Rest Api Service
-import { restApiService } from "../../../core/services/rest-api.service";
 
 @Component({
     selector: 'app-orders',
@@ -82,6 +80,7 @@ export class OrdersComponent {
      */
     this.ordersForm = this.formBuilder.group({
       orderId: [''],
+      // _id: "#1",
       _id: [''],
       customer: ['', [Validators.required]],
       product: ['', [Validators.required]],
@@ -105,7 +104,6 @@ export class OrdersComponent {
       this.orderes = this.service.changePage(this.allorderes)
     });
   }
-
 
   changePage() {
     this.orderes = this.service.changePage(this.allorderes)
@@ -156,52 +154,9 @@ export class OrdersComponent {
   }
 
   /**
- * Delete Model Open
- */
-  deleteId: any;
-  confirm(content: any, id: any) {
-    this.deleteId = id;
-    this.modalService.open(content, { centered: true });
-  }
-
-  /**
-  * Multiple Delete
-  */
-  checkedValGet: any[] = [];
-  deleteMultiple(content: any) {
-    var checkboxes: any = document.getElementsByName('checkAll');
-    var result
-    var checkedVal: any[] = [];
-    for (var i = 0; i < checkboxes.length; i++) {
-      if (checkboxes[i].checked) {
-        result = checkboxes[i].value;
-        checkedVal.push(result);
-      }
-    }
-    if (checkedVal.length > 0) {
-      this.modalService.open(content, { centered: true });
-    }
-    else {
-      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#239eba', });
-    }
-    this.checkedValGet = checkedVal;
-  }
-
-  // Delete Data
-  deleteData(id: any) {
-    if (id) {
-      this.store.dispatch(deleteOrder({ id: this.deleteId.toString() }));
-    } else {
-      this.store.dispatch(deleteOrder({ id: this.checkedValGet.toString() }));
-    }
-    this.deleteId = ''
-    this.masterSelected = false
-  }
-
-  /**
    * Open modal
    * @param content modal content
-   */
+  */
   openModal(content: any) {
     this.submitted = false;
     this.modalService.open(content, { size: 'md', centered: true });
@@ -212,28 +167,6 @@ export class OrdersComponent {
   */
   get form() {
     return this.ordersForm.controls;
-  }
-
-  /**
-   * Open Edit modal
-   * @param content modal content
-   */
-  editDataGet(id: any, content: any) {
-    this.submitted = false;
-    this.modalService.open(content, { size: 'md', centered: true });
-    var modelTitle = document.querySelector('.modal-title') as HTMLAreaElement;
-    modelTitle.innerHTML = 'Edit Order';
-    var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
-    updateBtn.innerHTML = "Update";
-    this.econtent = this.allorderes[id];
-    this.ordersForm.controls['customer'].setValue(this.econtent.customer);
-    this.ordersForm.controls['product'].setValue(this.econtent.product);
-    this.ordersForm.controls['orderDate'].setValue(this.econtent.orderDate);
-    this.ordersForm.controls['amount'].setValue(this.econtent.amount);
-    this.ordersForm.controls['payment'].setValue(this.econtent.payment);
-    this.ordersForm.controls['status'].setValue(this.econtent.status);
-    this.ordersForm.controls['orderId'].setValue(this.econtent.orderId);
-
   }
 
   /**
@@ -272,6 +205,71 @@ export class OrdersComponent {
     this.submitted = true
   }
 
+  /**
+   * Open Edit modal
+   * @param content modal content
+   */
+  editDataGet(id: any, content: any) {
+    this.submitted = false;
+    this.modalService.open(content, { size: 'md', centered: true });
+    var modelTitle = document.querySelector('.modal-title') as HTMLAreaElement;
+    modelTitle.innerHTML = 'Edit Order';
+    var updateBtn = document.getElementById('add-btn') as HTMLAreaElement;
+    updateBtn.innerHTML = "Update";
+    this.econtent = this.allorderes[id];
+    this.ordersForm.controls['customer'].setValue(this.econtent.customer);
+    this.ordersForm.controls['product'].setValue(this.econtent.product);
+    this.ordersForm.controls['orderDate'].setValue(this.econtent.orderDate);
+    this.ordersForm.controls['amount'].setValue(this.econtent.amount);
+    this.ordersForm.controls['payment'].setValue(this.econtent.payment);
+    this.ordersForm.controls['status'].setValue(this.econtent.status);
+    this.ordersForm.controls['orderId'].setValue(this.econtent.orderId);
+
+  }
+
+  /**
+  * Delete Model Open
+  */
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  // Delete Data
+  deleteData(id: any) {
+    if (id) {
+      this.store.dispatch(deleteOrder({ id: this.deleteId.toString() }));
+    } else {
+      this.store.dispatch(deleteOrder({ id: this.checkedValGet.toString() }));
+    }
+    this.deleteId = ''
+    this.masterSelected = false
+  }
+
+  /**
+  * Multiple Delete
+  */
+  checkedValGet: any[] = [];
+  deleteMultiple(content: any) {
+    var checkboxes: any = document.getElementsByName('checkAll');
+    var result
+    var checkedVal: any[] = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].checked) {
+        result = checkboxes[i].value;
+        checkedVal.push(result);
+      }
+    }
+    if (checkedVal.length > 0) {
+      this.modalService.open(content, { centered: true });
+    }
+    else {
+      Swal.fire({ text: 'Please select at least one checkbox', confirmButtonColor: '#299cdb', });
+    }
+    this.checkedValGet = checkedVal;
+  }
+
   // The master checkbox will check/ uncheck all items
   checkUncheckAll(ev: any) {
     this.orderes.forEach((x: { state: any; }) => x.state = ev.target.checked)
@@ -302,18 +300,8 @@ export class OrdersComponent {
     checkedVal.length > 0 ? (document.getElementById("remove-actions") as HTMLElement).style.display = "block" : (document.getElementById("remove-actions") as HTMLElement).style.display = "none";
   }
 
-  // Get List of Checked Items
-  // getCheckedItemList() {
-  //   this.checkedList = [];
-  //   for (var i = 0; i < this.CustomersData.length; i++) {
-  //     if (this.CustomersData[i].isSelected)
-  //       this.checkedList.push(this.CustomersData[i]);
-  //   }
-  //   this.checkedList = JSON.stringify(this.checkedList);
-  // }
-
-   // Csv File Export
-   csvFileExport() {
+  // Csv File Export
+  csvFileExport() {
     var orders = {
       fieldSeparator: ',',
       quoteStrings: '"',
@@ -327,7 +315,11 @@ export class OrdersComponent {
     };
     new ngxCsv(this.orderes, "orders", orders);
   }
-
+  /**
+  * Sort table data
+  * @param param0 sort the column
+  *
+  */
 
   PaymentFiletr() {
     if (this.payment != '') {
@@ -344,9 +336,5 @@ export class OrdersComponent {
       this.orderes = this.service.changePage(this.allorderes)
     }
   }
-
-
-  
- 
 
 }

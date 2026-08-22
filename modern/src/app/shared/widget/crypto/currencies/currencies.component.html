@@ -10,12 +10,12 @@
         </tr>
     </thead><!-- end thead -->
     <tbody>
-        @for(data of Currencies; track $index){
+        @for ( data of Currencies; track $index) {
         <tr>
             <td>
                 <div class="d-flex align-items-center">
                     <div class="me-2">
-                        <img src="{{data.image}}" alt="" class="avatar-xxs">
+                        <img src="{{data.image}}" alt="" class="avatar-xxs material-shadow">
                     </div>
                     <div>
                         <h6 class="fs-14 mb-0">{{data.coinName}}</h6>
@@ -23,11 +23,13 @@
                 </div>
             </td>
             <td>${{data.price}}</td>
-            <td><h6 class="fs-13 mb-0" [ngClass]=" { 'text-success': data.profit === 'up', 'text-danger': data.profit === 'down'}"><i class="mdi align-middle me-1" [ngClass]=" { 'mdi-trending-up': data.profit === 'up', 'mdi-trending-down': data.profit === 'down'}"></i>{{data.change}}</h6></td>
+            <td>
+                <h6 class="fs-13 mb-0" [ngClass]=" { 'text-success': data.profit === 'up', 'text-danger': data.profit === 'down'}"><i class="mdi align-middle me-1" [ngClass]=" { 'mdi-trending-up': data.profit === 'up', 'mdi-trending-down': data.profit === 'down'}"></i>{{data.change}}</h6>
+            </td>
             <td>${{data.balance}}</td>
             <td>{{data.coin}}</td>
-            <td><a href="crypto/buy-sell" class="btn btn-sm btn-soft-secondary">Trade</a></td>
+            <td><a href="crypto/buy-sell" class="btn btn-sm btn-soft-secondary material-shadow-none">Trade</a></td>
         </tr><!-- end -->
-    }
+        }
     </tbody><!-- end tbody -->
 </table><!-- end table -->

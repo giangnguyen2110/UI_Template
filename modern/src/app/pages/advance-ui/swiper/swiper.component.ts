@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-
-// Swiper Slider
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
+
 
 @Component({
     selector: 'app-swiper',
@@ -26,7 +25,7 @@ export class SwipersComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Advance UI' },
       { label: 'Swiper Slider', active: true }
     ];
@@ -65,24 +64,22 @@ export class SwipersComponent implements OnInit {
     dots: true,
     autoplaySpeed: 2000,
     arrows: false,
-    // customPaging: (slider: any, index: number) => {
-    //   return `<span>${index + 1} / ${slider.slideCount}</span>`;
-    // }
+   
     customPaging: (slider: any, index: number) => {
       // Customize the pagination here
       return `<button>${index + 1}</button>`;
     }
   }
 
-  verticalConfig = {
-    infinite: true,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    vertical: true // Enable vertical sliding
-  }
+    verticalConfig = {
+      infinite: true,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      vertical: true // Enable vertical sliding
+    }
 
   carouselConfig = {
     slidesToShow: 1,
@@ -133,8 +130,6 @@ onMouseWheel(event: Event) {
       this.slickCarousel.slickPrev();
     }
   }
-
-
 
 
 }

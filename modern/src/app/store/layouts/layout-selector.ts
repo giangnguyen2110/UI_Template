@@ -8,6 +8,16 @@ export const getLayoutTheme = createSelector(
     (state: LayoutState) => state.LAYOUT
 );
 
+export const getTheme = createSelector(
+    getLayoutState,
+    (state: LayoutState) => state.LAYOUT_THEME
+);
+
+export const getThemeColor = createSelector(
+    getLayoutState,
+    (state: LayoutState) => state.LAYOUT_THEME_COLOR
+);
+
 export const getLayoutMode = createSelector(
     getLayoutState,
     (state: LayoutState) => state.LAYOUT_MODE
@@ -46,6 +56,10 @@ export const getSidebarView = createSelector(
 export const getSidebarImage = createSelector(
     getLayoutState,
     (state: LayoutState) => state.SIDEBAR_IMAGE
+);
+export const getBackgroundImage = createSelector(
+    getLayoutState,
+    (state: LayoutState) => state.BACKGROUND_IMAGE
 );
 
 export const getSidebarVisibilitye = createSelector(

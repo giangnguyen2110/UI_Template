@@ -4,7 +4,6 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { Transactions, apikeys, application, cryptoOrders, deals, folderData, projectListWidgets, recentData, sellerDetail, sellerDetals, tasks } from '../data';
 
-
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
@@ -120,8 +119,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
 
-             // get seller
-             if (request.url.endsWith('/app/seller') && request.method === 'GET') {
+            // get seller
+            if (request.url.endsWith('/app/seller') && request.method === 'GET') {
                 if (sellerDetals) {
                     return of(new HttpResponse({ status: 200, body: sellerDetals }));
                 } else {
@@ -251,8 +250,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
 
-            // get application
-            if (request.url.endsWith('/app/application') && request.method === 'GET') {
+             // get application
+             if (request.url.endsWith('/app/application') && request.method === 'GET') {
                 if (application) {
                     return of(new HttpResponse({ status: 200, body: application }));
                 } else {
@@ -289,8 +288,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
             }
 
-            // get apikey
-            if (request.url.endsWith('/app/apikey') && request.method === 'GET') {
+              // get apikey
+              if (request.url.endsWith('/app/apikey') && request.method === 'GET') {
                 if (apikeys) {
                     return of(new HttpResponse({ status: 200, body: apikeys }));
                 } else {

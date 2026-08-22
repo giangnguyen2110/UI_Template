@@ -6,6 +6,7 @@ import {
   NgbCarouselModule, NgbTooltipModule, NgbCollapseModule
 } from '@ng-bootstrap/ng-bootstrap';
 
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { LandingRoutingModule } from "./landing-routing.module";
 import { SharedModule } from '../shared/shared.module';
@@ -16,7 +17,7 @@ import { JobComponent } from './job/job.component';
   declarations: [
     IndexComponent,
     NftComponent,
-    JobComponent
+    JobComponent,
   ],
   imports: [
     CommonModule,
@@ -24,7 +25,8 @@ import { JobComponent } from './job/job.component';
     LandingRoutingModule,
     SharedModule,
     NgbTooltipModule,
-    NgbCollapseModule
+    NgbCollapseModule,
+    ScrollToModule.forRoot(),
   ]
 })
 export class LandingModule { }

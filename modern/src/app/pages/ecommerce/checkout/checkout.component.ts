@@ -32,13 +32,12 @@ export class CheckoutComponent implements OnInit {
     ];
   }
 
- /**
+  /**
    * Confirmation mail model
-  */
+   */
   confirm(content:any) {
     this.modalService.open(content, { centered: true });
   }
-
 
    /**
    * Open modal

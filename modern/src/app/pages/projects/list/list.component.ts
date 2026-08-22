@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 // Store
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { fetchProjectListData } from 'src/app/store/Project/project_action';
 import { selectProjectData, selectprojectLoading } from 'src/app/store/Project/project_selector';
 import { PaginationService } from 'src/app/core/services/pagination.service';
+
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
@@ -40,7 +41,7 @@ export class ListComponent implements OnInit {
     /**
     * BreadCrumb
     */
-     this.breadCrumbItems = [
+    this.breadCrumbItems = [
       { label: 'Projects' },
       { label: 'Project List', active: true }
     ];
@@ -48,13 +49,14 @@ export class ListComponent implements OnInit {
     /**
      * Fetches the data
      */
-     this.fetchData();
+    this.fetchData();
   }
 
   /**
    * Fetches the data
    */
-   private fetchData() {
+  private fetchData() {
+
     this.store.dispatch(fetchProjectListData());
     this.store.select(selectprojectLoading).subscribe((data) => {
       if (data == false) {
@@ -68,35 +70,34 @@ export class ListComponent implements OnInit {
     });
   }
 
-   /**
+  /**
   * Confirmation mail model
   */
-    deleteId: any;
-    confirm(content:any,id:any) {
-      this.deleteId = id;
-      this.modalService.open(content, { centered: true });
-    }
- 
-    // Delete Data
-   deleteData(id:any) {  
-     document.getElementById('pl1_'+ id)?.remove();     
-   }
-   
+  deleteId: any;
+  confirm(content: any, id: any) {
+    this.deleteId = id;
+    this.modalService.open(content, { centered: true });
+  }
+
+  // Delete Data
+  deleteData(id: any) {
+    document.getElementById('pl1_' + id)?.remove();
+  }
+
   /**
    * Active Toggle navbar
    */
-   activeMenu(id:any) {            
-    document.querySelector('.heart_icon_'+id)?.classList.toggle('active');
+  activeMenu(id: any) {
+    document.querySelector('.heart_icon_' + id)?.classList.toggle('active');
   }
 
-    // Search
-    performSearch() {
-      this.searchResults = this.allProjectList.filter((item: any) => {
-        return (
-          item.label.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-      });
-      this.projectListWidgets = this.service.changePage(this.searchResults)
-    }
-
+  // Search
+  performSearch() {
+    this.searchResults = this.allProjectList.filter((item: any) => {
+      return (
+        item.label.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    });
+    this.projectListWidgets = this.service.changePage(this.searchResults)
+  }
 }

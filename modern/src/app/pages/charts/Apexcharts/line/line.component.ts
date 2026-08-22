@@ -432,16 +432,15 @@ export class LineComponent implements OnInit {
   }
 
   private generateDayWiseTimeSeries(baseval: number, count: number, yrange: { max: number; min: number; }): any[] {
-    let i = 0;
-    let series = [];
+    var i = 0;
+    var series = [];
     while (i < count) {
-      var x = baseval;
-      var y =
-        Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-  
-      series.push([x, y]);
-      baseval += 86400000;
-      i++;
+        var x = baseval;
+        var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+        series.push([x, y]);
+        baseval += 86400000;
+        i++;
     }
     return series;
   }
@@ -1248,200 +1247,200 @@ export class LineComponent implements OnInit {
 /**
 * Syncing Line Charts
 */
-private _SyncingLineChart(colors:any) {
-  colors = this.getChartColorsArray(colors);
-  this.SyncingLineChart = {
-    series: [{
-      data: this.generateDayWiseTimeSeries(new Date('11 Feb 2017').getTime(), 20, {
-        min: 10,
-        max: 60
-      })
-    }],
-    chart: {
-      id: 'fb',
-      group: 'social',
-      type: 'line',
-      height: 160,
-      toolbar: {
-          show: false
-      },
-    },
-    colors: colors,
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-        curve: 'straight',
-        width: 3,
-    },
-    toolbar: {
-        tools: {
-            selection: false
-        }
-    },
-    markers: {
-        size: 4,
-        hover: {
-            size: 6
-        }
-    },
-    tooltip: {
-        followCursor: false,
-        x: {
-            show: false
-        },
-        marker: {
-            show: false
-        },
-        y: {
-            title: {
-                formatter: function () {
-                    return ''
-                }
-            }
-        }
-    },
-    grid: {
-        clipMarkers: false
-    },
-    yaxis: {
-        tickAmount: 2
-    },
-    xaxis: {
-        type: 'datetime'
-    }
-  };
-}
-
-private _Syncingline2Chart(colors:any) {
-  colors = this.getChartColorsArray(colors);
-  this.Syncingline2Chart = {
-    series: [{
-      data: this.generateDayWiseTimeSeriesline(new Date('11 Feb 2017').getTime(), 20, {
+  private _SyncingLineChart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.SyncingLineChart = {
+      series: [{
+        data: this.generateDayWiseTimeSeries(new Date('11 Feb 2017').getTime(), 20, {
           min: 10,
-          max: 30
-      })
-    }],
-    chart: {
-        id: 'tw',
+          max: 60
+        })
+      }],
+      chart: {
+        id: 'fb',
         group: 'social',
         type: 'line',
         height: 160,
         toolbar: {
             show: false
         },
-    },
-    colors: colors,
-    dataLabels: {
+      },
+      colors: colors,
+      dataLabels: {
         enabled: false
-    },
-    stroke: {
-        curve: 'straight',
-        width: 3,
-    },
-    toolbar: {
-        tools: {
-            selection: false
-        }
-    },
-    markers: {
-        size: 4,
-        hover: {
-            size: 6
-        }
-    },
-    tooltip: {
-        followCursor: false,
-        x: {
-            show: false
-        },
-        marker: {
-            show: false
-        },
-        y: {
-            title: {
-                formatter: function () {
-                    return ''
-                }
-            }
-        }
-    },
-    grid: {
-        clipMarkers: false
-    },
-    yaxis: {
-        tickAmount: 2
-    },
-    xaxis: {
-        type: 'datetime'
-    }
-  };
-}
+      },
+      stroke: {
+          curve: 'straight',
+          width: 3,
+      },
+      toolbar: {
+          tools: {
+              selection: false
+          }
+      },
+      markers: {
+          size: 4,
+          hover: {
+              size: 6
+          }
+      },
+      tooltip: {
+          followCursor: false,
+          x: {
+              show: false
+          },
+          marker: {
+              show: false
+          },
+          y: {
+              title: {
+                  formatter: function () {
+                      return ''
+                  }
+              }
+          }
+      },
+      grid: {
+          clipMarkers: false
+      },
+      yaxis: {
+          tickAmount: 2
+      },
+      xaxis: {
+          type: 'datetime'
+      }
+    };
+  }
 
-private _SyncingAreaChart(colors:any) {
-  colors = this.getChartColorsArray(colors);
-  this.SyncingAreaChart = {
-    series: [{
-      data: this.generateDayWiseTimeSeriesline(new Date('11 Feb 2017').getTime(), 20, {
-          min: 10,
-          max: 60
-      })
-    }],
-    chart: {
-        id: 'yt',
-        group: 'social',
-        type: 'area',
-        height: 160,
-        toolbar: {
-            show: false
-        },
-    },
-    colors: colors,
-    dataLabels: {
-        enabled: false
-    },
-    stroke: {
-        curve: 'straight',
-        width: 3,
-    },
-    toolbar: {
-        tools: {
-            selection: false
-        }
-    },
-    markers: {
-        size: 4,
-        hover: {
-            size: 6
-        }
-    },
-    tooltip: {
-        followCursor: false,
-        x: {
-            show: false
-        },
-        marker: {
-            show: false
-        },
-        y: {
-            title: {
-                formatter: function () {
-                    return ''
-                }
-            }
-        }
-    },
-    grid: {
-        clipMarkers: false
-    },
-    yaxis: {
-        tickAmount: 2
-    },
-    xaxis: {
-        type: 'datetime'
-    }
-  };
-}
+  private _Syncingline2Chart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.Syncingline2Chart = {
+      series: [{
+        data: this.generateDayWiseTimeSeriesline(new Date('11 Feb 2017').getTime(), 20, {
+            min: 10,
+            max: 30
+        })
+      }],
+      chart: {
+          id: 'tw',
+          group: 'social',
+          type: 'line',
+          height: 160,
+          toolbar: {
+              show: false
+          },
+      },
+      colors: colors,
+      dataLabels: {
+          enabled: false
+      },
+      stroke: {
+          curve: 'straight',
+          width: 3,
+      },
+      toolbar: {
+          tools: {
+              selection: false
+          }
+      },
+      markers: {
+          size: 4,
+          hover: {
+              size: 6
+          }
+      },
+      tooltip: {
+          followCursor: false,
+          x: {
+              show: false
+          },
+          marker: {
+              show: false
+          },
+          y: {
+              title: {
+                  formatter: function () {
+                      return ''
+                  }
+              }
+          }
+      },
+      grid: {
+          clipMarkers: false
+      },
+      yaxis: {
+          tickAmount: 2
+      },
+      xaxis: {
+          type: 'datetime'
+      }
+    };
+  }
+
+  private _SyncingAreaChart(colors:any) {
+    colors = this.getChartColorsArray(colors);
+    this.SyncingAreaChart = {
+      series: [{
+        data: this.generateDayWiseTimeSeriesline(new Date('11 Feb 2017').getTime(), 20, {
+            min: 10,
+            max: 60
+        })
+      }],
+      chart: {
+          id: 'yt',
+          group: 'social',
+          type: 'area',
+          height: 160,
+          toolbar: {
+              show: false
+          },
+      },
+      colors: colors,
+      dataLabels: {
+          enabled: false
+      },
+      stroke: {
+          curve: 'straight',
+          width: 3,
+      },
+      toolbar: {
+          tools: {
+              selection: false
+          }
+      },
+      markers: {
+          size: 4,
+          hover: {
+              size: 6
+          }
+      },
+      tooltip: {
+          followCursor: false,
+          x: {
+              show: false
+          },
+          marker: {
+              show: false
+          },
+          y: {
+              title: {
+                  formatter: function () {
+                      return ''
+                  }
+              }
+          }
+      },
+      grid: {
+          clipMarkers: false
+      },
+      yaxis: {
+          tickAmount: 2
+      },
+      xaxis: {
+          type: 'datetime'
+      }
+    };
+  }
 
   /**
   * Brush Area Charts

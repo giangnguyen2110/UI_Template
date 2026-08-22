@@ -4,10 +4,10 @@ import {Injectable, PipeTransform} from '@angular/core';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
 import {ListJsModel} from './listjs.model';
-import { ListJs } from 'src/app/core/data';
 import {DecimalPipe} from '@angular/common';
 import {debounceTime, delay, switchMap, tap} from 'rxjs/operators';
 import {SortColumn, SortDirection} from './listjs-sortable.directive';
+import { ListJs } from 'src/app/core/data';
 
 interface SearchResult {
   countries: ListJsModel[];
@@ -64,6 +64,7 @@ export class OrdersService {
     endIndex: 9,
     totalRecords: 0
   };
+  products: any;
 
   constructor(private pipe: DecimalPipe) {
     this._search$.pipe(
@@ -78,6 +79,7 @@ export class OrdersService {
     });
 
     this._search$.next();
+    this.products = ListJs
   }
 
   get countries$() { return this._countries$.asObservable(); }
@@ -108,7 +110,7 @@ export class OrdersService {
     const {sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
 
     // 1. sort
-    let countries = sort(ListJs, sortColumn, sortDirection);
+    let countries = sort(this.products, sortColumn, sortDirection);
 
     // 2. filter
     countries = countries.filter(country => matches(country, searchTerm, this.pipe));

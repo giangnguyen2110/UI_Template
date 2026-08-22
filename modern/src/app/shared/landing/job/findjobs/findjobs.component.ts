@@ -16,7 +16,6 @@ export class FindjobsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // Fetch Data
     this.findjobs = findjob
   }
 

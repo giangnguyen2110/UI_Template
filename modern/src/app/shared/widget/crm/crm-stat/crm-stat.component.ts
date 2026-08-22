@@ -16,6 +16,8 @@ export class CrmStatComponent implements OnInit {
   @Input() value: any | undefined;
   @Input() icon: string | undefined;
   @Input() profit: string | undefined;
+  @Input() sign: string | undefined;
+  @Input() percentage: string | undefined;
 
   constructor() { }
 
@@ -24,10 +26,10 @@ export class CrmStatComponent implements OnInit {
 
   num: number = 0;
   option = {
-  startVal: this.num,
-  useEasing: true,
-  duration: 2,
-  decimalPlaces: 2,
+    startVal: this.num,
+    useEasing: true,
+    duration: 2,
+    decimalPlaces: 2,
   };
 
 }

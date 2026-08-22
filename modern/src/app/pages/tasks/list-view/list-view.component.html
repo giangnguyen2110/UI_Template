@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <p class="fw-semibold text-muted mb-0">Total Tasks</p>
+                        <p class="fw-medium text-muted mb-0">Total Tasks</p>
                         <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="234" class="counter-value" [countUpOptions]="option"></span>k</h2>
                         <p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0">
                                 <i class="ri-arrow-up-line align-middle"></i> 17.32 %
@@ -31,7 +31,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <p class="fw-semibold text-muted mb-0">Pending Tasks</p>
+                        <p class="fw-medium text-muted mb-0">Pending Tasks</p>
                         <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="64.5" class="counter-value" [countUpOptions]="option"></span>k</h2>
                         <p class="mb-0 text-muted"><span class="badge bg-light text-danger mb-0">
                                 <i class="ri-arrow-down-line align-middle"></i> 0.87 %
@@ -54,7 +54,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <p class="fw-semibold text-muted mb-0">Completed Tasks</p>
+                        <p class="fw-medium text-muted mb-0">Completed Tasks</p>
                         <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="116.21" class="counter-value" [countUpOptions]="option"></span>K</h2>
                         <p class="mb-0 text-muted"><span class="badge bg-light text-danger mb-0">
                                 <i class="ri-arrow-down-line align-middle"></i> 2.52 %
@@ -77,7 +77,7 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <p class="fw-semibold text-muted mb-0">Deleted Tasks</p>
+                        <p class="fw-medium text-muted mb-0">Deleted Tasks</p>
                         <h2 class="mt-4 ff-secondary fw-semibold"><span [countUp]="14.84" class="counter-value" [countUpOptions]="option"></span>%</h2>
                         <p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0">
                                 <i class="ri-arrow-up-line align-middle"></i> 0.63 %
@@ -98,16 +98,17 @@
 </div>
 <!--end row-->
 
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card" id="tasksList">
             <div class="card-header border-0">
                 <div class="d-flex align-items-center">
                     <h5 class="card-title mb-0 flex-grow-1">All Tasks</h5>
-                    <div class="flex-shrink-0 d-flex gap-1">
+                    <div class="flex-shrink-0 d-flex flex-wrap gap-2 hstack">
                         <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal" (click)="openModal(content)"><i class="ri-add-line align-bottom me-1"></i> Create
                             Task</button>
-                        <button class="btn btn-secondary" id="remove-actions" style="display: none" (click)="deleteMultiple(deleteModel)"><i class="ri-delete-bin-2-line"></i></button>
+                        <button class="btn btn-soft-danger" id="remove-actions" style="display: none" (click)="deleteMultiple(deleteModel)"><i class="ri-delete-bin-2-line"></i></button>
                     </div>
                 </div>
             </div>
@@ -122,14 +123,14 @@
                     <!--end col-->
 
                     <div class="col-xxl-3 col-sm-4">
-                        <input class="form-control flatpickr-input bg-light border-light" type="text" mwlFlatpickr [altInput]="true" [convertModelValue]="true" placeholder="Select date range" id="isDate" [(ngModel)]="date" mode="range">
+                        <input class="form-control bg-light border-light flatpickr-input active" type="text" mwlFlatpickr [altInput]="true" [convertModelValue]="true" placeholder="Select date range" id="isDate" [(ngModel)]="date" mode="range">
                     </div>
                     <!--end col-->
 
                     <div class="col-xxl-3 col-sm-4">
                         <div class="input-light">
-                            <select class="form-control bg-light border-light" name="choices-single-default" id="idStatus" [(ngModel)]="status" (ngModelChange)="statusFilter()">
-                                <option value="">Status</option>
+                            <select class="form-control bg-light border-light" data-choices data-choices-search-false name="choices-single-default" id="idStatus" [(ngModel)]="status" (ngModelChange)="statusFilter()">
+                                <option value="" selected>Select Status</option>
                                 <option value="New">New</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Inprogress">Inprogress</option>
@@ -139,7 +140,7 @@
                     </div>
                     <!--end col-->
                     <div class="col-xxl-1 col-sm-4">
-                        <button type="button" class="btn btn-primary w-100"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                        <button type="button" class="btn btn-primary w-100" (click)="SearchData();"> <i class="ri-equalizer-fill mx-1 align-bottom"></i>
                             Filters
                         </button>
                     </div>
@@ -169,21 +170,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for(data of tasks; track $index){
-                            <tr id="t_{{data._id}}">
+                            @for(data of tasks; track data._id ){
+                            <tr>
                                 <th scope="row">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="checkAll" value="{{data._id}}" [(ngModel)]="data.state" (change)="onCheckboxChange($event)">
                                     </div>
                                 </th>
-                                <td><a routerLink="/tasks/details" class="fw-medium link-primary">
+                                <td><a routerLink="/tasks/details">
                                         <ngb-highlight [result]="data.taskId" [term]="searchTerm">
                                         </ngb-highlight>
                                     </a></td>
-                                <td class="project_name"><a routerLink="/projects/overview" class="fw-medium link-primary">
-                                        <ngb-highlight [result]="data.project" [term]="searchTerm">
-                                        </ngb-highlight>
-                                    </a></td>
+                                <td>
+                                    <ngb-highlight [result]="data.project" [term]="searchTerm"></ngb-highlight>
+                                </td>
                                 <td>
                                     <div class="d-flex">
                                         <div class="flex-grow-1 tasks_name">{{data.task}}</div>
@@ -207,11 +207,11 @@
                                 </td>
                                 <td class="assignedto">
                                     <div class="avatar-group">
-                                        @for(img of data.subItem; track $index){
+                                        @for (img of data.subItem; track $index) {
                                         <a href="javascript: void(0);" class="avatar-group-item">
                                             <img src="assets/images/users/{{img.img ? img.img : img}}" alt="" class="rounded-circle avatar-xxs" />
                                         </a>
-                                    }
+                                        }
                                     </div>
                                 </td>
                                 <td>
@@ -222,22 +222,14 @@
                                 <td class="priority"><span class="badge bg-warning text-uppercase" [ngClass]=" { 'bg-danger': data.priority === 'High', 'bg-success': data.priority === 'Low', 'bg-warning': data.priority === 'Medium'}">{{data.priority}}</span>
                                 </td>
                             </tr>
-                        }
+                            }
                         </tbody>
                     </table>
                 </div>
                 <div class="row justify-content-md-between align-items-md-center">
-                    <div class="col col-sm-6">
-                        <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
-                            Showing
-                            {{service.startIndex}} to
-                            {{service.endIndex}} of {{alltasks?.length}}
-                            entries
-                        </div>
-                    </div>
                     <!-- Pagination -->
-                    <div class="col col-sm-6">
-                        <div class="text-md-right float-md-end listjs-pagination">
+                    <div class="col col-sm-12">
+                        <div class="text-sm-right float-sm-end listjs-pagination">
                             <ngb-pagination [collectionSize]="alltasks?.length" [(page)]="service.page" [pageSize]="service.pageSize" (pageChange)="changePage()">
                             </ngb-pagination>
                         </div>
@@ -275,7 +267,7 @@
                             <div>Project Name is required</div>
                             }
                         </div>
-                    }
+                        }
                     </div>
                     <!--end col-->
                     <div class="col-lg-12">
@@ -288,7 +280,7 @@
                                 <div>Title is required</div>
                                 }
                             </div>
-                        }
+                            }
                         </div>
                     </div>
                     <!--end col-->
@@ -298,21 +290,20 @@
                         @if(submitted && form['creater'].errors){
                         <div class="invalid-feedback" align="left">
                             @if(form['creater'].errors['required']){
-                            <div>Client Name is required</div>
-                            }
+                            <div>Client Name is required</div>}
                         </div>
-                    }
+                        }
                     </div>
                     <!--end col-->
                     <div class="col-lg-12">
                         <label class="form-label">Assigned To</label>
                         <ngx-simplebar style="height: 95px;">
                             <ul class="list-unstyled vstack gap-2 mb-0">
-                                @for(data of AssignedData; track $index){
+                                @for ( data of AssignedData; track $index) {
                                 <li>
                                     <div class="form-check d-flex align-items-center">
-                                        <input class="form-check-input me-3" type="checkbox" value="{{data.img}}" id="anna-adame" (change)="onCheckboxChange($event)">
-                                        <label class="form-check-label d-flex align-items-center" for="anna-adame">
+                                        <input class="form-check-input me-3" type="checkbox" value="{{data.img}}" id="{{data.name}}" (change)="onCheckboxChange($event)">
+                                        <label class="form-check-label d-flex align-items-center" for="{{data.name}}">
                                             <span class="flex-shrink-0">
                                                 <img src="assets/images/users/{{data.img}}" alt="" class="avatar-xxs rounded-circle">
                                             </span>
@@ -322,7 +313,7 @@
                                         </label>
                                     </div>
                                 </li>
-                            }
+                                }
                             </ul>
                         </ngx-simplebar>
                     </div>
@@ -336,12 +327,12 @@
                             <div>Client Name is required</div>
                             }
                         </div>
-                    }
+                        }
                     </div>
                     <!--end col-->
                     <div class="col-lg-6">
                         <label for="ticket-status" class="form-label">Status</label>
-                        <select class="form-control" id="ticket-status" formControlName="status" [ngClass]="{ 'is-invalid': submitted && form['status'].errors }">
+                        <select class="form-control" data-choices data-choices-search-false id="ticket-status" formControlName="status" [ngClass]="{ 'is-invalid': submitted && form['status'].errors }">
                             <option value="">Status</option>
                             <option value="New">New</option>
                             <option value="Inprogress">Inprogress</option>
@@ -354,12 +345,12 @@
                             <div>Status is required</div>
                             }
                         </div>
-                    }
+                        }
                     </div>
                     <!--end col-->
                     <div class="col-lg-12">
                         <label for="priority-field" class="form-label">Priority</label>
-                        <select class="form-control" id="priority-field" formControlName="priority" [ngClass]="{ 'is-invalid': submitted && form['priority'].errors }">
+                        <select class="form-control" data-choices data-choices-search-false id="priority-field" formControlName="priority" [ngClass]="{ 'is-invalid': submitted && form['priority'].errors }">
                             <option value="">Priority</option>
                             <option value="High">High</option>
                             <option value="Medium">Medium</option>
@@ -371,7 +362,7 @@
                             <div>Priority is required</div>
                             }
                         </div>
-                    }
+                        }
                     </div>
                     <!--end col-->
                 </div>
@@ -402,7 +393,7 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                    <button class="btn btn-link btn-ghost-success fw-medium text-decoration-none" data-bs-dismiss="modal" (click)="modal.close('Close click')" id="deleteRecord-close"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                    <button class="btn btn-link btn-ghost-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal" (click)="modal.close('Close click')"><i class="ri-close-line me-1 align-middle"></i> Close</button>
                     <button type="button" class="btn w-sm btn-danger " id="delete-product" (click)="deleteData(deleteId)" (click)="modal.close('Close click')">Yes, Delete It!</button>
                 </div>
             </div>

@@ -1,9 +1,11 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgbToastModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbToastModule, NgbProgressbarModule
+} from '@ng-bootstrap/ng-bootstrap';
 
-import { FlatpickrDirective, } from 'angularx-flatpickr';
+import { FlatpickrDirective } from 'angularx-flatpickr';
 import { CountUpDirective } from 'ngx-countup';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { LeafletModule } from '@bluehalo/ngx-leaflet';
@@ -16,7 +18,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { LightboxModule } from 'ngx-lightbox';
 
 // Load Icons
-import { defineElement } from '@lordicon/element';
+import { defineElement } from "@lordicon/element";
 import lottie from 'lottie-web';
 
 // Pages Routing
@@ -29,6 +31,7 @@ import { DashboardsModule } from "./dashboards/dashboards.module";
 import { AppsModule } from "./apps/apps.module";
 import { EcommerceModule } from "./ecommerce/ecommerce.module";
 
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -38,6 +41,7 @@ import { EcommerceModule } from "./ecommerce/ecommerce.module";
     CommonModule,
     FormsModule,
     NgbToastModule,
+    NgbProgressbarModule,
     FlatpickrDirective,
     CountUpDirective,
     NgApexchartsModule,

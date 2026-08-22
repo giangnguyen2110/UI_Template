@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
     standalone: false
 })
 export class JobFooterComponent implements OnInit {
+  // set the current year
+  year: number = new Date().getFullYear();
 
   constructor() { }
 

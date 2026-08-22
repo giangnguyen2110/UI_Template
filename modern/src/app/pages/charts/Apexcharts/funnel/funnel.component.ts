@@ -21,7 +21,7 @@ export class FunnelComponent {
       { label: 'Funnel Charts', active: true }
     ];
     this._Funnel('["--vz-success "]');
-    this._Pyramid('["--vz-info", "--vz-danger", "--vz-primary", "--vz-secondary", "--vz-success", "--vz-dark", "--vz-warning"]')
+    this._Pyramid('["--vz-info", "--vz-danger", "--vz-primary", "--vz-secondary", "--vz-success", "--vz-body-color", "--vz-warning"]')
   }
   // Chart Colors Set
   private getChartColorsArray(colors: any) {

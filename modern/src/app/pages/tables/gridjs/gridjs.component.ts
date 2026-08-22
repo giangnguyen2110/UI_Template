@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
-
 import {GridJsModel} from './gridjs.model';
 import { GridJsService } from './gridjs.service';
 import { PaginationService } from 'src/app/core/services/pagination.service';
@@ -49,9 +48,10 @@ export class GridjsComponent {
     })
   }
 
- // Sort Data
- onSort(column: any) {
-  this.griddata= this.sortService.onSort(column, this.griddata)
-}
+  // Sort Data
+  onSort(column: any) {
+    this.griddata= this.sortService.onSort(column, this.griddata)
+  }
+
 
 }
