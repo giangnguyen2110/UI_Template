@@ -127,6 +127,9 @@
                 "styles": {
                   "minify": true,
                   "inlineCritical": false
+                },
+                "fonts": {
+                  "inline": false
                 }
               }
             },

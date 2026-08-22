@@ -1,4 +1,7 @@
 {
+  "buildCommand": "cd master && npm run build",
+  "outputDirectory": "master/dist/velzon/browser",
+  "installCommand": "cd master && npm install --legacy-peer-deps",
   "rewrites": [
     {
       "source": "/(.*)",

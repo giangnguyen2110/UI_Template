@@ -1,0 +1,9 @@
+{
+  "name": "ui-template",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd master && npm run build",
+    "start": "cd master && npm start"
+  }
+}
