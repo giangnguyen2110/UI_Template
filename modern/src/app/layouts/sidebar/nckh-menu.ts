@@ -156,6 +156,14 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     ]
   };
 
+  // 8. ĐĂNG XUẤT (Dưới cùng)
+  const logoutItem: MenuItem = {
+    id: 80,
+    label: 'Đăng xuất',
+    icon: 'ri-logout-box-r-line text-danger',
+    link: '/auth/login'
+  };
+
   return [
     commonTitle,
     homeItem,
@@ -164,6 +172,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     transferItem,
     stateProjectItem,
     conferenceItem,
-    profileItem
+    profileItem,
+    logoutItem
   ];
 }

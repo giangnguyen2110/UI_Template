@@ -86,6 +86,13 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onItemClick(item: any) {
+    if (item && (item.link === '/auth/login' || item.id === 80)) {
+      this.nckhDataService.logout();
+      this.router.navigate(['/auth/login']);
+    }
+  }
+
   activateParentDropdown(item: any) {
     if (!item) return false;
     item.classList.add("active");

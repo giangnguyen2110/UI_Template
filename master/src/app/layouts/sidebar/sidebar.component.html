@@ -123,7 +123,7 @@
               </ul>
             </div>
             }@else {
-            <a [routerLink]="item.link" routerLinkActive="active" class="side-nav-link-ref nav-link menu-link">
+            <a [routerLink]="item.link" routerLinkActive="active" class="side-nav-link-ref nav-link menu-link" (click)="onItemClick(item)">
               @if(item.icon){<i class="{{ item.icon }} icon nav-icon"></i>}
               <span> {{ item.label | translate }} </span>
               @if(item.badge){<span class="badge {{item.badge.variant}} float-end">{{item.badge.text |
