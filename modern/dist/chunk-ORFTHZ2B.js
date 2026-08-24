@@ -1,0 +1,1 @@
+import{a as e,b as t}from"./chunk-GKW7WH2Y.js";var o=e("[Data] Fetch InvoiceList"),i=e("[Data] Fetch InvoiceList Success",t()),s=e("[Data] Fetch InvoiceList Failure",t()),a=e("[Data] Delete Invoice",t()),n=e("[Data] Delete Invoice Success",t()),r=e("[Data] Delete Invoice Failure",t());export{o as a,i as b,s as c,a as d,n as e,r as f};

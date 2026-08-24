@@ -19,29 +19,29 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     subItems: [
       {
         id: 11,
-        label: 'Cổng 5 Module Tổng quan',
+        label: 'Cổng 5 Phân hệ Tổng quan',
         link: '/',
         parentId: 10
       },
       {
         id: 12,
-        label: 'Bàn làm việc NCKH (Module 1)',
+        label: 'Bàn làm việc NCKH (Phân hệ 1)',
         link: '/nckh/dashboard',
         parentId: 10
       }
     ]
   };
 
-  // NÚT 3: CÁC MODULE KHÁC
+  // NÚT 3: CÁC PHÂN HỆ KHÁC
   const otherModulesGroup: MenuItem = {
     id: 30,
-    label: 'Các module khác',
+    label: 'Các phân hệ khác',
     icon: 'ri-apps-2-line',
     isCollapsed: true,
     subItems: [
       {
         id: 31,
-        label: 'Module 2: Nghiệm thu sản phẩm',
+        label: 'Phân hệ 2: Nghiệm thu sản phẩm',
         link: '/',
         parentId: 30,
         badge: {
@@ -51,7 +51,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 32,
-        label: 'Module 3: Chuyển giao công nghệ',
+        label: 'Phân hệ 3: Chuyển giao công nghệ',
         link: '/',
         parentId: 30,
         badge: {
@@ -61,7 +61,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 33,
-        label: 'Module 4: Đề tài cấp Nhà nước/Tỉnh',
+        label: 'Phân hệ 4: Đề tài cấp Nhà nước/Tỉnh',
         link: '/',
         parentId: 30,
         badge: {
@@ -71,7 +71,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 34,
-        label: 'Module 5: Tổ chức Hội nghị/Hội thảo',
+        label: 'Phân hệ 5: Tổ chức Hội nghị/Hội thảo',
         link: '/',
         parentId: 30,
         badge: {

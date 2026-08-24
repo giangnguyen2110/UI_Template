@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
 
     this.breadCrumbItems = [
       { label: 'Hệ thống NCKH' },
-      { label: 'Trang chủ 5 Module', active: true }
+      { label: 'Trang chủ 5 Phân hệ', active: true }
     ];
 
     if (sessionStorage.getItem('toast')) {
