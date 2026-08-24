@@ -11,7 +11,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     isTitle: true
   };
 
-  // 1. TRANG CHỦ (Trỏ xuống -> Tổng quan)
+  // 1. TRANG CHỦ (Trỏ xuống -> Tổng quan & Bàn làm việc)
   const homeItem: MenuItem = {
     id: 10,
     label: 'Trang chủ',
@@ -23,6 +23,12 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
         label: 'Tổng quan',
         link: '/',
         parentId: 10
+      },
+      {
+        id: 12,
+        label: 'Bàn làm việc NCKH',
+        link: '/nckh/dashboard',
+        parentId: 10
       }
     ]
   };
@@ -31,6 +37,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
   let topicLink = '/nckh/de-tai-cua-toi';
   let roundLink = '/nckh/cac-dot-dang-ky';
   let topicBadge: any = undefined;
+  const isAuthorRole = (role === 'GIANG_VIEN' || role === 'SINH_VIEN');
 
   if (role === 'TRUONG_KHOA') {
     topicLink = '/nckh/xet-duyet-ho-so';
@@ -45,27 +52,38 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     topicLink = '/nckh/danh-sach-toan-truong';
   }
 
-  // 2. HOẠT ĐỘNG NGHIÊN CỨU KHOA HỌC CẤP TRƯỜNG (Trỏ xuống -> Danh sách đề tài, Danh sách đợt đăng ký)
+  const schoolNckhSubItems: MenuItem[] = [
+    {
+      id: 21,
+      label: 'Danh sách đề tài',
+      link: topicLink,
+      parentId: 20,
+      badge: topicBadge
+    },
+    {
+      id: 22,
+      label: 'Danh sách đợt đăng ký',
+      link: roundLink,
+      parentId: 20
+    }
+  ];
+
+  if (isAuthorRole) {
+    schoolNckhSubItems.push({
+      id: 23,
+      label: role === 'SINH_VIEN' ? 'Đăng ký đề tài SV (BM01B)' : 'Đăng ký đề tài mới (BM01A)',
+      link: '/nckh/dang-ky-moi',
+      parentId: 20
+    });
+  }
+
+  // 2. HOẠT ĐỘNG NGHIÊN CỨU KHOA HỌC CẤP TRƯỜNG (Trỏ xuống)
   const nckhSchoolItem: MenuItem = {
     id: 20,
     label: 'Hoạt động nghiên cứu khoa học cấp trường',
     icon: 'ri-flask-line',
     isCollapsed: false,
-    subItems: [
-      {
-        id: 21,
-        label: 'Danh sách đề tài',
-        link: topicLink,
-        parentId: 20,
-        badge: topicBadge
-      },
-      {
-        id: 22,
-        label: 'Danh sách đợt đăng ký',
-        link: roundLink,
-        parentId: 20
-      }
-    ]
+    subItems: schoolNckhSubItems
   };
 
   // 3. HOẠT ĐỘNG NGHIỆM THU SẢN PHẨM NCKH
@@ -73,7 +91,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     id: 30,
     label: 'Hoạt động nghiệm thu sản phẩm nghiên cứu khoa học',
     icon: 'ri-checkbox-circle-line',
-    link: '/',
+    link: '/pages/coming-soon',
     badge: {
       variant: 'badge bg-secondary-subtle text-secondary',
       text: 'Sắp mở'
@@ -85,7 +103,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     id: 40,
     label: 'Quy trình thực hiện chuyển giao công nghệ và dịch vụ',
     icon: 'ri-shake-hands-line',
-    link: '/',
+    link: '/pages/coming-soon',
     badge: {
       variant: 'badge bg-secondary-subtle text-secondary',
       text: 'Sắp mở'
@@ -97,7 +115,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     id: 50,
     label: 'Quản lý thực hiện đề tài cấp nhà nước, cấp tỉnh, bộ, ngành',
     icon: 'ri-government-line',
-    link: '/',
+    link: '/pages/coming-soon',
     badge: {
       variant: 'badge bg-secondary-subtle text-secondary',
       text: 'Sắp mở'
@@ -109,11 +127,33 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     id: 60,
     label: 'Lưu đồ tổ chức hội nghị, hội thảo',
     icon: 'ri-presentation-line',
-    link: '/',
+    link: '/pages/coming-soon',
     badge: {
       variant: 'badge bg-secondary-subtle text-secondary',
       text: 'Sắp mở'
     }
+  };
+
+  // 7. HỒ SƠ NGƯỜI DÙNG (Trỏ xuống)
+  const profileItem: MenuItem = {
+    id: 70,
+    label: 'Hồ sơ người dùng',
+    icon: 'ri-user-settings-line',
+    isCollapsed: false,
+    subItems: [
+      {
+        id: 71,
+        label: 'Thông tin cá nhân',
+        link: '/pages/profile',
+        parentId: 70
+      },
+      {
+        id: 72,
+        label: 'Cài đặt tài khoản & Bảo mật',
+        link: '/pages/profile-setting',
+        parentId: 70
+      }
+    ]
   };
 
   return [
@@ -123,6 +163,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     acceptanceItem,
     transferItem,
     stateProjectItem,
-    conferenceItem
+    conferenceItem,
+    profileItem
   ];
 }

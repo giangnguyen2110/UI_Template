@@ -1,16 +1,12 @@
-import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UntypedFormBuilder, UntypedFormGroup, FormArray, Validators } from '@angular/forms';
-
+import { UntypedFormBuilder } from '@angular/forms';
 import { TokenStorageService } from '../../../../core/services/token-storage.service';
-
-
 import { projectListModel, documentModel } from './profile.model';
 import { document, projectList } from 'src/app/core/data';
 import { PaginationService } from 'src/app/core/services/pagination.service';
+import { NckhDataService } from 'src/app/core/services/nckh-data.service';
+import { UserProfile } from 'src/app/core/models/nckh.model';
 
 @Component({
     selector: 'app-profile',
@@ -22,23 +18,51 @@ import { PaginationService } from 'src/app/core/services/pagination.service';
 /**
  * Profile Component
  */
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
   projectList!: projectListModel[];
   document!: documentModel[];
-  userData: any;
+  userData: any = {};
+  currentUser: UserProfile | null = null;
   allprojectList: any;
+  deleteId: any;
 
-
-  constructor(private formBuilder: UntypedFormBuilder, private modalService: NgbModal, private TokenStorageService: TokenStorageService, public service: PaginationService) {
-
-  }
+  constructor(
+    private formBuilder: UntypedFormBuilder, 
+    private modalService: NgbModal, 
+    private TokenStorageService: TokenStorageService, 
+    public service: PaginationService,
+    public nckhDataService: NckhDataService
+  ) {}
 
   ngOnInit(): void {
-    this.userData = this.TokenStorageService.getUser();
-    /**
-     * Fetches the data
-     */
+    this.nckhDataService.currentUser$.subscribe(u => {
+      if (u) {
+        this.currentUser = u;
+        this.userData = {
+          first_name: u.fullName,
+          last_name: '',
+          role: u.roleTitle,
+          city: 'Đồng Nai',
+          country: 'Việt Nam',
+          company_name: u.unit || 'Trường Đại học Công nghệ Đồng Nai',
+          email: u.email,
+          designation: u.academicTitle || u.roleTitle
+        };
+      }
+    });
+
+    if (!this.userData.first_name) {
+      this.userData = this.TokenStorageService.getUser() || {
+        first_name: 'ThS. Nguyễn Thị Hạnh',
+        last_name: '',
+        role: 'Giảng viên',
+        city: 'Đồng Nai',
+        country: 'Việt Nam',
+        company_name: 'Khoa Công nghệ thông tin'
+      };
+    }
+
     this.fetchData();
   }
 
@@ -70,22 +94,15 @@ export class ProfileComponent {
 
   // Pagination
   changePage() {
-    this.projectList = this.service.changePage(this.allprojectList)
+    this.projectList = this.service.changePage(this.allprojectList);
   }
 
-  /**
-   * Confirmation mail model
-   */
-  deleteId: any;
   confirm(content: any, id: any) {
     this.deleteId = id;
     this.modalService.open(content, { centered: true });
   }
 
-  // Delete Data
   deleteData(id: any) {
-    this.document.slice(id, 1)
-    this.modalService.dismissAll()
+    this.document = this.document.filter((item: any) => item.id !== id);
   }
-
 }
