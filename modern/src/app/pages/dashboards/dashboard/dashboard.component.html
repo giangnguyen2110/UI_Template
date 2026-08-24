@@ -5,7 +5,7 @@
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Trang chủ</a></li>
-                    <li class="breadcrumb-item active">5 Phân hệ NCKH</li>
+                    <li class="breadcrumb-item active">Tổng quan & 5 Phân hệ</li>
                 </ol>
             </div>
         </div>
@@ -160,7 +160,7 @@
                     </div>
                     <h5 class="fs-15 fw-semibold text-dark mb-2">Phân hệ 3: Lưu đồ Quy trình thực hiện chuyển giao công nghệ và dịch vụ</h5>
                     <p class="text-muted fs-13 mb-3">
-                        Khai thác thương mại hóa kết quả nghiên cứu, hợp đồng tư vấn, chuyển giao công nghệ cho doanh nghiệp và các địa phương.
+                        Quản lý hợp đồng thương mại hóa kết quả nghiên cứu, chuyển giao bản quyền công nghệ và cung ứng dịch vụ khoa học kỹ thuật cho doanh nghiệp.
                     </p>
                 </div>
                 <div>
@@ -187,7 +187,7 @@
                     </div>
                     <h5 class="fs-15 fw-semibold text-dark mb-2">Phân hệ 4: Lưu đồ Quản lý thực hiện đề tài cấp Nhà nước, cấp Tỉnh Bộ, ngành</h5>
                     <p class="text-muted fs-13 mb-3">
-                        Theo dõi, quản lý tiến độ, phê duyệt thuyết minh và giải ngân quyết toán các đề tài cấp Bộ, đề tài Tỉnh Đồng Nai và các quỹ Quốc gia.
+                        Theo dõi tiến độ, hồ sơ pháp lý, dự toán ngân sách và thủ tục nghiệm thu các nhiệm vụ KH&CN cấp Quốc gia, cấp Tỉnh/Thành phố và Bộ ban ngành.
                     </p>
                 </div>
                 <div>
@@ -200,7 +200,7 @@
     </div>
 
     <!-- Phân hệ 5 -->
-    <div class="col-xxl-6 col-md-6 mb-3">
+    <div class="col-xxl-6 col-md-12 mb-3">
         <div class="card card-animate border h-100 shadow-none bg-light-subtle">
             <div class="card-body p-4 d-flex flex-column justify-content-between">
                 <div>
@@ -214,7 +214,7 @@
                     </div>
                     <h5 class="fs-15 fw-semibold text-dark mb-2">Phân hệ 5: Lưu đồ tổ chức Hội nghị, Hội thảo</h5>
                     <p class="text-muted fs-13 mb-3">
-                        Quy trình xin phép chủ trương, tiếp nhận bài báo khoa học, phân công phản biện, biên tập kỷ yếu và tổ chức Hội nghị/Hội thảo các cấp.
+                        Quy trình phê duyệt chủ trương, thành lập ban tổ chức, phản biện bài báo hội thảo, công tác hậu cần và quyết toán hội nghị khoa học trong nước & quốc tế.
                     </p>
                 </div>
                 <div>
@@ -227,175 +227,254 @@
     </div>
 </div>
 
-<!-- ================= KHU VỰC THỐNG KÊ & TIẾN ĐỘ HOẠT ĐỘNG NCKH ================= -->
+<!-- ================= DASHBOARD BIỂU ĐỒ & THỐNG KÊ TỔNG QUAN ================= -->
 <div class="row">
-    <div class="col-12">
-        <div class="border-top my-3"></div>
-        <h5 class="card-title mb-3 fs-15 text-uppercase fw-bold text-primary">
-            <i class="ri-dashboard-3-line me-1"></i> Tổng Quan Số Liệu Nghiên Cứu Khoa Học Toàn Trường (Năm 2026)
-        </h5>
-    </div>
-</div>
-
-<!-- 4 Thẻ Widget NCKH -->
-<div class="row mb-3">
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-animate border shadow-sm">
-            <div class="card-body py-3">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Đề tài NCKH đăng ký</p>
-                        <h4 class="mb-0 text-primary">{{ proposals.length }} <span class="fs-12 text-muted fw-normal">Đề tài</span></h4>
-                    </div>
-                    <div class="avatar-sm flex-shrink-0">
-                        <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-2">
-                            <i class="ri-flask-line"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-animate border shadow-sm">
-            <div class="card-body py-3">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Đợt đăng ký đang mở</p>
-                        <h4 class="mb-0 text-success">{{ rounds.length }} <span class="fs-12 text-muted fw-normal">Đợt</span></h4>
-                    </div>
-                    <div class="avatar-sm flex-shrink-0">
-                        <span class="avatar-title bg-success-subtle text-success rounded-circle fs-2">
-                            <i class="ri-calendar-check-line"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-animate border shadow-sm">
-            <div class="card-body py-3">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Đã qua duyệt Bước 01</p>
-                        <h4 class="mb-0 text-info">2 <span class="fs-12 text-muted fw-normal">Hồ sơ sẵn sàng</span></h4>
-                    </div>
-                    <div class="avatar-sm flex-shrink-0">
-                        <span class="avatar-title bg-info-subtle text-info rounded-circle fs-2">
-                            <i class="ri-checkbox-circle-line"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-animate border shadow-sm">
-            <div class="card-body py-3">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Tổng Kinh phí Đề tài</p>
-                        <h4 class="mb-0 text-warning">60.000.000 <span class="fs-12 text-muted fw-normal">VNĐ</span></h4>
-                    </div>
-                    <div class="avatar-sm flex-shrink-0">
-                        <span class="avatar-title bg-warning-subtle text-warning rounded-circle fs-2">
-                            <i class="ri-money-dollar-circle-line"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Bảng Đợt Mở & Sơ đồ 9 Bước -->
-<div class="row">
-    <!-- Cột trái: Các Đợt đăng ký đang nhận hồ sơ -->
-    <div class="col-xl-6 mb-3">
-        <div class="card border shadow-sm h-100">
-            <div class="card-header bg-light d-flex align-items-center justify-content-between py-2 px-3">
-                <h6 class="card-title mb-0 fs-14 fw-bold text-dark">
-                    <i class="ri-calendar-event-line text-primary me-1"></i> Các Đợt Đăng Ký NCKH Đang Mở
-                </h6>
-                <a routerLink="/nckh/cac-dot-dang-ky" class="btn btn-sm btn-link text-decoration-none p-0 fs-12">
-                    Xem tất cả <i class="ri-arrow-right-line"></i>
-                </a>
-            </div>
-            <div class="card-body p-3">
-                @for (r of rounds; track r.id) {
-                    <div class="p-3 border rounded mb-2 bg-light-subtle">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <span class="badge bg-primary me-1">{{ r.code }}</span>
-                                <span class="fw-bold fs-13 text-dark">{{ r.name }}</span>
+    <div class="col">
+        <div class="h-100">
+            <!-- Header bộ lọc ngày & Thống kê -->
+            <div class="row mb-3 pb-1">
+                <div class="col-12">
+                    <div class="d-flex align-items-lg-center flex-lg-row flex-column">
+                        <div class="flex-grow-1">
+                            <h4 class="fs-16 mb-1 text-primary fw-bold">Biểu Đồ & Thống Kê Hoạt Động NCKH</h4>
+                            <p class="text-muted mb-0">Tổng hợp số liệu thời gian thực của toàn trường theo từng chu kỳ.</p>
+                        </div>
+                        <div class="mt-3 mt-lg-0">
+                            <div class="row g-3 mb-0 align-items-center">
+                                <div class="col-sm-auto">
+                                    <div class="input-group">
+                                        <input class="form-control flatpickr-input" type="text" mwlFlatpickr [(ngModel)]="currentDate" [altInput]="false" [convertModelValue]="true" [dateFormat]="'d M, Y'" mode="range">
+                                        <div class="input-group-text bg-primary border-primary text-white"><i class="ri-calendar-2-line"></i></div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <a routerLink="/nckh/dang-ky-moi">
+                                        <button type="button" class="btn btn-soft-success">
+                                            <i class="ri-add-circle-line align-middle me-1"></i> Đăng ký đề tài mới
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-soft-info btn-icon waves-effect waves-light layout-rightside-btn" (click)="toggleActivity()">
+                                        <i class="ri-pulse-line"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <span class="badge bg-success-subtle text-success fs-11">Đang mở</span>
-                        </div>
-                        <div class="d-flex gap-3 text-muted fs-12 mt-2">
-                            <span><i class="ri-user-line me-1"></i> {{ r.target === 'GIANG_VIEN' ? 'Giảng viên (BM01A)' : 'Sinh viên (BM01B)' }}</span>
-                            <span><i class="ri-time-line text-danger me-1"></i> Hạn chót: <strong>{{ r.endDate }}</strong></span>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- 4 Thẻ Stat Widgets -->
+            <div class="row">
+                @for (stat of statData; track $index) {
+                <div class="col-xl-3 col-md-6">
+                    <app-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon" [persantage]="stat.persantage" [profit]="stat.profit" [link]="stat.link"></app-stat>
+                </div>
                 }
             </div>
-        </div>
-    </div>
 
-    <!-- Cột phải: Quy trình 9 Bước Module 1 -->
-    <div class="col-xl-6 mb-3">
-        <div class="card border shadow-sm h-100">
-            <div class="card-header bg-light d-flex align-items-center justify-content-between py-2 px-3">
-                <h6 class="card-title mb-0 fs-14 fw-bold text-dark">
-                    <i class="ri-flow-chart text-success me-1"></i> Lưu đồ 9 Bước Đề tài NCKH Cấp Trường
-                </h6>
-                <a routerLink="/nckh/dashboard" class="btn btn-sm btn-link text-decoration-none p-0 fs-12">
-                    Bàn làm việc <i class="ri-arrow-right-line"></i>
-                </a>
-            </div>
-            <div class="card-body p-3">
-                <div class="row g-2 fs-12">
-                    <div class="col-6">
-                        <div class="p-2 border rounded border-primary bg-primary-subtle">
-                            <strong class="text-primary">Bước 01: Đăng ký & Tuyến đầu</strong>
-                            <div class="text-muted fs-11">BM01A/BM01B, Ký số, Khoa/GVHD duyệt</div>
+            <!-- Biểu đồ Analytics Chart & Sales by Locations Map -->
+            <div class="row">
+                <div class="col-xl-8">
+                    <div class="card">
+                        <div class="card-header border-0 align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Tiến Độ Thực Hiện & Giải Ngân Kinh Phí</h4>
+                            <div class="d-flex gap-1">
+                                <button type="button" class="btn btn-soft-secondary btn-sm" (click)="setrevenuevalue('all')">
+                                    TẤT CẢ
+                                </button>
+                                <button type="button" class="btn btn-soft-secondary btn-sm" (click)="setrevenuevalue('1M')">
+                                    1 THÁNG
+                                </button>
+                                <button type="button" class="btn btn-soft-secondary btn-sm" (click)="setrevenuevalue('6M')">
+                                    6 THÁNG
+                                </button>
+                                <button type="button" class="btn btn-soft-primary btn-sm" (click)="setrevenuevalue('1Y')">
+                                    1 NĂM
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-header p-0 border-0 bg-light-subtle">
+                            <div class="row g-0 text-center">
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1"><span [countUp]="128" class="counter-value" [countUpOptions]="option"></span></h5>
+                                        <p class="text-muted mb-0">Tổng đề tài đăng ký</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1"><span [countUp]="2.85" class="counter-value" [countUpOptions]="option"></span> Tỷ VNĐ</h5>
+                                        <p class="text-muted mb-0">Tổng kinh phí cấp</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1"><span [countUp]="84" class="counter-value" [countUpOptions]="option"></span></h5>
+                                        <p class="text-muted mb-0">Đề tài đã nghiệm thu</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0 border-end-0">
+                                        <h5 class="mb-1 text-success"><span [countUp]="94.5" class="counter-value" [countUpOptions]="option"></span>%</h5>
+                                        <p class="text-muted mb-0">Tỷ lệ hoàn thành đúng hạn</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0 pb-2">
+                            <div class="w-100">
+                                <apx-chart dir="ltr" class="apex-charts" 
+                                    [chart]="analyticsChart.chart" 
+                                    [series]="analyticsChart.series" 
+                                    [legend]="analyticsChart.legend" 
+                                    [stroke]="analyticsChart.stroke" 
+                                    [colors]="analyticsChart.colors" 
+                                    [fill]="analyticsChart.fill" 
+                                    [dataLabels]="analyticsChart.dataLabels" 
+                                    [xaxis]="analyticsChart.xaxis" 
+                                    [markers]="analyticsChart.markers" 
+                                    [plotOptions]="analyticsChart.plotOptions" 
+                                    [yaxis]="analyticsChart.yaxis" 
+                                    [tooltip]="analyticsChart.tooltip" 
+                                    [grid]="analyticsChart.grid" 
+                                    [labels]="analyticsChart.labels">
+                                </apx-chart>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="p-2 border rounded bg-light">
-                            <strong>Bước 02: Hội đồng xét duyệt hồ sơ</strong>
-                            <div class="text-muted fs-11">Thành lập HĐ, Họp BM02/BM03</div>
+                </div>
+
+                <div class="col-xl-4">
+                    <div class="card card-height-100">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Hợp Tác Nghiên Cứu Quốc Tế</h4>
+                            <div class="flex-shrink-0">
+                                <button type="button" class="btn btn-soft-primary btn-sm">
+                                    Xuất báo cáo
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="p-2 border rounded bg-light">
-                            <strong>Bước 03: Nộp Thuyết minh (BM04)</strong>
-                            <div class="text-muted fs-11">Chủ nhiệm hoàn thiện thuyết minh</div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="p-2 border rounded bg-light">
-                            <strong>Bước 04: Xét duyệt Thuyết minh</strong>
-                            <div class="text-muted fs-11">Họp HĐ BM06/BM07, Thẩm định kinh phí</div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="p-2 border rounded bg-light">
-                            <strong>Bước 05: Ký Hợp đồng NCKH</strong>
-                            <div class="text-muted fs-11">Ban Giám hiệu ký Hợp đồng (BM08)</div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="p-2 border rounded bg-light">
-                            <strong>Bước 06: Triển khai thực hiện</strong>
-                            <div class="text-muted fs-11">Báo cáo định kỳ BM10, Kiểm tra tiến độ</div>
+
+                        <div class="card-body">
+                            <div id="sales-by-locations" leaflet style="height: 269px;" [leafletOptions]="options" [leafletLayers]="layers"></div>
+
+                            <div class="px-2 py-2 mt-1">
+                                <p class="mb-1">Nhật Bản <span class="float-end">75%</span></p>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="75"></div>
+                                </div>
+
+                                <p class="mt-3 mb-1">Hàn Quốc <span class="float-end">62%</span></p>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 62%" aria-valuenow="62" aria-valuemin="0" aria-valuemax="62"></div>
+                                </div>
+
+                                <p class="mt-3 mb-1">Úc & Bắc Mỹ <span class="float-end">82%</span></p>
+                                <div class="progress mt-2" style="height: 6px;">
+                                    <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="82"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Best Selling (Đề tài tiêu biểu) & Top Sellers (Tác giả tiêu biểu) -->
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Đề Tài Nghiên Cứu Nổi Bật</h4>
+                            <div class="flex-shrink-0">
+                                <div class="dropdown card-header-dropdown" ngbDropdown>
+                                    <a class="text-reset dropdown-btn arrow-none" href="javascript: void(0);" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+                                        <span class="fw-semibold text-uppercase fs-12">Lọc theo: </span><span class="text-muted">Năm nay<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                                        <a class="dropdown-item" href="javascript: void(0);">Hôm nay</a>
+                                        <a class="dropdown-item" href="javascript: void(0);">Tháng này</a>
+                                        <a class="dropdown-item" href="javascript: void(0);">Năm nay</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive table-card">
+                                <app-best-selling [BestSelling]="BestSelling"></app-best-selling>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="card card-height-100">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Nhà Khoa Học & Nhóm Nghiên Cứu Tiêu Biểu</h4>
+                            <div class="flex-shrink-0">
+                                <button type="button" class="btn btn-soft-primary btn-sm">
+                                    Xem tất cả
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive table-card">
+                                <app-top-selling [TopSelling]="TopSelling"></app-top-selling>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Store Visits by Source (Phân loại theo đơn vị) & Recent Orders (Đề tài mới nộp) -->
+            <div class="row">
+                <div class="col-xl-4">
+                    <div class="card card-height-100">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Phân Bổ Đề Tài Theo Khoa / Viện</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="w-100">
+                                <apx-chart class="apex-charts" 
+                                    [series]="SalesCategoryChart.series" 
+                                    [labels]="SalesCategoryChart.labels" 
+                                    [chart]="SalesCategoryChart.chart" 
+                                    [legend]="SalesCategoryChart.legend" 
+                                    [stroke]="SalesCategoryChart.stroke" 
+                                    [dataLabels]="SalesCategoryChart.dataLabels" 
+                                    [colors]="SalesCategoryChart.colors">
+                                </apx-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-8">
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Hồ Sơ Đăng Ký Đề Tài Mới Nhất</h4>
+                            <div class="flex-shrink-0">
+                                <a routerLink="/nckh/dashboard" class="btn btn-soft-info btn-sm">
+                                    <i class="ri-file-list-3-line align-middle me-1"></i> Bàn làm việc Phân hệ 1
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive table-card">
+                                <app-recent-orders [Recentelling]="Recentelling"></app-recent-orders>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
