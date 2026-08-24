@@ -20,14 +20,18 @@
             <div class="d-flex align-items-end justify-content-between mt-4">
                 <div>
                     <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                        @if(title == 'TOTAL EARNINGS' || title == 'MY BALANCE'){
-                        <span>$</span> <span [countUp]="value" class="counter-value" [countUpOptions]="option"></span>
-                        <span>K</span>
-                        }@else if(title == 'CUSTOMERS'){
+                        @if((title && title.includes('KINH PHÍ')) || title === 'TOTAL EARNINGS' || title === 'MY BALANCE'){
                         <span [countUp]="value" class="counter-value" [countUpOptions]="option"></span>
-                        <span>M</span>
+                        <span class="fs-13 text-muted ms-1">Tỷ VNĐ</span>
+                        }@else if(title && (title.includes('GIẢNG VIÊN') || title === 'CUSTOMERS')){
+                        <span [countUp]="value" class="counter-value"></span>
+                        <span class="fs-13 text-muted ms-1">Cán bộ</span>
+                        }@else if(title && (title.includes('CÔNG BỐ') || title.includes('BÀI BÁO'))){
+                        <span [countUp]="value" class="counter-value"></span>
+                        <span class="fs-13 text-muted ms-1">Công bố</span>
                         }@else {
                         <span [countUp]="value" class="counter-value"></span>
+                        <span class="fs-13 text-muted ms-1">Đề tài</span>
                         }
                     </h4>
 

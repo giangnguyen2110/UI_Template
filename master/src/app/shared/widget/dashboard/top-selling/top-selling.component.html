@@ -1,30 +1,39 @@
 <table class="table table-hover table-centered align-middle table-nowrap mb-0">
+    <thead class="table-light fs-12 text-muted">
+        <tr>
+            <th>Nhà Khoa Học / Giảng Viên</th>
+            <th>Khoa / Chuyên Ngành</th>
+            <th>Số Đề Tài</th>
+            <th>Kinh Phí</th>
+            <th>Công Bố / Đạt Chuẩn</th>
+        </tr>
+    </thead>
     <tbody>
         @for ( data of TopSelling; track $index) {
         <tr>
             <td>
                 <div class="d-flex align-items-center">
                     <div class="flex-shrink-0 me-2">
-                        <img src="{{data.image}}" alt="" class="avatar-sm p-2" />
+                        <img src="{{data.image}}" alt="" class="avatar-sm p-1 rounded-circle bg-light" />
                     </div>
                     <div>
-                        <h5 class="fs-14 my-1 fw-medium"><a href="ecommerce/seller-details" class="text-reset">{{data.pName}}</a></h5>
-                        <span class="text-muted">{{data.subtitle}}</span>
+                        <h5 class="fs-13 my-1 fw-semibold"><a href="javascript:void(0);" class="text-reset">{{data.pName}}</a></h5>
+                        <span class="text-muted fs-11">{{data.subtitle}}</span>
                     </div>
                 </div>
             </td>
             <td>
-                <span class="text-muted">{{data.type}}</span>
+                <span class="badge bg-info-subtle text-info fs-11">{{data.type}}</span>
             </td>
             <td>
-                <p class="mb-0">{{data.stock}}</p>
-                <span class="text-muted">Stock</span>
+                <p class="mb-0 fs-13 fw-medium">{{data.stock}}</p>
+                <span class="text-muted fs-11">Đề tài chủ trì</span>
             </td>
             <td>
-                <span class="text-muted">${{data.amount}}</span>
+                <span class="text-success fw-medium fs-13">{{data.amount}}</span>
             </td>
             <td>
-                <h5 class="fs-14 mb-0">{{data.percentage}}%<i class="ri-bar-chart-fill text-success fs-16 align-middle mx-2"></i></h5>
+                <h5 class="fs-13 mb-0 fw-semibold">{{data.percentage}}%<i class="ri-bar-chart-fill text-success fs-15 align-middle mx-1"></i></h5>
             </td>
         </tr>}
     </tbody>

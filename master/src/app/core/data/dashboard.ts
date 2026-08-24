@@ -1,199 +1,203 @@
 import { ChartOptions } from "src/app/store/Crypto/crypto_model";
 /**
- * Best Selling
+ * Best Selling (Đề tài Nghiên cứu Nổi bật)
  */
- const BestSelling = [
+const BestSelling = [
   {
-      image: "assets/images/products/img-1.png",
-      pName: 'Branded T-Shirts',
-      date: '24 Apr 2021',
-      price: '29.00',
-      orders: '62',
-      stock: '510',
-      amount: '1,798',
+    image: "assets/images/products/img-1.png",
+    pName: 'Nghiên cứu ứng dụng AI & Deep Learning trong chẩn đoán y tế',
+    date: 'Đợt 1 - 2026',
+    price: '85.000.000 đ',
+    orders: 'TS. Lê Hoàng Nam',
+    stock: 'Khoa CNTT',
+    amount: 'Đã nghiệm thu (Xuất sắc)',
   },
   {
     image: "assets/images/products/img-2.png",
-    pName: 'Bentwood Chair',
-    date: '19 Mar 2021',
-    price: '85.20',
-    orders: '35',
-    stock: 'Out of stock',
-    amount: '2982',
+    pName: 'Hệ thống IoT giám sát năng lượng và tự động hóa tòa nhà',
+    date: 'Đợt 1 - 2026',
+    price: '65.000.000 đ',
+    orders: 'ThS. Nguyễn Thị Hạnh',
+    stock: 'Khoa Điện - Điện tử',
+    amount: 'Đang triển khai (B06)',
   },
   {
     image: "assets/images/products/img-3.png",
-    pName: 'Borosil Paper Cup',
-    date: '01 Mar 2021',
-    price: '14.00',
-    orders: '80',
-    stock: '749',
-    amount: '1120',
+    pName: 'Vật liệu phủ Nano chống ăn mòn trong môi trường công nghiệp',
+    date: 'Đợt 2 - 2026',
+    price: '120.000.000 đ',
+    orders: 'PGS.TS. Trần Văn Hùng',
+    stock: 'Khoa Hóa học & VL',
+    amount: 'Đã thông qua TM (B04)',
   },
   {
     image: "assets/images/products/img-4.png",
-    pName: 'One Seater Sofa',
-    date: '11 Feb 2021',
-    price: '127.50',
-    orders: '56',
-    stock: 'Out of stock',
-    amount: '7140',
+    pName: 'Ứng dụng Blockchain trong truy xuất nguồn gốc nông sản sạch',
+    date: 'Đợt 1 - 2026',
+    price: '50.000.000 đ',
+    orders: 'ThS. Phạm Hải Đăng',
+    stock: 'Khoa CNTT',
+    amount: 'Đang chuẩn bị nghiệm thu',
   },
   {
     image: "assets/images/products/img-5.png",
-    pName: 'Stillbird Helmet',
-    date: '17 Jan 2021',
-    price: '54',
-    orders: '74',
-    stock: '805',
-    amount: '3996',
+    pName: 'Mô hình kinh tế tuần hoàn xử lý phụ phẩm nông nghiệp công nghệ cao',
+    date: 'Đợt 2 - 2026',
+    price: '95.000.000 đ',
+    orders: 'TS. Vũ Minh Tuấn',
+    stock: 'Khoa Quản trị - KT',
+    amount: 'Đã ký hợp đồng (B05)',
   }
 ];
 
 /**
- * Top Selleing
+ * Top Selling (Nhà Khoa học & Nhóm Nghiên cứu Tiêu biểu)
  */
- const TopSelling = [
-    {
-        image: "assets/images/companies/img-1.png",
-        pName: 'iTest Factory',
-        subtitle: 'Oliver Tyler',
-        type: 'Bags and Wallets',
-        stock: '8547',
-        amount: '541200',
-        percentage: '32',
-    },
-    {
-      image: "assets/images/companies/img-2.png",
-      pName: 'Digitech Galaxy',
-      subtitle: 'John Roberts',
-      type: 'Watches',
-      stock: '895',
-      amount: '75030',
-      percentage: '79',
-    },
-    {
-      image: "assets/images/companies/img-3.png",
-      pName: 'Nesta Technologies',
-      subtitle: 'Harley Fuller',
-      type: 'Bike Accessories',
-      stock: '3470',
-      amount: '45600',
-      percentage: '90',
-    },
-    {
-      image: "assets/images/companies/img-4.png",
-      pName: 'Zoetic Fashion',
-      subtitle: 'James Bowen',
-      type: 'Clothes',
-      stock: '5488',
-      amount: '29456',
-      percentage: '40',
-    },
-    {
-      image: "assets/images/companies/img-5.png",
-      pName: 'Meta4Systems',
-      subtitle: 'Zoe Dennis',
-      type: 'Furniture',
-      stock: '4100',
-      amount: '11260',
-      percentage: '57',
-    }
+const TopSelling = [
+  {
+    image: "assets/images/users/avatar-7.jpg",
+    pName: 'PGS.TS. Trần Văn Hùng',
+    subtitle: 'Chuyên gia AI & Xử lý Dữ liệu lớn',
+    type: 'Khoa CNTT',
+    stock: '14 Đề tài',
+    amount: '1.45 Tỷ đ',
+    percentage: '98',
+  },
+  {
+    image: "assets/images/users/avatar-1.jpg",
+    pName: 'TS. Lê Hoàng Nam',
+    subtitle: 'Hệ thống Nhúng & Mạng cảm biến không dây',
+    type: 'Khoa CNTT',
+    stock: '9 Đề tài',
+    amount: '820 Tr.đ',
+    percentage: '94',
+  },
+  {
+    image: "assets/images/users/avatar-3.jpg",
+    pName: 'ThS. Nguyễn Thị Hạnh',
+    subtitle: 'Tối ưu hóa Thuật toán & Trí tuệ tính toán',
+    type: 'Khoa CNTT',
+    stock: '6 Đề tài',
+    amount: '480 Tr.đ',
+    percentage: '91',
+  },
+  {
+    image: "assets/images/users/avatar-9.jpg",
+    pName: 'TS. Vũ Minh Tuấn',
+    subtitle: 'Kinh tế Số & Quản trị Chuỗi cung ứng',
+    type: 'Khoa Kinh tế',
+    stock: '8 Đề tài',
+    amount: '650 Tr.đ',
+    percentage: '89',
+  },
+  {
+    image: "assets/images/users/avatar-4.jpg",
+    pName: 'ThS. Phạm Hải Đăng',
+    subtitle: 'Bảo mật An ninh mạng & Dữ liệu lớn',
+    type: 'Khoa CNTT',
+    stock: '5 Đề tài',
+    amount: '380 Tr.đ',
+    percentage: '87',
+  }
 ];
 
 /**
- * Recent Selleing
+ * Recent Selling (Hồ sơ Đăng ký Đề tài Mới nhất)
  */
- const Recentelling = [
-    {
-        id: "#VZ2112",
-        image: "assets/images/users/avatar-1.jpg",
-        customer: 'Alex Smith',
-        product: 'Clothes',
-        amount: '109.00',
-        vendor: 'Zoetic Fashion',
-        status: 'Paid',
-        rating: '5.0',
-        average: "61"
-    },
-    {
-        id: "#VZ2111",
-        image: "assets/images/users/avatar-2.jpg",
-        customer: 'Jansh Brown',
-        product: 'Kitchen Storage',
-        amount: '149.00',
-        vendor: 'Micro Design',
-        status: 'Pending',
-        rating: '4.5',
-        average: "61"
-    },
-    {
-        id: "#VZ2109",
-        image: "assets/images/users/avatar-3.jpg",
-        customer: 'Ayaan Bowen',
-        product: 'Bike Accessories',
-        amount: '215.00',
-        vendor: 'Nesta Technologies',
-        status: 'Paid',
-        rating: '4.9',
-        average: "89"
-    },    
-    {
-        id: "#VZ2108",
-        image: "assets/images/users/avatar-4.jpg",
-        customer: 'Prezy Mark',
-        product: 'Furniture',
-        amount: '199.00',
-        vendor: 'Syntyce Solutions',
-        status: 'Unpaid',
-        rating: '4.3',
-        average: "47"
-    },   
-    {
-        id: "#VZ2107",
-        image: "assets/images/users/avatar-6.jpg",
-        customer: 'Vihan Hudda',
-        product: 'Bags and Wallets',
-        amount: '330.00',
-        vendor: 'iTest Factory',
-        status: 'Paid',
-        rating: '4.7',
-        average: "161"
-    } 
+const Recentelling = [
+  {
+    id: "#DT2026-001",
+    image: "assets/images/users/avatar-3.jpg",
+    customer: 'ThS. Nguyễn Thị Hạnh',
+    product: 'Nghiên cứu ứng dụng Deep Learning trong nhận diện bệnh lá lúa',
+    amount: '45.000.000 đ',
+    vendor: 'Khoa CNTT',
+    status: 'Đã duyệt Bước 01',
+    rating: '5.0',
+    average: "7"
+  },
+  {
+    id: "#DT2026-002",
+    image: "assets/images/users/avatar-2.jpg",
+    customer: 'Trần Văn Minh (Sinh viên)',
+    product: 'Xây dựng ứng dụng IoT quản lý phòng thí nghiệm thông minh',
+    amount: '15.000.000 đ',
+    vendor: 'Khoa CNTT',
+    status: 'Đang xét duyệt',
+    rating: '4.8',
+    average: "5"
+  },
+  {
+    id: "#DT2026-003",
+    image: "assets/images/users/avatar-1.jpg",
+    customer: 'TS. Lê Hoàng Nam',
+    product: 'Nghiên cứu kiến trúc Vi mạch cho thiết bị biên thông minh Edge-AI',
+    amount: '80.000.000 đ',
+    vendor: 'Khoa Điện - Điện tử',
+    status: 'Đã duyệt Bước 01',
+    rating: '5.0',
+    average: "9"
+  },    
+  {
+    id: "#DT2026-004",
+    image: "assets/images/users/avatar-4.jpg",
+    customer: 'ThS. Phạm Hải Đăng',
+    product: 'Giải pháp bảo mật dữ liệu định danh sinh viên bằng Blockchain',
+    amount: '50.000.000 đ',
+    vendor: 'Khoa CNTT',
+    status: 'Đã duyệt Bước 01',
+    rating: '4.9',
+    average: "6"
+  },   
+  {
+    id: "#DT2026-005",
+    image: "assets/images/users/avatar-6.jpg",
+    customer: 'TS. Nguyễn Thị Mai',
+    product: 'Chế tạo màng bọc thực phẩm tự phân hủy sinh học từ tinh bột sắn',
+    amount: '60.000.000 đ',
+    vendor: 'Khoa Công nghệ Hóa học',
+    status: 'Đang xét duyệt',
+    rating: '4.7',
+    average: "5"
+  } 
 ];
 
 /**
- * Stat Counder Data
+ * Stat Counter Data (4 Thẻ chỉ số tổng quan NCKH)
  */
-const statData = [{
-      title: 'TOTAL EARNINGS',
-      value: 559.25,
-      icon: 'bx-dollar-circle',
-      persantage: '16.24',
-      profit: 'up',
-      link:'View net earnings'
-    }, {
-        title: 'ORDERS',
-        value: 36894,
-        icon: 'bx-shopping-bag',
-        persantage: '3.57',
-        profit: 'down',
-        link:'View all orders'
-    }, {
-        title: 'CUSTOMERS',
-        value: 183.35,
-        icon: 'bx-user-circle',
-        persantage: '29.08',
-        profit: 'up',
-        link:'See details'
-    }, {
-        title: 'MY BALANCE',
-        value: 165.89,
-        icon: 'bx-wallet',
-        persantage: '0.00',
-        profit: 'equal',
-        link:'Withdraw money'
-    }
+const statData = [
+  {
+    title: 'TỔNG KINH PHÍ NCKH CẤP',
+    value: 24.85,
+    icon: 'bx-dollar-circle',
+    persantage: '16.24',
+    profit: 'up',
+    link: 'Chi tiết phân bổ ngân sách'
+  }, 
+  {
+    title: 'TỔNG SỐ ĐỀ TÀI ĐĂNG KÝ',
+    value: 342,
+    icon: 'bx-shopping-bag',
+    persantage: '12.50',
+    profit: 'up',
+    link: 'Xem danh sách đề tài toàn trường'
+  }, 
+  {
+    title: 'GIẢNG VIÊN & NHÀ KHOA HỌC',
+    value: 185,
+    icon: 'bx-user-circle',
+    persantage: '8.30',
+    profit: 'up',
+    link: 'Danh sách cán bộ nghiên cứu'
+  }, 
+  {
+    title: 'CÔNG BỐ & BÀI BÁO QUỐC TẾ',
+    value: 128,
+    icon: 'bx-wallet',
+    persantage: '24.60',
+    profit: 'up',
+    link: 'Xem danh mục Scopus / ISI / ACI'
+  }
 ];
   
 

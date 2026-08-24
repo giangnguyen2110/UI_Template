@@ -1,39 +1,52 @@
 <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
-    <thead class="text-muted table-light">
+    <thead class="text-muted table-light fs-12">
         <tr>
-            <th scope="col">Order ID</th>
-            <th scope="col">Customer</th>
-            <th scope="col">Product</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Vendor</th>
-            <th scope="col">Status</th>
-            <th scope="col">Rating</th>
+            <th scope="col">Mã Hồ Sơ</th>
+            <th scope="col">Tác Giả / Chủ Nhiệm</th>
+            <th scope="col">Tên Đề Tài NCKH</th>
+            <th scope="col">Kinh Phí</th>
+            <th scope="col">Khoa / Viện</th>
+            <th scope="col">Trạng Thái</th>
+            <th scope="col">Đánh Giá Hội Đồng</th>
         </tr>
     </thead>
     <tbody>
         @for ( data of Recentelling; track $index) {
         <tr>
             <td>
-                <a href="ecommerce/order-details" class="fw-medium link-primary">{{data.id}}</a>
+                <a routerLink="/nckh/de-tai-cua-toi" class="fw-bold link-primary fs-12">{{data.id}}</a>
             </td>
             <td>
                 <div class="d-flex align-items-center">
                     <div class="flex-shrink-0 me-2">
                         <img src="{{data.image}}" alt="" class="avatar-xs rounded-circle material-shadow-none" />
                     </div>
-                    <div class="flex-grow-1">{{data.customer}}</div>
+                    <div class="flex-grow-1 fw-medium fs-13">{{data.customer}}</div>
                 </div>
             </td>
-            <td>{{data.product}}</td>
             <td>
-                <span class="text-success">${{data.amount}}</span>
-            </td>
-            <td>{{data.vendor}}</td>
-            <td>
-                <span class="badge bg-success-subtle text-success" [ngClass]=" { 'bg-warning-subtle text-warning': data.status === 'Pending', 'bg-danger-subtle text-danger': data.status === 'Unpaid'}">{{data.status}}</span>
+                <span class="text-truncate d-inline-block fw-semibold fs-13" style="max-width: 260px;" [title]="data.product">
+                    {{data.product}}
+                </span>
             </td>
             <td>
-                <h5 class="fs-14 fw-medium mb-0">{{data.rating}}<span class="text-muted fs-11 ms-1">({{data.average}} votes)</span></h5>
+                <span class="text-primary fw-medium fs-12">{{data.amount}}</span>
+            </td>
+            <td>
+                <span class="badge bg-secondary-subtle text-secondary fs-11">{{data.vendor}}</span>
+            </td>
+            <td>
+                <span class="badge" [ngClass]="{
+                    'bg-success-subtle text-success': data.status && (data.status.includes('Duyệt') || data.status.includes('nghiệm thu') || data.status.includes('Xuất sắc')),
+                    'bg-warning-subtle text-warning': data.status && (data.status.includes('xét duyệt') || data.status.includes('Chờ') || data.status.includes('Đang')),
+                    'bg-danger-subtle text-danger': data.status && (data.status.includes('sửa') || data.status.includes('Từ chối'))
+                }">{{data.status}}</span>
+            </td>
+            <td>
+                <h5 class="fs-13 fw-semibold mb-0 text-warning">
+                    <i class="ri-star-fill text-warning me-1"></i>{{data.rating}}
+                    <span class="text-muted fs-11 fw-normal ms-1">({{data.average}} phiếu)</span>
+                </h5>
             </td>
         </tr><!-- end tr -->
         }
