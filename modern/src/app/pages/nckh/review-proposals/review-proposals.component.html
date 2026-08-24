@@ -4,7 +4,17 @@
       <h4 class="mb-sm-0">
         Xét duyệt Hồ sơ Đăng ký Đề tài (Bước 01)
         <span class="badge bg-warning-subtle text-warning fs-12 ms-2">
-          {{ currentUser.role === 'TRUONG_KHOA' ? 'Phạm vi: Khoa ' + currentUser.unit : 'Phạm vi: Sinh viên được hướng dẫn' }}
+          @if (currentUser.role === 'TRUONG_KHOA') {
+            Phạm vi: {{ currentUser.unit }}
+          } @else if (currentUser.role === 'GIANG_VIEN_HD') {
+            Phạm vi: Sinh viên được hướng dẫn
+          } @else if (currentUser.role === 'P_KHCN') {
+            Phạm vi: Phòng KH&CN (Toàn trường)
+          } @else if (currentUser.role === 'CHU_TICH_HD' || currentUser.role === 'HOI_DONG_MEMBER' || currentUser.role === 'THU_KY_HD') {
+            Phạm vi: Hội đồng thẩm định (Bước 02)
+          } @else {
+            Phạm vi: Đang theo dõi
+          }
         </span>
       </h4>
       <div class="page-title-right">

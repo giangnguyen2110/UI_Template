@@ -44,7 +44,7 @@
 
         <div>
           <a routerLink="/nckh/dang-ky-moi" class="btn btn-primary waves-effect waves-light">
-            <i class="ri-add-line align-middle me-1"></i> Tạo hồ sơ đăng ký mới
+            <i class="ri-add-line align-middle me-1"></i> Tạo hồ sơ đăng ký mới {{ currentUser?.role === 'SINH_VIEN' ? '(BM01B)' : '(BM01A)' }}
           </a>
         </div>
       </div>

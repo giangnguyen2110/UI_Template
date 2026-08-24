@@ -39,9 +39,14 @@
 
           <!-- Nút hành động nhanh -->
           <div class="d-flex flex-wrap align-items-center gap-2">
-            @if (isAuthorRole) {
+            @if (currentUser.role === 'GIANG_VIEN') {
               <button type="button" class="btn btn-success waves-effect waves-light" (click)="goToNewProposal()">
-                <i class="ri-add-line align-middle me-1"></i> Đăng ký đề tài mới (BM01)
+                <i class="ri-add-line align-middle me-1"></i> Đăng ký đề tài mới (BM01A)
+              </button>
+            }
+            @if (currentUser.role === 'SINH_VIEN') {
+              <button type="button" class="btn btn-success waves-effect waves-light" (click)="goToNewProposal()">
+                <i class="ri-add-line align-middle me-1"></i> Đăng ký đề tài mới (BM01B)
               </button>
             }
             @if (isDeanRole || isAdvisorRole) {
@@ -60,21 +65,6 @@
               </a>
             }
           </div>
-        </div>
-
-        <!-- Thanh chuyển đổi nhanh role demo (dành cho người chấm / tester) -->
-        <div class="mt-3 pt-3 border-top border-primary border-opacity-10 d-flex flex-wrap align-items-center gap-2">
-          <span class="fs-12 fw-semibold text-muted me-1"><i class="ri-user-switch-line me-1"></i> Demo Switch:</span>
-          @for (u of demoUsers; track u.id) {
-            <button type="button" 
-                    class="btn btn-sm" 
-                    [class.btn-primary]="u.role === currentUser.role"
-                    [class.btn-outline-secondary]="u.role !== currentUser.role"
-                    (click)="switchRole(u.role)"
-                    [title]="u.fullName + ' (' + u.email + ')'">
-              {{ u.roleTitle }}
-            </button>
-          }
         </div>
       </div>
     </div>

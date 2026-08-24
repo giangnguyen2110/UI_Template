@@ -312,10 +312,10 @@
                             <div class="p-3">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
+                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Thông báo & Tin nhắn </h6>
                                     </div>
                                     <div class="col-auto dropdown-tabs">
-                                        <span class="badge bg-light text-body fs-13"> {{allnotifications?.length}} New</span>
+                                        <span class="badge bg-light text-body fs-13"> {{allnotifications?.length}} Mới</span>
                                     </div>
                                 </div>
                             </div>
@@ -324,7 +324,7 @@
                                 <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs dropdown-tabs nav-tabs-custom" id="notificationItemsTab">
                                     <li [ngbNavItem]="1">
                                         <a ngbNavLink>
-                                            All ({{allnotifications?.length}})
+                                            Tất cả ({{allnotifications?.length}})
                                         </a>
                                         <ng-template ngbNavContent>
                                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
@@ -375,15 +375,14 @@
                                                                 <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                                             </div>
                                                             <div class="text-center pb-5 mt-2">
-                                                                <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any
-                                                                    notifications </h6>
+                                                                <h6 class="fs-18 fw-semibold lh-base">Bạn không có thông báo nào mới</h6>
                                                             </div>
                                                         </div>
                                                         }
                                                         @if(allnotifications?.length > 0){
                                                         <div class="my-3 text-center">
-                                                            <button type="button" class="btn btn-soft-success waves-effect waves-light">View
-                                                                All Notifications <i class="ri-arrow-right-line align-middle"></i></button>
+                                                            <button type="button" class="btn btn-soft-success waves-effect waves-light">Xem
+                                                                tất cả thông báo <i class="ri-arrow-right-line align-middle"></i></button>
                                                         </div>
                                                         }
                                                     </div>
@@ -395,7 +394,7 @@
                                     </li>
                                     <li [ngbNavItem]="2">
                                         <a ngbNavLink>
-                                            Messages
+                                            Tin nhắn
                                         </a>
                                         <ng-template ngbNavContent>
                                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
@@ -428,15 +427,14 @@
                                                                 <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                                             </div>
                                                             <div class="text-center pb-5 mt-2">
-                                                                <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any
-                                                                    notifications </h6>
+                                                                <h6 class="fs-18 fw-semibold lh-base">Không có tin nhắn nào</h6>
                                                             </div>
                                                         </div>
                                                         }
                                                         @if(messages?.length > 0){
                                                         <div class="my-3 text-center">
-                                                            <button type="button" class="btn btn-soft-success waves-effect waves-light">View
-                                                                All Messages <i class="ri-arrow-right-line align-middle"></i></button>
+                                                            <button type="button" class="btn btn-soft-success waves-effect waves-light">Xem
+                                                                tất cả tin nhắn <i class="ri-arrow-right-line align-middle"></i></button>
                                                         </div>
                                                         }
                                                     </div>
@@ -448,7 +446,7 @@
                                     </li>
                                     <li [ngbNavItem]="3">
                                         <a ngbNavLink>
-                                            Alerts
+                                            Cảnh báo
                                         </a>
                                         <ng-template ngbNavContent>
                                             <div class="tab-pane p-4" id="alerts-tab" role="tabpanel" aria-labelledby="alerts-tab">
@@ -456,8 +454,7 @@
                                                     <img src="assets/images/svg/bell.svg" class="img-fluid" alt="user-pic">
                                                 </div>
                                                 <div class="text-center pb-5 mt-2">
-                                                    <h6 class="fs-18 fw-semibold lh-base">Hey! You have no any
-                                                        notifications </h6>
+                                                    <h6 class="fs-18 fw-semibold lh-base">Không có cảnh báo hệ thống nào</h6>
                                                 </div>
                                             </div>
                                         </ng-template>
