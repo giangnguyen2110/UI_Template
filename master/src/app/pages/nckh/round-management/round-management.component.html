@@ -18,32 +18,58 @@
   </div>
 }
 
-<!-- Banner Quản trị & Nút tạo Đợt mới -->
+<!-- Banner Phân biệt theo Role: P.KHCN vs Giảng viên/Sinh viên -->
 <div class="row mb-3">
   <div class="col-12">
-    <div class="card shadow-sm border-0 bg-primary-subtle p-3 mb-0">
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-        <div class="d-flex align-items-center">
-          <div class="avatar-md me-3 flex-shrink-0">
-            <span class="avatar-title bg-primary text-white rounded fs-2 shadow">
-              <i class="ri-calendar-event-line"></i>
-            </span>
+    @if (currentUser.role === 'P_KHCN' || currentUser.role === 'ADMIN') {
+      <div class="card shadow-sm border-0 bg-primary-subtle p-3 mb-0">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div class="d-flex align-items-center">
+            <div class="avatar-md me-3 flex-shrink-0">
+              <span class="avatar-title bg-primary text-white rounded fs-2 shadow">
+                <i class="ri-calendar-event-line"></i>
+              </span>
+            </div>
+            <div>
+              <h5 class="text-primary fw-bold mb-1">Cổng Quản lý Đợt Đăng ký & Danh mục Giao trực tiếp (P.KHCN)</h5>
+              <p class="text-muted fs-12 mb-0">
+                Quy định PRD (FR-09, FR-10, FR-12): Chuyên viên P.KHCN thiết lập mốc thời gian nhận hồ sơ Bước 01 và quản lý các danh mục đề tài giao trực tiếp.
+              </p>
+            </div>
           </div>
-          <div>
-            <h5 class="text-primary fw-bold mb-1">Cổng Quản lý Đợt Đăng ký & Danh mục Giao trực tiếp (P.KHCN)</h5>
-            <p class="text-muted fs-12 mb-0">
-              Quy định PRD (FR-09, FR-10, FR-12): Chuyên viên P.KHCN thiết lập mốc thời gian nhận hồ sơ Bước 01 và quản lý các danh mục đề tài giao trực tiếp.
-            </p>
-          </div>
-        </div>
 
-        <div>
-          <button type="button" class="btn btn-primary btn-label waves-effect waves-light shadow" (click)="openCreateRoundModal(roundModal)">
-            <i class="ri-add-line label-icon align-middle fs-16 me-2"></i> Tạo Đợt Đăng ký Mới
-          </button>
+          <div>
+            <button type="button" class="btn btn-primary btn-label waves-effect waves-light shadow" (click)="openCreateRoundModal(roundModal)">
+              <i class="ri-add-line label-icon align-middle fs-16 me-2"></i> Tạo Đợt Đăng ký Mới
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    } @else {
+      <div class="card shadow-sm border-0 bg-light-subtle p-3 mb-0">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div class="d-flex align-items-center">
+            <div class="avatar-md me-3 flex-shrink-0">
+              <span class="avatar-title bg-success-subtle text-success rounded fs-2">
+                <i class="ri-calendar-check-line"></i>
+              </span>
+            </div>
+            <div>
+              <h5 class="text-dark fw-bold mb-1">Danh sách các Đợt Đăng ký NCKH Đang Mở</h5>
+              <p class="text-muted fs-12 mb-0">
+                Vui lòng theo dõi thời hạn nhận hồ sơ (FR-09) và chọn Đợt phù hợp để nộp hồ sơ đăng ký đề tài (BM01A/BM01B).
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <a routerLink="/nckh/dang-ky-moi" class="btn btn-success waves-effect waves-light shadow">
+              <i class="ri-add-line align-middle me-1"></i> Đăng ký đề tài mới
+            </a>
+          </div>
+        </div>
+      </div>
+    }
   </div>
 </div>
 
@@ -143,23 +169,25 @@
               <span class="badge bg-danger-subtle text-danger fs-11"><i class="ri-lock-line me-1"></i> Đã đóng</span>
             }
 
-            <div class="dropdown" ngbDropdown>
-              <button class="btn btn-sm btn-ghost-secondary btn-icon" type="button" ngbDropdownToggle>
-                <i class="ri-more-2-fill"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="openEditRoundModal(roundModal, r)">
-                  <i class="ri-edit-line me-2 text-muted"></i> Chỉnh sửa thông tin
-                </a>
-                <a class="dropdown-item" href="javascript:void(0);" (click)="toggleRoundStatus(r)">
-                  <i class="ri-time-line me-2 text-muted"></i> {{ r.status === 'DA_CONG_BO' ? 'Đóng đợt đăng ký' : 'Mở lại đợt' }}
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="javascript:void(0);" (click)="deleteRound(r)">
-                  <i class="ri-delete-bin-line me-2"></i> Xóa đợt này
-                </a>
+            @if (currentUser.role === 'P_KHCN' || currentUser.role === 'ADMIN') {
+              <div class="dropdown" ngbDropdown>
+                <button class="btn btn-sm btn-ghost-secondary btn-icon" type="button" ngbDropdownToggle>
+                  <i class="ri-more-2-fill"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                  <a class="dropdown-item" href="javascript:void(0);" (click)="openEditRoundModal(roundModal, r)">
+                    <i class="ri-edit-line me-2 text-muted"></i> Chỉnh sửa thông tin
+                  </a>
+                  <a class="dropdown-item" href="javascript:void(0);" (click)="toggleRoundStatus(r)">
+                    <i class="ri-time-line me-2 text-muted"></i> {{ r.status === 'DA_CONG_BO' ? 'Đóng đợt đăng ký' : 'Mở lại đợt' }}
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item text-danger" href="javascript:void(0);" (click)="deleteRound(r)">
+                    <i class="ri-delete-bin-line me-2"></i> Xóa đợt này
+                  </a>
+                </div>
               </div>
-            </div>
+            }
           </div>
         </div>
 
@@ -202,9 +230,11 @@
             <h6 class="fw-bold fs-13 text-dark mb-0">
               <i class="ri-list-check me-1 text-warning"></i> Danh mục Đề tài Giao trực tiếp ({{ r.directTopics?.length || 0 }})
             </h6>
-            <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 fs-12" (click)="openEditRoundModal(roundModal, r)">
-              <i class="ri-add-line me-1"></i> Quản lý danh mục
-            </button>
+            @if (currentUser.role === 'P_KHCN' || currentUser.role === 'ADMIN') {
+              <button type="button" class="btn btn-sm btn-link text-decoration-none p-0 fs-12" (click)="openEditRoundModal(roundModal, r)">
+                <i class="ri-add-line me-1"></i> Quản lý danh mục
+              </button>
+            }
           </div>
 
           @if (r.directTopics && r.directTopics.length > 0) {
@@ -248,11 +278,21 @@
         <!-- Footer Card Đợt -->
         <div class="card-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between">
           <span class="text-muted fs-11">
-            <i class="ri-user-line me-1"></i> Người tạo: Chuyên viên P.KHCN
+            <i class="ri-user-line me-1"></i> Đối tượng: {{ r.target === 'GIANG_VIEN' ? 'Giảng viên' : 'Sinh viên' }}
           </span>
-          <button type="button" class="btn btn-sm btn-soft-primary" (click)="openEditRoundModal(roundModal, r)">
-            <i class="ri-edit-line me-1"></i> Sửa đợt / Gia hạn deadline
-          </button>
+          @if (currentUser.role === 'P_KHCN' || currentUser.role === 'ADMIN') {
+            <button type="button" class="btn btn-sm btn-soft-primary" (click)="openEditRoundModal(roundModal, r)">
+              <i class="ri-edit-line me-1"></i> Sửa đợt / Gia hạn deadline
+            </button>
+          } @else if (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN') {
+            <a routerLink="/nckh/dang-ky-moi" class="btn btn-sm btn-primary">
+              <i class="ri-add-circle-line me-1"></i> Đăng ký theo Đợt này
+            </a>
+          } @else if (currentUser.role === 'TRUONG_KHOA') {
+            <a routerLink="/nckh/xet-duyet-ho-so" class="btn btn-sm btn-outline-primary">
+              <i class="ri-eye-line me-1"></i> Xem hồ sơ của Khoa
+            </a>
+          }
         </div>
       </div>
     </div>

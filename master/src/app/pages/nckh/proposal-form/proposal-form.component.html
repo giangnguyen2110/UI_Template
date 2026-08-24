@@ -226,9 +226,11 @@
           <div class="step-content">
             <h5 class="mb-3 text-primary"><i class="ri-group-line me-1"></i> Danh sách nhóm nghiên cứu & Dự trù kinh phí</h5>
 
-            <!-- Thông tin Chủ nhiệm -->
+            <!-- Thông tin Chủ nhiệm / Trưởng nhóm -->
             <div class="card bg-light border p-3 mb-3">
-              <h6 class="fw-bold fs-13 mb-2 text-dark">Chủ nhiệm đề tài (Bạn)</h6>
+              <h6 class="fw-bold fs-13 mb-2 text-dark">
+                {{ proposal.target === 'SINH_VIEN' ? 'Trưởng nhóm sinh viên nghiên cứu (Bạn)' : 'Chủ nhiệm đề tài (Bạn)' }}
+              </h6>
               <div class="row g-2 fs-13">
                 <div class="col-md-3"><strong>Họ tên:</strong> {{ currentUser.fullName }}</div>
                 <div class="col-md-3"><strong>Mã định danh:</strong> {{ currentUser.identifierCode }}</div>

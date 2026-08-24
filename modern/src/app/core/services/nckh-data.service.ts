@@ -31,7 +31,7 @@ export const DEMO_USERS: (UserProfile & { password: string })[] = [
     password: 'sinhvien12345',
     fullName: 'Trần Văn Minh',
     role: 'SINH_VIEN',
-    roleTitle: 'Sinh viên (Chủ nhiệm)',
+    roleTitle: 'Sinh viên (Trưởng nhóm)',
     identifierCode: 'SV210045',
     unit: 'Khoa Công nghệ thông tin',
     academicTitle: 'Sinh viên K21',
@@ -309,7 +309,7 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
       fileSize: '1.2 MB',
       uploadedAt: '2026-08-20 10:15',
       signatureStatus: 'DA_KY',
-      signedBy: 'Trần Văn Minh (Sinh viên chủ nhiệm)'
+      signedBy: 'Trần Văn Minh (Trưởng nhóm sinh viên)'
     },
     status: 'CHO_GVHD_DUYET',
     statusText: 'Đang đợi giảng viên duyệt',
