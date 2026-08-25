@@ -11,70 +11,161 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     isTitle: true
   };
 
-  // 1. TRANG CHỦ (Trỏ xuống -> Tổng quan & Bàn làm việc)
-  const homeItem: MenuItem = {
-    id: 10,
-    label: 'Trang chủ',
-    icon: 'ri-home-4-line',
-    isCollapsed: false,
-    subItems: [
-      {
-        id: 11,
-        label: 'Tổng quan',
-        link: '/',
-        parentId: 10
-      },
-      {
-        id: 12,
-        label: 'Bàn làm việc NCKH',
-        link: '/nckh/dashboard',
-        parentId: 10
-      }
-    ]
-  };
-
-  // Xác định link Danh sách đề tài & Danh sách đợt đăng ký theo Role
-  let topicLink = '/nckh/de-tai-cua-toi';
-  let roundLink = '/nckh/cac-dot-dang-ky';
-  let topicBadge: any = undefined;
-  const isAuthorRole = (role === 'GIANG_VIEN' || role === 'SINH_VIEN');
-
-  if (role === 'TRUONG_KHOA') {
-    topicLink = '/nckh/xet-duyet-ho-so';
-    topicBadge = {
-      variant: 'badge bg-danger',
-      text: 'Cần duyệt'
+  // 1. TRANG CHỦ (Giảng viên & Sinh viên gộp làm 1 vào Trang chủ)
+  let homeItem: MenuItem;
+  if (role === 'GIANG_VIEN' || role === 'SINH_VIEN') {
+    homeItem = {
+      id: 10,
+      label: 'Trang chủ',
+      icon: 'ri-home-4-line',
+      link: '/nckh/dashboard'
     };
-  } else if (role === 'P_KHCN') {
-    topicLink = '/nckh/danh-sach-toan-truong';
-    roundLink = '/nckh/quan-ly-dot';
-  } else if (role === 'CHU_TICH_HD' || role === 'HOI_DONG_MEMBER' || role === 'THU_KY_HD') {
-    topicLink = '/nckh/danh-sach-toan-truong';
+  } else {
+    homeItem = {
+      id: 10,
+      label: 'Trang chủ',
+      icon: 'ri-home-4-line',
+      isCollapsed: false,
+      subItems: [
+        {
+          id: 11,
+          label: 'Tổng quan',
+          link: '/',
+          parentId: 10
+        },
+        {
+          id: 12,
+          label: 'Bàn làm việc NCKH',
+          link: '/nckh/dashboard',
+          parentId: 10
+        }
+      ]
+    };
   }
 
-  const schoolNckhSubItems: MenuItem[] = [
-    {
-      id: 21,
-      label: 'Danh sách đề tài',
-      link: topicLink,
-      parentId: 20,
-      badge: topicBadge
-    },
-    {
-      id: 22,
-      label: 'Danh sách đợt đăng ký',
-      link: roundLink,
-      parentId: 20
-    }
-  ];
+  // Xác định các subItem của Phân hệ NCKH Cấp trường theo đúng Role
+  const schoolNckhSubItems: MenuItem[] = [];
 
-  if (isAuthorRole) {
-    schoolNckhSubItems.push({
-      id: 23,
-      label: role === 'SINH_VIEN' ? 'Đăng ký đề tài SV (BM01B)' : 'Đăng ký đề tài mới (BM01A)',
-      link: '/nckh/dang-ky-moi',
-      parentId: 20
-    });
+  if (role === 'GIANG_VIEN' || role === 'SINH_VIEN') {
+    schoolNckhSubItems.push(
+      {
+        id: 21,
+        label: 'Danh sách đề tài của tôi',
+        link: '/nckh/de-tai-cua-toi',
+        parentId: 20
+      },
+      {
+        id: 22,
+        label: 'Danh sách đợt đăng ký',
+        link: '/nckh/cac-dot-dang-ky',
+        parentId: 20
+      }
+    );
+  } else if (role === 'TRUONG_KHOA') {
+    schoolNckhSubItems.push(
+      {
+        id: 21,
+        label: 'Xét duyệt hồ sơ Khoa (B01)',
+        link: '/nckh/xet-duyet-ho-so',
+        parentId: 20,
+        badge: {
+          variant: 'badge bg-danger',
+          text: 'Cần duyệt'
+        }
+      },
+      {
+        id: 22,
+        label: 'Đề tài thuộc đơn vị',
+        link: '/nckh/de-tai-don-vi',
+        parentId: 20
+      },
+      {
+        id: 23,
+        label: 'Danh sách đợt đăng ký',
+        link: '/nckh/cac-dot-dang-ky',
+        parentId: 20
+      }
+    );
+  } else if (role === 'GIANG_VIEN_HD') {
+    schoolNckhSubItems.push(
+      {
+        id: 21,
+        label: 'Duyệt hồ sơ SV hướng dẫn',
+        link: '/nckh/xet-duyet-ho-so',
+        parentId: 20,
+        badge: {
+          variant: 'badge bg-danger',
+          text: 'Cần duyệt'
+        }
+      },
+      {
+        id: 22,
+        label: 'Danh sách đợt đăng ký',
+        link: '/nckh/cac-dot-dang-ky',
+        parentId: 20
+      }
+    );
+  } else if (role === 'P_KHCN') {
+    schoolNckhSubItems.push(
+      {
+        id: 21,
+        label: 'Quản lý Đợt đăng ký',
+        link: '/nckh/quan-ly-dot',
+        parentId: 20
+      },
+      {
+        id: 22,
+        label: 'Quản lý đề tài toàn trường',
+        link: '/nckh/danh-sach-toan-truong',
+        parentId: 20
+      },
+      {
+        id: 23,
+        label: 'Hồ sơ xét duyệt & Hội đồng',
+        link: '/nckh/xet-duyet-ho-so',
+        parentId: 20
+      }
+    );
+  } else if (role === 'CHU_TICH_HD' || role === 'HOI_DONG_MEMBER' || role === 'THU_KY_HD') {
+    schoolNckhSubItems.push(
+      {
+        id: 21,
+        label: 'Hồ sơ Hội đồng thẩm định',
+        link: '/nckh/xet-duyet-ho-so',
+        parentId: 20,
+        badge: {
+          variant: 'badge bg-warning',
+          text: 'Hội đồng'
+        }
+      },
+      {
+        id: 22,
+        label: 'Danh sách đợt đăng ký',
+        link: '/nckh/cac-dot-dang-ky',
+        parentId: 20
+      }
+    );
+  } else if (role === 'ADMIN') {
+    schoolNckhSubItems.push(
+      {
+        id: 21,
+        label: 'Quản lý Đợt đăng ký',
+        link: '/nckh/quan-ly-dot',
+        parentId: 20
+      },
+      {
+        id: 22,
+        label: 'Quản lý đề tài toàn trường',
+        link: '/nckh/danh-sach-toan-truong',
+        parentId: 20
+      },
+      {
+        id: 23,
+        label: 'Xét duyệt hồ sơ',
+        link: '/nckh/xet-duyet-ho-so',
+        parentId: 20
+      }
+    );
   }
 
   // 2. HOẠT ĐỘNG NGHIÊN CỨU KHOA HỌC CẤP TRƯỜNG (Trỏ xuống)

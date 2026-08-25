@@ -58,10 +58,10 @@
     <h5 class="fw-bold text-info">Khu vực Xét duyệt Tuyến đầu (Bước 01)</h5>
     <p class="text-muted fs-13 mb-3">
       Trang này dành cho <strong>Trưởng Khoa</strong> (xét duyệt hồ sơ Giảng viên), <strong>Giảng viên hướng dẫn</strong> (xét duyệt hồ sơ Sinh viên) hoặc <strong>P.KHCN</strong>.
-      Bạn có thể theo dõi tiến độ các đề tài của mình tại mục <strong>Hồ sơ Đề tài của Tôi</strong>.
+      Bạn có thể theo dõi tiến độ các đề tài của mình tại mục <strong>Danh sách Đề tài của Tôi</strong>.
     </p>
     <a routerLink="/nckh/de-tai-cua-toi" class="btn btn-primary">
-      <i class="ri-folder-user-line me-1"></i> Đến Hồ sơ Đề tài của Tôi
+      <i class="ri-folder-user-line me-1"></i> Đến Danh sách Đề tài của Tôi
     </a>
   </div>
 }
@@ -89,8 +89,8 @@
                 <th>Hình thức</th>
                 <th>Kinh phí đề xuất</th>
                 <th>Bản ký PDF</th>
-                <th>Trạng thái</th>
-                <th class="text-center" style="width: 200px;">Hành động</th>
+                <th style="min-width: 140px;">Trạng thái</th>
+                <th class="text-center sticky-col-right" style="min-width: 220px; width: 220px;">Hành động</th>
               </tr>
             </thead>
             <tbody>
@@ -99,7 +99,7 @@
                   <td>{{ idx + 1 }}</td>
                   <td>
                     <div class="d-flex flex-column">
-                      <a href="javascript:void(0);" (click)="openDetailModal(detailModal, p)" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 320px;">
+                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 320px;">
                         {{ p.title }}
                       </a>
                       <span class="text-muted fs-11">Mã: <code>{{ p.code }}</code> (Phiên bản v{{ p.version }})</span>
@@ -129,18 +129,27 @@
                     }
                   </td>
                   <td>
-                    <span [class]="getStatusBadge(p.status) + ' fs-11 py-1 px-2'">
-                      {{ p.statusText }}
-                    </span>
+                    <div class="d-flex align-items-center gap-1">
+                      <span [class]="getStatusBadge(p.status) + ' fs-11 py-1 px-2'">
+                        {{ p.statusText }}
+                      </span>
+                      @if (p.status === 'TRA_CHINH_SUA' && p.rejectionReason) {
+                        <button type="button" class="btn btn-sm btn-ghost-danger btn-icon p-0 fs-15" 
+                                (click)="openReasonModal(reasonModal, p)" 
+                                title="Bấm để xem chi tiết lý do trả hồ sơ">
+                          <i class="ri-eye-line text-danger"></i>
+                        </button>
+                      }
+                    </div>
                   </td>
-                  <td class="text-center">
-                    <div class="d-flex justify-content-center gap-1">
+                  <td class="text-center sticky-col-right">
+                    <div class="d-flex justify-content-center align-items-center gap-2">
                       <!-- Xem chi tiết -->
-                      <button type="button" class="btn btn-sm btn-soft-primary btn-icon" (click)="openDetailModal(detailModal, p)" title="Xem chi tiết hồ sơ">
-                        <i class="ri-eye-line"></i>
-                      </button>
+                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary">
+                        <i class="ri-eye-line me-1"></i> Xem chi tiết
+                      </a>
 
-                      @if (p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_GVHD_DUYET' || p.status === 'CHO_DUYET_LAI') {
+                      @if (canApproveOrReturn(p)) {
                         <!-- Nút Duyệt -->
                         <button type="button" class="btn btn-sm btn-success waves-effect waves-light" (click)="openApproveModal(approveModal, p)">
                           <i class="ri-check-line me-1"></i> Duyệt
@@ -152,7 +161,7 @@
                         </button>
                       } @else if (p.status === 'CHO_HOI_DONG_XET_DUYET_HO_SO') {
                         <span class="badge bg-success-subtle text-success fs-11">
-                          <i class="ri-check-double-line me-1"></i> Đã duyệt
+                          <i class="ri-check-double-line me-1"></i> Đã duyệt tuyến đầu
                         </span>
                       }
                     </div>
@@ -328,4 +337,39 @@
       <i class="ri-send-plane-line me-1"></i> Gửi yêu cầu Chỉnh sửa
     </button>
   </div>
+</ng-template>
+
+<!-- ================= MODAL XEM LÝ DO TRẢ HỒ SƠ ================= -->
+<ng-template #reasonModal let-modal>
+  @if (selectedProposalForReason) {
+    <div class="modal-header bg-danger-subtle py-2 px-3">
+      <h6 class="modal-title fs-14 fw-bold text-danger mb-0">
+        <i class="ri-error-warning-line me-1"></i> Lý do trả hồ sơ / Yêu cầu chỉnh sửa
+      </h6>
+      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body p-3">
+      <div class="mb-3 fs-13">
+        <div class="text-muted fs-12 mb-1">Đề tài NCKH:</div>
+        <div class="fw-bold text-dark">{{ selectedProposalForReason.title }}</div>
+        <div class="text-muted fs-11 mt-1">Mã đề tài: <code>{{ selectedProposalForReason.code }}</code> (Phiên bản v{{ selectedProposalForReason.version }})</div>
+      </div>
+
+      <div class="alert alert-danger-subtle border border-danger p-3 mb-2 fs-13 text-dark">
+        <div class="fw-bold text-danger mb-1">
+          <i class="ri-feedback-line me-1"></i> Nội dung ý kiến từ Cán bộ thẩm định:
+        </div>
+        <div style="white-space: pre-line;">{{ selectedProposalForReason.rejectionReason }}</div>
+      </div>
+
+      @if (selectedProposalForReason.reviewerName) {
+        <div class="text-muted fs-11 mt-2">
+          <i class="ri-user-follow-line me-1 text-primary"></i> Người đánh giá: <strong>{{ selectedProposalForReason.reviewerName }}</strong> • Thời gian: {{ selectedProposalForReason.reviewedAt }}
+        </div>
+      }
+    </div>
+    <div class="modal-footer bg-light py-2 px-3 d-flex justify-content-end">
+      <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+    </div>
+  }
 </ng-template>

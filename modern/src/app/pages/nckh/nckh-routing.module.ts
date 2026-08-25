@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'quan-ly-dot', component: RoundManagementComponent },
   { path: 'de-tai-don-vi', component: ReviewProposalsComponent },
   { path: 'danh-sach-toan-truong', component: ReviewProposalsComponent },
-  { path: 'chi-tiet/:id', component: ProposalDetailComponent },
+  { path: 'chi-tiet/:id', component: ProposalFormComponent },
 ];
 
 @NgModule({

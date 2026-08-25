@@ -43,6 +43,7 @@ export type TopicStatus =
   | 'DANG_THUC_HIEN'                  // Bước 06: Đang thực hiện đề tài
   | 'CHO_NGHIEM_THU'                  // Bước 07: Chờ nghiệm thu
   | 'DANG_NGHIEM_THU'                 // Bước 07: Cuộc họp nghiệm thu
+  | 'YEU_CAU_CHINH_SUA_NGHIEM_THU'    // Bước 07: HĐ yêu cầu chỉnh sửa (nộp BM13)
   | 'DA_NGHIEM_THU'                   // Đạt nghiệm thu
   | 'HOAN_TAT_BUOC_07'                // Hoàn tất Bước 7
   | 'KHONG_DAT_NGHIEM_THU'            // Không đạt nghiệm thu

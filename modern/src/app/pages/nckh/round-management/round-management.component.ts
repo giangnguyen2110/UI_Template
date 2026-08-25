@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NckhDataService } from '../../../core/services/nckh-data.service';
 import { RegistrationRound, TopicProposal, UserProfile, DirectAssignmentTopic, TopicTarget, TopicType } from '../../../core/models/nckh.model';
@@ -43,7 +44,7 @@ export class RoundManagementComponent implements OnInit {
     submissionDeadline: ''
   };
 
-  // Selected round for adding direct topic or viewing details
+  // Selected round for viewing details
   selectedRound?: RegistrationRound;
 
   alertMessage = '';
@@ -51,7 +52,8 @@ export class RoundManagementComponent implements OnInit {
 
   constructor(
     public nckhDataService: NckhDataService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +78,31 @@ export class RoundManagementComponent implements OnInit {
 
   getApprovedCountForRound(roundId: string): number {
     return this.proposals.filter(p => p.roundId === roundId && p.status === 'CHO_HOI_DONG_XET_DUYET_HO_SO').length;
+  }
+
+  // --- MODAL XEM CHI TIẾT ĐỢT ---
+  openDetailRoundModal(content: TemplateRef<any>, round: RegistrationRound) {
+    this.selectedRound = round;
+    this.modalService.open(content, { size: 'lg', centered: true });
+  }
+
+  // --- ĐĂNG KÝ THEO ĐỢT (Chuyển sang Form và set cứng đợt) ---
+  registerForRound(round: RegistrationRound, directTopicId?: string) {
+    if (this.currentUser.role === 'GIANG_VIEN' && round.target === 'SINH_VIEN') {
+      alert('Đợt này dành riêng cho Sinh viên (BM01B). Vui lòng chọn Đợt dành cho Giảng viên.');
+      return;
+    }
+    if (this.currentUser.role === 'SINH_VIEN' && round.target === 'GIANG_VIEN') {
+      alert('Đợt này dành riêng cho Giảng viên (BM01A). Vui lòng chọn Đợt dành cho Sinh viên.');
+      return;
+    }
+
+    this.modalService.dismissAll();
+    const queryParams: any = { roundId: round.id };
+    if (directTopicId) {
+      queryParams.directTopicId = directTopicId;
+    }
+    this.router.navigate(['/nckh/dang-ky-moi'], { queryParams });
   }
 
   // --- MODAL TẠO / SỬA ĐỢT ---

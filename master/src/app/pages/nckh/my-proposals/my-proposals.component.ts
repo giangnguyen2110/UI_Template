@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NckhDataService } from '../../../core/services/nckh-data.service';
 import { TopicProposal, TopicStatus, UserProfile } from '../../../core/models/nckh.model';
 
@@ -17,10 +18,12 @@ export class MyProposalsComponent implements OnInit {
   activeQuota = 0;
   alertMessage = '';
   alertType = 'success';
+  selectedProposalForReason?: TopicProposal;
 
   constructor(
     public nckhDataService: NckhDataService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -46,18 +49,55 @@ export class MyProposalsComponent implements OnInit {
     this.currentFilter = filter;
     if (filter === 'ALL') {
       this.filteredProposals = this.myProposals;
-    } else if (filter === 'NHAP') {
-      this.filteredProposals = this.myProposals.filter(p => p.status === 'NHAP');
-    } else if (filter === 'PENDING') {
+    } else if (filter === 'B01') {
       this.filteredProposals = this.myProposals.filter(p => 
-        p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_GVHD_DUYET' || p.status === 'CHO_DUYET_LAI'
+        p.status === 'NHAP' || p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_GVHD_DUYET' || p.status === 'TRA_CHINH_SUA' || p.status === 'CHO_DUYET_LAI'
       );
-    } else if (filter === 'REJECTED') {
-      this.filteredProposals = this.myProposals.filter(p => p.status === 'TRA_CHINH_SUA');
-    } else if (filter === 'APPROVED') {
+    } else if (filter === 'B03') {
       this.filteredProposals = this.myProposals.filter(p => 
-        p.status === 'CHO_HOI_DONG_XET_DUYET_HO_SO' || p.status === 'DANG_XET_DUYET_HO_SO' || p.status === 'DAT_XET_DUYET_HO_SO'
+        p.status === 'CHO_NOP_THUYET_MINH' || p.status === 'DANG_XET_DUYET_THUYET_MINH' || p.status === 'CHO_HOI_DONG_XET_DUYET_HO_SO' || p.status === 'DAT_XET_DUYET_HO_SO'
       );
+    } else if (filter === 'B06') {
+      this.filteredProposals = this.myProposals.filter(p => p.status === 'DANG_THUC_HIEN');
+    } else if (filter === 'B07') {
+      this.filteredProposals = this.myProposals.filter(p => 
+        p.status === 'CHO_NGHIEM_THU' || p.status === 'DANG_NGHIEM_THU' || p.status === 'DA_NGHIEM_THU' || p.status === 'HOAN_TAT_BUOC_07' || p.status === 'DA_CONG_NHAN_KET_QUA'
+      );
+    } else if (filter === 'BM13') {
+      this.filteredProposals = this.myProposals.filter(p => p.status === 'YEU_CAU_CHINH_SUA_NGHIEM_THU');
+    }
+  }
+
+  getPhaseBadge(status: TopicStatus): { text: string; class: string } {
+    switch (status) {
+      case 'NHAP':
+      case 'CHO_KHOA_DUYET':
+      case 'CHO_GVHD_DUYET':
+      case 'TRA_CHINH_SUA':
+      case 'CHO_DUYET_LAI':
+        return { text: 'B01: Đăng ký đề tài', class: 'badge bg-secondary-subtle text-secondary' };
+      case 'CHO_HOI_DONG_XET_DUYET_HO_SO':
+      case 'DANG_XET_DUYET_HO_SO':
+      case 'DAT_XET_DUYET_HO_SO':
+        return { text: 'B02: Phê duyệt sơ bộ', class: 'badge bg-primary-subtle text-primary' };
+      case 'CHO_NOP_THUYET_MINH':
+      case 'DANG_XET_DUYET_THUYET_MINH':
+        return { text: 'B03: Viết thuyết minh', class: 'badge bg-info-subtle text-info' };
+      case 'DANG_THUC_HIEN':
+        return { text: 'B06: BC tiến độ ½ TG', class: 'badge bg-warning-subtle text-warning' };
+      case 'CHO_NGHIEM_THU':
+      case 'DANG_NGHIEM_THU':
+      case 'DA_NGHIEM_THU':
+      case 'HOAN_TAT_BUOC_07':
+        return { text: 'B07: Nghiệm thu đề tài', class: 'badge bg-danger-subtle text-danger' };
+      case 'YEU_CAU_CHINH_SUA_NGHIEM_THU':
+        return { text: 'B07: Chỉnh sửa góp ý HĐNT', class: 'badge bg-warning text-dark' };
+      case 'DA_CONG_NHAN_KET_QUA':
+      case 'LUU_HO_SO':
+      case 'TRIEN_KHAI_UNG_DUNG':
+        return { text: 'B08-B09: Hoàn thành', class: 'badge bg-success-subtle text-success' };
+      default:
+        return { text: 'Quy trình NCKH', class: 'badge bg-light text-dark' };
     }
   }
 
@@ -91,10 +131,33 @@ export class MyProposalsComponent implements OnInit {
       case 'CHO_GVHD_DUYET': return 'badge bg-warning-subtle text-warning';
       case 'TRA_CHINH_SUA': return 'badge bg-danger-subtle text-danger';
       case 'CHO_DUYET_LAI': return 'badge bg-info-subtle text-info';
-      case 'CHO_HOI_DONG_XET_DUYET_HO_SO': return 'badge bg-success-subtle text-success';
-      case 'DANG_XET_DUYET_HO_SO': return 'badge bg-primary-subtle text-primary';
-      case 'DAT_XET_DUYET_HO_SO': return 'badge bg-success text-white';
+      case 'CHO_HOI_DONG_XET_DUYET_HO_SO': return 'badge bg-primary-subtle text-primary';
+      case 'DANG_XET_DUYET_HO_SO': return 'badge bg-primary text-white';
+      case 'DAT_XET_DUYET_HO_SO': return 'badge bg-success-subtle text-success';
+      case 'CHO_NOP_THUYET_MINH': return 'badge bg-info text-white';
+      case 'DANG_XET_DUYET_THUYET_MINH': return 'badge bg-warning text-dark';
+      case 'DANG_THUC_HIEN': return 'badge bg-primary text-white';
+      case 'CHO_NGHIEM_THU': return 'badge bg-danger text-white';
+      case 'DANG_NGHIEM_THU': return 'badge bg-danger text-white';
+      case 'YEU_CAU_CHINH_SUA_NGHIEM_THU': return 'badge bg-warning text-dark';
+      case 'DA_NGHIEM_THU': return 'badge bg-success text-white';
+      case 'DA_CONG_NHAN_KET_QUA': return 'badge bg-success text-white';
       default: return 'badge bg-light text-dark';
     }
+  }
+
+  canEditProposal(p: TopicProposal): boolean {
+    if (p.status !== 'NHAP' && p.status !== 'TRA_CHINH_SUA') return false;
+    return p.authorId === this.currentUser?.id || this.currentUser?.role === 'ADMIN' || this.currentUser?.role === 'GIANG_VIEN' || this.currentUser?.role === 'SINH_VIEN';
+  }
+
+  canDeleteProposal(p: TopicProposal): boolean {
+    if (p.status !== 'NHAP') return false;
+    return p.authorId === this.currentUser?.id || this.currentUser?.role === 'ADMIN';
+  }
+
+  openReasonModal(content: TemplateRef<any>, prop: TopicProposal) {
+    this.selectedProposalForReason = prop;
+    this.modalService.open(content, { size: 'md', centered: true });
   }
 }
