@@ -131,7 +131,7 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 24,
-        label: 'Hồ sơ xét duyệt & Hội đồng',
+        label: 'Hồ sơ xét duyệt',
         link: '/nckh/xet-duyet-ho-so',
         parentId: 20
       }
