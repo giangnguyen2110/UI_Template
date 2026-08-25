@@ -14,11 +14,39 @@ export class ReviewProposalsComponent implements OnInit {
   proposalsToReview: TopicProposal[] = [];
   selectedProposal?: TopicProposal;
   returnReason = '';
-  approvalNote = '';
   selectedProposalForReason?: TopicProposal;
+  approvalNote = '';
 
   alertMessage = '';
   alertType = 'success';
+
+  // Phân trang (5 hồ sơ / trang)
+  page = 1;
+  pageSize = 5;
+  readonly Math = Math;
+
+  get pagedProposals(): TopicProposal[] {
+    const startIndex = (this.page - 1) * this.pageSize;
+    return this.proposalsToReview.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.proposalsToReview.length / this.pageSize) || 1;
+  }
+
+  get pages(): number[] {
+    const total = this.totalPages;
+    const res: number[] = [];
+    for (let i = 1; i <= total; i++) {
+      res.push(i);
+    }
+    return res;
+  }
+
+  setPage(p: number) {
+    if (p < 1 || p > this.totalPages) return;
+    this.page = p;
+  }
 
   constructor(
     public nckhDataService: NckhDataService,
