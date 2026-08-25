@@ -532,7 +532,7 @@
                   <th>Chủ nhiệm</th>
                   <th>Khoa / Đơn vị</th>
                   <th>Trạng thái</th>
-                  <th class="text-end">Thao tác</th>
+                  <th class="text-center sticky-col-right" style="min-width: 140px; width: 140px;">Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -549,7 +549,7 @@
                     <td>
                       <span [class]="getStatusBadge(p.status) + ' fs-11'">{{ p.statusText }}</span>
                     </td>
-                    <td class="text-end">
+                    <td class="text-center sticky-col-right">
                       <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary">
                         <i class="ri-eye-line me-1"></i> Xem chi tiết
                       </a>

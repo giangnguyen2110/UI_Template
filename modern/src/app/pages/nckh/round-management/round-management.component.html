@@ -152,7 +152,7 @@
 
 <!-- Danh sách các Đợt đăng ký (Gọn gàng, thông tin súc tích) -->
 <div class="row">
-  @for (r of rounds; track r.id) {
+  @for (r of pagedRounds; track r.id) {
     <div class="col-xl-6 mb-4">
       <div class="card shadow-sm h-100 border">
         <!-- Header Card Đợt -->
@@ -246,6 +246,40 @@
     </div>
   }
 </div>
+
+<!-- Phân trang 5 Đợt / trang -->
+@if (rounds.length > 0) {
+  <div class="card mb-4 shadow-sm border">
+    <div class="card-body py-2 px-3 bg-light">
+      <div class="row g-2 text-center text-sm-start align-items-center">
+        <div class="col-sm-6">
+          <div class="text-muted fs-12">
+            Hiển thị <span class="fw-semibold">{{ (page - 1) * pageSize + 1 }}</span> đến <span class="fw-semibold">{{ Math.min(page * pageSize, rounds.length) }}</span> trên tổng số <span class="fw-semibold">{{ rounds.length }}</span> đợt đăng ký
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <ul class="pagination pagination-sm pagination-separated justify-content-center justify-content-sm-end mb-0">
+            <li class="page-item" [class.disabled]="page === 1">
+              <a href="javascript:void(0);" class="page-link" (click)="setPage(page - 1)">
+                <i class="ri-arrow-left-s-line me-1"></i>Trước
+              </a>
+            </li>
+            @for (pNum of pages; track pNum) {
+              <li class="page-item" [class.active]="page === pNum">
+                <a href="javascript:void(0);" class="page-link" (click)="setPage(pNum)">{{ pNum }}</a>
+              </li>
+            }
+            <li class="page-item" [class.disabled]="page >= totalPages">
+              <a href="javascript:void(0);" class="page-link" (click)="setPage(page + 1)">
+                Sau<i class="ri-arrow-right-s-line ms-1"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+}
 
 <!-- ================= MODAL TẠO / SỬA ĐỢT ĐĂNG KÝ ================= -->
 <ng-template #roundModal let-modal>

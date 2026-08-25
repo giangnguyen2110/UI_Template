@@ -5,3 +5,20 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   }
 }
+
+.sticky-col-right {
+  position: sticky !important;
+  right: 0;
+  background-color: #fff;
+  z-index: 2;
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.06);
+}
+
+thead th.sticky-col-right {
+  background-color: #f3f6f9 !important;
+  z-index: 3;
+}
+
+tbody tr:hover .sticky-col-right {
+  background-color: #f8f9fa !important;
+}
