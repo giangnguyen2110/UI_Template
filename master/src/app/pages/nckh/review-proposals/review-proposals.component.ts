@@ -29,7 +29,6 @@ export class ReviewProposalsComponent implements OnInit {
   selectedType: string = 'ALL';
   selectedPhase: string = 'ALL';
   selectedRound: string = 'ALL';
-  selectedCancelFilter: string = 'ALL'; // 'ALL' | 'YEU_CAU_HUY' | 'DA_HUY'
 
   // Phân trang (5 hồ sơ / trang)
   page = 1;
@@ -221,16 +220,7 @@ export class ReviewProposalsComponent implements OnInit {
         if (p.type !== this.selectedType) return false;
       }
 
-      // 5. Cancel filter riêng biệt
-      if (this.selectedCancelFilter !== 'ALL') {
-        if (this.selectedCancelFilter === 'YEU_CAU_HUY') {
-          if (p.status !== 'YEU_CAU_HUY' && !p.cancelRequest?.isRequested) return false;
-        } else if (this.selectedCancelFilter === 'DA_HUY') {
-          if (p.status !== 'DA_HUY') return false;
-        }
-      }
-
-      // 6. Phase filter
+      // 5. Phase & Status filter
       if (this.selectedPhase !== 'ALL') {
         if (this.selectedPhase === 'B01') {
           const b01Statuses = ['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI'];
@@ -301,7 +291,6 @@ export class ReviewProposalsComponent implements OnInit {
     this.selectedType = 'ALL';
     this.selectedPhase = 'ALL';
     this.selectedRound = 'ALL';
-    this.selectedCancelFilter = 'ALL';
     this.page = 1;
   }
 
