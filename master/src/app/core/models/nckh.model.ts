@@ -52,6 +52,7 @@ export type TopicStatus =
   | 'TRIEN_KHAI_UNG_DUNG'             // Bước 09: Trạng thái cuối
   | 'QUA_HAN'                         // Quá hạn đăng ký / quá hạn giữa quy trình
   | 'KHONG_DUOC_CHON'                 // Mất suất đề tài giao trực tiếp
+  | 'YEU_CAU_HUY'                     // Đang có yêu cầu hủy đề tài (Chờ P.KHCN phê duyệt hủy)
   | 'DA_HUY';                         // Đã chấp thuận hủy
 
 export interface ResearchMember {
@@ -166,6 +167,14 @@ export interface TopicProposal {
   statusText: string;
   version: number;
   rejectionReason?: string; // Lý do trả chỉnh sửa
+  cancelRequest?: {
+    isRequested: boolean;
+    reason: string;
+    requestedAt: string;
+    requestedBy: string;
+    decisionNumber?: string;
+    approvedAt?: string;
+  };
   submittedAt?: string;
   reviewedAt?: string;
   reviewerName?: string;

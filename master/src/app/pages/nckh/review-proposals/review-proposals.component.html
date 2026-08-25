@@ -26,9 +26,16 @@
   <div class="col-12">
     <div class="card shadow-sm border-0">
       <div class="card-header bg-light-subtle py-2 d-flex align-items-center justify-content-between">
-        <span class="fw-bold fs-13 text-dark">
-          <i class="ri-filter-3-line me-1 text-primary"></i> Bộ lọc & Tìm kiếm Đề tài NCKH
-        </span>
+        <div class="d-flex align-items-center gap-2">
+          <span class="fw-bold fs-13 text-dark">
+            <i class="ri-filter-3-line me-1 text-primary"></i> Bộ lọc & Tìm kiếm Đề tài NCKH
+          </span>
+          @if (totalCancelRequestCount > 0) {
+            <span class="badge bg-danger-subtle text-danger fs-11 cursor-pointer" (click)="selectedCancelFilter = 'YEU_CAU_HUY'; onFilterChange()" title="Bấm để lọc nhanh các đề tài đang có yêu cầu hủy">
+              <i class="ri-error-warning-line me-1"></i> Có {{ totalCancelRequestCount }} đề tài yêu cầu hủy
+            </span>
+          }
+        </div>
         <button type="button" class="btn btn-sm btn-link text-muted p-0 text-decoration-none" (click)="resetFilters()">
           <i class="ri-refresh-line me-1"></i> Đặt lại bộ lọc
         </button>
@@ -76,8 +83,8 @@
           </div>
 
           <!-- 5. Giai đoạn quy trình -->
-          <div class="col-lg-4 col-md-4">
-            <label class="form-label fs-11 text-muted mb-1">Giai đoạn</label>
+          <div class="col-lg-3 col-md-4">
+            <label class="form-label fs-11 text-muted mb-1">Giai đoạn quy trình</label>
             <select class="form-select form-select-sm" [(ngModel)]="selectedPhase" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả giai đoạn --</option>
               <option value="B01">B01: Đăng ký đề tài (BM01A/B)</option>
@@ -86,11 +93,25 @@
               <option value="B06">B06: Báo cáo tiến độ ½ TG (BM08)</option>
               <option value="B07">B07: Nghiệm thu & Chỉnh sửa (BM09-BM14)</option>
               <option value="DONE">B08-B09: Công nhận & Lưu trữ</option>
+              <option value="YEU_CAU_HUY">⚠️ Đề tài Yêu cầu hủy</option>
+              <option value="DA_HUY">❌ Đề tài Đã hủy</option>
             </select>
           </div>
 
-          <!-- 6. Đợt đăng ký -->
-          <div class="col-lg-8 col-md-8">
+          <!-- 6. BỘ LỌC YÊU CẦU HỦY ĐỀ TÀI RIÊNG BIỆT -->
+          <div class="col-lg-3 col-md-4">
+            <label class="form-label fs-11 text-danger fw-semibold mb-1">
+              <i class="ri-alert-line me-1"></i> Tình trạng Hủy đề tài
+            </label>
+            <select class="form-select form-select-sm border-danger" [(ngModel)]="selectedCancelFilter" (change)="onFilterChange()">
+              <option value="ALL">-- Tất cả đề tài --</option>
+              <option value="YEU_CAU_HUY">⚠️ Đề tài có yêu cầu hủy</option>
+              <option value="DA_HUY">❌ Đề tài đã chấp thuận hủy</option>
+            </select>
+          </div>
+
+          <!-- 7. Đợt đăng ký -->
+          <div class="col-lg-6 col-md-8">
             <label class="form-label fs-11 text-muted mb-1">Đợt đăng ký NCKH</label>
             <select class="form-select form-select-sm" [(ngModel)]="selectedRound" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả các đợt đăng ký trong năm học --</option>
@@ -119,6 +140,9 @@
           @if (filteredProposals.length !== proposalsToReview.length) {
             <span class="badge bg-info-subtle text-info fs-11">Đã lọc từ {{ proposalsToReview.length }} hồ sơ</span>
           }
+          @if (selectedCancelFilter === 'YEU_CAU_HUY' || selectedPhase === 'YEU_CAU_HUY') {
+            <span class="badge bg-danger text-white fs-11">Đang lọc Đề tài Yêu cầu hủy</span>
+          }
         </div>
         <span class="badge bg-primary-subtle text-primary">{{ isAllSchoolRoute ? 'Toàn trường' : 'Phạm vi quản lý' }}</span>
       </div>
@@ -136,16 +160,17 @@
                 <th>Kinh phí</th>
                 <th>Bản ký PDF</th>
                 <th style="min-width: 140px;">Trạng thái chi tiết</th>
-                <th class="text-center sticky-col-right" style="min-width: 220px; width: 220px;">Thao tác</th>
+                <th class="text-center sticky-col-right" style="min-width: 250px; width: 250px;">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               @for (p of pagedProposals; track p.id; let idx = $index) {
-                <tr [class.table-warning]="!isAllSchoolRoute && (p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_GVHD_DUYET' || p.status === 'CHO_DUYET_LAI')">
+                <tr [class.table-danger]="p.status === 'YEU_CAU_HUY' || p.cancelRequest?.isRequested"
+                    [class.table-warning]="p.status !== 'YEU_CAU_HUY' && !isAllSchoolRoute && (p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_GVHD_DUYET' || p.status === 'CHO_DUYET_LAI')">
                   <td>{{ (page - 1) * pageSize + idx + 1 }}</td>
                   <td>
                     <div class="d-flex flex-column">
-                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 300px;" [title]="p.title">
+                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 290px;" [title]="p.title">
                         {{ p.title }}
                       </a>
                       <span class="text-muted fs-11">Mã: <code>{{ p.code }}</code> (Phiên bản v{{ p.version }})</span>
@@ -156,7 +181,7 @@
                     <div class="text-muted fs-11">Mã: <code>{{ p.authorIdentifierCode }}</code></div>
                   </td>
                   <td>
-                    <div class="fs-12 text-truncate" style="max-width: 160px;" [title]="p.faculty">{{ p.faculty }}</div>
+                    <div class="fs-12 text-truncate" style="max-width: 150px;" [title]="p.faculty">{{ p.faculty }}</div>
                     <span class="badge mt-1" [class.bg-info-subtle]="p.type === 'TUYEN_CHON'" [class.text-info]="p.type === 'TUYEN_CHON'" [class.bg-warning-subtle]="p.type === 'GIAO_TRUC_TIEP'" [class.text-warning]="p.type === 'GIAO_TRUC_TIEP'">
                       {{ p.type === 'TUYEN_CHON' ? 'Tuyển chọn' : 'Giao trực tiếp' }}
                     </span>
@@ -195,7 +220,7 @@
                     </div>
                   </td>
                   <td class="text-center sticky-col-right">
-                    <div class="d-flex justify-content-center align-items-center gap-2 flex-nowrap">
+                    <div class="d-flex justify-content-center align-items-center gap-1 flex-nowrap">
                       <!-- 1. Nút Xem chi tiết -->
                       <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary" title="Xem chi tiết hồ sơ đề tài">
                         <i class="ri-eye-line me-1"></i> Xem chi tiết
@@ -204,9 +229,18 @@
                       <!-- 2. Nút Xem biểu mẫu tương ứng ở bước đó -->
                       <button type="button" class="btn btn-sm" [class]="getFormCodeForProposal(p).btnClass" 
                               (click)="openBmModal(bmModal, p)" 
-                              title="Xem biểu mẫu chuẩn của đề tài ở giai đoạn hiện tại để xem xét và ra quyết định">
+                              title="Xem biểu mẫu chuẩn của đề tài ở giai đoạn hiện tại">
                         <i [class]="getFormCodeForProposal(p).icon + ' me-1'"></i> {{ getFormCodeForProposal(p).label }}
                       </button>
+
+                      <!-- 3. NÚT HỦY ĐỀ TÀI CHO P.KHCN KHI CÓ YÊU CẦU HỦY HOẶC KHI ĐANG LỌC YÊU CẦU HỦY -->
+                      @if (isPkhcnOrAdmin && (p.status === 'YEU_CAU_HUY' || p.cancelRequest?.isRequested || selectedPhase === 'YEU_CAU_HUY' || selectedCancelFilter === 'YEU_CAU_HUY')) {
+                        <button type="button" class="btn btn-sm btn-danger waves-effect waves-light" 
+                                (click)="openCancelModal(cancelModal, p)" 
+                                title="Phê duyệt Quyết định Hủy đề tài NCKH theo đơn yêu cầu">
+                          <i class="ri-close-circle-line me-1"></i> Hủy đề tài
+                        </button>
+                      }
                     </div>
                   </td>
                 </tr>
@@ -251,6 +285,72 @@
     </div>
   </div>
 </div>
+
+<!-- ========================================================================= -->
+<!-- MODAL HỦY ĐỀ TÀI DÀNH CHO P.KHCN                                         -->
+<!-- ========================================================================= -->
+<ng-template #cancelModal let-modal>
+  @if (selectedProposalForCancel) {
+    <div class="modal-header bg-danger-subtle py-2 px-3">
+      <h5 class="modal-title fs-14 fw-bold text-danger mb-0">
+        <i class="ri-close-circle-line me-1"></i> Phê duyệt Quyết định Hủy Đề tài NCKH
+      </h5>
+      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body p-4">
+      <!-- Thông tin đề tài -->
+      <div class="p-3 bg-light rounded border mb-3">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <span class="badge bg-primary-subtle text-primary fs-11">Mã: {{ selectedProposalForCancel.code }}</span>
+          <span class="badge bg-danger-subtle text-danger border border-danger fs-11">Có đơn xin hủy</span>
+        </div>
+        <h6 class="fs-13 fw-bold text-dark mb-1">{{ selectedProposalForCancel.title }}</h6>
+        <div class="text-muted fs-11">
+          Chủ nhiệm: <strong>{{ selectedProposalForCancel.authorName }}</strong> • Đơn vị: <strong>{{ selectedProposalForCancel.faculty }}</strong> • Kinh phí: <strong>{{ selectedProposalForCancel.budgetTotal | number }} đ</strong>
+        </div>
+      </div>
+
+      <!-- Đơn yêu cầu hủy từ Chủ nhiệm -->
+      @if (selectedProposalForCancel.cancelRequest) {
+        <div class="alert alert-warning-subtle border border-warning p-3 mb-3 fs-12 text-dark">
+          <div class="fw-bold text-warning-emphasis mb-1">
+            <i class="ri-file-user-line me-1"></i> Đơn đề nghị xin hủy đề tài từ Chủ nhiệm:
+          </div>
+          <div class="mb-1"><strong>Lý do xin hủy:</strong> {{ selectedProposalForCancel.cancelRequest.reason }}</div>
+          <div class="text-muted fs-11">
+            Người đề nghị: <strong>{{ selectedProposalForCancel.cancelRequest.requestedBy }}</strong> • Ngày gửi: {{ selectedProposalForCancel.cancelRequest.requestedAt }}
+          </div>
+        </div>
+      }
+
+      <!-- Form nhập Quyết định hủy -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label fs-12 fw-semibold">Số Quyết định Hủy đề tài <span class="text-danger">*</span>:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="cancelDecisionNumber">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fs-12 fw-semibold">Thẩm quyền ký ban hành:</label>
+          <input type="text" class="form-control form-control-sm bg-light" value="Hiệu trưởng Trường ĐH Công nghệ Đồng Nai" readonly>
+        </div>
+        <div class="col-12">
+          <label class="form-label fs-12 fw-semibold">Căn cứ & Ghi chú của Phòng KHCN:</label>
+          <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="cancelPkhcnNotes" placeholder="Nhập căn cứ xử lý hủy hồ sơ..."></textarea>
+        </div>
+      </div>
+
+      <div class="alert alert-danger fs-11 mb-0">
+        <i class="ri-error-warning-line me-1"></i> <strong>Lưu ý:</strong> Sau khi phê duyệt hủy, đề tài sẽ chuyển sang trạng thái <strong>Đã hủy</strong> và dừng toàn bộ các bước tiếp theo trong quy trình NCKH.
+      </div>
+    </div>
+    <div class="modal-footer bg-light py-2 px-3">
+      <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy bỏ</button>
+      <button type="button" class="btn btn-sm btn-danger waves-effect waves-light" (click)="confirmCancelProposal()">
+        <i class="ri-checkbox-circle-line me-1"></i> Xác nhận Phê duyệt Hủy Đề tài
+      </button>
+    </div>
+  }
+</ng-template>
 
 <!-- ========================================================================= -->
 <!-- MODAL XEM BIỂU MẪU HÀNH CHÍNH & RA QUYẾT ĐỊNH CHO P.KHCN                  -->

@@ -29,6 +29,7 @@ export class ReviewProposalsComponent implements OnInit {
   selectedType: string = 'ALL';
   selectedPhase: string = 'ALL';
   selectedRound: string = 'ALL';
+  selectedCancelFilter: string = 'ALL'; // 'ALL' | 'YEU_CAU_HUY' | 'DA_HUY'
 
   // Phân trang (5 hồ sơ / trang)
   page = 1;
@@ -38,6 +39,11 @@ export class ReviewProposalsComponent implements OnInit {
   // --- BIẾN PHỤC VỤ MODAL XEM BIỂU MẪU HÀNH CHÍNH & QUYẾT ĐỊNH ---
   selectedProposalForBm?: TopicProposal;
   previewBmCode: string = 'BM01A';
+
+  // --- BIẾN PHỤC VỤ HỦY ĐỀ TÀI CHO P.KHCN ---
+  selectedProposalForCancel?: TopicProposal;
+  cancelDecisionNumber: string = 'QĐ-HUY-2026-025';
+  cancelPkhcnNotes: string = '';
 
   // Mock dữ liệu biểu mẫu nâng cao cho preview
   mockBm04 = {
@@ -182,6 +188,10 @@ export class ReviewProposalsComponent implements OnInit {
     return Array.from(list);
   }
 
+  get totalCancelRequestCount(): number {
+    return this.proposalsToReview.filter(p => p.status === 'YEU_CAU_HUY' || p.cancelRequest?.isRequested).length;
+  }
+
   get filteredProposals(): TopicProposal[] {
     return this.proposalsToReview.filter(p => {
       // 1. Search term
@@ -211,7 +221,16 @@ export class ReviewProposalsComponent implements OnInit {
         if (p.type !== this.selectedType) return false;
       }
 
-      // 5. Phase filter
+      // 5. Cancel filter riêng biệt
+      if (this.selectedCancelFilter !== 'ALL') {
+        if (this.selectedCancelFilter === 'YEU_CAU_HUY') {
+          if (p.status !== 'YEU_CAU_HUY' && !p.cancelRequest?.isRequested) return false;
+        } else if (this.selectedCancelFilter === 'DA_HUY') {
+          if (p.status !== 'DA_HUY') return false;
+        }
+      }
+
+      // 6. Phase filter
       if (this.selectedPhase !== 'ALL') {
         if (this.selectedPhase === 'B01') {
           const b01Statuses = ['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI'];
@@ -229,13 +248,17 @@ export class ReviewProposalsComponent implements OnInit {
           if (!b07Statuses.includes(p.status)) return false;
         } else if (this.selectedPhase === 'BM13') {
           if (p.status !== 'YEU_CAU_CHINH_SUA_NGHIEM_THU') return false;
+        } else if (this.selectedPhase === 'YEU_CAU_HUY') {
+          if (p.status !== 'YEU_CAU_HUY' && !p.cancelRequest?.isRequested) return false;
+        } else if (this.selectedPhase === 'DA_HUY') {
+          if (p.status !== 'DA_HUY') return false;
         } else if (this.selectedPhase === 'DONE') {
           const doneStatuses = ['DA_CONG_NHAN_KET_QUA', 'LUU_HO_SO', 'TRIEN_KHAI_UNG_DUNG'];
           if (!doneStatuses.includes(p.status)) return false;
         }
       }
 
-      // 6. Round filter
+      // 7. Round filter
       if (this.selectedRound !== 'ALL') {
         if (p.roundId !== this.selectedRound && p.roundName !== this.selectedRound) return false;
       }
@@ -278,6 +301,7 @@ export class ReviewProposalsComponent implements OnInit {
     this.selectedType = 'ALL';
     this.selectedPhase = 'ALL';
     this.selectedRound = 'ALL';
+    this.selectedCancelFilter = 'ALL';
     this.page = 1;
   }
 
@@ -304,6 +328,10 @@ export class ReviewProposalsComponent implements OnInit {
     if (['CHO_NGHIEM_THU', 'DANG_NGHIEM_THU', 'DA_NGHIEM_THU', 'HOAN_TAT_BUOC_07'].includes(s)) {
       return { code: 'BM09', label: 'Xem BM09', icon: 'ri-book-open-line', btnClass: 'btn-soft-danger' };
     }
+    if (s === 'YEU_CAU_HUY' || s === 'DA_HUY') {
+      const code = p.target === 'SINH_VIEN' ? 'BM01B' : 'BM01A';
+      return { code, label: `Xem ${code}`, icon: 'ri-file-text-line', btnClass: 'btn-soft-secondary' };
+    }
     if (['DA_CONG_NHAN_KET_QUA', 'LUU_HO_SO', 'TRIEN_KHAI_UNG_DUNG'].includes(s)) {
       return { code: 'BM15', label: 'Xem BM15', icon: 'ri-award-line', btnClass: 'btn-soft-success' };
     }
@@ -315,6 +343,29 @@ export class ReviewProposalsComponent implements OnInit {
     this.selectedProposalForBm = prop;
     this.previewBmCode = this.getFormCodeForProposal(prop).code;
     this.modalService.open(content, { size: 'xl', centered: true, scrollable: true });
+  }
+
+  // --- HỦY ĐỀ TÀI CHO P.KHCN ---
+  openCancelModal(content: TemplateRef<any>, prop: TopicProposal) {
+    this.selectedProposalForCancel = prop;
+    this.cancelDecisionNumber = `QĐ-HUY-2026-0${Math.floor(10 + Math.random() * 89)}`;
+    this.cancelPkhcnNotes = 'Phòng Khoa học & Công nghệ đồng ý chấp thuận đơn đề nghị xin hủy đề tài NCKH theo báo cáo của Chủ nhiệm và ý kiến của Khoa.';
+    this.modalService.open(content, { size: 'md', centered: true });
+  }
+
+  confirmCancelProposal() {
+    if (!this.selectedProposalForCancel) return;
+    const ok = this.nckhDataService.cancelProposal(
+      this.selectedProposalForCancel.id,
+      this.cancelPkhcnNotes,
+      this.cancelDecisionNumber
+    );
+    this.modalService.dismissAll();
+    if (ok) {
+      this.alertType = 'warning';
+      this.alertMessage = `Đã phê duyệt Quyết định hủy đề tài "${this.selectedProposalForCancel.title}" (Số QĐ: ${this.cancelDecisionNumber}) thành công!`;
+    }
+    setTimeout(() => { this.alertMessage = ''; }, 6000);
   }
 
   // --- CÁC HÀNH ĐỘNG QUYẾT ĐỊNH TRỰC TIẾP TRONG MODAL BIỂU MẪU CHO P.KHCN ---
@@ -427,6 +478,10 @@ export class ReviewProposalsComponent implements OnInit {
         return { text: 'B07: Nghiệm thu đề tài', class: 'badge bg-danger-subtle text-danger' };
       case 'YEU_CAU_CHINH_SUA_NGHIEM_THU':
         return { text: 'B07: Chỉnh sửa góp ý HĐNT', class: 'badge bg-warning text-dark' };
+      case 'YEU_CAU_HUY':
+        return { text: 'Yêu cầu hủy đề tài', class: 'badge bg-danger-subtle text-danger border border-danger' };
+      case 'DA_HUY':
+        return { text: 'Đã hủy đề tài', class: 'badge bg-dark text-white' };
       case 'DA_CONG_NHAN_KET_QUA':
       case 'LUU_HO_SO':
       case 'TRIEN_KHAI_UNG_DUNG':
@@ -454,6 +509,8 @@ export class ReviewProposalsComponent implements OnInit {
       case 'YEU_CAU_CHINH_SUA_NGHIEM_THU': return 'badge bg-warning text-dark';
       case 'DA_NGHIEM_THU': return 'badge bg-success text-white';
       case 'DA_CONG_NHAN_KET_QUA': return 'badge bg-success text-white';
+      case 'YEU_CAU_HUY': return 'badge bg-danger-subtle text-danger border border-danger';
+      case 'DA_HUY': return 'badge bg-dark text-white';
       default: return 'badge bg-light text-dark';
     }
   }

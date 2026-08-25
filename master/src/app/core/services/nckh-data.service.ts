@@ -693,406 +693,15 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   {
     id: 'prop-sv-04',
     code: 'DT-SV-2026-004',
-    title: 'Xây dựng hệ sinh thái ứng dụng di động hỗ trợ sinh viên tìm trọ và việc làm thêm thông minh',
+    title: 'Xây dựng ứng dụng di động hỗ trợ tìm phòng trọ và việc làm thêm an toàn cho sinh viên DNTU',
     roundId: 'round-2026-sv',
     roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
     type: 'TUYEN_CHON',
     target: 'SINH_VIEN',
-    field: 'Công nghệ phần mềm & Dịch vụ số',
+    field: 'Khoa học Xã hội & CNTT',
     faculty: 'Khoa Công nghệ thông tin',
     durationMonths: 6,
     startDateExpected: '2025-10-01',
-    endDateExpected: '2026-04-30',
-    authorId: 'u-sv-01',
-    authorName: 'Trần Văn Minh',
-    authorEmail: 'sinhvien@gmail.com',
-    authorIdentifierCode: 'SV210045',
-    authorPhone: '0987 654 321',
-    authorClass: '21DTH1',
-    advisorId: 'u-gvhd-01',
-    advisorName: 'ThS. Phạm Hải Đăng',
-    advisorEmail: 'gvhd@gmail.com',
-    advisorTitle: 'Thạc sĩ',
-    necessity: 'Giúp tân sinh viên dễ dàng tìm phòng trọ an toàn, giá hợp lý và tiếp cận việc làm thêm uy tín gần trường.',
-    objectives: 'Xây dựng ứng dụng di động và hệ thống định vị GPS tích hợp đánh giá uy tín chủ trọ.',
-    mainContents: '1. Khảo sát nhu cầu nhà trọ quanh khu vực Biên Hòa.\n2. Phát triển app Flutter kết hợp Google Maps API.\n3. Triển khai thử nghiệm cho 200 sinh viên.',
-    methods: 'Phương pháp phát triển phần mềm di động, khảo sát thực tế và phân tích thống kê.',
-    expectedProducts: '- Ứng dụng di động tìm trọ DNTU House.\n- Báo cáo tổng kết đề tài BM09.',
-    applicability: 'Chuyển giao cho Đoàn Thanh niên - Hội Sinh viên trường quản lý vận hành.',
-    members: [],
-    budgetTotal: 9500000,
-    budgetSchoolFunded: 9500000,
-    status: 'CHO_NGHIEM_THU',
-    statusText: 'Chờ nghiệm thu & Nộp BM09/BM13 (Bước 07)',
-    version: 1,
-    signedPdfFile: {
-      fileName: 'BM01B_TimTroSinhVien_Signed.pdf',
-      fileSize: '1.4 MB',
-      uploadedAt: '2025-09-25 14:00',
-      signatureStatus: 'DA_KY',
-      signedBy: 'Trần Văn Minh (Chữ ký số sinh viên)'
-    },
-    submittedAt: '2025-09-25 14:30',
-    auditLogs: [
-      {
-        id: 'log-sv4-1',
-        action: 'Nộp Báo cáo tổng kết đề tài và ứng dụng hoàn chỉnh (BM09)',
-        actorName: 'Trần Văn Minh',
-        actorRole: 'Sinh viên',
-        timestamp: '2026-08-15 15:00',
-        newStatus: 'CHO_NGHIEM_THU'
-      },
-      {
-        id: 'log-sv4-2',
-        action: 'P.KHCN thành lập Hội đồng nghiệm thu đề tài sinh viên (BM10)',
-        actorName: 'ThS. Hoàng Thị Mai',
-        actorRole: 'Phòng KHCN',
-        timestamp: '2026-08-20 09:30',
-        comment: 'Hội đồng nghiệm thu đã sẵn sàng chấm điểm phiếu BM11 và lập biên bản BM12.'
-      }
-    ]
-  },
-
-  // 5. GIAI ĐOẠN 5: CHỈNH SỬA SAU NGHIỆM THU (BƯỚC 07 - BM13)
-  {
-    id: 'prop-gv-05',
-    code: 'DT-GV-2026-005',
-    title: 'Nghiên cứu tổng hợp vật liệu Aerogel carbon xử lý nước thải dệt nhuộm công nghiệp',
-    roundId: 'round-2026-01',
-    roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
-    type: 'TUYEN_CHON',
-    target: 'GIANG_VIEN',
-    field: 'Công nghệ Hóa học & Môi trường',
-    faculty: 'Khoa Công nghệ thông tin',
-    durationMonths: 12,
-    startDateExpected: '2025-08-01',
-    endDateExpected: '2026-07-31',
-    authorId: 'u-gv-01',
-    authorName: 'ThS. Nguyễn Thị Hạnh',
-    authorEmail: 'giangvien@gmail.com',
-    authorIdentifierCode: 'GV0128',
-    authorPhone: '0912 345 678',
-    authorAcademicTitle: 'Thạc sĩ',
-    necessity: 'Nước thải dệt nhuộm chứa chất màu hữu cơ độc hại khó phân hủy sinh học, cần vật liệu hấp phụ hiệu năng cao.',
-    objectives: 'Chế tạo vật liệu Aerogel carbon có dung lượng hấp phụ phẩm màu dệt nhuộm trên 350 mg/g.',
-    mainContents: '1. Điều chế tiền chất gel hữu cơ.\n2. Sấy thăng hoa và nhiệt phân tạo carbon aerogel.\n3. Thử nghiệm hấp phụ trên mẫu nước thải dệt nhuộm.',
-    methods: 'Phương pháp tổng hợp sol-gel, sấy thăng hoa và quang phổ UV-Vis.',
-    expectedProducts: '- Mẫu Aerogel carbon.\n- 01 Bài báo trên Tạp chí Khoa học & Công nghệ.\n- Báo cáo giải trình BM13.',
-    applicability: 'Xử lý nước thải tại các cụm công nghiệp dệt may Đồng Nai.',
-    members: [],
-    budgetTotal: 38000000,
-    budgetSchoolFunded: 38000000,
-    status: 'YEU_CAU_CHINH_SUA_NGHIEM_THU',
-    statusText: 'HĐ yêu cầu chỉnh sửa sau NT (Nộp BM13)',
-    version: 1,
-    signedPdfFile: {
-      fileName: 'BM01A_Aerogel_Signed.pdf',
-      fileSize: '1.9 MB',
-      uploadedAt: '2025-07-20 10:00',
-      signatureStatus: 'DA_KY',
-      signedBy: 'ThS. Nguyễn Thị Hạnh (Chữ ký số hợp lệ)'
-    },
-    submittedAt: '2025-07-20 10:30',
-    auditLogs: [
-      {
-        id: 'log-gv5-1',
-        action: 'Hội đồng nghiệm thu họp BM11/BM12 và kết luận: Thông qua nhưng cần chỉnh sửa',
-        actorName: 'PGS.TS. Trần Văn Hùng',
-        actorRole: 'Chủ tịch HĐ',
-        timestamp: '2026-08-16 15:00',
-        oldStatus: 'DANG_NGHIEM_THU',
-        newStatus: 'YEU_CAU_CHINH_SUA_NGHIEM_THU',
-        comment: 'Yêu cầu Chủ nhiệm bổ sung phân tích chu kỳ tái sinh vật liệu 5 lần và giải trình theo BM13.'
-      }
-    ]
-  },
-
-  // ==========================================
-  // ===== SINH VIÊN (Trần Văn Minh - u-sv-01) =====
-  // ==========================================
-
-  // 6. GIAI ĐOẠN 1: NỘP HỒ SƠ (BƯỚC 01 - BM01B)
-  {
-    id: 'prop-sv-01',
-    code: 'DT-SV-2026-001',
-    title: 'Phát triển ứng dụng di động nhận diện và điểm danh thông minh qua khuôn mặt',
-    roundId: 'round-2026-sv',
-    roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
-    type: 'TUYEN_CHON',
-    target: 'SINH_VIEN',
-    field: 'Công nghệ phần mềm & Mobile App',
-    faculty: 'Khoa Công nghệ thông tin',
-    durationMonths: 6,
-    startDateExpected: '2026-10-15',
-    endDateExpected: '2027-04-15',
-    authorId: 'u-sv-01',
-    authorName: 'Trần Văn Minh',
-    authorEmail: 'sinhvien@gmail.com',
-    authorIdentifierCode: 'SV210045',
-    authorPhone: '0987 654 321',
-    authorClass: '21DTH1',
-    advisorId: 'u-gvhd-01',
-    advisorName: 'ThS. Phạm Hải Đăng',
-    advisorEmail: 'gvhd@gmail.com',
-    advisorTitle: 'Thạc sĩ',
-    necessity: 'Điểm danh thủ công tốn thời gian và dễ nhầm lẫn. Ứng dụng di động nhận diện khuôn mặt giúp tự động hóa và nâng cao tính minh bạch trong lớp học.',
-    objectives: 'Xây dựng ứng dụng Flutter nhận diện gương mặt qua camera điện thoại, độ trễ dưới 1s, độ chính xác nhận diện trên 95% trong điều kiện ánh sáng lớp học.',
-    mainContents: '1. Khảo sát nghiệp vụ điểm danh sinh viên tại DNTU.\n2. Tích hợp mô hình MobileFaceNet nhận diện khuôn mặt trên thiết bị di động.\n3. Xây dựng backend quản lý danh sách lớp và xuất báo cáo điểm danh.',
-    methods: 'Phương pháp phát triển ứng dụng di động Agile/Scrum, tích hợp Edge AI và Cloud API.',
-    expectedProducts: '- Ứng dụng di động Android/iOS hoàn chỉnh.\n- Báo cáo kết quả nghiên cứu khoa học sinh viên.\n- Tham gia báo cáo tại Hội nghị Sinh viên NCKH cấp Trường.',
-    applicability: 'Triển khai thử nghiệm cho các lớp thực hành tại Khoa CNTT.',
-    members: [
-      {
-        id: 'm-sv-1',
-        fullName: 'Lê Văn An',
-        identifierCode: 'SV210088',
-        unit: 'Khoa Công nghệ thông tin',
-        roleInProject: 'Thành viên nghiên cứu chính'
-      }
-    ],
-    budgetTotal: 8000000,
-    budgetSchoolFunded: 8000000,
-    signedPdfFile: {
-      fileName: 'BM01B_DiemDanhKhuonMat_Signed.pdf',
-      fileSize: '1.2 MB',
-      uploadedAt: '2026-08-20 10:15',
-      signatureStatus: 'DA_KY',
-      signedBy: 'Trần Văn Minh (Trưởng nhóm sinh viên)'
-    },
-    status: 'CHO_GVHD_DUYET',
-    statusText: 'Chờ GVHD duyệt hồ sơ BM01B (Bước 01)',
-    version: 1,
-    submittedAt: '2026-08-20 10:18',
-    auditLogs: [
-      {
-        id: 'log-sv1-1',
-        action: 'Tạo hồ sơ đề tài sinh viên BM01B',
-        actorName: 'Trần Văn Minh',
-        actorRole: 'Sinh viên',
-        timestamp: '2026-08-20 08:30',
-        newStatus: 'NHAP'
-      },
-      {
-        id: 'log-sv1-2',
-        action: 'Nộp hồ sơ cho Giảng viên hướng dẫn',
-        actorName: 'Trần Văn Minh',
-        actorRole: 'Sinh viên',
-        timestamp: '2026-08-20 10:18',
-        oldStatus: 'NHAP',
-        newStatus: 'CHO_GVHD_DUYET'
-      }
-    ]
-  },
-
-  // 7. GIAI ĐOẠN 2: VIẾT THUYẾT MINH (BƯỚC 03 - BM04B)
-  {
-    id: 'prop-sv-02',
-    code: 'DT-SV-2026-002',
-    title: 'Nghiên cứu và xây dựng website thương mại điện tử tích hợp trợ lý ảo AI tư vấn mua sắm',
-    roundId: 'round-2026-sv',
-    roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
-    type: 'TUYEN_CHON',
-    target: 'SINH_VIEN',
-    field: 'Thương mại điện tử & Trí tuệ nhân tạo',
-    faculty: 'Khoa Công nghệ thông tin',
-    durationMonths: 6,
-    startDateExpected: '2026-10-15',
-    endDateExpected: '2027-04-15',
-    authorId: 'u-sv-01',
-    authorName: 'Trần Văn Minh',
-    authorEmail: 'sinhvien@gmail.com',
-    authorIdentifierCode: 'SV210045',
-    authorPhone: '0987 654 321',
-    authorClass: '21DTH1',
-    advisorId: 'u-gvhd-01',
-    advisorName: 'ThS. Phạm Hải Đăng',
-    advisorEmail: 'gvhd@gmail.com',
-    advisorTitle: 'Thạc sĩ',
-    necessity: 'Trợ lý ảo AI giúp gợi ý sản phẩm cá nhân hóa và giải đáp thắc mắc khách hàng 24/7, tăng tỷ lệ chuyển đổi đơn hàng.',
-    objectives: 'Xây dựng website thương mại điện tử hoàn chỉnh với Chatbot AI sử dụng mô hình RAG và LLM mã nguồn mở.',
-    mainContents: '1. Thiết kế cơ sở dữ liệu và kiến trúc web full-stack.\n2. Tích hợp Chatbot AI hỗ trợ tư vấn.\n3. Thử nghiệm người dùng và đánh giá độ hài lòng.',
-    methods: 'Phát triển web hiện đại (Angular + Spring Boot), kỹ thuật RAG với Vector Database.',
-    expectedProducts: '- Website thương mại điện tử đầy đủ tính năng.\n- Báo cáo nghiên cứu khoa học sinh viên.',
-    applicability: 'Ứng dụng thử nghiệm cho các gian hàng khởi nghiệp của sinh viên DNTU.',
-    members: [],
-    budgetTotal: 10000000,
-    budgetSchoolFunded: 10000000,
-    signedPdfFile: {
-      fileName: 'BM01B_Ecommerce_AI_Signed.pdf',
-      fileSize: '1.5 MB',
-      uploadedAt: '2026-08-12 09:00',
-      signatureStatus: 'DA_KY',
-      signedBy: 'Trần Văn Minh (Chữ ký số sinh viên)'
-    },
-    status: 'CHO_NOP_THUYET_MINH',
-    statusText: 'Chờ nộp Thuyết minh BM04B (Bước 03)',
-    version: 1,
-    submittedAt: '2026-08-12 09:30',
-    auditLogs: [
-      {
-        id: 'log-sv2-1',
-        action: 'GVHD phê duyệt hồ sơ BM01B',
-        actorName: 'ThS. Phạm Hải Đăng',
-        actorRole: 'Giảng viên hướng dẫn',
-        timestamp: '2026-08-14 11:00',
-        oldStatus: 'CHO_GVHD_DUYET',
-        newStatus: 'CHO_HOI_DONG_XET_DUYET_HO_SO'
-      },
-      {
-        id: 'log-sv2-2',
-        action: 'Hội đồng xét duyệt hồ sơ đạt 85/100 điểm (BM02/BM03)',
-        actorName: 'PGS.TS. Trần Văn Hùng',
-        actorRole: 'Chủ tịch HĐ',
-        timestamp: '2026-08-20 16:00',
-        oldStatus: 'CHO_HOI_DONG_XET_DUYET_HO_SO',
-        newStatus: 'CHO_NOP_THUYET_MINH',
-        comment: 'Đề tài có tính ứng dụng cao, đồng ý thông qua để nhóm sinh viên nộp Thuyết minh BM04B.'
-      }
-    ]
-  },
-
-  // 8. GIAI ĐOẠN 3: VIẾT BÁO CÁO GIỮA KỲ (BƯỚC 06 - BM08)
-  {
-    id: 'prop-sv-03',
-    code: 'DT-SV-2026-003',
-    title: 'Thiết kế và chế tạo Robot tự hành vận chuyển tài liệu trong thư viện trường học',
-    roundId: 'round-2026-sv',
-    roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
-    type: 'TUYEN_CHON',
-    target: 'SINH_VIEN',
-    field: 'Robot & Tự động hóa',
-    faculty: 'Khoa Công nghệ thông tin',
-    durationMonths: 8,
-    startDateExpected: '2026-09-01',
-    endDateExpected: '2027-04-30',
-    authorId: 'u-sv-01',
-    authorName: 'Trần Văn Minh',
-    authorEmail: 'sinhvien@gmail.com',
-    authorIdentifierCode: 'SV210045',
-    authorPhone: '0987 654 321',
-    authorClass: '21DTH1',
-    advisorId: 'u-gvhd-01',
-    advisorName: 'ThS. Phạm Hải Đăng',
-    advisorEmail: 'gvhd@gmail.com',
-    advisorTitle: 'Thạc sĩ',
-    necessity: 'Hỗ trợ thủ thư vận chuyển sách báo tự động giữa các kệ sách, giảm sức lao động chân tay.',
-    objectives: 'Chế tạo robot AGV tải trọng 15kg, định vị chính xác sai số dưới 5cm bằng công nghệ LiDAR SLAM.',
-    mainContents: '1. Thiết kế cơ khí khung robot và mạch công suất.\n2. Cài đặt hệ điều hành ROS2 và thuật toán dẫn đường Nav2.\n3. Thử nghiệm vận hành thực tế tại Thư viện DNTU.',
-    methods: 'Phương pháp tích hợp cơ điện tử, điều khiển vòng kín PID và thuật toán SLAM.',
-    expectedProducts: '- 01 Mẫu robot tự hành hoạt động tốt.\n- Báo cáo tiến độ BM08 và mã nguồn điều khiển.',
-    applicability: 'Thử nghiệm phục vụ tại Thư viện trường Đại học Công nghệ Đồng Nai.',
-    members: [],
-    budgetTotal: 12000000,
-    budgetSchoolFunded: 12000000,
-    status: 'DANG_THUC_HIEN',
-    statusText: 'Đang thực hiện & Nộp BC tiến độ BM08 (Bước 06)',
-    version: 1,
-    signedPdfFile: {
-      fileName: 'BM01B_RobotThuVien_Signed.pdf',
-      fileSize: '1.7 MB',
-      uploadedAt: '2026-08-01 08:30',
-      signatureStatus: 'DA_KY',
-      signedBy: 'Trần Văn Minh (Chữ ký số sinh viên)'
-    },
-    submittedAt: '2026-08-01 09:00',
-    auditLogs: [
-      {
-        id: 'log-sv3-1',
-        action: 'Hội đồng duyệt thuyết minh BM06/BM07 đạt yêu cầu',
-        actorName: 'PGS.TS. Trần Văn Hùng',
-        actorRole: 'Chủ tịch HĐ',
-        timestamp: '2026-08-12 14:00',
-        newStatus: 'DANG_XET_DUYET_THUYET_MINH'
-      },
-      {
-        id: 'log-sv3-2',
-        action: 'P.KHCN ban hành Quyết định giao nhiệm vụ và ký Hợp đồng NCKH Sinh viên',
-        actorName: 'ThS. Hoàng Thị Mai',
-        actorRole: 'Phòng KHCN',
-        timestamp: '2026-08-18 10:00',
-        newStatus: 'DANG_THUC_HIEN',
-        comment: 'Đã hoàn tất hợp đồng SV-NCKH, nhóm sinh viên bắt đầu chế tạo robot và định kỳ nộp BM08.'
-      }
-    ]
-  },
-
-  // 9. GIAI ĐOẠN 4: BÁO CÁO NGHIỆM THU (BƯỚC 07 - BM09/BM11/BM12/BM13)
-  {
-    id: 'prop-sv-04',
-    code: 'DT-SV-2026-004',
-    title: 'Xây dựng hệ sinh thái ứng dụng di động hỗ trợ sinh viên tìm trọ và việc làm thêm thông minh',
-    roundId: 'round-2026-sv',
-    roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
-    type: 'TUYEN_CHON',
-    target: 'SINH_VIEN',
-    field: 'Công nghệ phần mềm & Dịch vụ số',
-    faculty: 'Khoa Công nghệ thông tin',
-    durationMonths: 6,
-    startDateExpected: '2025-10-01',
-    endDateExpected: '2026-04-30',
-    authorId: 'u-sv-01',
-    authorName: 'Trần Văn Minh',
-    authorEmail: 'sinhvien@gmail.com',
-    authorIdentifierCode: 'SV210045',
-    authorPhone: '0987 654 321',
-    authorClass: '21DTH1',
-    advisorId: 'u-gvhd-01',
-    advisorName: 'ThS. Phạm Hải Đăng',
-    advisorEmail: 'gvhd@gmail.com',
-    advisorTitle: 'Thạc sĩ',
-    necessity: 'Giúp tân sinh viên dễ dàng tìm phòng trọ an toàn, giá hợp lý và tiếp cận việc làm thêm uy tín gần trường.',
-    objectives: 'Xây dựng ứng dụng di động và hệ thống định vị GPS tích hợp đánh giá uy tín chủ trọ.',
-    mainContents: '1. Khảo sát nhu cầu nhà trọ quanh khu vực Biên Hòa.\n2. Phát triển app Flutter kết hợp Google Maps API.\n3. Triển khai thử nghiệm cho 200 sinh viên.',
-    methods: 'Phương pháp phát triển phần mềm di động, khảo sát thực tế và phân tích thống kê.',
-    expectedProducts: '- Ứng dụng di động tìm trọ DNTU House.\n- Báo cáo tổng kết đề tài BM09.',
-    applicability: 'Chuyển giao cho Đoàn Thanh niên - Hội Sinh viên trường quản lý vận hành.',
-    members: [],
-    budgetTotal: 9500000,
-    budgetSchoolFunded: 9500000,
-    status: 'CHO_NGHIEM_THU',
-    statusText: 'Chờ nghiệm thu & Nộp BM09/BM13 (Bước 07)',
-    version: 1,
-    signedPdfFile: {
-      fileName: 'BM01B_TimTroSinhVien_Signed.pdf',
-      fileSize: '1.4 MB',
-      uploadedAt: '2025-09-25 14:00',
-      signatureStatus: 'DA_KY',
-      signedBy: 'Trần Văn Minh (Chữ ký số sinh viên)'
-    },
-    submittedAt: '2025-09-25 14:30',
-    auditLogs: [
-      {
-        id: 'log-sv4-1',
-        action: 'Nộp Báo cáo tổng kết đề tài và ứng dụng hoàn chỉnh (BM09)',
-        actorName: 'Trần Văn Minh',
-        actorRole: 'Sinh viên',
-        timestamp: '2026-08-15 15:00',
-        newStatus: 'CHO_NGHIEM_THU'
-      },
-      {
-        id: 'log-sv4-2',
-        action: 'P.KHCN thành lập Hội đồng nghiệm thu đề tài sinh viên (BM10)',
-        actorName: 'ThS. Hoàng Thị Mai',
-        actorRole: 'Phòng KHCN',
-        timestamp: '2026-08-20 09:30',
-        comment: 'Hội đồng nghiệm thu đã sẵn sàng chấm điểm phiếu BM11 và lập biên bản BM12.'
-      }
-    ]
-  },
-
-  // 10. GIAI ĐOẠN 5: CHỈNH SỬA SAU NGHIỆM THU (BƯỚC 07 - BM13)
-  {
-    id: 'prop-sv-05',
-    code: 'DT-SV-2026-005',
-    title: 'Phát triển thiết bị IoT cảnh báo rò rỉ khí gas và cháy nổ thông minh cho phòng trọ sinh viên',
-    roundId: 'round-2026-sv',
-    roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
-    type: 'TUYEN_CHON',
-    target: 'SINH_VIEN',
-    field: 'IoT & Phần cứng nhúng',
-    faculty: 'Khoa Công nghệ thông tin',
-    durationMonths: 6,
-    startDateExpected: '2025-09-01',
     endDateExpected: '2026-03-31',
     authorId: 'u-sv-01',
     authorName: 'Trần Văn Minh',
@@ -1104,84 +713,154 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
     advisorName: 'ThS. Phạm Hải Đăng',
     advisorEmail: 'gvhd@gmail.com',
     advisorTitle: 'Thạc sĩ',
-    necessity: 'Phòng trọ sinh viên thường tiềm ẩn rủi ro chập cháy và rò rỉ gas do không gian khép kín.',
-    objectives: 'Chế tạo thiết bị báo động nhỏ gọn, gửi tin nhắn SMS/Telegram cảnh báo khẩn cấp trong vòng 3 giây.',
-    mainContents: '1. Thiết kế mạch tích hợp module SIM và cảm biến khí MQ2.\n2. Lập trình vi điều khiển ESP32.\n3. Thử nghiệm thực tế tại 10 phòng trọ.',
-    methods: 'Phương pháp chế tạo mạch nhúng và thực nghiệm an toàn cháy nổ.',
-    expectedProducts: '- Thiết bị phần cứng hoàn chỉnh kèm hộp bảo vệ.\n- Báo cáo giải trình BM13.',
-    applicability: 'Triển khai cho khu ký túc xá và phòng trọ sinh viên khu vực Đại học Công nghệ Đồng Nai.',
+    necessity: 'Giúp tân sinh viên dễ dàng tìm phòng trọ an toàn, giá hợp lý và tiếp cận việc làm thêm uy tín gần trường.',
+    objectives: 'Xây dựng ứng dụng di động và hệ thống định vị GPS tích hợp đánh giá uy tín chủ trọ.',
+    mainContents: '1. Khảo sát nhu cầu nhà trọ quanh khu vực Biên Hòa.\n2. Phát triển app Flutter kết hợp Google Maps API.\n3. Triển khai thử nghiệm cho 200 sinh viên.',
+    methods: 'Phương pháp phát triển phần mềm di động, khảo sát thực tế và phân tích thống kê.',
+    expectedProducts: '- Ứng dụng di động tìm trọ DNTU House.\n- Báo cáo tổng kết đề tài BM09.',
+    applicability: 'Chuyển giao cho Đoàn Thanh niên - Hội Sinh viên trường quản lý vận hành.',
     members: [],
-    budgetTotal: 7500000,
-    budgetSchoolFunded: 7500000,
-    status: 'YEU_CAU_CHINH_SUA_NGHIEM_THU',
-    statusText: 'HĐ yêu cầu chỉnh sửa sau NT (Nộp BM13)',
+    budgetTotal: 9500000,
+    budgetSchoolFunded: 9500000,
+    status: 'CHO_NGHIEM_THU',
+    statusText: 'Chờ nghiệm thu & Nộp BM09/BM13 (Bước 07)',
     version: 1,
     signedPdfFile: {
-      fileName: 'BM01B_BaoChayGas_Signed.pdf',
-      fileSize: '1.3 MB',
-      uploadedAt: '2025-08-20 10:00',
+      fileName: 'BM01B_TimTroSinhVien_Signed.pdf',
+      fileSize: '1.4 MB',
+      uploadedAt: '2025-09-25 14:00',
       signatureStatus: 'DA_KY',
       signedBy: 'Trần Văn Minh (Chữ ký số sinh viên)'
     },
-    submittedAt: '2025-08-20 10:30',
+    submittedAt: '2025-09-25 14:30',
     auditLogs: [
       {
-        id: 'log-sv5-1',
-        action: 'Hội đồng nghiệm thu đề tài sinh viên họp và yêu cầu bổ sung',
-        actorName: 'PGS.TS. Trần Văn Hùng',
-        actorRole: 'Chủ tịch HĐ',
-        timestamp: '2026-08-18 16:30',
-        oldStatus: 'DANG_NGHIEM_THU',
-        newStatus: 'YEU_CAU_CHINH_SUA_NGHIEM_THU',
-        comment: 'Hội đồng đánh giá cao ý tưởng, yêu cầu bổ sung sơ đồ nguyên lý mạch vào phụ lục và nộp Báo cáo giải trình BM13.'
+        id: 'log-sv4-1',
+        action: 'Nộp Báo cáo tổng kết đề tài và ứng dụng hoàn chỉnh (BM09)',
+        actorName: 'Trần Văn Minh',
+        actorRole: 'Sinh viên',
+        timestamp: '2026-08-15 15:00',
+        newStatus: 'CHO_NGHIEM_THU'
       }
     ]
   },
 
-  // 11. ĐỀ TÀI CỦA GIẢNG VIÊN KHÁC (TS. Trần Mai Lan - Khoa MT)
+  // 15. ĐỀ TÀI YÊU CẦU HỦY DO CHỦ NHIỆM CHUYỂN CÔNG TÁC (GIẢNG VIÊN)
   {
-    id: 'prop-gv-06',
-    code: 'DT-GV-2026-006',
-    title: 'Nghiên cứu chế tạo màng lọc nano composite ứng dụng xử lý ion kim loại nặng trong nước thải công nghiệp',
+    id: 'prop-cancel-01',
+    code: 'DT-GV-2026-009',
+    title: 'Nghiên cứu ứng dụng công nghệ thực tế ảo VR trong giảng dạy thực hành kỹ thuật cơ khí',
     roundId: 'round-2026-01',
     roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
     type: 'TUYEN_CHON',
     target: 'GIANG_VIEN',
-    field: 'Công nghệ Hóa học & Môi trường',
-    faculty: 'Khoa Công nghệ Môi trường',
+    field: 'Công nghệ Cơ khí & Giáo dục số',
+    faculty: 'Khoa Cơ khí - Động lực',
     durationMonths: 12,
     startDateExpected: '2026-10-01',
     endDateExpected: '2027-09-30',
-    authorId: 'u-gv-02',
-    authorName: 'TS. Trần Mai Lan',
-    authorEmail: 'lan.tm@gmail.com',
-    authorIdentifierCode: 'GV0067',
-    authorPhone: '0913 888 777',
-    authorAcademicTitle: 'Tiến sĩ',
-    necessity: 'Nhu cầu xử lý nước thải công nghiệp chứa kim loại nặng ngày càng cấp bách theo quy chuẩn môi trường mới.',
-    objectives: 'Chế tạo thành công màng lọc nano composite có hiệu suất hấp phụ chì và cadmi trên 90%.',
-    mainContents: '1. Tổng hợp hạt nano graphene oxide.\n2. Phối trộn chế tạo màng composite.\n3. Thử nghiệm hấp phụ và tái sinh màng lọc.',
-    methods: 'Phương pháp hóa học tổng hợp vật liệu và quang phổ hấp thụ nguyên tử (AAS).',
-    expectedProducts: '- Mẫu vật liệu màng nano composite.\n- 01 bài báo quốc tế thuộc danh mục SCIE.\n- Quy trình chế tạo vật liệu.',
-    applicability: 'Chuyển giao cho các trạm xử lý nước thải khu công nghiệp Đồng Nai.',
+    authorId: 'u-gv-03',
+    authorName: 'ThS. Vũ Văn Long',
+    authorEmail: 'vuvanlong@gmail.com',
+    authorIdentifierCode: 'GV0145',
+    authorPhone: '0933 456 789',
+    authorAcademicTitle: 'Thạc sĩ',
+    necessity: 'Thực hành ảo giúp tiết kiệm chi phí vật tư và đảm bảo an toàn cho sinh viên.',
+    objectives: 'Xây dựng 03 bài thí nghiệm mô phỏng VR tương tác đa chiều.',
+    mainContents: '1. Thiết kế mô hình 3D máy tiện, phay CNC.\n2. Lập trình tương tác trên kính VR Oculus.',
+    methods: 'Mô phỏng 3D trên Unity Engine và thiết bị đeo VR.',
+    expectedProducts: '01 Phần mềm mô phỏng VR hoàn chỉnh.',
+    applicability: 'Xưởng thực hành Khoa Cơ khí.',
     members: [],
-    budgetTotal: 48000000,
-    budgetSchoolFunded: 48000000,
-    status: 'CHO_HOI_DONG_XET_DUYET_HO_SO',
-    statusText: 'Chờ Hội đồng xét duyệt hồ sơ (Bước 02)',
+    budgetTotal: 28000000,
+    budgetSchoolFunded: 28000000,
+    signedPdfFile: {
+      fileName: 'BM01A_ThucTeAo_Signed.pdf',
+      fileSize: '1.8 MB',
+      uploadedAt: '2026-08-16 14:00',
+      signatureStatus: 'DA_KY',
+      signedBy: 'ThS. Vũ Văn Long'
+    },
+    status: 'YEU_CAU_HUY',
+    statusText: 'Đang yêu cầu hủy đề tài',
     version: 1,
-    reviewedAt: '2026-08-19 11:30',
-    reviewerName: 'Trưởng Khoa CN Môi trường',
+    cancelRequest: {
+      isRequested: true,
+      reason: 'Chủ nhiệm đề tài chuyển công tác sang cơ sở đào tạo khác, không thể tiếp tục bố trí thời gian chủ trì nghiên cứu.',
+      requestedAt: '2026-08-22 15:30',
+      requestedBy: 'ThS. Vũ Văn Long (Chủ nhiệm đề tài)'
+    },
+    submittedAt: '2026-08-16 14:30',
     auditLogs: [
       {
-        id: 'log-6-1',
-        action: 'Trưởng Khoa duyệt hồ sơ BM01A',
-        actorName: 'TS. Nguyễn Văn Bình',
-        actorRole: 'Trưởng Khoa',
-        timestamp: '2026-08-19 11:30',
-        oldStatus: 'CHO_KHOA_DUYET',
-        newStatus: 'CHO_HOI_DONG_XET_DUYET_HO_SO',
-        comment: 'Hồ sơ đạt yêu cầu chuyên môn, chuyển tập xét duyệt Hội đồng Bước 02.'
+        id: 'log-cancel-sample-1',
+        action: 'Chủ nhiệm gửi đơn đề nghị xin hủy đề tài',
+        actorName: 'ThS. Vũ Văn Long',
+        actorRole: 'Giảng viên',
+        timestamp: '2026-08-22 15:30',
+        oldStatus: 'DANG_THUC_HIEN',
+        newStatus: 'YEU_CAU_HUY',
+        comment: 'Chuyển công tác'
+      }
+    ]
+  },
+
+  // 16. ĐỀ TÀI SINH VIÊN YÊU CẦU HỦY DO THÀNH VIÊN TỐT NGHIỆP
+  {
+    id: 'prop-cancel-02',
+    code: 'DT-SV-2026-008',
+    title: 'Phát triển thiết bị IoT theo dõi độ ẩm và sức khỏe cây trồng trong nhà màng nông nghiệp',
+    roundId: 'round-2026-sv',
+    roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
+    type: 'TUYEN_CHON',
+    target: 'SINH_VIEN',
+    field: 'Nông nghiệp Công nghệ cao & IoT',
+    faculty: 'Khoa Công nghệ Hóa học & Thực phẩm',
+    durationMonths: 6,
+    startDateExpected: '2026-10-15',
+    endDateExpected: '2027-04-15',
+    authorId: 'u-sv-03',
+    authorName: 'Nguyễn Hoàng Nam',
+    authorEmail: 'hoangnam@gmail.com',
+    authorIdentifierCode: 'SV210099',
+    authorPhone: '0977 123 456',
+    authorClass: '21DTH2',
+    necessity: 'Giám sát tự động vi khí hậu nông nghiệp giúp tiết kiệm nước tưới.',
+    objectives: 'Thiết kế bo mạch cảm biến IoT đo độ ẩm đất và pH.',
+    mainContents: '1. Lắp ráp mạch cảm biến.\n2. Viết app theo dõi trên điện thoại.',
+    methods: 'Thiết kế mạch nhúng Arduino và truyền LoRa.',
+    expectedProducts: '01 Thiết bị IoT mẫu thử nghiệm.',
+    applicability: 'Khu nhà màng DNTU.',
+    members: [],
+    budgetTotal: 6500000,
+    budgetSchoolFunded: 6500000,
+    signedPdfFile: {
+      fileName: 'BM01B_NongNghiep_Signed.pdf',
+      fileSize: '1.1 MB',
+      uploadedAt: '2026-08-18 10:00',
+      signatureStatus: 'DA_KY',
+      signedBy: 'Nguyễn Hoàng Nam'
+    },
+    status: 'YEU_CAU_HUY',
+    statusText: 'Đang yêu cầu hủy đề tài',
+    version: 1,
+    cancelRequest: {
+      isRequested: true,
+      reason: 'Các thành viên trong nhóm tốt nghiệp sớm và không tìm được linh kiện cảm biến chuyên dụng để tiếp tục.',
+      requestedAt: '2026-08-23 09:15',
+      requestedBy: 'Nguyễn Hoàng Nam (Trưởng nhóm SV)'
+    },
+    submittedAt: '2026-08-18 10:30',
+    auditLogs: [
+      {
+        id: 'log-cancel-sample-2',
+        action: 'Trưởng nhóm SV gửi đơn xin hủy đề tài',
+        actorName: 'Nguyễn Hoàng Nam',
+        actorRole: 'Sinh viên',
+        timestamp: '2026-08-23 09:15',
+        oldStatus: 'CHO_NOP_THUYET_MINH',
+        newStatus: 'YEU_CAU_HUY',
+        comment: 'Thiếu linh kiện và nhóm tốt nghiệp'
       }
     ]
   }
@@ -1883,6 +1562,48 @@ export class NckhDataService {
     council.assignedProposalIds = uniqueIds;
     current[idx] = { ...council };
     this.saveCouncils([...current]);
+    return true;
+  }
+
+  public cancelProposal(id: string, reason: string, decisionNumber?: string): boolean {
+    const list = this.proposalsSubject.value;
+    const idx = list.findIndex(p => p.id === id);
+    if (idx === -1) return false;
+
+    const oldStatus = list[idx].status;
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN');
+    const currentUser = this.currentUserSubject.value;
+
+    const updatedProposal: TopicProposal = {
+      ...list[idx],
+      status: 'DA_HUY',
+      statusText: 'Đã chấp thuận hủy đề tài',
+      cancelRequest: {
+        isRequested: true,
+        reason: reason || list[idx].cancelRequest?.reason || 'Hủy theo đơn đề nghị của Chủ nhiệm đề tài',
+        requestedAt: list[idx].cancelRequest?.requestedAt || dateStr,
+        requestedBy: list[idx].cancelRequest?.requestedBy || list[idx].authorName,
+        decisionNumber: decisionNumber || 'QĐ-HUY-2026-018',
+        approvedAt: dateStr
+      },
+      auditLogs: [
+        ...(list[idx].auditLogs || []),
+        {
+          id: `log-cancel-${Date.now()}`,
+          action: `P.KHCN phê duyệt Quyết định hủy đề tài (Số: ${decisionNumber || 'QĐ-HUY-2026-018'})`,
+          actorName: currentUser ? currentUser.fullName : 'Phòng Khoa học & Công nghệ',
+          actorRole: currentUser ? currentUser.roleTitle : 'Chuyên viên P.KHCN',
+          timestamp: dateStr,
+          comment: reason,
+          oldStatus: oldStatus,
+          newStatus: 'DA_HUY'
+        }
+      ]
+    };
+
+    list[idx] = updatedProposal;
+    this.saveProposals([...list]);
     return true;
   }
 
