@@ -6,6 +6,7 @@ import { ProposalFormComponent } from './proposal-form/proposal-form.component';
 import { ReviewProposalsComponent } from './review-proposals/review-proposals.component';
 import { RoundManagementComponent } from './round-management/round-management.component';
 import { ProposalDetailComponent } from './proposal-detail/proposal-detail.component';
+import { CouncilManagementComponent } from './council-management/council-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'quan-ly-dot', component: RoundManagementComponent },
   { path: 'de-tai-don-vi', component: ReviewProposalsComponent },
   { path: 'danh-sach-toan-truong', component: ReviewProposalsComponent },
+  { path: 'quan-ly-hoi-dong', component: CouncilManagementComponent },
+  { path: 'thanh-lap-hoi-dong', component: CouncilManagementComponent },
   { path: 'chi-tiet/:id', component: ProposalFormComponent },
 ];
 

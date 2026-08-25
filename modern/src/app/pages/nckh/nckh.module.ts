@@ -10,6 +10,7 @@ import { ProposalFormComponent } from './proposal-form/proposal-form.component';
 import { ReviewProposalsComponent } from './review-proposals/review-proposals.component';
 import { RoundManagementComponent } from './round-management/round-management.component';
 import { ProposalDetailComponent } from './proposal-detail/proposal-detail.component';
+import { CouncilManagementComponent } from './council-management/council-management.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ProposalDetailComponent } from './proposal-detail/proposal-detail.compo
     ProposalFormComponent,
     ReviewProposalsComponent,
     RoundManagementComponent,
-    ProposalDetailComponent
+    ProposalDetailComponent,
+    CouncilManagementComponent
   ],
   imports: [
     CommonModule,

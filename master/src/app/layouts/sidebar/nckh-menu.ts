@@ -115,12 +115,22 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 22,
+        label: 'Thành lập & Quản lý Hội đồng',
+        link: '/nckh/quan-ly-hoi-dong',
+        parentId: 20,
+        badge: {
+          variant: 'badge bg-primary',
+          text: 'Mới'
+        }
+      },
+      {
+        id: 23,
         label: 'Quản lý đề tài toàn trường',
         link: '/nckh/danh-sach-toan-truong',
         parentId: 20
       },
       {
-        id: 23,
+        id: 24,
         label: 'Hồ sơ xét duyệt & Hội đồng',
         link: '/nckh/xet-duyet-ho-so',
         parentId: 20
@@ -140,6 +150,18 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 22,
+        label: 'Danh sách Hội đồng Khoa học',
+        link: '/nckh/quan-ly-hoi-dong',
+        parentId: 20
+      },
+      {
+        id: 23,
+        label: 'Danh mục đề tài toàn trường',
+        link: '/nckh/danh-sach-toan-truong',
+        parentId: 20
+      },
+      {
+        id: 24,
         label: 'Danh sách đợt đăng ký',
         link: '/nckh/cac-dot-dang-ky',
         parentId: 20
@@ -155,12 +177,18 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 22,
+        label: 'Thành lập & Quản lý Hội đồng',
+        link: '/nckh/quan-ly-hoi-dong',
+        parentId: 20
+      },
+      {
+        id: 23,
         label: 'Quản lý đề tài toàn trường',
         link: '/nckh/danh-sach-toan-truong',
         parentId: 20
       },
       {
-        id: 23,
+        id: 24,
         label: 'Xét duyệt hồ sơ',
         link: '/nckh/xet-duyet-ho-so',
         parentId: 20

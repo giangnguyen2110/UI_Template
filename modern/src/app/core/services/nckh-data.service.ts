@@ -8,7 +8,12 @@ import {
   TopicStatus, 
   DirectAssignmentTopic, 
   ResearchMember,
-  AuditHistoryLog 
+  AuditHistoryLog,
+  ScientificCouncil,
+  CouncilMember,
+  CouncilType,
+  CouncilRole,
+  CouncilStatus
 } from '../models/nckh.model';
 
 export const DEMO_USERS: (UserProfile & { password: string })[] = [
@@ -1182,6 +1187,171 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   }
 ];
 
+export const INITIAL_COUNCILS: ScientificCouncil[] = [
+  {
+    id: 'council-01',
+    code: 'HĐ-2026-B02-CNTT',
+    name: 'Hội đồng Xét duyệt Sơ bộ Hồ sơ Đăng ký Đề tài - Lĩnh vực CNTT & AI (Bước 02)',
+    councilType: 'XET_DUYET_HO_SO',
+    roundId: 'round-01',
+    roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
+    faculty: 'Khoa Công nghệ thông tin',
+    decisionNumber: '118/QĐ-ĐHNT-KHCN',
+    decisionDate: '2026-08-20',
+    meetingDate: '2026-09-05 08:30',
+    meetingLocation: 'Phòng Hội thảo A204 - Tòa nhà Trung tâm',
+    status: 'DA_BAN_HANH',
+    notes: 'Đánh giá tính mới, tính khả thi và điều kiện triển khai của các hồ sơ đăng ký BM01A/BM01B.',
+    members: [
+      {
+        id: 'cm-1',
+        fullName: 'PGS.TS. Trần Văn Hùng',
+        academicTitle: 'Phó Giáo sư, Tiến sĩ',
+        roleInCouncil: 'CHU_TICH',
+        workUnit: 'Hội đồng Khoa học & Đào tạo',
+        email: 'chutichhd@gmail.com',
+        phone: '0918 222 333'
+      },
+      {
+        id: 'cm-2',
+        fullName: 'TS. Lê Hoàng Nam',
+        academicTitle: 'Tiến sĩ',
+        roleInCouncil: 'PHO_CHU_TICH',
+        workUnit: 'Khoa Công nghệ thông tin',
+        email: 'truongkhoa@gmail.com',
+        phone: '0903 111 222'
+      },
+      {
+        id: 'cm-3',
+        fullName: 'TS. Vũ Minh Tuấn',
+        academicTitle: 'Tiến sĩ',
+        roleInCouncil: 'UY_VIEN_PHAN_BIEN_1',
+        workUnit: 'Viện Nghiên cứu & Ứng dụng',
+        email: 'hoidong@gmail.com',
+        phone: '0912 666 777'
+      },
+      {
+        id: 'cm-4',
+        fullName: 'ThS. Nguyễn Thị Thu',
+        academicTitle: 'Thạc sĩ Quản lý KHCN',
+        roleInCouncil: 'THU_KY',
+        workUnit: 'Phòng Khoa học & Công nghệ',
+        email: 'pkhcn@gmail.com',
+        phone: '0909 888 999'
+      },
+      {
+        id: 'cm-5',
+        fullName: 'ThS. Phạm Hải Đăng',
+        academicTitle: 'Thạc sĩ',
+        roleInCouncil: 'UY_VIEN',
+        workUnit: 'Khoa Công nghệ thông tin',
+        email: 'gvhd@gmail.com',
+        phone: '0908 777 888'
+      }
+    ],
+    assignedProposalIds: ['prop-gv-01', 'prop-sv-01', 'prop-gv-02']
+  },
+  {
+    id: 'council-02',
+    code: 'HĐ-2026-B04-DIEN',
+    name: 'Hội đồng Thẩm định & Xét duyệt Thuyết minh Đề tài - Kỹ thuật & Tự động hóa (Bước 04)',
+    councilType: 'XET_DUYET_THUYET_MINH',
+    roundId: 'round-01',
+    roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
+    faculty: 'Khoa Điện - Điện tử',
+    decisionNumber: '142/QĐ-ĐHNT-KHCN',
+    decisionDate: '2026-08-22',
+    meetingDate: '2026-09-12 14:00',
+    meetingLocation: 'Phòng Họp Ban Giám hiệu B102',
+    status: 'DA_BAN_HANH',
+    notes: 'Thẩm định chi tiết thuyết minh đề cương BM04, thuyết minh dự toán kinh phí và kế hoạch chi tiết.',
+    members: [
+      {
+        id: 'cm-6',
+        fullName: 'PGS.TS. Trần Văn Hùng',
+        academicTitle: 'Phó Giáo sư, Tiến sĩ',
+        roleInCouncil: 'CHU_TICH',
+        workUnit: 'Hội đồng Khoa học & Đào tạo',
+        email: 'chutichhd@gmail.com',
+        phone: '0918 222 333'
+      },
+      {
+        id: 'cm-7',
+        fullName: 'TS. Vũ Minh Tuấn',
+        academicTitle: 'Tiến sĩ',
+        roleInCouncil: 'UY_VIEN_PHAN_BIEN_1',
+        workUnit: 'Viện Nghiên cứu & Ứng dụng',
+        email: 'hoidong@gmail.com',
+        phone: '0912 666 777'
+      },
+      {
+        id: 'cm-8',
+        fullName: 'ThS. Nguyễn Thị Thu',
+        academicTitle: 'Thạc sĩ Quản lý KHCN',
+        roleInCouncil: 'THU_KY',
+        workUnit: 'Phòng Khoa học & Công nghệ',
+        email: 'pkhcn@gmail.com',
+        phone: '0909 888 999'
+      }
+    ],
+    assignedProposalIds: ['prop-gv-02']
+  },
+  {
+    id: 'council-03',
+    code: 'HĐ-2026-B07-HOAHOC',
+    name: 'Hội đồng Đánh giá & Nghiệm thu Kết quả Đề tài NCKH - Công nghệ Hóa & Môi trường (Bước 07)',
+    councilType: 'NGHIEM_THU',
+    roundId: 'round-01',
+    roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
+    faculty: 'Khoa Công nghệ Hóa học & Thực phẩm',
+    decisionNumber: '168/QĐ-ĐHNT-KHCN',
+    decisionDate: '2026-08-24',
+    meetingDate: '2026-09-20 09:00',
+    meetingLocation: 'Hội trường C301 & Trực tuyến MS Teams',
+    status: 'DANG_HOP',
+    notes: 'Đánh giá nghiệm thu sản phẩm, bài báo khoa học và báo cáo tổng kết đề tài BM07/BM08.',
+    members: [
+      {
+        id: 'cm-9',
+        fullName: 'PGS.TS. Trần Văn Hùng',
+        academicTitle: 'Phó Giáo sư, Tiến sĩ',
+        roleInCouncil: 'CHU_TICH',
+        workUnit: 'Hội đồng Khoa học & Đào tạo',
+        email: 'chutichhd@gmail.com',
+        phone: '0918 222 333'
+      },
+      {
+        id: 'cm-10',
+        fullName: 'TS. Lê Hoàng Nam',
+        academicTitle: 'Tiến sĩ',
+        roleInCouncil: 'UY_VIEN_PHAN_BIEN_1',
+        workUnit: 'Khoa Công nghệ thông tin',
+        email: 'truongkhoa@gmail.com',
+        phone: '0903 111 222'
+      },
+      {
+        id: 'cm-11',
+        fullName: 'TS. Vũ Minh Tuấn',
+        academicTitle: 'Tiến sĩ',
+        roleInCouncil: 'UY_VIEN_PHAN_BIEN_2',
+        workUnit: 'Viện Nghiên cứu & Ứng dụng',
+        email: 'hoidong@gmail.com',
+        phone: '0912 666 777'
+      },
+      {
+        id: 'cm-12',
+        fullName: 'ThS. Nguyễn Thị Thu',
+        academicTitle: 'Thạc sĩ Quản lý KHCN',
+        roleInCouncil: 'THU_KY',
+        workUnit: 'Phòng Khoa học & Công nghệ',
+        email: 'pkhcn@gmail.com',
+        phone: '0909 888 999'
+      }
+    ],
+    assignedProposalIds: ['prop-gv-04', 'prop-gv-05']
+  }
+];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -1195,6 +1365,9 @@ export class NckhDataService {
   private proposalsSubject: BehaviorSubject<TopicProposal[]>;
   public proposals$: Observable<TopicProposal[]>;
 
+  private councilsSubject: BehaviorSubject<ScientificCouncil[]>;
+  public councils$: Observable<ScientificCouncil[]>;
+
   constructor() {
     // Load currentUser
     const savedUser = sessionStorage.getItem('currentUserProfile');
@@ -1207,6 +1380,12 @@ export class NckhDataService {
     const initialRounds: RegistrationRound[] = savedRounds ? JSON.parse(savedRounds) : INITIAL_ROUNDS;
     this.roundsSubject = new BehaviorSubject<RegistrationRound[]>(initialRounds);
     this.rounds$ = this.roundsSubject.asObservable();
+
+    // Load Councils
+    const savedCouncils = localStorage.getItem('nckh_councils');
+    const initialCouncils: ScientificCouncil[] = savedCouncils ? JSON.parse(savedCouncils) : INITIAL_COUNCILS;
+    this.councilsSubject = new BehaviorSubject<ScientificCouncil[]>(initialCouncils);
+    this.councils$ = this.councilsSubject.asObservable();
 
     // Load Proposals (Luôn đồng bộ với bộ 5 giai đoạn mới nhất)
     const savedProposals = localStorage.getItem('nckh_proposals');
@@ -1638,11 +1817,82 @@ export class NckhDataService {
     return true;
   }
 
+  // --- SCIENTIFIC COUNCIL CRUD ---
+  public getCouncils(): ScientificCouncil[] {
+    return this.councilsSubject.value;
+  }
+
+  public getCouncilById(id: string): ScientificCouncil | undefined {
+    return this.councilsSubject.value.find(c => c.id === id);
+  }
+
+  public saveCouncils(councils: ScientificCouncil[]) {
+    localStorage.setItem('nckh_councils', JSON.stringify(councils));
+    this.councilsSubject.next(councils);
+  }
+
+  public createCouncil(data: Partial<ScientificCouncil>): ScientificCouncil {
+    const current = this.councilsSubject.value;
+    const newCouncil: ScientificCouncil = {
+      id: `council-${Date.now()}`,
+      code: data.code || `HĐ-${new Date().getFullYear()}-${current.length + 1}`,
+      name: data.name || 'Hội đồng Khoa học Đánh giá Đề tài NCKH',
+      councilType: data.councilType || 'XET_DUYET_HO_SO',
+      roundId: data.roundId,
+      roundName: data.roundName,
+      faculty: data.faculty || 'Khoa Công nghệ thông tin',
+      decisionNumber: data.decisionNumber || `${Math.floor(100 + Math.random() * 900)}/QĐ-ĐHNT-KHCN`,
+      decisionDate: data.decisionDate || new Date().toISOString().split('T')[0],
+      meetingDate: data.meetingDate || new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0] + ' 08:30',
+      meetingLocation: data.meetingLocation || 'Phòng Hội thảo A204',
+      status: data.status || 'DA_BAN_HANH',
+      members: data.members || [],
+      assignedProposalIds: data.assignedProposalIds || [],
+      notes: data.notes || ''
+    };
+
+    const updated = [newCouncil, ...current];
+    this.saveCouncils(updated);
+    return newCouncil;
+  }
+
+  public updateCouncil(id: string, data: Partial<ScientificCouncil>): boolean {
+    const current = this.councilsSubject.value;
+    const idx = current.findIndex(c => c.id === id);
+    if (idx === -1) return false;
+
+    current[idx] = { ...current[idx], ...data };
+    this.saveCouncils([...current]);
+    return true;
+  }
+
+  public deleteCouncil(id: string): boolean {
+    const current = this.councilsSubject.value;
+    const updated = current.filter(c => c.id !== id);
+    this.saveCouncils(updated);
+    return true;
+  }
+
+  public assignProposalsToCouncil(councilId: string, proposalIds: string[]): boolean {
+    const current = this.councilsSubject.value;
+    const idx = current.findIndex(c => c.id === councilId);
+    if (idx === -1) return false;
+
+    const council = current[idx];
+    const uniqueIds = Array.from(new Set([...(council.assignedProposalIds || []), ...proposalIds]));
+    council.assignedProposalIds = uniqueIds;
+    current[idx] = { ...council };
+    this.saveCouncils([...current]);
+    return true;
+  }
+
   // Reset dữ liệu demo về ban đầu
   public resetToDefaultData() {
     localStorage.removeItem('nckh_rounds');
     localStorage.removeItem('nckh_proposals');
+    localStorage.removeItem('nckh_councils');
     this.roundsSubject.next(INITIAL_ROUNDS);
     this.proposalsSubject.next(INITIAL_PROPOSALS);
+    this.councilsSubject.next(INITIAL_COUNCILS);
   }
 }

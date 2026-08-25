@@ -169,6 +169,37 @@ export interface TopicProposal {
   submittedAt?: string;
   reviewedAt?: string;
   reviewerName?: string;
-  
   auditLogs: AuditHistoryLog[];
+}
+
+export type CouncilType = 'XET_DUYET_HO_SO' | 'XET_DUYET_THUYET_MINH' | 'NGHIEM_THU';
+export type CouncilRole = 'CHU_TICH' | 'PHO_CHU_TICH' | 'UY_VIEN_PHAN_BIEN_1' | 'UY_VIEN_PHAN_BIEN_2' | 'UY_VIEN' | 'THU_KY';
+export type CouncilStatus = 'DANG_THANH_LAP' | 'DA_BAN_HANH' | 'DANG_HOP' | 'DA_HOAN_THANH';
+
+export interface CouncilMember {
+  id: string;
+  fullName: string;
+  academicTitle?: string;
+  roleInCouncil: CouncilRole;
+  workUnit: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface ScientificCouncil {
+  id: string;
+  code: string;
+  name: string;
+  councilType: CouncilType;
+  roundId?: string;
+  roundName?: string;
+  faculty: string;
+  decisionNumber: string;
+  decisionDate: string;
+  meetingDate?: string;
+  meetingLocation?: string;
+  status: CouncilStatus;
+  members: CouncilMember[];
+  assignedProposalIds: string[];
+  notes?: string;
 }

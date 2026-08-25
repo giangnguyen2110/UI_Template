@@ -536,7 +536,7 @@
                 </tr>
               </thead>
               <tbody>
-                @for (p of proposals.slice(0, 5); track p.id) {
+                @for (p of pagedDashboardProposals; track p.id) {
                   <tr>
                     <td>
                       <a [routerLink]="['/nckh/chi-tiet', p.id]" class="fw-semibold text-truncate d-inline-block fs-13" style="max-width: 280px;">
@@ -559,6 +559,38 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Phân trang 5 hồ sơ / trang -->
+          @if (proposals.length > 0) {
+            <div class="card-footer py-2 px-3 bg-light border-top">
+              <div class="row g-2 text-center text-sm-start align-items-center">
+                <div class="col-sm-6">
+                  <div class="text-muted fs-12">
+                    Hiển thị <span class="fw-semibold">{{ (dashboardProposalPage - 1) * dashboardProposalPageSize + 1 }}</span> đến <span class="fw-semibold">{{ Math.min(dashboardProposalPage * dashboardProposalPageSize, proposals.length) }}</span> trên tổng số <span class="fw-semibold">{{ proposals.length }}</span> hồ sơ
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <ul class="pagination pagination-sm pagination-separated justify-content-center justify-content-sm-end mb-0">
+                    <li class="page-item" [class.disabled]="dashboardProposalPage === 1">
+                      <a href="javascript:void(0);" class="page-link" (click)="setDashboardProposalPage(dashboardProposalPage - 1)">
+                        <i class="ri-arrow-left-s-line me-1"></i>Trước
+                      </a>
+                    </li>
+                    @for (pNum of dashboardProposalPages; track pNum) {
+                      <li class="page-item" [class.active]="dashboardProposalPage === pNum">
+                        <a href="javascript:void(0);" class="page-link" (click)="setDashboardProposalPage(pNum)">{{ pNum }}</a>
+                      </li>
+                    }
+                    <li class="page-item" [class.disabled]="dashboardProposalPage >= totalDashboardProposalPages">
+                      <a href="javascript:void(0);" class="page-link" (click)="setDashboardProposalPage(dashboardProposalPage + 1)">
+                        Sau<i class="ri-arrow-right-s-line ms-1"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
         </div>
       </div>
     </div>

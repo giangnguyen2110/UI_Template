@@ -19,6 +19,34 @@ export class NckhDashboardComponent implements OnInit {
 
   activeQuota = 0; // Đề tài đang đợi xử lý của người dùng (tối đa 2)
 
+  // Phân trang danh sách hồ sơ (5 hồ sơ / trang)
+  dashboardProposalPage = 1;
+  dashboardProposalPageSize = 5;
+  readonly Math = Math;
+
+  get pagedDashboardProposals(): TopicProposal[] {
+    const startIndex = (this.dashboardProposalPage - 1) * this.dashboardProposalPageSize;
+    return this.proposals.slice(startIndex, startIndex + this.dashboardProposalPageSize);
+  }
+
+  get totalDashboardProposalPages(): number {
+    return Math.ceil(this.proposals.length / this.dashboardProposalPageSize) || 1;
+  }
+
+  get dashboardProposalPages(): number[] {
+    const total = this.totalDashboardProposalPages;
+    const res: number[] = [];
+    for (let i = 1; i <= total; i++) {
+      res.push(i);
+    }
+    return res;
+  }
+
+  setDashboardProposalPage(p: number) {
+    if (p < 1 || p > this.totalDashboardProposalPages) return;
+    this.dashboardProposalPage = p;
+  }
+
   // Danh mục Tin tức & Bài viết mới
   newsArticles = [
     {
