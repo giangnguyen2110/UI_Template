@@ -58,7 +58,8 @@
   </div>
 }
 
-<!-- Workflow Navigation 9 Steps (PRD Process) -->
+<!-- Workflow Navigation 9 Steps (PRD Process - CHỈ DÀNH CHO GIẢNG VIÊN & SINH VIÊN) -->
+@if (currentUser && (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN')) {
 <div class="row mb-3">
   <div class="col-12">
     <div class="card shadow-sm">
@@ -115,6 +116,7 @@
     </div>
   </div>
 </div>
+}
 
 <!-- ========================================================================= -->
 <!-- PHASE 1: BƯỚC 01 - HỒ SƠ ĐĂNG KÝ BM01A/BM01B & THẨM ĐỊNH TUYẾN ĐẦU       -->
