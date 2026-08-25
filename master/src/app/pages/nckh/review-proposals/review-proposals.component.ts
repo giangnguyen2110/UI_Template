@@ -35,24 +35,71 @@ export class ReviewProposalsComponent implements OnInit {
   pageSize = 5;
   readonly Math = Math;
 
-  // --- MODAL HÀNH ĐỘNG P.KHCN THEO TỪNG BƯỚC QUY TRÌNH ---
-  actionTargetProposal?: TopicProposal;
-  currentActionType: string = '';
-  actionTitle: string = '';
-  actionDescription: string = '';
-  actionConfirmText: string = 'Xác nhận thực hiện';
-  actionIcon: string = 'ri-checkbox-circle-line';
-  actionBtnClass: string = 'btn-primary';
+  // --- BIẾN PHỤC VỤ MODAL XEM BIỂU MẪU HÀNH CHÍNH & QUYẾT ĐỊNH ---
+  selectedProposalForBm?: TopicProposal;
+  previewBmCode: string = 'BM01A';
 
-  // Form fields trong Modal hành động PKHCN
-  actionDocNumber: string = '';
-  actionDocDate: string = '';
-  actionSigner: string = 'Hiệu trưởng Trường Đại học Công nghệ Đồng Nai';
-  actionCouncilName: string = '';
-  actionLocation: string = 'Phòng Hội thảo A204 - Tòa nhà Trung tâm DNTU';
-  actionMeetingDate: string = '';
-  actionNotes: string = '';
-  finalizeChoice: 'TRIEN_KHAI_UNG_DUNG' | 'LUU_HO_SO' = 'TRIEN_KHAI_UNG_DUNG';
+  // Mock dữ liệu biểu mẫu nâng cao cho preview
+  mockBm04 = {
+    overviewDomestic: 'Các nghiên cứu trong nước về trí tuệ nhân tạo và xử lý dữ liệu y tế chủ yếu sử dụng CNN truyền thống với độ chính xác trung bình 85-88%.',
+    overviewAbroad: 'Xu hướng quốc tế ứng dụng Vision Transformer kết hợp dữ liệu đa trung tâm giúp đạt độ chính xác trên 94%.',
+    researchMethodsDetail: 'Transfer Learning trên mô hình ViT tiền huấn luyện, hàm mất mát Focal Loss và tối ưu hóa TensorRT.',
+    implementationPlan: [
+      { month: 'Tháng 01 - 03', content: 'Thu thập và tiền xử lý bộ dữ liệu 5.000 ảnh y tế chuẩn hóa', outcome: 'Dataset ảnh gán nhãn y khoa' },
+      { month: 'Tháng 04 - 08', content: 'Thiết kế mô hình Transformer và thử nghiệm huấn luyện trên GPU', outcome: 'Model AI đạt độ chính xác > 92%' },
+      { month: 'Tháng 09 - 12', content: 'Đóng gói REST API, lập trình Web demo và viết báo cáo tổng kết', outcome: '01 Web App demo & 01 Bài báo Scopus' }
+    ],
+    budgetItems: [
+      { category: '1. Thù lao nghiên cứu chuyên môn & phân tích dữ liệu', amount: 18000000 },
+      { category: '2. Thu thập, chuẩn hóa mẫu dữ liệu y tế', amount: 6000000 },
+      { category: '3. Thuê máy chủ tính toán GPU huấn luyện', amount: 5000000 },
+      { category: '4. Chi phí đăng bài báo trên Tạp chí chuyên ngành', amount: 4000000 },
+      { category: '5. Văn phòng phẩm & hội thảo nghiệm thu', amount: 2000000 }
+    ]
+  };
+
+  mockBm08 = {
+    progressPercent: 65,
+    completedContents: 'Đã hoàn thành thu thập dữ liệu 5.000 ảnh y tế và huấn luyện mô hình Vision Transformer cơ bản đạt độ chính xác thử nghiệm 89.5%.',
+    intermediateProducts: '01 Bộ dữ liệu ảnh y tế chuẩn hóa; 01 Bản thảo bài báo khoa học đã nộp cho Tạp chí chuyên ngành.',
+    budgetExpended: 22000000,
+    difficultiesAndRequests: 'Cần thêm thời gian tối ưu hóa tốc độ suy luận mô hình trên phần cứng nhúng.',
+    planNextPhase: 'Hoàn thiện module Web demo, đóng gói Docker API và tiến hành viết báo cáo tổng kết nghiệm thu.',
+    submittedAt: '15/03/2027 10:20',
+    deanApprovedAt: '16/03/2027 14:00'
+  };
+
+  mockBm09 = {
+    summaryContent: 'Đề tài đã hoàn thành xuất sắc các nội dung nghiên cứu theo thuyết minh BM04. Mô hình AI đạt độ chính xác 93.8% trên tập kiểm thử độc lập.',
+    productComparisons: [
+      { productType: 'Bài báo khoa học', planned: '01 bài báo tạp chí chuyên ngành', actual: '01 bài báo đăng trên Tạp chí Khoa học & Công nghệ', status: 'ĐẠT VƯỢT MỨC' },
+      { productType: 'Phần mềm Web Demo', planned: '01 Web demo phân loại ảnh', actual: '01 Hệ thống phần mềm Web hoàn chỉnh đóng gói Docker', status: 'ĐẠT' },
+      { productType: 'Báo cáo tổng kết', planned: '01 quyển báo cáo khoa học', actual: '01 quyển báo cáo tổng kết 92 trang kèm phụ lục mã nguồn', status: 'ĐẠT' }
+    ],
+    selfAssessment: 'Đạt loại Xuất sắc'
+  };
+
+  mockBm13 = {
+    explanationItems: [
+      { 
+        request: 'Bổ sung tài liệu hướng dẫn cài đặt phần mềm demo vào phụ lục', 
+        response: 'Đã bổ sung Phụ lục 3: Tài liệu hướng dẫn cài đặt và cấu hình Docker container chi tiết từng bước.' 
+      },
+      { 
+        request: 'Làm rõ hơn phần kết luận và hướng mở rộng nghiên cứu đa trung tâm', 
+        response: 'Đã cập nhật mục 5.2 tại trang 82-84 nêu rõ giải pháp mở rộng tập dữ liệu đa trung tâm.' 
+      }
+    ]
+  };
+
+  mockBm15 = {
+    decisionNumber: '350/QĐ-DNTU-KHCN',
+    decisionDate: '18/08/2027',
+    signer: 'Hiệu trưởng Trường Đại học Công nghệ Đồng Nai',
+    rank: 'Xuất sắc (92/100 điểm)',
+    rewardNotice: 'Khen thưởng Chủ nhiệm và Nhóm nghiên cứu theo Quy chế KHCN hiện hành',
+    certificateNumber: 'GCN-NCKH-2027-028'
+  };
 
   constructor(
     public nckhDataService: NckhDataService,
@@ -234,49 +281,107 @@ export class ReviewProposalsComponent implements OnInit {
     this.page = 1;
   }
 
-  canApproveOrReturn(p: TopicProposal): boolean {
-    if (this.isAllSchoolRoute) return false;
-    if (this.currentUser.role === 'ADMIN' || this.currentUser.role === 'P_KHCN') {
-      return p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_GVHD_DUYET' || p.status === 'CHO_DUYET_LAI';
+  // --- XÁC ĐỊNH MÃ VÀ TÊN BIỂU MẪU TƯƠNG ỨNG CỦA ĐỀ TÀI ---
+  getFormCodeForProposal(p: TopicProposal): { code: string; label: string; icon: string; btnClass: string } {
+    const s = p.status;
+    if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI'].includes(s)) {
+      const code = p.target === 'SINH_VIEN' ? 'BM01B' : 'BM01A';
+      return { code, label: `Xem ${code}`, icon: 'ri-file-text-line', btnClass: 'btn-soft-info' };
     }
-    if (this.currentUser.role === 'TRUONG_KHOA') {
-      return p.target === 'GIANG_VIEN' && (p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_DUYET_LAI') && p.faculty === this.currentUser.unit;
+    if (['CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO', 'DAT_XET_DUYET_HO_SO'].includes(s)) {
+      return { code: 'BM03', label: 'Xem BM02/03', icon: 'ri-file-list-3-line', btnClass: 'btn-soft-primary' };
     }
-    if (this.currentUser.role === 'GIANG_VIEN_HD') {
-      return p.target === 'SINH_VIEN' && p.status === 'CHO_GVHD_DUYET' && (p.advisorId === this.currentUser.id || p.advisorEmail === this.currentUser.email);
+    if (['CHO_NOP_THUYET_MINH', 'DANG_XET_DUYET_THUYET_MINH'].includes(s)) {
+      const code = p.target === 'SINH_VIEN' ? 'BM04B' : 'BM04A';
+      return { code, label: `Xem ${code}`, icon: 'ri-article-line', btnClass: 'btn-soft-info' };
     }
-    return false;
+    if (s === 'DANG_THUC_HIEN') {
+      return { code: 'BM08', label: 'Xem BM08', icon: 'ri-file-chart-line', btnClass: 'btn-soft-warning' };
+    }
+    if (s === 'YEU_CAU_CHINH_SUA_NGHIEM_THU') {
+      return { code: 'BM13', label: 'Xem BM13', icon: 'ri-file-edit-line', btnClass: 'btn-soft-warning' };
+    }
+    if (['CHO_NGHIEM_THU', 'DANG_NGHIEM_THU', 'DA_NGHIEM_THU', 'HOAN_TAT_BUOC_07'].includes(s)) {
+      return { code: 'BM09', label: 'Xem BM09', icon: 'ri-book-open-line', btnClass: 'btn-soft-danger' };
+    }
+    if (['DA_CONG_NHAN_KET_QUA', 'LUU_HO_SO', 'TRIEN_KHAI_UNG_DUNG'].includes(s)) {
+      return { code: 'BM15', label: 'Xem BM15', icon: 'ri-award-line', btnClass: 'btn-soft-success' };
+    }
+    return { code: 'BM01A', label: 'Xem BM01', icon: 'ri-file-text-line', btnClass: 'btn-soft-primary' };
   }
 
-  openDetailModal(content: TemplateRef<any>, prop: TopicProposal) {
-    this.selectedProposal = prop;
-    this.modalService.open(content, { size: 'lg', centered: true });
+  // --- MỞ MODAL XEM BIỂU MẪU HÀNH CHÍNH & RA QUYẾT ĐỊNH CHO P.KHCN ---
+  openBmModal(content: TemplateRef<any>, prop: TopicProposal) {
+    this.selectedProposalForBm = prop;
+    this.previewBmCode = this.getFormCodeForProposal(prop).code;
+    this.modalService.open(content, { size: 'xl', centered: true, scrollable: true });
   }
 
-  openReturnModal(content: TemplateRef<any>, prop: TopicProposal) {
-    this.selectedProposal = prop;
-    this.returnReason = '';
-    this.modalService.open(content, { centered: true });
-  }
-
-  openApproveModal(content: TemplateRef<any>, prop: TopicProposal) {
-    this.selectedProposal = prop;
-    this.approvalNote = '';
-    this.modalService.open(content, { centered: true });
-  }
-
-  confirmApprove() {
-    if (!this.selectedProposal) return;
-    const ok = this.nckhDataService.approveProposal(this.selectedProposal.id, this.approvalNote);
+  // --- CÁC HÀNH ĐỘNG QUYẾT ĐỊNH TRỰC TIẾP TRONG MODAL BIỂU MẪU CHO P.KHCN ---
+  quickApproveFromBmModal() {
+    if (!this.selectedProposalForBm) return;
+    const ok = this.nckhDataService.approveProposal(this.selectedProposalForBm.id, 'P.KHCN đã xem biểu mẫu và phê duyệt hồ sơ.');
     this.modalService.dismissAll();
     if (ok) {
       this.alertType = 'success';
-      this.alertMessage = `Đã duyệt thành công đề tài "${this.selectedProposal.title}". Hồ sơ đã tự động chuyển sang tập xét duyệt Hội đồng Bước 02!`;
-    } else {
-      this.alertType = 'danger';
-      this.alertMessage = 'Duyệt hồ sơ không thành công.';
+      this.alertMessage = `P.KHCN đã phê duyệt hồ sơ "${this.selectedProposalForBm.title}" sau khi xem biểu mẫu!`;
     }
     setTimeout(() => { this.alertMessage = ''; }, 6000);
+  }
+
+  quickReceiveBm08FromModal() {
+    if (!this.selectedProposalForBm) return;
+    this.nckhDataService.updateProposal(this.selectedProposalForBm.id, {
+      status: 'DANG_THUC_HIEN',
+      statusText: 'Đã tiếp nhận Báo cáo tiến độ ½ thời gian (BM08)'
+    });
+    this.modalService.dismissAll();
+    this.alertType = 'success';
+    this.alertMessage = `P.KHCN đã xác nhận và tiếp nhận Báo cáo tiến độ BM08 cho đề tài "${this.selectedProposalForBm.title}"!`;
+    setTimeout(() => { this.alertMessage = ''; }, 6000);
+  }
+
+  quickApproveBm13FromModal() {
+    if (!this.selectedProposalForBm) return;
+    this.nckhDataService.updateProposal(this.selectedProposalForBm.id, {
+      status: 'DA_NGHIEM_THU',
+      statusText: 'Đã xác nhận giải trình BM13 & Đạt nghiệm thu'
+    });
+    this.modalService.dismissAll();
+    this.alertType = 'success';
+    this.alertMessage = `P.KHCN đã xác nhận hoàn tất Báo cáo Giải trình BM13 cho đề tài "${this.selectedProposalForBm.title}"!`;
+    setTimeout(() => { this.alertMessage = ''; }, 6000);
+  }
+
+  quickNoticeBm14FromModal() {
+    if (!this.selectedProposalForBm) return;
+    this.nckhDataService.updateProposal(this.selectedProposalForBm.id, {
+      status: 'HOAN_TAT_BUOC_07',
+      statusText: 'Đã thanh lý hợp đồng (BM14) - Chờ công nhận kết quả'
+    });
+    this.modalService.dismissAll();
+    this.alertType = 'success';
+    this.alertMessage = `P.KHCN đã phát thông báo Thanh lý Hợp đồng BM14 cho đề tài "${this.selectedProposalForBm.title}"!`;
+    setTimeout(() => { this.alertMessage = ''; }, 6000);
+  }
+
+  quickNoticeBm15FromModal() {
+    if (!this.selectedProposalForBm) return;
+    this.nckhDataService.updateProposal(this.selectedProposalForBm.id, {
+      status: 'DA_CONG_NHAN_KET_QUA',
+      statusText: 'Đã công nhận kết quả đề tài (BM15)'
+    });
+    this.modalService.dismissAll();
+    this.alertType = 'success';
+    this.alertMessage = `P.KHCN đã công bố Quyết định Công nhận kết quả BM15 cho đề tài "${this.selectedProposalForBm.title}"!`;
+    setTimeout(() => { this.alertMessage = ''; }, 6000);
+  }
+
+  openReturnModalFromBmModal(returnModalRef: TemplateRef<any>) {
+    this.selectedProposal = this.selectedProposalForBm;
+    this.returnReason = '';
+    this.modalService.dismissAll();
+    this.modalService.open(returnModalRef, { centered: true });
   }
 
   confirmReturn() {
@@ -295,178 +400,6 @@ export class ReviewProposalsComponent implements OnInit {
       this.alertType = 'danger';
       this.alertMessage = 'Trả hồ sơ không thành công.';
     }
-    setTimeout(() => { this.alertMessage = ''; }, 6000);
-  }
-
-  // --- MỞ MODAL HÀNH ĐỘNG DÀNH CHO P.KHCN ---
-  openActionModal(content: TemplateRef<any>, prop: TopicProposal, actionType: string) {
-    this.actionTargetProposal = prop;
-    this.currentActionType = actionType;
-    this.actionNotes = '';
-
-    const today = new Date().toISOString().split('T')[0];
-    this.actionDocDate = today;
-
-    switch (actionType) {
-      case 'PUBLISH_B02':
-        this.actionTitle = 'Công bố Kết quả Họp Hội đồng Xét duyệt sơ bộ (BM03)';
-        this.actionDescription = 'Phòng KHCN công bố Biên bản họp BM03 đã ký duyệt, phê duyệt hồ sơ đạt yêu cầu để Chủ nhiệm tiến hành viết Thuyết minh BM04.';
-        this.actionConfirmText = 'Công bố kết quả BM03';
-        this.actionIcon = 'ri-megaphone-line';
-        this.actionBtnClass = 'btn-success';
-        this.actionNotes = 'Hội đồng nhất trí thông qua hồ sơ đăng ký đề tài NCKH (Đạt 100% phiếu thuận).';
-        break;
-
-      case 'NOTICE_BM05':
-        this.actionTitle = 'Phát thông báo Quyết định Giao nhiệm vụ & Hợp đồng NCKH (BM05)';
-        this.actionDescription = 'P.KHCN công bố thông báo Quyết định của Ban Giám hiệu đã ký ban hành bên ngoài và ký kết Hợp đồng NCKH để Chủ nhiệm bắt đầu thực hiện đề tài.';
-        this.actionConfirmText = 'Phát thông báo QĐ BM05';
-        this.actionDocNumber = '128/QĐ-DNTU-KHCN';
-        this.actionIcon = 'ri-file-shield-2-line';
-        this.actionBtnClass = 'btn-primary';
-        this.actionNotes = 'Đã hoàn tất thủ tục ký kết Hợp đồng NCKH và ban hành Quyết định giao nhiệm vụ cấp Trường.';
-        break;
-
-      case 'PUBLISH_B04':
-        this.actionTitle = 'Công bố Kết quả Xét duyệt Thuyết minh Đề cương (BM07)';
-        this.actionDescription = 'Phòng KHCN công bố kết quả đánh giá Thuyết minh đề cương BM04 từ Biên bản họp Hội đồng BM07.';
-        this.actionConfirmText = 'Công bố kết quả BM07';
-        this.actionIcon = 'ri-megaphone-line';
-        this.actionBtnClass = 'btn-success';
-        this.actionNotes = 'Thuyết minh đề tài đạt loại Tốt, đủ điều kiện triển khai nghiên cứu chính thức.';
-        break;
-
-      case 'RECEIVE_BM08':
-        this.actionTitle = 'Xác nhận Tiếp nhận Báo cáo Tiến độ ½ Thời gian (BM08)';
-        this.actionDescription = 'Phòng KHCN ghi nhận và phê duyệt báo cáo tiến độ giữa kỳ đã qua xác nhận của Trưởng Khoa.';
-        this.actionConfirmText = 'Xác nhận tiếp nhận BM08';
-        this.actionIcon = 'ri-inbox-archive-line';
-        this.actionBtnClass = 'btn-info';
-        this.actionNotes = 'Đã kiểm tra khối lượng công việc hoàn thành đạt tiến độ và kinh phí giải ngân hợp lệ.';
-        break;
-
-      case 'PUBLISH_B07':
-        this.actionTitle = 'Công bố Kết quả Đánh giá Nghiệm thu Đề tài (BM12)';
-        this.actionDescription = 'Phòng KHCN công bố kết quả nghiệm thu chính thức từ Hội đồng theo Biên bản BM12.';
-        this.actionConfirmText = 'Công bố kết quả BM12';
-        this.actionIcon = 'ri-megaphone-line';
-        this.actionBtnClass = 'btn-success';
-        this.actionNotes = 'Đề tài được Hội đồng nghiệm thu đánh giá Đạt loại Xuất sắc.';
-        break;
-
-      case 'APPROVE_BM13':
-        this.actionTitle = 'Xác nhận Báo cáo Giải trình & Chỉnh sửa sau Nghiệm thu (BM13)';
-        this.actionDescription = 'Phòng KHCN kiểm tra và xác nhận Chủ nhiệm đã hoàn thành tiếp thu giải trình đầy đủ các góp ý của Hội đồng Nghiệm thu.';
-        this.actionConfirmText = 'Xác nhận hoàn tất BM13';
-        this.actionIcon = 'ri-check-double-line';
-        this.actionBtnClass = 'btn-warning';
-        this.actionNotes = 'Chủ nhiệm đã bổ sung đầy đủ phụ lục hướng dẫn và chỉnh sửa báo cáo tổng kết theo kết luận BM12.';
-        break;
-
-      case 'NOTICE_BM14':
-        this.actionTitle = 'Phát thông báo Biên bản Thanh lý Hợp đồng NCKH (BM14)';
-        this.actionDescription = 'P.KHCN công bố thông báo Biên bản Thanh lý Hợp đồng đã hoàn thành 100% nghĩa vụ và bàn giao sản phẩm.';
-        this.actionConfirmText = 'Phát thông báo Thanh lý BM14';
-        this.actionDocNumber = 'TLHĐ-2027-042';
-        this.actionIcon = 'ri-file-text-line';
-        this.actionBtnClass = 'btn-secondary';
-        this.actionNotes = 'Đã bàn giao đầy đủ sản phẩm khoa học, bài báo và quyết toán kinh phí.';
-        break;
-
-      case 'NOTICE_BM15':
-        this.actionTitle = 'Công bố Quyết định Công nhận Kết quả Đề tài NCKH (BM15)';
-        this.actionDescription = 'Phòng KHCN công bố Quyết định của Hiệu trưởng công nhận kết quả đề tài, khen thưởng và cấp Giấy chứng nhận.';
-        this.actionConfirmText = 'Công bố QĐ BM15';
-        this.actionDocNumber = '350/QĐ-DNTU-KHCN';
-        this.actionIcon = 'ri-award-line';
-        this.actionBtnClass = 'btn-primary';
-        this.actionNotes = 'Công nhận kết quả nghiên cứu loại Xuất sắc và cấp Giấy chứng nhận hoàn thành nhiệm vụ NCKH.';
-        break;
-
-      case 'FINALIZE':
-        this.actionTitle = 'Cập nhật Trạng thái Kết thúc Vòng đời Đề tài (Bước 09)';
-        this.actionDescription = 'Chọn phương án triển khai ứng dụng thực tế vào giảng dạy/chuyển giao hoặc hoàn tất đóng gói hồ sơ lưu trữ.';
-        this.actionConfirmText = 'Cập nhật kết thúc';
-        this.actionIcon = 'ri-folder-zip-line';
-        this.actionBtnClass = 'btn-success';
-        break;
-    }
-
-    this.modalService.open(content, { size: 'lg', centered: true });
-  }
-
-  // --- XÁC NHẬN THỰC HIỆN HÀNH ĐỘNG PKHCN ---
-  confirmPkhcnAction() {
-    if (!this.actionTargetProposal) return;
-    const propId = this.actionTargetProposal.id;
-    let nextStatus: TopicStatus = this.actionTargetProposal.status;
-    let nextStatusText = this.actionTargetProposal.statusText || '';
-    let successMsg = '';
-
-    switch (this.currentActionType) {
-      case 'PUBLISH_B02':
-        nextStatus = 'DAT_XET_DUYET_HO_SO';
-        nextStatusText = 'Đạt xét duyệt sơ bộ hồ sơ (BM03)';
-        successMsg = `P.KHCN đã công bố kết quả xét duyệt sơ bộ BM03 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'NOTICE_BM05':
-        nextStatus = 'DANG_THUC_HIEN';
-        nextStatusText = 'Đã có QĐ Giao việc & Hợp đồng (BM05) - Đang thực hiện';
-        successMsg = `P.KHCN đã phát thông báo QĐ Giao nhiệm vụ & Hợp đồng BM05 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'PUBLISH_B04':
-        nextStatus = 'DANG_THUC_HIEN';
-        nextStatusText = 'Đã thông qua Thuyết minh (BM07) - Đang thực hiện';
-        successMsg = `P.KHCN đã công bố kết quả phê duyệt Thuyết minh BM07 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'RECEIVE_BM08':
-        nextStatus = 'DANG_THUC_HIEN';
-        nextStatusText = 'Đã tiếp nhận Báo cáo tiến độ ½ thời gian (BM08)';
-        successMsg = `P.KHCN đã tiếp nhận và ghi nhận Báo cáo tiến độ BM08 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'PUBLISH_B07':
-        nextStatus = 'DA_NGHIEM_THU';
-        nextStatusText = 'Đạt nghiệm thu đề tài (BM12)';
-        successMsg = `P.KHCN đã công bố kết quả nghiệm thu BM12 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'APPROVE_BM13':
-        nextStatus = 'DA_NGHIEM_THU';
-        nextStatusText = 'Đã xác nhận giải trình BM13 & Đạt nghiệm thu';
-        successMsg = `P.KHCN đã xác nhận hoàn tất Báo cáo Giải trình BM13 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'NOTICE_BM14':
-        nextStatus = 'HOAN_TAT_BUOC_07';
-        nextStatusText = 'Đã thanh lý hợp đồng (BM14) - Chờ công nhận kết quả';
-        successMsg = `P.KHCN đã phát thông báo Thanh lý Hợp đồng BM14 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'NOTICE_BM15':
-        nextStatus = 'DA_CONG_NHAN_KET_QUA';
-        nextStatusText = 'Đã công nhận kết quả đề tài (BM15)';
-        successMsg = `P.KHCN đã công bố Quyết định Công nhận kết quả BM15 cho đề tài "${this.actionTargetProposal.title}"!`;
-        break;
-
-      case 'FINALIZE':
-        nextStatus = this.finalizeChoice;
-        nextStatusText = this.finalizeChoice === 'TRIEN_KHAI_UNG_DUNG' ? 'Triển khai ứng dụng thực tế' : 'Lưu trữ hồ sơ hoàn tất';
-        successMsg = `P.KHCN đã cập nhật trạng thái kết thúc đề tài: ${nextStatusText}!`;
-        break;
-    }
-
-    this.nckhDataService.updateProposal(propId, {
-      status: nextStatus,
-      statusText: nextStatusText
-    });
-
-    this.modalService.dismissAll();
-    this.alertType = 'success';
-    this.alertMessage = successMsg;
     setTimeout(() => { this.alertMessage = ''; }, 6000);
   }
 

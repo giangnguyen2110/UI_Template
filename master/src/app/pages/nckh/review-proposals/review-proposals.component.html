@@ -195,70 +195,18 @@
                     </div>
                   </td>
                   <td class="text-center sticky-col-right">
-                    <div class="d-flex justify-content-center align-items-center gap-1 flex-wrap">
-                      <!-- Xem chi tiết -->
-                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary" title="Xem chi tiết hồ sơ">
-                        <i class="ri-eye-line"></i> Xem chi tiết
+                    <div class="d-flex justify-content-center align-items-center gap-2 flex-nowrap">
+                      <!-- 1. Nút Xem chi tiết -->
+                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary" title="Xem chi tiết hồ sơ đề tài">
+                        <i class="ri-eye-line me-1"></i> Xem chi tiết
                       </a>
 
-                      <!-- Nút Duyệt / Trả sửa tuyến đầu cho Khoa / GVHD -->
-                      @if (canApproveOrReturn(p)) {
-                        <button type="button" class="btn btn-sm btn-success waves-effect waves-light" (click)="openApproveModal(approveModal, p)" title="Duyệt hồ sơ đăng ký">
-                          <i class="ri-check-line me-1"></i> Duyệt
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-danger waves-effect" (click)="openReturnModal(returnModal, p)" title="Trả sửa hồ sơ">
-                          <i class="ri-arrow-go-back-line me-1"></i> Trả sửa
-                        </button>
-                      }
-
-                      <!-- CÁC NÚT HÀNH ĐỘNG KHỚP VỚI P.KHCN THEO TỪNG BƯỚC QUY TRÌNH -->
-                      @if (isPkhcnOrAdmin) {
-                        @if (p.status === 'CHO_HOI_DONG_XET_DUYET_HO_SO') {
-                          <a routerLink="/nckh/quan-ly-hoi-dong" class="btn btn-sm btn-soft-info" title="Lập Hội đồng & Cuộc họp xét duyệt sơ bộ">
-                            <i class="ri-user-settings-line me-1"></i> Lập HĐ B02
-                          </a>
-                        } @else if (p.status === 'DANG_XET_DUYET_HO_SO') {
-                          <button type="button" class="btn btn-sm btn-soft-success" (click)="openActionModal(actionModal, p, 'PUBLISH_B02')" title="Công bố kết quả Hội đồng Bước 02 (BM03)">
-                            <i class="ri-megaphone-line me-1"></i> Công bố BM03
-                          </button>
-                        } @else if (p.status === 'DAT_XET_DUYET_HO_SO' || p.status === 'CHO_NOP_THUYET_MINH') {
-                          <button type="button" class="btn btn-sm btn-soft-primary" (click)="openActionModal(actionModal, p, 'NOTICE_BM05')" title="Phát thông báo QĐ Giao việc & Hợp đồng (BM05)">
-                            <i class="ri-file-shield-2-line me-1"></i> Thông báo BM05
-                          </button>
-                        } @else if (p.status === 'DANG_XET_DUYET_THUYET_MINH') {
-                          <button type="button" class="btn btn-sm btn-soft-success" (click)="openActionModal(actionModal, p, 'PUBLISH_B04')" title="Công bố kết quả Thuyết minh (BM07)">
-                            <i class="ri-megaphone-line me-1"></i> Công bố BM07
-                          </button>
-                        } @else if (p.status === 'DANG_THUC_HIEN') {
-                          <button type="button" class="btn btn-sm btn-soft-info" (click)="openActionModal(actionModal, p, 'RECEIVE_BM08')" title="Ghi nhận tiếp nhận Báo cáo tiến độ ½ thời gian (BM08)">
-                            <i class="ri-inbox-archive-line me-1"></i> Tiếp nhận BM08
-                          </button>
-                        } @else if (p.status === 'CHO_NGHIEM_THU') {
-                          <a routerLink="/nckh/quan-ly-hoi-dong" class="btn btn-sm btn-soft-danger" title="Lập Hội đồng Đánh giá & Nghiệm thu đề tài (BM10)">
-                            <i class="ri-government-line me-1"></i> Lập HĐNT BM10
-                          </a>
-                        } @else if (p.status === 'DANG_NGHIEM_THU') {
-                          <button type="button" class="btn btn-sm btn-soft-success" (click)="openActionModal(actionModal, p, 'PUBLISH_B07')" title="Công bố kết quả Nghiệm thu đề tài (BM12)">
-                            <i class="ri-megaphone-line me-1"></i> Công bố BM12
-                          </button>
-                        } @else if (p.status === 'YEU_CAU_CHINH_SUA_NGHIEM_THU') {
-                          <button type="button" class="btn btn-sm btn-soft-warning" (click)="openActionModal(actionModal, p, 'APPROVE_BM13')" title="Xác nhận hoàn tất Báo cáo Giải trình sau nghiệm thu (BM13)">
-                            <i class="ri-check-double-line me-1"></i> Xác nhận BM13
-                          </button>
-                        } @else if (p.status === 'DA_NGHIEM_THU') {
-                          <button type="button" class="btn btn-sm btn-soft-secondary" (click)="openActionModal(actionModal, p, 'NOTICE_BM14')" title="Phát thông báo Biên bản Thanh lý Hợp đồng NCKH (BM14)">
-                            <i class="ri-file-text-line me-1"></i> Thanh lý BM14
-                          </button>
-                        } @else if (p.status === 'HOAN_TAT_BUOC_07') {
-                          <button type="button" class="btn btn-sm btn-soft-purple" (click)="openActionModal(actionModal, p, 'NOTICE_BM15')" title="Công bố Quyết định Công nhận kết quả đề tài (BM15)">
-                            <i class="ri-award-line me-1"></i> Công bố BM15
-                          </button>
-                        } @else if (p.status === 'DA_CONG_NHAN_KET_QUA') {
-                          <button type="button" class="btn btn-sm btn-soft-success" (click)="openActionModal(actionModal, p, 'FINALIZE')" title="Cập nhật kết thúc vòng đời đề tài">
-                            <i class="ri-folder-zip-line me-1"></i> Kết thúc đề tài
-                          </button>
-                        }
-                      }
+                      <!-- 2. Nút Xem biểu mẫu tương ứng ở bước đó -->
+                      <button type="button" class="btn btn-sm" [class]="getFormCodeForProposal(p).btnClass" 
+                              (click)="openBmModal(bmModal, p)" 
+                              title="Xem biểu mẫu chuẩn của đề tài ở giai đoạn hiện tại để xem xét và ra quyết định">
+                        <i [class]="getFormCodeForProposal(p).icon + ' me-1'"></i> {{ getFormCodeForProposal(p).label }}
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -304,113 +252,355 @@
   </div>
 </div>
 
-<!-- ================= MODAL HÀNH ĐỘNG DÀNH CHO P.KHCN ================= -->
-<ng-template #actionModal let-modal>
-  @if (actionTargetProposal) {
-    <div class="modal-header bg-light">
-      <h5 class="modal-title fs-14 fw-bold">
-        <i [class]="actionIcon + ' me-1 text-primary'"></i> {{ actionTitle }}
-      </h5>
+<!-- ========================================================================= -->
+<!-- MODAL XEM BIỂU MẪU HÀNH CHÍNH & RA QUYẾT ĐỊNH CHO P.KHCN                  -->
+<!-- ========================================================================= -->
+<ng-template #bmModal let-modal>
+  @if (selectedProposalForBm) {
+    <div class="modal-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary fs-12">Biểu mẫu: {{ previewBmCode }}</span>
+        <h5 class="modal-title fs-14 fw-bold text-dark mb-0">
+          Văn bản Hành chính - {{ selectedProposalForBm.title }}
+        </h5>
+      </div>
       <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
     </div>
-    <div class="modal-body p-4">
-      <!-- Thông tin đề tài -->
-      <div class="p-3 bg-light-subtle rounded border mb-3">
-        <div class="d-flex align-items-center justify-content-between mb-1">
-          <span class="badge bg-primary-subtle text-primary fs-11">Mã: {{ actionTargetProposal.code }}</span>
-          <span [class]="getStatusBadge(actionTargetProposal.status) + ' fs-11'">{{ actionTargetProposal.statusText }}</span>
+
+    <div class="modal-body p-4 bg-white" style="font-family: 'Times New Roman', Times, serif; color: #111;">
+      <!-- Header Văn bản Hành chính Chuẩn Nhà trường -->
+      <div class="row text-center mb-4 border-bottom pb-3">
+        <div class="col-5">
+          <div class="fs-13 fw-bold text-uppercase">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
+          <div class="fs-12 fw-semibold text-primary">PHÒNG KHOA HỌC & CÔNG NGHỆ</div>
+          <div class="fs-11 text-muted mt-1">Mã hồ sơ: <code>{{ selectedProposalForBm.code }}</code> (v{{ selectedProposalForBm.version }})</div>
         </div>
-        <h6 class="fs-13 fw-bold text-dark mb-1">{{ actionTargetProposal.title }}</h6>
-        <div class="text-muted fs-11">
-          Chủ nhiệm: <strong>{{ actionTargetProposal.authorName }}</strong> ({{ actionTargetProposal.faculty }})
+        <div class="col-7">
+          <div class="fs-13 fw-bold text-uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div class="fs-12 fw-semibold">Độc lập - Tự do - Hạnh phúc</div>
+          <div class="fs-11 text-muted fst-italic mt-1">Đồng Nai, ngày {{ selectedProposalForBm.startDateExpected || '... tháng ... năm 2026' }}</div>
         </div>
       </div>
 
-      <!-- Mô tả hành động -->
-      <div class="alert alert-info fs-12 mb-3">
-        <i class="ri-information-line me-1"></i> {{ actionDescription }}
+      <!-- Tên Biểu mẫu -->
+      <div class="text-center mb-4">
+        <h4 class="fw-bold text-uppercase text-dark mb-1">
+          @if (previewBmCode === 'BM01A' || previewBmCode === 'BM01B') {
+            ĐƠN ĐĂNG KÝ ĐỀ TÀI NGHIÊN CỨU KHOA HỌC CẤP TRƯỜNG
+          } @else if (previewBmCode === 'BM02' || previewBmCode === 'BM03') {
+            BIÊN BẢN HỌP HỘI ĐỒNG XÉT DUYỆT HỒ SƠ ĐỀ TÀI NCKH (BM03)
+          } @else if (previewBmCode === 'BM04A' || previewBmCode === 'BM04B') {
+            THUYẾT MINH ĐỀ CƯƠNG NGHIÊN CỨU & DỰ TOÁN KINH PHÍ CHI TIẾT ({{ previewBmCode }})
+          } @else if (previewBmCode === 'BM08') {
+            BÁO CÁO TIẾN ĐỘ THỰC HIỆN ĐỀ TÀI NCKH CẤP TRƯỜNG (½ THỜI GIAN)
+          } @else if (previewBmCode === 'BM09') {
+            BÁO CÁO TỔNG KẾT ĐỀ TÀI & ĐƠN ĐỀ NGHỊ NGHIỆM THU (BM09)
+          } @else if (previewBmCode === 'BM13') {
+            BÁO CÁO GIẢI TRÌNH & CHỈNH SỬA HỒ SƠ THEO GÓP Ý CỦA HỘI ĐỒNG NGHIỆM THU (BM13)
+          } @else if (previewBmCode === 'BM15') {
+            QUYẾT ĐỊNH CÔNG NHẬN KẾT QUẢ ĐỀ TÀI NCKH CẤP TRƯỜNG (BM15)
+          }
+        </h4>
+        <div class="fs-12 text-muted fw-bold">Mã biểu mẫu: {{ previewBmCode }}.QT.KHCN.02</div>
       </div>
 
-      <!-- Các trường nhập liệu tùy theo loại hành động -->
-      @if (currentActionType === 'NOTICE_BM05' || currentActionType === 'NOTICE_BM14' || currentActionType === 'NOTICE_BM15') {
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label class="form-label fs-12 fw-semibold">Số văn bản / Số Quyết định:</label>
-            <input type="text" class="form-control form-control-sm" [(ngModel)]="actionDocNumber">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label fs-12 fw-semibold">Ngày ký ban hành:</label>
-            <input type="date" class="form-control form-control-sm" [(ngModel)]="actionDocDate">
-          </div>
-          <div class="col-12">
-            <label class="form-label fs-12 fw-semibold">Cơ quan / Người ký ban hành:</label>
-            <input type="text" class="form-control form-control-sm" [(ngModel)]="actionSigner">
+      <!-- 1. THÔNG TIN CHUNG CỦA ĐỀ TÀI -->
+      <div class="p-3 bg-light rounded mb-3 fs-13" style="line-height: 1.8;">
+        <div><strong>1. Tên đề tài:</strong> <span class="text-primary fw-bold">{{ selectedProposalForBm.title }}</span></div>
+        <div class="row g-2 mt-1">
+          <div class="col-md-6"><strong>2. Chủ nhiệm:</strong> {{ selectedProposalForBm.authorName }} (Mã: <code>{{ selectedProposalForBm.authorIdentifierCode }}</code>)</div>
+          <div class="col-md-6"><strong>3. Đơn vị chủ quản:</strong> {{ selectedProposalForBm.faculty }}</div>
+          <div class="col-md-6"><strong>4. Lĩnh vực nghiên cứu:</strong> {{ selectedProposalForBm.field }}</div>
+          <div class="col-md-6"><strong>5. Tổng kinh phí:</strong> <strong class="text-danger">{{ selectedProposalForBm.budgetTotal | number }} VNĐ</strong></div>
+          <div class="col-md-6"><strong>6. Thời gian thực hiện:</strong> {{ selectedProposalForBm.durationMonths }} tháng</div>
+          <div class="col-md-6"><strong>7. Trạng thái hiện tại:</strong> <span class="badge bg-primary">{{ selectedProposalForBm.statusText }}</span></div>
+        </div>
+      </div>
+
+      <!-- 2. NỘI DUNG CHI TIẾT TÙY THEO BIỂU MẪU ĐÃ NỘP -->
+
+      <!-- A. NẾU LÀ BM01A / BM01B -->
+      @if (previewBmCode === 'BM01A' || previewBmCode === 'BM01B') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">I. TÍNH CẤP THIẾT & MỤC TIÊU NGHIÊN CỨU:</h6>
+          <p><strong>1. Tính cấp thiết:</strong> {{ selectedProposalForBm.necessity || 'Đề tài giải quyết bài toán ứng dụng chuyển đổi số và tối ưu hóa xử lý dữ liệu cho thực tiễn Nhà trường.' }}</p>
+          <p><strong>2. Mục tiêu nghiên cứu:</strong> {{ selectedProposalForBm.objectives || 'Xây dựng mô hình tính toán hiệu năng cao, đóng gói sản phẩm phần mềm thực nghiệm và công bố bài báo khoa học.' }}</p>
+
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">II. NỘI DUNG & SẢN PHẨM DỰ KIẾN:</h6>
+          <p><strong>1. Nội dung chính:</strong> {{ selectedProposalForBm.mainContents || 'Thu thập mẫu dữ liệu chuẩn hóa, phát triển thuật toán học sâu và thử nghiệm triển khai hệ thống.' }}</p>
+          <p><strong>2. Sản phẩm dự kiến:</strong> {{ selectedProposalForBm.expectedProducts || '01 Bài báo đăng trên Tạp chí chuyên ngành, 01 Phần mềm Web demo đóng gói Docker, 01 Báo cáo tổng kết.' }}</p>
+
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">III. THÀNH VIÊN NHÓM NGHIÊN CỨU:</h6>
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>STT</th>
+                  <th>Họ và tên</th>
+                  <th>Mã số</th>
+                  <th>Đơn vị</th>
+                  <th>Vai trò trong đề tài</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td><strong>{{ selectedProposalForBm.authorName }}</strong></td>
+                  <td>{{ selectedProposalForBm.authorIdentifierCode }}</td>
+                  <td>{{ selectedProposalForBm.faculty }}</td>
+                  <td>Chủ nhiệm đề tài</td>
+                </tr>
+                @for (mem of selectedProposalForBm.members; track mem.id; let idx = $index) {
+                  <tr>
+                    <td>{{ idx + 2 }}</td>
+                    <td>{{ mem.fullName }}</td>
+                    <td>{{ mem.identifierCode }}</td>
+                    <td>{{ mem.unit }}</td>
+                    <td>{{ mem.roleInProject }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
           </div>
         </div>
       }
 
-      @if (currentActionType === 'FINALIZE') {
-        <div class="mb-3">
-          <label class="form-label fs-12 fw-semibold">Lựa chọn kết thúc đề tài:</label>
-          <div class="d-flex gap-3">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="finalizeChoice" id="finalizeOpt1" [(ngModel)]="finalizeChoice" value="TRIEN_KHAI_UNG_DUNG">
-              <label class="form-check-label fs-13" for="finalizeOpt1">
-                <strong>Triển khai ứng dụng</strong> (Ứng dụng thực tiễn / Chuyển giao công nghệ)
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="finalizeChoice" id="finalizeOpt2" [(ngModel)]="finalizeChoice" value="LUU_HO_SO">
-              <label class="form-check-label fs-13" for="finalizeOpt2">
-                <strong>Lưu hồ sơ lưu trữ</strong> (Đóng gói lưu trữ theo quy định)
-              </label>
-            </div>
+      <!-- B. NẾU LÀ BM02 / BM03 (Xét duyệt sơ bộ) -->
+      @if (previewBmCode === 'BM02' || previewBmCode === 'BM03') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">KẾT QUẢ ĐÁNH GIÁ CỦA HỘI ĐỒNG XÉT DUYỆT SƠ BỘ:</h6>
+          <p><strong>1. Thời gian & Địa điểm:</strong> 08:30 ngày 05/09/2026 tại Phòng Hội thảo A204 - DNTU.</p>
+          <p><strong>2. Thành phần Hội đồng:</strong> PGS.TS. Trần Văn Hùng (Chủ tịch), TS. Lê Hoàng Nam (Phản biện), ThS. Đỗ Anh Khoa (Thư ký).</p>
+          <p><strong>3. Kết quả bỏ phiếu:</strong> <span class="badge bg-success fs-12">3/3 Phiếu ĐẠT (100% thành viên thông qua)</span></p>
+          <p><strong>4. Nhận xét chung:</strong> Hồ sơ có tính cấp thiết cao, phương pháp nghiên cứu rõ ràng, dự toán hợp lý theo quy chế Nhà trường. Nhất trí thông qua để Chủ nhiệm viết Thuyết minh đề cương BM04.</p>
+        </div>
+      }
+
+      <!-- C. NẾU LÀ BM04A / BM04B (Thuyết minh đề cương) -->
+      @if (previewBmCode === 'BM04A' || previewBmCode === 'BM04B') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">I. TỔNG QUAN TÌNH HÌNH NGHIÊN CỨU & PHƯƠNG PHÁP:</h6>
+          <p><strong>1. Trong nước:</strong> {{ mockBm04.overviewDomestic }}</p>
+          <p><strong>2. Ngoài nước:</strong> {{ mockBm04.overviewAbroad }}</p>
+          <p><strong>3. Phương pháp luận:</strong> {{ mockBm04.researchMethodsDetail }}</p>
+
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">II. KẾ HOẠCH TRIỂN KHAI CHI TIẾT THEO THÁNG:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 130px;">Thời gian</th>
+                  <th>Nội dung công việc</th>
+                  <th>Sản phẩm dự kiến</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (plan of mockBm04.implementationPlan; track $index) {
+                  <tr>
+                    <td><strong>{{ plan.month }}</strong></td>
+                    <td>{{ plan.content }}</td>
+                    <td>{{ plan.outcome }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">III. DỰ TOÁN PHÂN BỔ KINH PHÍ:</h6>
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Danh mục khoản chi</th>
+                  <th class="text-end" style="width: 160px;">Kinh phí (VNĐ)</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (b of mockBm04.budgetItems; track $index) {
+                  <tr>
+                    <td>{{ b.category }}</td>
+                    <td class="text-end fw-semibold">{{ b.amount | number }} đ</td>
+                  </tr>
+                }
+                <tr class="table-light">
+                  <td class="fw-bold text-uppercase">Tổng cộng dự toán:</td>
+                  <td class="text-end fw-bold text-danger">{{ selectedProposalForBm.budgetTotal | number }} đ</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       }
 
-      <div class="mb-3">
-        <label class="form-label fs-12 fw-semibold">Nội dung thông báo / Ghi chú của Phòng KHCN:</label>
-        <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="actionNotes" placeholder="Nhập nội dung ghi chú hoặc trích yếu..."></textarea>
+      <!-- D. NẾU LÀ BM08 (Báo cáo tiến độ) -->
+      @if (previewBmCode === 'BM08') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">KẾT QUẢ THỰC HIỆN ½ THỜI GIAN ĐỀ TÀI:</h6>
+          <div class="p-3 bg-light rounded mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-bold">Khối lượng công việc đã hoàn thành:</span>
+              <span class="badge bg-primary fs-13">{{ mockBm08.progressPercent }}% (Đạt tiến độ)</span>
+            </div>
+            <div class="progress progress-sm">
+              <div class="progress-bar bg-success" [style.width.%]="mockBm08.progressPercent"></div>
+            </div>
+          </div>
+          <p><strong>1. Nội dung đã thực hiện:</strong> {{ mockBm08.completedContents }}</p>
+          <p><strong>2. Sản phẩm trung gian đã đạt:</strong> {{ mockBm08.intermediateProducts }}</p>
+          <p><strong>3. Kinh phí đã giải ngân:</strong> {{ mockBm08.budgetExpended | number }} VNĐ / {{ selectedProposalForBm.budgetTotal | number }} VNĐ</p>
+          <p><strong>4. Khó khăn & Đề xuất:</strong> {{ mockBm08.difficultiesAndRequests }}</p>
+          <p><strong>5. Kế hoạch giai đoạn tiếp theo:</strong> {{ mockBm08.planNextPhase }}</p>
+        </div>
+      }
+
+      <!-- E. NẾU LÀ BM09 (Báo cáo tổng kết & Đơn nghiệm thu) -->
+      @if (previewBmCode === 'BM09') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">BÁO CÁO TỔNG KẾT ĐỀ TÀI & ĐỐI CHIẾU SẢN PHẨM:</h6>
+          <p><strong>1. Tóm tắt kết quả nghiên cứu:</strong> {{ mockBm09.summaryContent }}</p>
+          
+          <h6 class="fw-bold text-dark mt-3 mb-2">2. Bảng đối chiếu sản phẩm cam kết vs thực tế:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Loại sản phẩm</th>
+                  <th>Cam kết BM04</th>
+                  <th>Thực tế đạt được</th>
+                  <th>Đánh giá</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (sp of mockBm09.productComparisons; track $index) {
+                  <tr>
+                    <td><strong>{{ sp.productType }}</strong></td>
+                    <td>{{ sp.planned }}</td>
+                    <td>{{ sp.actual }}</td>
+                    <td><span class="badge bg-success">{{ sp.status }}</span></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <p><strong>3. Tự đánh giá của Chủ nhiệm:</strong> <span class="badge bg-success fs-12">{{ mockBm09.selfAssessment }}</span></p>
+          <p><strong>4. Đơn đề nghị:</strong> Kính đề nghị Nhà trường và Hội đồng tổ chức đánh giá nghiệm thu chính thức.</p>
+        </div>
+      }
+
+      <!-- F. NẾU LÀ BM13 (Báo cáo giải trình sau nghiệm thu) -->
+      @if (previewBmCode === 'BM13') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">BẢNG ĐỐI CHIẾU TIẾP THU & CHỈNH SỬA THEO GÓP Ý CỦA HỘI ĐỒNG:</h6>
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 45px;">STT</th>
+                  <th style="width: 40%;">Ý kiến đóng góp của Hội đồng (BM12)</th>
+                  <th>Nội dung đã chỉnh sửa & Giải trình (BM13)</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of mockBm13.explanationItems; track $index; let idx = $index) {
+                  <tr>
+                    <td class="text-center">{{ idx + 1 }}</td>
+                    <td><strong>{{ item.request }}</strong></td>
+                    <td>{{ item.response }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- G. NẾU LÀ BM15 (Quyết định công nhận kết quả) -->
+      @if (previewBmCode === 'BM15') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">NỘI DUNG QUYẾT ĐỊNH CÔNG NHẬN KẾT QUẢ NCKH:</h6>
+          <p><strong>1. Số Quyết định:</strong> <code>{{ mockBm15.decisionNumber }}</code> ngày {{ mockBm15.decisionDate }}</p>
+          <p><strong>2. Người ký ban hành:</strong> {{ mockBm15.signer }}</p>
+          <p><strong>3. Kết quả xếp loại:</strong> <span class="badge bg-success fs-13">{{ mockBm15.rank }}</span></p>
+          <p><strong>4. Số Giấy chứng nhận:</strong> <code>{{ mockBm15.certificateNumber }}</code></p>
+          <p><strong>5. Nội dung khen thưởng:</strong> {{ mockBm15.rewardNotice }}</p>
+        </div>
+      }
+
+      <!-- KHỐI CHỮ KÝ SỐ MÔ PHỎNG CHUẨN VĂN BẢN HÀNH CHÍNH -->
+      <div class="row text-center mt-5 pt-4 border-top">
+        <div class="col-6">
+          <div class="fw-bold fs-12 text-uppercase">TRƯỞNG ĐƠN VỊ / HỘI ĐỒNG</div>
+          <div class="text-muted fs-11 fst-italic">(Ký, ghi rõ họ tên)</div>
+          <div class="mt-4 pt-2">
+            <span class="badge bg-success-subtle text-success fs-11 border border-success p-2">
+              <i class="ri-shield-check-fill me-1"></i> ĐÃ KÝ SỐ XÁC THỰC ĐIỆN TỬ
+            </span>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="fw-bold fs-12 text-uppercase">CHỦ NHIỆM ĐỀ TÀI</div>
+          <div class="text-muted fs-11 fst-italic">(Ký, ghi rõ họ tên)</div>
+          <div class="mt-4 pt-2">
+            <span class="badge bg-primary-subtle text-primary fs-11 border border-primary p-2">
+              <i class="ri-quill-pen-line me-1"></i> {{ selectedProposalForBm.authorName }}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="modal-footer bg-light">
-      <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy</button>
-      <button type="button" class="btn btn-sm" [class]="actionBtnClass" (click)="confirmPkhcnAction()">
-        <i [class]="actionIcon + ' me-1'"></i> {{ actionConfirmText }}
-      </button>
+
+    <!-- MODAL FOOTER: IN TÀI LIỆU VÀ CÁC NÚT RA QUYẾT ĐỊNH CHO P.KHCN -->
+    <div class="modal-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+      <div>
+        <button type="button" class="btn btn-sm btn-outline-dark" onclick="window.print()">
+          <i class="ri-printer-line me-1"></i> In biểu mẫu / Xuất PDF
+        </button>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <!-- Quyết định Bước 01 -->
+        @if (selectedProposalForBm.status === 'CHO_KHOA_DUYET' || selectedProposalForBm.status === 'CHO_GVHD_DUYET' || selectedProposalForBm.status === 'CHO_DUYET_LAI') {
+          <button type="button" class="btn btn-sm btn-success" (click)="quickApproveFromBmModal()">
+            <i class="ri-check-line me-1"></i> Phê duyệt hồ sơ BM01
+          </button>
+          <button type="button" class="btn btn-sm btn-danger" (click)="openReturnModalFromBmModal(returnModal)">
+            <i class="ri-arrow-go-back-line me-1"></i> Yêu cầu chỉnh sửa
+          </button>
+        }
+
+        <!-- Quyết định Bước 06 (Tiếp nhận BM08) -->
+        @if (selectedProposalForBm.status === 'DANG_THUC_HIEN') {
+          <button type="button" class="btn btn-sm btn-info" (click)="quickReceiveBm08FromModal()">
+            <i class="ri-inbox-archive-line me-1"></i> Tiếp nhận Báo cáo BM08
+          </button>
+        }
+
+        <!-- Quyết định Bước 07 (Lập HĐNT hoặc Xác nhận BM13 hoặc Thanh lý BM14) -->
+        @if (selectedProposalForBm.status === 'CHO_NGHIEM_THU') {
+          <a routerLink="/nckh/quan-ly-hoi-dong" class="btn btn-sm btn-danger" (click)="modal.dismiss()">
+            <i class="ri-government-line me-1"></i> Lập Hội đồng Nghiệm thu (BM10)
+          </a>
+        }
+        @if (selectedProposalForBm.status === 'YEU_CAU_CHINH_SUA_NGHIEM_THU') {
+          <button type="button" class="btn btn-sm btn-warning" (click)="quickApproveBm13FromModal()">
+            <i class="ri-check-double-line me-1"></i> Xác nhận Báo cáo Giải trình BM13
+          </button>
+        }
+        @if (selectedProposalForBm.status === 'DA_NGHIEM_THU') {
+          <button type="button" class="btn btn-sm btn-secondary" (click)="quickNoticeBm14FromModal()">
+            <i class="ri-file-text-line me-1"></i> Phát thông báo Thanh lý BM14
+          </button>
+        }
+        @if (selectedProposalForBm.status === 'HOAN_TAT_BUOC_07') {
+          <button type="button" class="btn btn-sm btn-primary" (click)="quickNoticeBm15FromModal()">
+            <i class="ri-award-line me-1"></i> Công bố QĐ Công nhận KQ BM15
+          </button>
+        }
+
+        <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+      </div>
     </div>
   }
-</ng-template>
-
-<!-- ================= MODAL DUYỆT HỒ SƠ TUYẾN ĐẦU ================= -->
-<ng-template #approveModal let-modal>
-  <div class="modal-header bg-success-subtle">
-    <h5 class="modal-title fs-14 fw-bold text-success">
-      <i class="ri-check-double-line me-1"></i> Xác nhận Duyệt Hồ sơ Đề tài (Bước 01)
-    </h5>
-    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
-  </div>
-  <div class="modal-body p-4">
-    <p class="fs-13 mb-2">
-      Bạn đang thực hiện duyệt đề tài: <br>
-      <strong class="text-primary fs-14">{{ selectedProposal?.title }}</strong>
-    </p>
-    <div class="alert alert-info fs-12 mb-3">
-      <i class="ri-information-line me-1"></i> Sau khi duyệt, hồ sơ sẽ <strong>tự động chuyển vào tập đủ điều kiện lập Hội đồng xét duyệt Bước 02</strong> (PRD FR-20/FR-21). P.KHCN không cần thao tác tiếp nhận riêng.
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label fs-13 fw-semibold">Ghi chú phê duyệt (tùy chọn):</label>
-      <textarea class="form-control" rows="2" [(ngModel)]="approvalNote" placeholder="Nhập ý kiến hoặc ghi chú cho P.KHCN..."></textarea>
-    </div>
-  </div>
-  <div class="modal-footer bg-light">
-    <button type="button" class="btn btn-light" (click)="modal.dismiss()">Hủy</button>
-    <button type="button" class="btn btn-success waves-effect waves-light" (click)="confirmApprove()">
-      <i class="ri-check-line me-1"></i> Xác nhận Duyệt Hồ sơ
-    </button>
-  </div>
 </ng-template>
 
 <!-- ================= MODAL TRẢ CHỈNH SỬA ================= -->
