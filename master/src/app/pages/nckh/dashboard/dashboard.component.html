@@ -308,7 +308,8 @@
   }
 </div>
 
-<!-- ================= DÒNG THỜI GIAN 9 BƯỚC VÒNG ĐỜI NCKH ================= -->
+<!-- ================= DÒNG THỜI GIAN 9 BƯỚC VÒNG ĐỜI NCKH (CHỈ DÀNH CHO GIẢNG VIÊN & SINH VIÊN) ================= -->
+@if (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN') {
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -334,6 +335,7 @@
     </div>
   </div>
 </div>
+}
 
 <!-- ================= BẢNG TIN BÀI VIẾT MỚI & BIỂU MẪU QUY TRÌNH ================= -->
 <div class="row">
