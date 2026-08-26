@@ -137,7 +137,7 @@
           <li class="nav-item">
             <button class="nav-link" [class.active]="currentStep === 2" [class.done]="currentStep > 2" (click)="setStep(2)" type="button">
               <span class="step-icon"><i class="ri-file-text-line"></i></span>
-              <span class="step-title">2. Mục tiêu & Nội dung (BM01)</span>
+              <span class="step-title">2. Mục tiêu & Nội dung (Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường)</span>
             </button>
           </li>
           <li class="nav-item">
@@ -156,7 +156,7 @@
 
         <div class="d-flex gap-2">
           <button type="button" class="btn btn-sm btn-outline-primary" (click)="openPreviewModal(previewModal, proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B')">
-            <i class="ri-printer-line me-1"></i> Xem bản in BM01
+            <i class="ri-printer-line me-1"></i> Xem bản in Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường
           </button>
         </div>
       </div>
@@ -285,10 +285,10 @@
           <div>
             <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
               <div>
-                <h5 class="card-title text-primary mb-1">Bước 2: Nội dung nghiên cứu chi tiết (Chuẩn BM01)</h5>
+                <h5 class="card-title text-primary mb-1">Bước 2: Nội dung nghiên cứu chi tiết (Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường)</h5>
                 <p class="text-muted fs-13 mb-0">Khai báo tính cấp thiết, mục tiêu, phương pháp và sản phẩm dự kiến.</p>
               </div>
-              <span class="badge bg-primary-subtle text-primary fs-12">Nội dung cốt lõi BM01</span>
+              <span class="badge bg-primary-subtle text-primary fs-12">Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường</span>
             </div>
 
             <div class="row g-4">
@@ -477,10 +477,10 @@
               <div class="col-lg-7">
                 <div class="card border p-4 bg-light-subtle">
                   <h6 class="fw-bold fs-14 text-primary mb-3">
-                    <i class="ri-file-shield-line me-1"></i> Ký số Biểu mẫu Đăng ký đề tài NCKH (BM01)
+                    <i class="ri-file-shield-line me-1"></i> Ký số Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường
                   </h6>
                   <p class="text-muted fs-13 mb-3">
-                    Theo quy trình NCKH số hóa, Chủ nhiệm đề tài thực hiện ký số xác nhận tính chính xác và cam đoan các nội dung trong Đơn đăng ký BM01.
+                    Theo quy trình NCKH số hóa, Chủ nhiệm đề tài thực hiện ký số xác nhận tính chính xác và cam đoan các nội dung trong Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường.
                   </p>
 
                   @if (proposal.signedPdfFile && proposal.signedPdfFile.signatureStatus === 'DA_KY') {
@@ -508,11 +508,11 @@
                         @if (isSimulatingSign) {
                           <span class="spinner-border spinner-border-sm me-1"></span> Đang xác thực chữ ký...
                         } @else {
-                          <i class="ri-quill-pen-line me-1"></i> Ký số biểu mẫu BM01
+                          <i class="ri-quill-pen-line me-1"></i> Ký số Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường
                         }
                       </button>
                       <button type="button" class="btn btn-outline-primary" (click)="openPreviewModal(previewModal, proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B')">
-                        <i class="ri-eye-line me-1"></i> Xem trước BM01
+                        <i class="ri-eye-line me-1"></i> Xem trước Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường
                       </button>
                     </div>
                   }
