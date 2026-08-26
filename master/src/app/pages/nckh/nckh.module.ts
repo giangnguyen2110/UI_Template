@@ -14,7 +14,15 @@ import { CouncilManagementComponent } from './council-management/council-managem
 import { AdminManagementComponent } from './admin-management/admin-management.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbModalModule,
+    NgbTooltipModule,
+    NckhRoutingModule,
     NckhDashboardComponent,
     MyProposalsComponent,
     ProposalFormComponent,
@@ -24,15 +32,15 @@ import { AdminManagementComponent } from './admin-management/admin-management.co
     CouncilManagementComponent,
     AdminManagementComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbDropdownModule,
-    NgbNavModule,
-    NgbModalModule,
-    NgbTooltipModule,
-    NckhRoutingModule
+  exports: [
+    NckhDashboardComponent,
+    MyProposalsComponent,
+    ProposalFormComponent,
+    ReviewProposalsComponent,
+    RoundManagementComponent,
+    ProposalDetailComponent,
+    CouncilManagementComponent,
+    AdminManagementComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

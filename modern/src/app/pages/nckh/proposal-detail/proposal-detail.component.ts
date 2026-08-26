@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgbModal, NgbDropdownModule, NgbNavModule, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NckhDataService } from '../../../core/services/nckh-data.service';
 import { TopicProposal, TopicStatus, UserProfile } from '../../../core/models/nckh.model';
 
@@ -8,7 +10,17 @@ import { TopicProposal, TopicStatus, UserProfile } from '../../../core/models/nc
   selector: 'app-proposal-detail',
   templateUrl: './proposal-detail.component.html',
   styleUrls: ['./proposal-detail.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbModalModule,
+    NgbTooltipModule
+  ]
 })
 export class ProposalDetailComponent implements OnInit {
   proposalId!: string;

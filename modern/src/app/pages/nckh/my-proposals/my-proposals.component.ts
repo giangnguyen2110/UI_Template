@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { NgbModal, NgbDropdownModule, NgbNavModule, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NckhDataService } from '../../../core/services/nckh-data.service';
 import { TopicProposal, TopicStatus, UserProfile } from '../../../core/models/nckh.model';
 
@@ -8,7 +10,17 @@ import { TopicProposal, TopicStatus, UserProfile } from '../../../core/models/nc
   selector: 'app-my-proposals',
   templateUrl: './my-proposals.component.html',
   styleUrls: ['./my-proposals.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbModalModule,
+    NgbTooltipModule
+  ]
 })
 export class MyProposalsComponent implements OnInit {
   currentUser!: UserProfile;

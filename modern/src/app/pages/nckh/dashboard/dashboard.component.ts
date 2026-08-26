@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { NgbDropdownModule, NgbNavModule, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NckhDataService, DEMO_USERS } from '../../../core/services/nckh-data.service';
 import { UserProfile, TopicProposal, RegistrationRound, UserRole } from '../../../core/models/nckh.model';
 
@@ -7,7 +10,17 @@ import { UserProfile, TopicProposal, RegistrationRound, UserRole } from '../../.
   selector: 'app-nckh-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbModalModule,
+    NgbTooltipModule
+  ]
 })
 export class NckhDashboardComponent implements OnInit {
   currentUser: UserProfile = DEMO_USERS[0];

@@ -1,6 +1,8 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { NgbModal, NgbDropdownModule, NgbNavModule, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NckhDataService } from '../../../core/services/nckh-data.service';
 import { UserProfile, UserRole, BlacklistRecord } from '../../../core/models/nckh.model';
 
@@ -8,7 +10,17 @@ import { UserProfile, UserRole, BlacklistRecord } from '../../../core/models/nck
   selector: 'app-admin-management',
   templateUrl: './admin-management.component.html',
   styleUrls: ['./admin-management.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    NgbDropdownModule,
+    NgbNavModule,
+    NgbModalModule,
+    NgbTooltipModule
+  ]
 })
 export class AdminManagementComponent implements OnInit {
   currentUser!: UserProfile;
