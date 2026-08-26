@@ -27,22 +27,46 @@ export class RoundManagementComponent implements OnInit {
   rounds: RegistrationRound[] = [];
   proposals: TopicProposal[] = [];
 
-  // Phân trang 5 mục / trang
+  // Bộ lọc 2 loại đợt: Tất cả, Giảng viên (BM01A), Sinh viên (BM01B)
+  selectedTab: 'ALL' | 'GIANG_VIEN' | 'SINH_VIEN' = 'ALL';
+
+  // Phân trang 6 mục / trang
   page = 1;
-  pageSize = 5;
+  pageSize = 6;
   readonly Math = Math;
 
   formatNumber(val?: number): string {
     return (val || 0).toLocaleString('vi-VN');
   }
 
+  setFilter(target: 'ALL' | 'GIANG_VIEN' | 'SINH_VIEN') {
+    this.selectedTab = target;
+    this.page = 1;
+  }
+
+  get filteredRounds(): RegistrationRound[] {
+    if (this.selectedTab === 'ALL') {
+      return this.rounds;
+    }
+    return this.rounds.filter(r => r.target === this.selectedTab);
+  }
+
+  get gvRoundsCount(): number {
+    return this.rounds.filter(r => r.target === 'GIANG_VIEN').length;
+  }
+
+  get svRoundsCount(): number {
+    return this.rounds.filter(r => r.target === 'SINH_VIEN').length;
+  }
+
   get pagedRounds(): RegistrationRound[] {
+    const filtered = this.filteredRounds;
     const startIndex = (this.page - 1) * this.pageSize;
-    return this.rounds.slice(startIndex, startIndex + this.pageSize);
+    return filtered.slice(startIndex, startIndex + this.pageSize);
   }
 
   get totalPages(): number {
-    return Math.ceil(this.rounds.length / this.pageSize) || 1;
+    return Math.ceil(this.filteredRounds.length / this.pageSize) || 1;
   }
 
   get pages(): number[] {

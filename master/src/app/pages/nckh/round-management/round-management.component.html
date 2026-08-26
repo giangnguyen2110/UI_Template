@@ -79,76 +79,39 @@
   </div>
 </div>
 
-<!-- Widgets Thống kê nhanh -->
+<!-- Bộ lọc phân loại 2 Nhóm Đợt Đăng ký (Lavish UI Tabs) -->
 <div class="row mb-3">
-  <div class="col-xl-3 col-md-6">
-    <div class="card card-animate mb-3 mb-xl-0">
-      <div class="card-body py-3">
-        <div class="d-flex align-items-center">
-          <div class="flex-grow-1">
-            <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Tổng số Đợt đăng ký</p>
-            <h4 class="mb-0 text-primary">{{ rounds.length }} <span class="fs-12 text-muted fw-normal">Đợt</span></h4>
-          </div>
-          <div class="avatar-sm flex-shrink-0">
-            <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
-              <i class="ri-calendar-todo-line"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="col-12">
+    <div class="card shadow-sm border-0 mb-3">
+      <div class="card-body p-3 bg-white rounded-3">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <ul class="nav nav-pills custom-filter-nav gap-2" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link py-2 px-3 fs-13 d-flex align-items-center" [class.active]="selectedTab === 'ALL'" (click)="setFilter('ALL')" type="button">
+                <i class="ri-apps-2-line me-1 fs-15"></i>
+                <span class="fw-semibold">Tất cả các đợt</span>
+                <span class="badge rounded-pill bg-light text-dark ms-2">{{ rounds.length }}</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link py-2 px-3 fs-13 d-flex align-items-center" [class.active]="selectedTab === 'GIANG_VIEN'" (click)="setFilter('GIANG_VIEN')" type="button">
+                <i class="ri-user-star-line me-1 fs-15 text-primary"></i>
+                <span class="fw-semibold">1. Đợt Đề tài Giảng viên (BM01A)</span>
+                <span class="badge rounded-pill bg-primary-subtle text-primary ms-2">{{ gvRoundsCount }}</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link py-2 px-3 fs-13 d-flex align-items-center" [class.active]="selectedTab === 'SINH_VIEN'" (click)="setFilter('SINH_VIEN')" type="button">
+                <i class="ri-graduation-cap-line me-1 fs-15 text-info"></i>
+                <span class="fw-semibold">2. Đợt Đề tài Sinh viên (BM01B)</span>
+                <span class="badge rounded-pill bg-info-subtle text-info ms-2">{{ svRoundsCount }}</span>
+              </button>
+            </li>
+          </ul>
 
-  <div class="col-xl-3 col-md-6">
-    <div class="card card-animate mb-3 mb-xl-0">
-      <div class="card-body py-3">
-        <div class="d-flex align-items-center">
-          <div class="flex-grow-1">
-            <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Đợt đang mở nhận hồ sơ</p>
-            <h4 class="mb-0 text-success">
-              {{ rounds.length }} <span class="fs-12 text-muted fw-normal">Đợt</span>
-            </h4>
-          </div>
-          <div class="avatar-sm flex-shrink-0">
-            <span class="avatar-title bg-success-subtle text-success rounded-circle fs-3">
-              <i class="ri-checkbox-circle-line"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-xl-3 col-md-6">
-    <div class="card card-animate mb-3 mb-xl-0">
-      <div class="card-body py-3">
-        <div class="d-flex align-items-center">
-          <div class="flex-grow-1">
-            <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Tổng hồ sơ đề tài đăng ký</p>
-            <h4 class="mb-0 text-info">{{ proposals.length }} <span class="fs-12 text-muted fw-normal">Hồ sơ</span></h4>
-          </div>
-          <div class="avatar-sm flex-shrink-0">
-            <span class="avatar-title bg-info-subtle text-info rounded-circle fs-3">
-              <i class="ri-file-list-line"></i>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-xl-3 col-md-6">
-    <div class="card card-animate mb-3 mb-xl-0">
-      <div class="card-body py-3">
-        <div class="d-flex align-items-center">
-          <div class="flex-grow-1">
-            <p class="text-uppercase fw-semibold text-muted fs-12 mb-1">Đã qua Bước 01 (Chờ HĐ Bước 2)</p>
-            <h4 class="mb-0 text-warning">1 <span class="fs-12 text-muted fw-normal">Hồ sơ</span></h4>
-          </div>
-          <div class="avatar-sm flex-shrink-0">
-            <span class="avatar-title bg-warning-subtle text-warning rounded-circle fs-3">
-              <i class="ri-team-line"></i>
-            </span>
+          <div class="text-muted fs-12">
+            <i class="ri-filter-3-line me-1 text-primary"></i>
+            Đang hiển thị: <strong class="text-dark">{{ selectedTab === 'ALL' ? 'Tất cả đợt' : (selectedTab === 'GIANG_VIEN' ? 'Đợt Giảng viên (BM01A)' : 'Đợt Sinh viên (BM01B)') }}</strong> ({{ filteredRounds.length }} đợt)
           </div>
         </div>
       </div>
@@ -156,23 +119,23 @@
   </div>
 </div>
 
-<!-- Danh sách các Đợt đăng ký (Gọn gàng, thông tin súc tích) -->
+<!-- Danh sách các Đợt đăng ký (Lavish Cards) -->
 <div class="row">
   @for (r of pagedRounds; track r.id) {
     <div class="col-xl-6 mb-4">
-      <div class="card shadow-sm h-100 border">
+      <div class="card shadow-sm h-100 border round-card" [class.border-start-primary]="r.target === 'GIANG_VIEN'" [class.border-start-info]="r.target === 'SINH_VIEN'">
         <!-- Header Card Đợt -->
         <div class="card-header bg-light d-flex align-items-center justify-content-between py-2 px-3 border-bottom">
           <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-primary fs-12">{{ r.code }}</span>
-            <h6 class="card-title mb-0 fs-14 fw-bold text-dark text-truncate" style="max-width: 320px;" [title]="r.name">{{ r.name }}</h6>
+            <span class="badge fs-12 shadow-sm" [class.bg-primary]="r.target === 'GIANG_VIEN'" [class.bg-info]="r.target === 'SINH_VIEN'">{{ r.code }}</span>
+            <h6 class="card-title mb-0 fs-14 fw-bold text-dark text-truncate" style="max-width: 300px;" [title]="r.name">{{ r.name }}</h6>
           </div>
           
           <div class="d-flex align-items-center gap-1">
             @if (r.status === 'DA_CONG_BO') {
-              <span class="badge bg-success-subtle text-success fs-11"><i class="ri-checkbox-circle-line me-1"></i> Đang mở</span>
+              <span class="badge bg-success-subtle text-success fs-11 px-2 py-1"><i class="ri-checkbox-circle-line me-1"></i> Đang mở</span>
             } @else {
-              <span class="badge bg-danger-subtle text-danger fs-11"><i class="ri-lock-line me-1"></i> Đã đóng</span>
+              <span class="badge bg-danger-subtle text-danger fs-11 px-2 py-1"><i class="ri-lock-line me-1"></i> Đã đóng</span>
             }
 
             @if (currentUser.role === 'P_KHCN' || currentUser.role === 'ADMIN') {
@@ -202,10 +165,10 @@
           <div>
             <p class="text-muted fs-13 mb-3 text-truncate-2-lines" [title]="r.description">{{ r.description }}</p>
 
-            <div class="row g-2 fs-13 mb-3">
+            <div class="row g-2 fs-13 mb-2">
               <div class="col-sm-6">
                 <span class="text-muted"><i class="ri-user-line me-1"></i> Đối tượng:</span>
-                <span class="badge ms-1" [class.bg-primary-subtle]="r.target === 'GIANG_VIEN'" [class.text-primary]="r.target === 'GIANG_VIEN'" [class.bg-info-subtle]="r.target === 'SINH_VIEN'" [class.text-info]="r.target === 'SINH_VIEN'">
+                <span class="badge ms-1 fw-semibold" [class.bg-primary-subtle]="r.target === 'GIANG_VIEN'" [class.text-primary]="r.target === 'GIANG_VIEN'" [class.bg-info-subtle]="r.target === 'SINH_VIEN'" [class.text-info]="r.target === 'SINH_VIEN'">
                   {{ r.target === 'GIANG_VIEN' ? 'Giảng viên (BM01A)' : 'Sinh viên (BM01B)' }}
                 </span>
               </div>
@@ -222,17 +185,10 @@
                 <strong class="text-danger">{{ r.endDate }}</strong>
               </div>
             </div>
-
-            <!-- Tóm tắt số liệu 1 dòng thanh lịch -->
-            <div class="d-flex align-items-center justify-content-between p-2 bg-light rounded border fs-12 mb-1">
-              <span><i class="ri-folder-open-line text-primary me-1"></i> Hồ sơ: <strong class="text-primary">{{ getProposalsCountForRound(r.id) }}</strong></span>
-              <span><i class="ri-checkbox-circle-line text-success me-1"></i> Đã qua B01: <strong class="text-success">{{ getApprovedCountForRound(r.id) }}</strong></span>
-              <span><i class="ri-list-check text-warning me-1"></i> Đề tài giao TT: <strong class="text-warning">{{ r.directTopics?.length || 0 }}</strong></span>
-            </div>
           </div>
         </div>
 
-        <!-- Footer Card Đợt: Nút Xem chi tiết đợt -->
+        <!-- Footer Card Đợt: Nút Nhấn vào để đăng ký -->
         <div class="card-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between">
           <span class="text-muted fs-11">
             <i class="ri-shield-check-line text-success me-1"></i> Chuẩn quy chế P.KHCN
@@ -243,17 +199,22 @@
                 <i class="ri-edit-line me-1"></i> Chỉnh sửa
               </button>
             }
-            @if (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN') {
-              <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" (click)="openDetailRoundModal(detailModal, r)">
-                <i class="ri-eye-line me-1"></i> Xem chi tiết để đăng ký
-              </button>
-            } @else {
-              <button type="button" class="btn btn-sm btn-soft-primary waves-effect waves-light" (click)="openDetailRoundModal(detailModal, r)">
-                <i class="ri-eye-line me-1"></i> Xem thông tin đợt
-              </button>
-            }
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="openDetailRoundModal(detailModal, r)" title="Xem thông tin chi tiết đợt">
+              <i class="ri-information-line me-1"></i> Chi tiết
+            </button>
+            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light shadow-sm fw-semibold px-3" (click)="registerForRound(r)">
+              <i class="ri-cursor-line me-1"></i> Nhấn vào để đăng ký
+            </button>
           </div>
         </div>
+      </div>
+    </div>
+  } @empty {
+    <div class="col-12">
+      <div class="card border p-4 text-center bg-light">
+        <i class="ri-inbox-line fs-40 text-muted mb-2 d-block"></i>
+        <h6 class="fw-bold text-dark fs-14 mb-1">Không có đợt đăng ký nào trong mục này</h6>
+        <p class="text-muted fs-12 mb-0">Vui lòng chọn loại đợt khác hoặc quay lại xem tất cả các đợt.</p>
       </div>
     </div>
   }
