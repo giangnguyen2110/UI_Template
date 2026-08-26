@@ -143,7 +143,13 @@
           <li class="nav-item">
             <button class="nav-link" [class.active]="currentStep === 3" [class.done]="currentStep > 3" (click)="setStep(3)" type="button">
               <span class="step-icon"><i class="ri-group-line"></i></span>
-              <span class="step-title">3. Nhóm, Kinh phí & Đính kèm file đã ký</span>
+              <span class="step-title">3. Nhóm & Kinh phí</span>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" [class.active]="currentStep === 4" [class.done]="currentStep > 4" (click)="setStep(4)" type="button">
+              <span class="step-icon"><i class="ri-attachment-line"></i></span>
+              <span class="step-title">4. Đính kèm file đã ký & Nộp hồ sơ</span>
             </button>
           </li>
         </ul>
@@ -326,22 +332,22 @@
                   <i class="ri-save-line me-1"></i> Lưu bản nháp
                 </button>
                 <button type="button" class="btn btn-primary" (click)="setStep(3)">
-                  Sang Bước 3: Nhóm, Kinh phí & Đính kèm file <i class="ri-arrow-right-line ms-1"></i>
+                  Sang Bước 3: Nhóm & Kinh phí <i class="ri-arrow-right-line ms-1"></i>
                 </button>
               </div>
             </div>
           </div>
         }
 
-        <!-- STEP 3: NHÓM NGHIÊN CỨU, KINH PHÍ & ĐÍNH KÈM HỒ SƠ -->
+        <!-- STEP 3: NHÓM NGHIÊN CỨU & KINH PHÍ -->
         @if (currentStep === 3) {
           <div>
             <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
               <div>
-                <h5 class="card-title text-primary mb-1">Bước 3: Nhóm nghiên cứu, Dự toán kinh phí & Đính kèm hồ sơ</h5>
-                <p class="text-muted fs-13 mb-0">Khai báo thành viên tham gia, dự toán kinh phí, xuất biểu mẫu để ký và import tệp đã ký để nộp hồ sơ.</p>
+                <h5 class="card-title text-primary mb-1">Bước 3: Thành viên Nhóm nghiên cứu & Dự toán kinh phí</h5>
+                <p class="text-muted fs-13 mb-0">Khai báo danh sách thành viên tham gia đề tài và dự toán kinh phí tổng thể.</p>
               </div>
-              <span class="badge bg-success fs-12">Nhóm, Kinh phí & Hồ sơ</span>
+              <span class="badge bg-primary-subtle text-primary fs-12">Nhóm & Kinh phí</span>
             </div>
 
             <!-- PHẦN 1: DANH SÁCH THÀNH VIÊN -->
@@ -445,16 +451,43 @@
               </div>
             </div>
 
-            <!-- PHẦN 3: EXPORT & IMPORT BIỂU MẪU ĐÃ KÝ -->
+            <div class="d-flex justify-content-between mt-4 pt-3 border-top">
+              <button type="button" class="btn btn-outline-secondary" (click)="setStep(2)">
+                <i class="ri-arrow-left-line me-1"></i> Quay lại Bước 2
+              </button>
+              <div>
+                <button type="button" class="btn btn-outline-primary me-2" (click)="saveDraft()" [disabled]="!isStepEditable(1)">
+                  <i class="ri-save-line me-1"></i> Lưu bản nháp
+                </button>
+                <button type="button" class="btn btn-primary" (click)="setStep(4)">
+                  Sang Bước 4: Đính kèm file đã ký & Nộp hồ sơ <i class="ri-arrow-right-line ms-1"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- STEP 4: EXPORT BIỂU MẪU & IMPORT TỆP ĐÃ KÝ ĐỂ NỘP HỒ SƠ -->
+        @if (currentStep === 4) {
+          <div>
+            <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
+              <div>
+                <h5 class="card-title text-primary mb-1">Bước 4: Export biểu mẫu, Đính kèm file đã ký & Nộp hồ sơ</h5>
+                <p class="text-muted fs-13 mb-0">Export Phiếu đăng ký đề tài để chèn chữ ký, sau đó import lại tệp hoàn chỉnh và nộp hồ sơ chính thức.</p>
+              </div>
+              <span class="badge bg-success fs-12">Export & Import hồ sơ</span>
+            </div>
+
+            <!-- PHẦN EXPORT & IMPORT BIỂU MẪU ĐÃ KÝ -->
             <div class="row g-4 mb-4">
               <!-- KHỐI EXPORT -->
               <div class="col-lg-6">
                 <div class="card border p-4 bg-light-subtle h-100 shadow-sm">
                   <div class="d-flex align-items-center justify-content-between mb-2">
                     <h6 class="fw-bold fs-14 text-primary mb-0">
-                      <i class="ri-download-cloud-2-line me-1"></i> 3. Export (Xuất file biểu mẫu)
+                      <i class="ri-download-cloud-2-line me-1"></i> 1. Export (Xuất file biểu mẫu)
                     </h6>
-                    <span class="badge bg-primary-subtle text-primary fs-11">Bước 3.1</span>
+                    <span class="badge bg-primary-subtle text-primary fs-11">Bước 4.1</span>
                   </div>
                   <p class="text-muted fs-13 mb-3">
                     Export Phiếu đăng ký đề tài (PDF) đã điền tự động dữ liệu từ hệ thống để in hoặc chèn chữ ký của Chủ nhiệm đề tài.
@@ -475,7 +508,7 @@
                 <div class="card border p-4 bg-light-subtle h-100 shadow-sm">
                   <div class="d-flex align-items-center justify-content-between mb-2">
                     <h6 class="fw-bold fs-14 text-primary mb-0">
-                      <i class="ri-upload-cloud-2-line me-1"></i> 4. Import (Tải lên file đã ký)
+                      <i class="ri-upload-cloud-2-line me-1"></i> 2. Import (Tải lên file đã ký)
                     </h6>
                     <span class="badge bg-success-subtle text-success fs-11">Bắt buộc</span>
                   </div>
@@ -548,8 +581,8 @@
             </div>
 
             <div class="d-flex justify-content-between mt-4 pt-3 border-top">
-              <button type="button" class="btn btn-outline-secondary" (click)="setStep(2)">
-                <i class="ri-arrow-left-line me-1"></i> Quay lại Bước 2
+              <button type="button" class="btn btn-outline-secondary" (click)="setStep(3)">
+                <i class="ri-arrow-left-line me-1"></i> Quay lại Bước 3
               </button>
               <div class="d-flex gap-2">
                 <button type="button" class="btn btn-outline-secondary" (click)="saveDraft()" [disabled]="!isStepEditable(1)">
