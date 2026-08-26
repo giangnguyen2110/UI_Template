@@ -679,24 +679,45 @@ export class ProposalFormComponent implements OnInit {
     this.bm13Form.explanationItems.splice(idx, 1);
   }
 
-  // --- KÝ SỐ MÔ PHỎNG BM01 ---
-  simulateSignPdf() {
-    this.isSimulatingSign = true;
-    setTimeout(() => {
+  // --- TẢI LÊN / IMPORT TỆP HỒ SƠ ĐÃ KÝ ---
+  onFileUpload(event: any) {
+    const file = event.target.files?.[0];
+    if (file) {
       const now = new Date();
       const dateStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN');
       this.proposal.signedPdfFile = {
-        fileName: `${this.proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B'}_DeTai_${(this.proposal.authorName || 'User').replace(/\s+/g, '')}_Signed.pdf`,
-        fileSize: '2.1 MB',
+        fileName: file.name,
+        fileSize: (file.size / (1024 * 1024)).toFixed(2) + ' MB',
         uploadedAt: dateStr,
         signatureStatus: 'DA_KY',
-        signedBy: `${this.proposal.authorName} (${this.currentUser.email}) - Chữ ký điện tử xác thực lúc ${dateStr}`
+        signedBy: `Tải lên bởi ${this.proposal.authorName || this.currentUser.fullName} (${this.currentUser.email})`
       };
-      this.isSimulatingSign = false;
       this.alertType = 'success';
-      this.alertMessage = 'Đã ký số điện tử thành công vào biểu mẫu!';
+      this.alertMessage = `Đã import tệp "${file.name}" thành công!`;
       setTimeout(() => { this.alertMessage = ''; }, 4000);
-    }, 1200);
+    }
+  }
+
+  removeUploadedFile() {
+    this.proposal.signedPdfFile = undefined;
+    this.alertType = 'info';
+    this.alertMessage = 'Đã xóa tệp đính kèm. Vui lòng import tệp thay thế trước khi nộp.';
+    setTimeout(() => { this.alertMessage = ''; }, 4000);
+  }
+
+  simulateUploadSampleFile() {
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN');
+    this.proposal.signedPdfFile = {
+      fileName: `PhieuDangKy_DeTai_${(this.proposal.authorName || 'User').replace(/\s+/g, '')}_DaKy.pdf`,
+      fileSize: '1.85 MB',
+      uploadedAt: dateStr,
+      signatureStatus: 'DA_KY',
+      signedBy: `Bản ký xác nhận của ${this.proposal.authorName || this.currentUser.fullName}`
+    };
+    this.alertType = 'success';
+    this.alertMessage = 'Đã import tệp Phiếu đăng ký đề tài đã ký thành công!';
+    setTimeout(() => { this.alertMessage = ''; }, 4000);
   }
 
   // --- LƯU NHÁP & NỘP BM01 ---

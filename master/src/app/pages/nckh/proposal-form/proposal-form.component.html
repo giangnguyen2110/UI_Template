@@ -339,15 +339,15 @@
           </div>
         }
 
-        <!-- STEP 3: NHÓM NGHIÊN CỨU & KINH PHÍ -->
+        <!-- STEP 3: THÀNH VIÊN NHÓM NGHIÊN CỨU -->
         @if (currentStep === 3) {
           <div>
             <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
               <div>
-                <h5 class="card-title text-primary mb-1">Bước 3: Thành viên Nhóm nghiên cứu & Dự toán kinh phí</h5>
-                <p class="text-muted fs-13 mb-0">Khai báo danh sách thành viên tham gia đề tài và dự toán kinh phí tổng thể.</p>
+                <h5 class="card-title text-primary mb-1">Bước 3: Danh sách Thành viên Nhóm nghiên cứu</h5>
+                <p class="text-muted fs-13 mb-0">Khai báo danh sách Chủ nhiệm và các thành viên phối hợp thực hiện đề tài.</p>
               </div>
-              <span class="badge bg-primary-subtle text-primary fs-12">Nhóm & Kinh phí</span>
+              <span class="badge bg-primary-subtle text-primary fs-12">Thành viên nghiên cứu</span>
             </div>
 
             <!-- Danh sách thành viên -->
@@ -421,31 +421,6 @@
               </div>
             </div>
 
-            <!-- Dự toán kinh phí & Thời gian -->
-            <div class="row g-3">
-              <div class="col-md-4">
-                <label class="form-label fw-semibold">Thời gian thực hiện (Tháng) <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" [(ngModel)]="proposal.durationMonths" [ngModelOptions]="{standalone: true}" min="1" max="24" [disabled]="!isStepEditable(1)">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label fw-semibold">Ngày bắt đầu dự kiến</label>
-                <input type="date" class="form-control" [(ngModel)]="proposal.startDateExpected" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
-              </div>
-              <div class="col-md-4">
-                <label class="form-label fw-semibold">Ngày kết thúc dự kiến</label>
-                <input type="date" class="form-control" [(ngModel)]="proposal.endDateExpected" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
-              </div>
-
-              <div class="col-md-6">
-                <label class="form-label fw-semibold">Tổng kinh phí đề xuất (VNĐ) <span class="text-danger">*</span></label>
-                <input type="number" class="form-control fs-14 fw-bold text-primary" [(ngModel)]="proposal.budgetTotal" [ngModelOptions]="{standalone: true}" step="1000000" [disabled]="!isStepEditable(1)">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label fw-semibold">Kinh phí Nhà trường cấp (VNĐ)</label>
-                <input type="number" class="form-control bg-light fs-14 fw-bold" [(ngModel)]="proposal.budgetSchoolFunded" [ngModelOptions]="{standalone: true}" readonly>
-              </div>
-            </div>
-
             <div class="d-flex justify-content-between mt-4 pt-3 border-top">
               <button type="button" class="btn btn-outline-secondary" (click)="setStep(2)">
                 <i class="ri-arrow-left-line me-1"></i> Quay lại Bước 2
@@ -455,80 +430,154 @@
                   <i class="ri-save-line me-1"></i> Lưu bản nháp
                 </button>
                 <button type="button" class="btn btn-primary" (click)="setStep(4)">
-                  Sang Bước 4: Ký số & Nộp <i class="ri-arrow-right-line ms-1"></i>
+                  Sang Bước 4: Kinh phí, Export & Import <i class="ri-arrow-right-line ms-1"></i>
                 </button>
               </div>
             </div>
           </div>
         }
 
-        <!-- STEP 4: KÝ SỐ MÔ PHỎNG & NỘP CHÍNH THỨC -->
+        <!-- STEP 4: KINH PHÍ, EXPORT & IMPORT HỒ SƠ -->
         @if (currentStep === 4) {
           <div>
             <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
               <div>
-                <h5 class="card-title text-primary mb-1">Bước 4: Xuất biểu mẫu, Đính kèm file đã ký & Nộp hồ sơ</h5>
-                <p class="text-muted fs-13 mb-0">Xuất file Phiếu đăng ký đề tài, ký xác nhận thực tế và tải tệp lên hệ thống trước khi nộp duyệt.</p>
+                <h5 class="card-title text-primary mb-1">Bước 4: Dự toán kinh phí, Export & Import hồ sơ</h5>
+                <p class="text-muted fs-13 mb-0">Thiết lập kinh phí đề xuất, xuất file biểu mẫu để chèn chữ ký và import tệp hoàn chỉnh trước khi nộp.</p>
               </div>
-              <span class="badge bg-success fs-12">Xuất & Tải lên tệp</span>
+              <span class="badge bg-success fs-12">Kinh phí & Export/Import</span>
             </div>
 
+            <!-- PHẦN 1: DỰ TOÁN KINH PHÍ & THỜI GIAN (CHUYỂN TỪ BƯỚC 3 XUỐNG) -->
+            <div class="card border p-4 bg-light-subtle mb-4 shadow-sm">
+              <h6 class="fw-bold fs-14 text-primary mb-3">
+                <i class="ri-money-dollar-circle-line me-1"></i> 1. Thời gian thực hiện & Dự toán kinh phí
+              </h6>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold">Thời gian thực hiện (Tháng) <span class="text-danger">*</span></label>
+                  <input type="number" class="form-control" [(ngModel)]="proposal.durationMonths" [ngModelOptions]="{standalone: true}" min="1" max="24" [disabled]="!isStepEditable(1)">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold">Ngày bắt đầu dự kiến</label>
+                  <input type="date" class="form-control" [(ngModel)]="proposal.startDateExpected" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold">Ngày kết thúc dự kiến</label>
+                  <input type="date" class="form-control" [(ngModel)]="proposal.endDateExpected" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Tổng kinh phí đề xuất (VNĐ) <span class="text-danger">*</span></label>
+                  <input type="number" class="form-control fs-14 fw-bold text-primary" [(ngModel)]="proposal.budgetTotal" [ngModelOptions]="{standalone: true}" step="1000000" [disabled]="!isStepEditable(1)">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Kinh phí Nhà trường cấp (VNĐ)</label>
+                  <input type="number" class="form-control bg-light fs-14 fw-bold" [(ngModel)]="proposal.budgetSchoolFunded" [ngModelOptions]="{standalone: true}" readonly>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHẦN 2: EXPORT & IMPORT BIỂU MẪU -->
             <div class="row g-4">
-              <div class="col-lg-7">
-                <div class="card border p-4 bg-light-subtle">
-                  <h6 class="fw-bold fs-14 text-primary mb-3">
-                    <i class="ri-file-shield-line me-1"></i> Ký số Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường
-                  </h6>
+              <!-- KHỐI EXPORT -->
+              <div class="col-lg-6">
+                <div class="card border p-4 bg-light-subtle h-100 shadow-sm">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="fw-bold fs-14 text-primary mb-0">
+                      <i class="ri-download-cloud-2-line me-1"></i> 2. Export (Xuất file biểu mẫu)
+                    </h6>
+                    <span class="badge bg-primary-subtle text-primary fs-11">Bước 4.1</span>
+                  </div>
                   <p class="text-muted fs-13 mb-3">
-                    Theo quy trình NCKH số hóa, Chủ nhiệm đề tài thực hiện ký số xác nhận tính chính xác và cam đoan các nội dung trong Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường.
+                    Export Phiếu đăng ký đề tài (PDF) đã điền tự động dữ liệu từ hệ thống để in hoặc chèn chữ ký của Chủ nhiệm đề tài.
+                  </p>
+                  <div class="d-flex gap-2 mt-auto pt-2">
+                    <button type="button" class="btn btn-primary" (click)="openPreviewModal(previewModal, proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B')">
+                      <i class="ri-download-2-line me-1"></i> Export Phiếu đăng ký (PDF)
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" (click)="openPreviewModal(previewModal, proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B')">
+                      <i class="ri-eye-line me-1"></i> Xem trước
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KHỐI IMPORT -->
+              <div class="col-lg-6">
+                <div class="card border p-4 bg-light-subtle h-100 shadow-sm">
+                  <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="fw-bold fs-14 text-primary mb-0">
+                      <i class="ri-upload-cloud-2-line me-1"></i> 3. Import (Tải lên file đã ký)
+                    </h6>
+                    <span class="badge bg-success-subtle text-success fs-11">Bắt buộc</span>
+                  </div>
+                  <p class="text-muted fs-13 mb-3">
+                    Sau khi đã chèn chữ ký vào file, vui lòng import tệp PDF/Scan hoàn chỉnh lên hệ thống trước khi nộp.
                   </p>
 
-                  @if (proposal.signedPdfFile && proposal.signedPdfFile.signatureStatus === 'DA_KY') {
-                    <div class="alert alert-success border border-success p-3 rounded mb-3">
-                      <div class="d-flex align-items-center mb-2">
-                        <i class="ri-checkbox-circle-fill text-success fs-20 me-2"></i>
-                        <strong class="text-success fs-13">ĐÃ KÝ SỐ ĐIỆN TỬ THÀNH CÔNG</strong>
-                      </div>
-                      <div class="fs-12 text-muted">
-                        <div><strong>Tệp biểu mẫu:</strong> {{ proposal.signedPdfFile.fileName }}</div>
-                        <div><strong>Thời gian ký:</strong> {{ proposal.signedPdfFile.uploadedAt }}</div>
-                        <div><strong>Chứng thư:</strong> {{ proposal.signedPdfFile.signedBy }}</div>
-                      </div>
-                    </div>
-                  } @else {
-                    <div class="alert alert-warning border border-warning p-3 rounded mb-3">
-                      <i class="ri-alert-line text-warning me-1"></i>
-                      Hồ sơ chưa được ký số. Vui lòng bấm <strong>"Ký số biểu mẫu"</strong> bên dưới.
-                    </div>
-                  }
+                  <input type="file" #fileInput (change)="onFileUpload($event)" accept=".pdf,.doc,.docx" class="d-none">
 
-                  @if (isStepEditable(1)) {
-                    <div class="d-flex gap-2">
-                      <button type="button" class="btn btn-primary" (click)="simulateSignPdf()" [disabled]="isSimulatingSign">
-                        @if (isSimulatingSign) {
-                          <span class="spinner-border spinner-border-sm me-1"></span> Đang xác thực chữ ký...
-                        } @else {
-                          <i class="ri-quill-pen-line me-1"></i> Ký số Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường
+                  @if (proposal.signedPdfFile) {
+                    <div class="alert alert-success border border-success p-3 rounded mb-2">
+                      <div class="d-flex align-items-start justify-content-between">
+                        <div class="d-flex align-items-center">
+                          <i class="ri-file-pdf-fill text-danger fs-28 me-3"></i>
+                          <div>
+                            <div class="fw-bold text-dark fs-13">{{ proposal.signedPdfFile.fileName }}</div>
+                            <div class="text-muted fs-11 mt-1">
+                              <span><i class="ri-hard-drive-2-line me-1"></i>Dung lượng: {{ proposal.signedPdfFile.fileSize || '1.8 MB' }}</span>
+                              <span class="mx-2">•</span>
+                              <span><i class="ri-time-line me-1"></i>Đã import lúc: {{ proposal.signedPdfFile.uploadedAt }}</span>
+                            </div>
+                            <div class="text-success fs-11 mt-1 fw-semibold">
+                              <i class="ri-checkbox-circle-fill me-1"></i> Đã import tệp thành công
+                            </div>
+                          </div>
+                        </div>
+                        @if (isStepEditable(1)) {
+                          <button type="button" class="btn btn-sm btn-ghost-danger btn-icon" (click)="removeUploadedFile()" title="Xóa tệp này">
+                            <i class="ri-delete-bin-line fs-14"></i>
+                          </button>
                         }
-                      </button>
-                      <button type="button" class="btn btn-outline-primary" (click)="openPreviewModal(previewModal, proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B')">
-                        <i class="ri-eye-line me-1"></i> Xem trước Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường
+                      </div>
+                    </div>
+                    @if (isStepEditable(1)) {
+                      <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="fileInput.click()">
+                          <i class="ri-refresh-line me-1"></i> Chọn tệp khác thay thế
+                        </button>
+                      </div>
+                    }
+                  } @else {
+                    <div class="border border-dashed rounded p-3 text-center bg-white mb-2" style="cursor: pointer;" (click)="fileInput.click()">
+                      <i class="ri-upload-cloud-2-line fs-32 text-primary mb-1 d-block"></i>
+                      <div class="fw-semibold text-dark fs-13 mb-1">Kéo thả tệp PDF/Scan đã ký vào đây hoặc bấm để chọn</div>
+                      <div class="text-muted fs-11 mb-2">Hỗ trợ: PDF, DOC, DOCX (Tối đa: 25MB)</div>
+                      <button type="button" class="btn btn-sm btn-primary px-3">
+                        <i class="ri-folder-open-line me-1"></i> Import tệp từ máy tính
                       </button>
                     </div>
+                    @if (isStepEditable(1)) {
+                      <div class="text-end">
+                        <button type="button" class="btn btn-xs btn-soft-info" (click)="simulateUploadSampleFile()">
+                          <i class="ri-magic-line me-1"></i> Import tệp mẫu demo (test nhanh)
+                        </button>
+                      </div>
+                    }
                   }
                 </div>
               </div>
+            </div>
 
-              <div class="col-lg-5">
-                <div class="card border p-3 bg-light">
-                  <h6 class="fw-bold fs-13 text-dark mb-2">Quy định tuyến xét duyệt Bước 01</h6>
-                  <ul class="fs-12 text-muted ps-3 mb-0">
-                    <li class="mb-2"><strong>Đề tài Giảng viên:</strong> Chuyển đến Trưởng Khoa / Đơn vị thẩm định sơ bộ.</li>
-                    <li class="mb-2"><strong>Đề tài Sinh viên:</strong> Chuyển đến Giảng viên hướng dẫn (GVHD) phê duyệt.</li>
-                    <li class="mb-2">Sau khi đạt duyệt tuyến đầu, hồ sơ tự động chuyển vào danh sách xét duyệt sơ bộ của Hội đồng Bước 02.</li>
-                  </ul>
-                </div>
-              </div>
+            <!-- QUY ĐỊNH TUYẾN DUYỆT -->
+            <div class="card border p-3 bg-light mt-4">
+              <h6 class="fw-bold fs-13 text-dark mb-2"><i class="ri-information-line me-1 text-primary"></i> Quy định tuyến xét duyệt Bước 01</h6>
+              <ul class="fs-12 text-muted ps-3 mb-0">
+                <li class="mb-1"><strong>Đề tài Giảng viên:</strong> Chuyển đến Trưởng Khoa / Đơn vị thẩm định sơ bộ.</li>
+                <li class="mb-1"><strong>Đề tài Sinh viên:</strong> Chuyển đến Giảng viên hướng dẫn (GVHD) phê duyệt.</li>
+                <li>Sau khi đạt duyệt tuyến đầu, hồ sơ tự động chuyển vào danh sách xét duyệt sơ bộ của Hội đồng Bước 02.</li>
+              </ul>
             </div>
 
             <div class="d-flex justify-content-between mt-4 pt-3 border-top">
