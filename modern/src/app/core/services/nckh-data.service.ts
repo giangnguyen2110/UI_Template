@@ -13,7 +13,8 @@ import {
   CouncilMember,
   CouncilType,
   CouncilRole,
-  CouncilStatus
+  CouncilStatus,
+  BlacklistRecord
 } from '../models/nckh.model';
 
 export const DEMO_USERS: (UserProfile & { password: string })[] = [
@@ -192,6 +193,196 @@ const INITIAL_ROUNDS: RegistrationRound[] = [
 ];
 
 const INITIAL_PROPOSALS: TopicProposal[] = [
+  // ĐỀ TÀI DEMO: CÒN THIẾU THÀNH VIÊN HỘI ĐỒNG CHƯA ĐÁNH GIÁ (DEMO CHO THƯ KÝ)
+  {
+    id: 'prop-missing-member',
+    code: 'DT-GV-2026-015',
+    title: 'Nghiên cứu giải pháp bảo mật dữ liệu y tế điện tử sử dụng công nghệ Blockchain',
+    roundId: 'round-2026-01',
+    roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
+    type: 'TUYEN_CHON',
+    target: 'GIANG_VIEN',
+    field: 'Công nghệ thông tin & An toàn thông tin',
+    faculty: 'Khoa Công nghệ thông tin',
+    durationMonths: 12,
+    startDateExpected: '2026-10-01',
+    endDateExpected: '2027-09-30',
+    authorId: 'u-gv-05',
+    authorName: 'TS. Nguyễn Hoàng Long',
+    authorEmail: 'long.nh@dntu.edu.vn',
+    authorIdentifierCode: 'GV0112',
+    authorPhone: '0912 888 777',
+    authorAcademicTitle: 'Tiến sĩ',
+    necessity: 'Bảo vệ quyền riêng tư và chống giả mạo hồ sơ bệnh án điện tử trong các bệnh viện liên kết.',
+    objectives: 'Xây dựng mô hình chuỗi khối phân tán cho phép truy xuất nguồn gốc hồ sơ bệnh án có phân quyền mã hóa.',
+    mainContents: '1. Khảo sát hiện trạng bảo mật dữ liệu y tế.\n2. Thiết kế giao thức bảo mật trên Smart Contract.\n3. Đánh giá hiệu năng và độ trễ.',
+    methods: 'Hyperledger Fabric, Zero-Knowledge Proofs.',
+    expectedProducts: '- 01 Bài báo Scopus/ISI.\n- 01 Hệ thống phần mềm thử nghiệm.',
+    applicability: 'Ứng dụng trong quản lý y tế tại tỉnh Đồng Nai.',
+    members: [
+      {
+        id: 'm-long-1',
+        fullName: 'TS. Nguyễn Hoàng Long',
+        identifierCode: 'GV0112',
+        unit: 'Khoa Công nghệ thông tin',
+        roleInProject: 'Thành viên nghiên cứu chính',
+        academicTitle: 'Tiến sĩ'
+      }
+    ],
+    budgetTotal: 45000000,
+    budgetSchoolFunded: 45000000,
+    status: 'DANG_XET_DUYET_THUYET_MINH',
+    statusText: 'Hội đồng đang xét duyệt thuyết minh (BM06/07)',
+    version: 1,
+    hasConsolidatedMinutes: false,
+    hasMissingEvaluation: true,
+    missingMemberName: 'TS. Vũ Minh Tuấn',
+    missingMemberRole: 'Ủy viên Phản biện 2',
+    councilName: 'Hội đồng Phê duyệt Thuyết minh Đề tài NCKH Năm 2026',
+    signedPdfFile: {
+      fileName: 'BM04_ThuyetMinh_NguyenHoangLong.pdf',
+      fileSize: '3.4 MB',
+      uploadedAt: '2026-08-21 14:30',
+      signatureStatus: 'DA_KY',
+      signedBy: 'TS. Nguyễn Hoàng Long (Chữ ký số hợp lệ)'
+    },
+    auditLogs: [
+      {
+        id: 'log-missing-1',
+        action: 'Hội đồng họp xét duyệt thuyết minh BM06',
+        actorName: 'ThS. Đỗ Anh Khoa',
+        actorRole: 'Thư ký Hội đồng',
+        timestamp: '25/08/2026 09:00',
+        comment: 'Đang đợi Phản biện 2 hoàn tất nộp phiếu đánh giá cá nhân.'
+      }
+    ]
+  },
+  // ĐỀ TÀI DEMO BƯỚC 02: HỘI ĐỒNG PHÊ DUYỆT SƠ BỘ (BM02/03)
+  {
+    id: 'prop-hd-b02',
+    code: 'DT-GV-2026-009',
+    title: 'Nghiên cứu và phát triển hệ thống trợ lý ảo AI hỗ trợ cố vấn học tập sinh viên',
+    roundId: 'round-2026-01',
+    roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
+    type: 'TUYEN_CHON',
+    target: 'GIANG_VIEN',
+    field: 'Công nghệ thông tin & Trí tuệ nhân tạo',
+    faculty: 'Khoa Công nghệ thông tin',
+    durationMonths: 12,
+    startDateExpected: '2026-10-01',
+    endDateExpected: '2027-09-30',
+    authorId: 'u-gv-03',
+    authorName: 'ThS. Lê Hoàng Tuấn',
+    authorEmail: 'tuan.lh@dntu.edu.vn',
+    authorIdentifierCode: 'GV0156',
+    authorPhone: '0977 888 999',
+    authorAcademicTitle: 'Thạc sĩ',
+    necessity: 'Nâng cao hiệu quả hỗ trợ sinh viên trong định hướng lộ trình học tập và giải đáp quy chế đào tạo tín chỉ.',
+    objectives: 'Xây dựng trợ lý ảo RAG sử dụng dữ liệu quy chế nội bộ của Nhà trường, độ chính xác trả lời trên 90%.',
+    mainContents: '1. Thu thập và số hóa văn bản quy chế đào tạo.\n2. Xây dựng cơ sở dữ liệu Vector Database và RAG pipeline.\n3. Thử nghiệm trên 500 sinh viên Khoa CNTT.',
+    methods: 'Retrieval Augmented Generation (RAG), Fine-tuning Embedding Models.',
+    expectedProducts: '- 01 Hệ thống Chatbot Web/Mobile.\n- 01 Bài báo hội thảo khoa học.\n- Báo cáo kết quả thử nghiệm.',
+    applicability: 'Triển khai áp dụng cho toàn bộ sinh viên DNTU.',
+    members: [
+      {
+        id: 'm-tuan-1',
+        fullName: 'ThS. Lê Hoàng Tuấn',
+        identifierCode: 'GV0156',
+        unit: 'Khoa Công nghệ thông tin',
+        roleInProject: 'Thành viên nghiên cứu chính',
+        academicTitle: 'Thạc sĩ'
+      }
+    ],
+    budgetTotal: 38000000,
+    budgetSchoolFunded: 38000000,
+    status: 'DANG_XET_DUYET_HO_SO',
+    statusText: 'Hội đồng đang sơ duyệt hồ sơ (BM02/03)',
+    version: 1,
+    signedPdfFile: {
+      fileName: 'BM01A_Signed_LeHoangTuan_DT009.pdf',
+      fileSize: '1.9 MB',
+      uploadedAt: '2026-08-20 10:00',
+      signatureStatus: 'DA_KY',
+      signedBy: 'ThS. Lê Hoàng Tuấn (Chữ ký số hợp lệ)'
+    },
+    auditLogs: [
+      {
+        id: 'log-b02-init',
+        action: 'Trưởng Khoa đã sơ duyệt B01, P.KHCN chuyển hồ sơ sang Hội đồng phê duyệt sơ bộ Bước 02',
+        actorName: 'Phòng Khoa học & Công nghệ',
+        actorRole: 'Chuyên viên P.KHCN',
+        timestamp: '22/08/2026 11:00',
+        comment: 'Hồ sơ hợp lệ, đề nghị Hội đồng họp đánh giá sơ bộ.'
+      }
+    ]
+  },
+  // ĐỀ TÀI DEMO BƯỚC 06 CHO KHOA CNTT (BÁO CÁO TIẾN ĐỘ BM08)
+  {
+    id: 'prop-cntt-bm08',
+    code: 'DT-GV-2026-088',
+    title: 'Nghiên cứu xây dựng hệ thống kiểm thử tự động phần mềm ứng dụng mô hình ngôn ngữ lớn LLM',
+    roundId: 'round-2026-01',
+    roundName: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
+    type: 'TUYEN_CHON',
+    target: 'GIANG_VIEN',
+    field: 'Công nghệ thông tin & Trí tuệ nhân tạo',
+    faculty: 'Khoa Công nghệ thông tin',
+    durationMonths: 10,
+    startDateExpected: '2026-01-01',
+    endDateExpected: '2026-10-31',
+    authorId: 'u-gv-02',
+    authorName: 'ThS. Nguyễn Văn Toàn',
+    authorEmail: 'toan.nv@dntu.edu.vn',
+    authorIdentifierCode: 'GV0145',
+    authorPhone: '0988 765 432',
+    authorAcademicTitle: 'Thạc sĩ',
+    necessity: 'Nâng cao chất lượng kiểm thử phần mềm tự động bằng cách ứng dụng Generative AI và Large Language Models.',
+    objectives: 'Phát triển công cụ tự động sinh kịch bản kiểm thử (Test Case Generation) đạt độ bao phủ mã nguồn trên 85%.',
+    mainContents: '1. Khảo sát các mô hình LLM mã nguồn mở (CodeLlama, DeepSeek-Coder).\n2. Xây dựng pipeline trích xuất AST và ngữ cảnh mã nguồn.\n3. Huấn luyện adapter mô hình cho ngôn ngữ TypeScript/Java.\n4. Thử nghiệm thực tế tại dự án phần mềm Khoa CNTT.',
+    methods: 'Prompt Engineering, Fine-tuning LoRA trên tập dữ liệu kiểm thử, Kiểm thử động (Dynamic Testing).',
+    expectedProducts: '- 01 Bài báo khoa học đăng trên Tạp chí chuyên ngành.\n- 01 Module plugin kiểm thử tự động VS Code/Web.\n- Báo cáo tiến độ thực hiện ½ thời gian (BM08).',
+    applicability: 'Áp dụng phục vụ đào tạo sinh viên ngành Kỹ thuật phần mềm và chuyển giao cho các công ty phần mềm đối tác.',
+    members: [
+      {
+        id: 'm-toan-1',
+        fullName: 'ThS. Nguyễn Văn Toàn',
+        identifierCode: 'GV0145',
+        unit: 'Khoa Công nghệ thông tin',
+        roleInProject: 'Thành viên nghiên cứu chính',
+        academicTitle: 'Thạc sĩ'
+      },
+      {
+        id: 'm-toan-2',
+        fullName: 'TS. Lê Hoàng Nam',
+        identifierCode: 'GV0042',
+        unit: 'Khoa Công nghệ thông tin',
+        roleInProject: 'Thư ký khoa học',
+        academicTitle: 'Tiến sĩ'
+      }
+    ],
+    budgetTotal: 40000000,
+    budgetSchoolFunded: 40000000,
+    status: 'DANG_THUC_HIEN',
+    statusText: 'Đang thực hiện & Viết BC tiến độ BM08 (Bước 06)',
+    version: 1,
+    signedPdfFile: {
+      fileName: 'BM01A_Signed_NguyenVanToan_DT088.pdf',
+      fileSize: '2.1 MB',
+      uploadedAt: '2026-01-05 09:15',
+      signatureStatus: 'DA_KY',
+      signedBy: 'ThS. Nguyễn Văn Toàn (Chữ ký số hợp lệ)'
+    },
+    auditLogs: [
+      {
+        id: 'log-bm08-init',
+        action: 'Đã hoàn thành 50% tiến độ nghiên cứu, Chủ nhiệm nộp Báo cáo tiến độ BM08 lên Khoa',
+        actorName: 'ThS. Nguyễn Văn Toàn',
+        actorRole: 'Chủ nhiệm đề tài',
+        timestamp: '20/08/2026 14:30',
+        comment: 'Đã hoàn thành module sinh test case cơ bản, đề nghị Trưởng Khoa phê duyệt Báo cáo tiến độ BM08.'
+      }
+    ]
+  },
   // ==========================================
   // ===== GIẢNG VIÊN (ThS. Nguyễn Thị Hạnh) =====
   // ==========================================
@@ -199,6 +390,12 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   // 1. GIAI ĐOẠN 1: NỘP HỒ SƠ (BƯỚC 01 - BM01A)
   {
     id: 'prop-gv-01',
+    hasConsolidatedMinutes: true,
+    councilTypeEvaluated: 'SO_DUYET',
+    councilResult: 'PASS',
+    councilResultText: 'Đạt (Thông qua sơ duyệt BM03)',
+    councilScoreAverage: 88.5,
+    councilEvaluationDate: '15/02/2026',
     code: 'DT-GV-2026-001',
     title: 'Nghiên cứu ứng dụng Deep Learning trong chẩn đoán và phân loại tổn thương qua ảnh y tế',
     roundId: 'round-2026-01',
@@ -362,6 +559,12 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   // 3. GIAI ĐOẠN 3: VIẾT BÁO CÁO GIỮA KỲ (BƯỚC 06 - BM08)
   {
     id: 'prop-gv-03',
+    hasConsolidatedMinutes: true,
+    councilTypeEvaluated: 'THUYET_MINH',
+    councilResult: 'PASS_WITH_REVISION',
+    councilResultText: 'Đạt có chỉnh sửa (BM07)',
+    councilScoreAverage: 82.0,
+    councilEvaluationDate: '10/04/2026',
     code: 'DT-GV-2026-003',
     title: 'Nghiên cứu giải pháp bảo mật dữ liệu IoT trên nền tảng Blockchain Hyperledger Fabric',
     roundId: 'round-2026-01',
@@ -423,6 +626,12 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   // 4. GIAI ĐOẠN 4: BÁO CÁO NGHIỆM THU (BƯỚC 07 - BM09/BM11/BM12/BM13)
   {
     id: 'prop-gv-04',
+    hasConsolidatedMinutes: true,
+    councilTypeEvaluated: 'NGHIEM_THU',
+    councilResult: 'PASS',
+    councilResultText: 'Đạt Xuất sắc (BM12)',
+    councilScoreAverage: 94.5,
+    councilEvaluationDate: '20/08/2026',
     code: 'DT-GV-2026-004',
     title: 'Phát triển mô hình tối ưu hóa năng lượng tái tạo cho hệ thống Microgrid tại trường đại học',
     roundId: 'round-2026-01',
@@ -560,6 +769,12 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   // 6. GIAI ĐOẠN 2: VIẾT THUYẾT MINH (BƯỚC 03 - BM04B)
   {
     id: 'prop-sv-02',
+    hasConsolidatedMinutes: true,
+    councilTypeEvaluated: 'THUYET_MINH',
+    councilResult: 'PASS',
+    councilResultText: 'Đạt thuyết minh',
+    councilScoreAverage: 85.0,
+    councilEvaluationDate: '22/08/2026',
     code: 'DT-SV-2026-002',
     title: 'Nghiên cứu và xây dựng website thương mại điện tử tích hợp trợ lý ảo AI tư vấn mua sắm',
     roundId: 'round-2026-sv',
@@ -627,6 +842,12 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   // 7. GIAI ĐOẠN 3: VIẾT BÁO CÁO GIỮA KỲ (BƯỚC 06 - BM08)
   {
     id: 'prop-sv-03',
+    hasConsolidatedMinutes: true,
+    councilTypeEvaluated: 'THUYET_MINH',
+    councilResult: 'FAIL',
+    councilResultText: 'Không đạt (BM07)',
+    councilScoreAverage: 54.0,
+    councilEvaluationDate: '12/04/2026',
     code: 'DT-SV-2026-003',
     title: 'Thiết kế và chế tạo Robot tự hành vận chuyển tài liệu trong thư viện trường học',
     roundId: 'round-2026-sv',
@@ -866,7 +1087,53 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
   }
 ];
 
-export const INITIAL_COUNCILS: ScientificCouncil[] = [
+export 
+const INITIAL_BLACKLIST_RECORDS: BlacklistRecord[] = [
+  {
+    id: 'bl-req-01',
+    userId: 'u-banned-01',
+    userFullName: 'ThS. Hoàng Văn Đức',
+    userIdentifierCode: 'GV0199',
+    userRole: 'GIANG_VIEN',
+    userUnit: 'Khoa Điện - Điện tử',
+    proposalId: 'prop-cancel-099',
+    proposalCode: 'DT-GV-2025-099',
+    proposalTitle: 'Nghiên cứu ứng dụng IoT trong giám sát năng lượng các xưởng thực hành',
+    cancelReason: 'Chủ nhiệm tự ý bỏ dở tiến độ nghiên cứu, không thực hiện nộp báo cáo định kỳ BM08 quá thời hạn 60 ngày dù P.KHCN đã gửi 3 lần thông báo nhắc nhở.',
+    cancelReasonType: 'CHU_QUAN',
+    requestedBy: 'Phòng Khoa học & Công nghệ (CV. Nguyễn Thị Thu)',
+    requestedAt: '24/08/2026 15:30',
+    decisionNumber: 'QĐ-HUY-2026-018',
+    status: 'PENDING_ADMIN',
+    startDate: '26/08/2026',
+    endDate: '26/08/2027',
+    adminNotes: ''
+  },
+  {
+    id: 'bl-active-01',
+    userId: 'u-banned-02',
+    userFullName: 'Lê Quốc Bảo',
+    userIdentifierCode: 'SV200088',
+    userRole: 'SINH_VIEN',
+    userUnit: 'Khoa Công nghệ thông tin',
+    proposalId: 'prop-cancel-055',
+    proposalCode: 'DT-SV-2025-055',
+    proposalTitle: 'Xây dựng ứng dụng đặt xe nội bộ khuôn viên trường Đại học',
+    cancelReason: 'Gian lận kết quả khảo sát và sao chép mã nguồn không ghi rõ nguồn gốc trong báo cáo giữa kỳ.',
+    cancelReasonType: 'CHU_QUAN',
+    requestedBy: 'Phòng Khoa học & Công nghệ',
+    requestedAt: '15/01/2026 09:00',
+    decisionNumber: 'QĐ-KL-2026-004',
+    status: 'BANNED_ACTIVE',
+    startDate: '15/01/2026',
+    endDate: '15/01/2027',
+    adminApprovedBy: 'Quản trị viên Hệ thống (AD0001)',
+    adminApprovedAt: '16/01/2026 14:20',
+    adminNotes: 'Đã thông báo về Khoa CNTT và phòng Công tác Sinh viên.'
+  }
+];
+
+const INITIAL_COUNCILS: ScientificCouncil[] = [
   {
     id: 'council-01',
     code: 'HĐ-2026-B02-CNTT',
@@ -1035,6 +1302,183 @@ export const INITIAL_COUNCILS: ScientificCouncil[] = [
   providedIn: 'root'
 })
 export class NckhDataService {
+
+  private usersSubject = new BehaviorSubject<UserProfile[]>(DEMO_USERS);
+  public users$: Observable<UserProfile[]> = this.usersSubject.asObservable();
+
+  private blacklistSubject = new BehaviorSubject<BlacklistRecord[]>(INITIAL_BLACKLIST_RECORDS);
+  public blacklist$: Observable<BlacklistRecord[]> = this.blacklistSubject.asObservable();
+
+  // --- QUẢN LÝ TÀI KHOẢN DÀNH CHO ADMIN ---
+  public getAllUsers(): UserProfile[] {
+    return this.usersSubject.value;
+  }
+
+  public updateUser(id: string, updates: Partial<UserProfile>): boolean {
+    const list = this.usersSubject.value;
+    const idx = list.findIndex(u => u.id === id);
+    if (idx === -1) return false;
+    list[idx] = { ...list[idx], ...updates };
+    this.usersSubject.next([...list]);
+    const curr = this.currentUserSubject.value;
+    if (curr && curr.id === id) {
+      this.currentUserSubject.next({ ...curr, ...updates } as UserProfile);
+    }
+    return true;
+  }
+
+  public createUser(user: Partial<UserProfile>): UserProfile {
+    const list = this.usersSubject.value;
+    const newUser: UserProfile = {
+      id: `u-custom-${Date.now()}`,
+      email: user.email || 'user@dntu.edu.vn',
+      fullName: user.fullName || 'Người dùng mới',
+      role: user.role || 'GIANG_VIEN',
+      roleTitle: user.roleTitle || 'Giảng viên',
+      identifierCode: user.identifierCode || `GV${Math.floor(1000 + Math.random() * 9000)}`,
+      unit: user.unit || 'Khoa Công nghệ thông tin',
+      academicTitle: user.academicTitle || 'Cử nhân',
+      phone: user.phone || '0901 234 567',
+      avatar: user.avatar || 'assets/images/users/user-dummy-img.jpg',
+      accountStatus: 'ACTIVE'
+    };
+    list.unshift(newUser);
+    this.usersSubject.next([...list]);
+    return newUser;
+  }
+
+  public changeUserRole(userId: string, newRole: UserRole, roleTitle: string, unit: string, academicTitle?: string): boolean {
+    return this.updateUser(userId, {
+      role: newRole,
+      roleTitle: roleTitle,
+      unit: unit,
+      academicTitle: academicTitle
+    });
+  }
+
+  public approveUser(userId: string): boolean {
+    return this.updateUser(userId, {
+      accountStatus: 'ACTIVE'
+    });
+  }
+
+  public lockUser(userId: string, reason?: string): boolean {
+    return this.updateUser(userId, {
+      accountStatus: 'LOCKED'
+    });
+  }
+
+  public unlockUser(userId: string): boolean {
+    return this.updateUser(userId, {
+      accountStatus: 'ACTIVE'
+    });
+  }
+
+  // --- QUẢN LÝ BLACKLIST DÀNH CHO ADMIN & P.KHCN ---
+  public getBlacklistRecords(): BlacklistRecord[] {
+    return this.blacklistSubject.value;
+  }
+
+  public requestBlacklist(record: Partial<BlacklistRecord>): BlacklistRecord {
+    const list = this.blacklistSubject.value;
+    const newRecord: BlacklistRecord = {
+      id: `bl-${Date.now()}`,
+      userId: record.userId || 'u-unknown',
+      userFullName: record.userFullName || 'Chủ nhiệm đề tài',
+      userIdentifierCode: record.userIdentifierCode || '',
+      userRole: record.userRole || 'GIANG_VIEN',
+      userUnit: record.userUnit || '',
+      proposalId: record.proposalId || '',
+      proposalCode: record.proposalCode || '',
+      proposalTitle: record.proposalTitle || '',
+      cancelReason: record.cancelReason || 'Hủy đề tài do lý do chủ quan vi phạm quy chế',
+      cancelReasonType: record.cancelReasonType || 'CHU_QUAN',
+      requestedBy: record.requestedBy || 'Phòng Khoa học & Công nghệ',
+      requestedAt: new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN'),
+      decisionNumber: record.decisionNumber || 'QĐ-HUY-2026',
+      status: 'PENDING_ADMIN',
+      startDate: new Date().toLocaleDateString('vi-VN'),
+      endDate: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString('vi-VN'),
+      adminNotes: ''
+    };
+    list.unshift(newRecord);
+    this.blacklistSubject.next([...list]);
+    return newRecord;
+  }
+
+  public adminApproveBlacklist(recordId: string, notes?: string, customDecisionNumber?: string): boolean {
+    const list = this.blacklistSubject.value;
+    const idx = list.findIndex(r => r.id === recordId);
+    if (idx === -1) return false;
+
+    const record = list[idx];
+    const nowStr = new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN');
+    const endDateStr = new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toLocaleDateString('vi-VN');
+
+    list[idx] = {
+      ...record,
+      status: 'BANNED_ACTIVE',
+      decisionNumber: customDecisionNumber || record.decisionNumber,
+      startDate: nowStr.split(' ')[0],
+      endDate: endDateStr,
+      adminApprovedBy: this.currentUserSubject.value?.fullName || 'Quản trị viên Hệ thống',
+      adminApprovedAt: nowStr,
+      adminNotes: notes || 'Admin đã phê duyệt đưa vào danh sách hạn chế 01 năm theo kiến nghị của P.KHCN.'
+    };
+
+    this.blacklistSubject.next([...list]);
+
+    // Cập nhật trạng thái Blacklist trên UserProfile
+    this.updateUser(record.userId, {
+      isBlacklisted: true,
+      blacklistUntil: endDateStr,
+      blacklistReason: record.cancelReason
+    });
+
+    return true;
+  }
+
+  public adminRejectBlacklist(recordId: string, notes?: string): boolean {
+    const list = this.blacklistSubject.value;
+    const idx = list.findIndex(r => r.id === recordId);
+    if (idx === -1) return false;
+
+    list[idx] = {
+      ...list[idx],
+      status: 'REJECTED',
+      adminApprovedBy: this.currentUserSubject.value?.fullName || 'Quản trị viên Hệ thống',
+      adminApprovedAt: new Date().toLocaleDateString('vi-VN') + ' ' + new Date().toLocaleTimeString('vi-VN'),
+      adminNotes: notes || 'Admin từ chối kiến nghị Blacklist: Chấp thuận xét lý do giảm nhẹ.'
+    };
+
+    this.blacklistSubject.next([...list]);
+    return true;
+  }
+
+  public adminRevokeBlacklist(recordId: string, reason?: string): boolean {
+    const list = this.blacklistSubject.value;
+    const idx = list.findIndex(r => r.id === recordId);
+    if (idx === -1) return false;
+
+    const record = list[idx];
+    list[idx] = {
+      ...record,
+      status: 'REVOKED',
+      adminNotes: reason || 'Đã được gỡ Blacklist trước hạn theo Quyết định của Ban Giám hiệu.'
+    };
+
+    this.blacklistSubject.next([...list]);
+
+    // Gỡ Blacklist trên UserProfile
+    this.updateUser(record.userId, {
+      isBlacklisted: false,
+      blacklistUntil: undefined,
+      blacklistReason: undefined
+    });
+
+    return true;
+  }
+
   private currentUserSubject: BehaviorSubject<UserProfile | null>;
   public currentUser$: Observable<UserProfile | null>;
 
@@ -1239,9 +1683,7 @@ export class NckhDataService {
   public getProposalsForFaculty(facultyName?: string): TopicProposal[] {
     const faculty = facultyName || this.currentUserValue.unit;
     return this.proposalsSubject.value.filter(p => 
-      p.target === 'GIANG_VIEN' && 
-      p.faculty === faculty && 
-      (p.status === 'CHO_KHOA_DUYET' || p.status === 'CHO_DUYET_LAI' || p.status === 'TRA_CHINH_SUA' || p.status === 'CHO_HOI_DONG_XET_DUYET_HO_SO')
+      p.faculty === faculty && p.status !== 'DA_HUY'
     );
   }
 

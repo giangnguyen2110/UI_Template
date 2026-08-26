@@ -7,6 +7,7 @@ import { ReviewProposalsComponent } from './review-proposals/review-proposals.co
 import { RoundManagementComponent } from './round-management/round-management.component';
 import { ProposalDetailComponent } from './proposal-detail/proposal-detail.component';
 import { CouncilManagementComponent } from './council-management/council-management.component';
+import { AdminManagementComponent } from './admin-management/admin-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -22,6 +23,8 @@ const routes: Routes = [
   { path: 'quan-ly-hoi-dong', component: CouncilManagementComponent },
   { path: 'thanh-lap-hoi-dong', component: CouncilManagementComponent },
   { path: 'chi-tiet/:id', component: ProposalFormComponent },
+  { path: 'quan-ly-tai-khoan', component: AdminManagementComponent },
+  { path: 'quan-ly-blacklist', component: AdminManagementComponent },
 ];
 
 @NgModule({

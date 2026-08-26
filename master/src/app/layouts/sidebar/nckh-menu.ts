@@ -11,37 +11,13 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     isTitle: true
   };
 
-  // 1. TRANG CHỦ (Giảng viên & Sinh viên gộp làm 1 vào Trang chủ)
-  let homeItem: MenuItem;
-  if (role === 'GIANG_VIEN' || role === 'SINH_VIEN') {
-    homeItem = {
-      id: 10,
-      label: 'Trang chủ',
-      icon: 'ri-home-4-line',
-      link: '/nckh/dashboard'
-    };
-  } else {
-    homeItem = {
-      id: 10,
-      label: 'Trang chủ',
-      icon: 'ri-home-4-line',
-      isCollapsed: false,
-      subItems: [
-        {
-          id: 11,
-          label: 'Tổng quan',
-          link: '/',
-          parentId: 10
-        },
-        {
-          id: 12,
-          label: 'Bàn làm việc NCKH',
-          link: '/nckh/dashboard',
-          parentId: 10
-        }
-      ]
-    };
-  }
+  // 1. TRANG CHỦ (Trỏ trực tiếp đến Trang chủ / Tổng quan, không có dropdown)
+  const homeItem: MenuItem = {
+    id: 10,
+    label: 'Trang chủ',
+    icon: 'ri-home-4-line',
+    link: '/'
+  };
 
   // Xác định các subItem của Phân hệ NCKH Cấp trường theo đúng Role
   const schoolNckhSubItems: MenuItem[] = [];
@@ -65,8 +41,8 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     schoolNckhSubItems.push(
       {
         id: 21,
-        label: 'Xét duyệt hồ sơ Khoa (B01)',
-        link: '/nckh/xet-duyet-ho-so',
+        label: 'Danh sách đề tài khoa',
+        link: '/nckh/de-tai-don-vi',
         parentId: 20,
         badge: {
           variant: 'badge bg-danger',
@@ -75,12 +51,6 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
       },
       {
         id: 22,
-        label: 'Đề tài thuộc đơn vị',
-        link: '/nckh/de-tai-don-vi',
-        parentId: 20
-      },
-      {
-        id: 23,
         label: 'Danh sách đợt đăng ký',
         link: '/nckh/cac-dot-dang-ky',
         parentId: 20
@@ -128,40 +98,32 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
         label: 'Quản lý đề tài toàn trường',
         link: '/nckh/danh-sach-toan-truong',
         parentId: 20
-      },
-      {
-        id: 24,
-        label: 'Hồ sơ xét duyệt',
-        link: '/nckh/xet-duyet-ho-so',
-        parentId: 20
       }
     );
   } else if (role === 'CHU_TICH_HD' || role === 'HOI_DONG_MEMBER' || role === 'THU_KY_HD') {
     schoolNckhSubItems.push(
       {
         id: 21,
-        label: 'Hồ sơ Hội đồng thẩm định',
+        label: 'Hội đồng thẩm định đề tài',
         link: '/nckh/xet-duyet-ho-so',
         parentId: 20,
         badge: {
           variant: 'badge bg-warning',
-          text: 'Hội đồng'
+          text: 'Đang thẩm định'
         }
       },
       {
         id: 22,
-        label: 'Danh sách Hội đồng Khoa học',
-        link: '/nckh/quan-ly-hoi-dong',
-        parentId: 20
+        label: 'Đề tài đã đánh giá',
+        link: '/nckh/danh-sach-toan-truong',
+        parentId: 20,
+        badge: {
+          variant: 'badge bg-success-subtle text-success',
+          text: 'Pass/Fail'
+        }
       },
       {
         id: 23,
-        label: 'Danh mục đề tài toàn trường',
-        link: '/nckh/danh-sach-toan-truong',
-        parentId: 20
-      },
-      {
-        id: 24,
         label: 'Danh sách đợt đăng ký',
         link: '/nckh/cac-dot-dang-ky',
         parentId: 20
@@ -171,27 +133,19 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     schoolNckhSubItems.push(
       {
         id: 21,
-        label: 'Quản lý Đợt đăng ký',
-        link: '/nckh/quan-ly-dot',
+        label: 'Quản lý tài khoản & Phân quyền',
+        link: '/nckh/quan-ly-tai-khoan',
         parentId: 20
       },
       {
         id: 22,
-        label: 'Thành lập & Quản lý Hội đồng',
-        link: '/nckh/quan-ly-hoi-dong',
-        parentId: 20
-      },
-      {
-        id: 23,
-        label: 'Quản lý đề tài toàn trường',
-        link: '/nckh/danh-sach-toan-truong',
-        parentId: 20
-      },
-      {
-        id: 24,
-        label: 'Xét duyệt hồ sơ',
-        link: '/nckh/xet-duyet-ho-so',
-        parentId: 20
+        label: 'Tiếp nhận & Xử lý Blacklist',
+        link: '/nckh/quan-ly-blacklist',
+        parentId: 20,
+        badge: {
+          variant: 'badge bg-danger',
+          text: 'Chờ duyệt'
+        }
       }
     );
   }
@@ -253,45 +207,55 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
     }
   };
 
-  // 7. HỒ SƠ NGƯỜI DÙNG (Trỏ xuống)
+  // 7. TRANG QUẢN TRỊ ADMIN (NẾU LÀ ADMIN HOẶC P.KHCN)
+  const adminItem: MenuItem = {
+    id: 90,
+    label: 'Cấu hình hệ thống & Phân quyền',
+    icon: 'ri-settings-4-line',
+    link: '/nckh/quan-ly-dot',
+    badge: {
+      variant: 'badge bg-info',
+      text: 'Hệ thống'
+    }
+  };
+
+  // 8. TÀI KHOẢN & CÁ NHÂN
+  const userSectionTitle: MenuItem = {
+    id: 100,
+    label: 'TÀI KHOẢN & HỆ THỐNG',
+    isTitle: true
+  };
+
   const profileItem: MenuItem = {
-    id: 70,
-    label: 'Hồ sơ người dùng',
-    icon: 'ri-user-settings-line',
-    isCollapsed: false,
-    subItems: [
-      {
-        id: 71,
-        label: 'Thông tin cá nhân',
-        link: '/pages/profile',
-        parentId: 70
-      },
-      {
-        id: 72,
-        label: 'Cài đặt tài khoản & Bảo mật',
-        link: '/pages/profile-setting',
-        parentId: 70
-      }
-    ]
+    id: 101,
+    label: 'Hồ sơ cá nhân',
+    icon: 'ri-user-line',
+    link: '/pages/profile'
   };
 
-  // 8. ĐĂNG XUẤT (Dưới cùng)
   const logoutItem: MenuItem = {
-    id: 80,
+    id: 102,
     label: 'Đăng xuất',
-    icon: 'ri-logout-box-r-line text-danger',
-    link: '/auth/login'
+    icon: 'ri-logout-box-r-line',
+    link: '/auth/logout/basic'
   };
 
-  return [
+  const menuItems: MenuItem[] = [
     commonTitle,
     homeItem,
     nckhSchoolItem,
     acceptanceItem,
     transferItem,
     stateProjectItem,
-    conferenceItem,
-    profileItem,
-    logoutItem
+    conferenceItem
   ];
+
+  if (role === 'ADMIN' || role === 'P_KHCN') {
+    menuItems.push(adminItem);
+  }
+
+  // Bổ sung Hồ sơ & Đăng xuất cho TẤT CẢ các role
+  menuItems.push(userSectionTitle, profileItem, logoutItem);
+
+  return menuItems;
 }

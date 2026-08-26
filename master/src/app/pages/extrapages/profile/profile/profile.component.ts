@@ -47,7 +47,18 @@ export class ProfileComponent implements OnInit {
           country: 'Việt Nam',
           company_name: u.unit || 'Trường Đại học Công nghệ Đồng Nai',
           email: u.email,
-          designation: u.academicTitle || u.roleTitle
+          phone: u.phone || '0912 345 678',
+          designation: u.academicTitle || u.roleTitle,
+          identifierCode: u.identifierCode,
+          unit: u.unit,
+          academicTitle: u.academicTitle,
+          joining_date: '2020-09-01',
+          skills: ['Nghiên cứu khoa học', 'Trí tuệ nhân tạo', 'Quản lý dự án', 'Đánh giá Hội đồng', 'Công bố quốc tế'],
+          portfolio: [
+            { logo: 'github', bg_color: 'dark' },
+            { logo: 'global', bg_color: 'info' },
+            { logo: 'mail', bg_color: 'danger' }
+          ]
         };
       }
     });

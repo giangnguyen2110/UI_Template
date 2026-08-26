@@ -216,13 +216,15 @@
                                         <div class="input-group-text bg-primary border-primary text-white"><i class="ri-calendar-2-line"></i></div>
                                     </div>
                                 </div>
-                                <div class="col-auto">
-                                    <a routerLink="/nckh/dang-ky-moi">
-                                        <button type="button" class="btn btn-soft-success">
-                                            <i class="ri-add-circle-line align-middle me-1"></i> Đăng ký đề tài mới
-                                        </button>
-                                    </a>
-                                </div>
+                                @if (isStudentOrLecturer) {
+                                    <div class="col-auto">
+                                        <a routerLink="/nckh/dang-ky-moi">
+                                            <button type="button" class="btn btn-soft-success">
+                                                <i class="ri-add-circle-line align-middle me-1"></i> Đăng ký đề tài mới
+                                            </button>
+                                        </a>
+                                    </div>
+                                }
                                 <div class="col-auto">
                                     <button type="button" class="btn btn-soft-info btn-icon waves-effect waves-light layout-rightside-btn" (click)="toggleActivity()">
                                         <i class="ri-pulse-line"></i>
@@ -444,6 +446,183 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<!-- ================= 4 PHẦN TRỌNG TÂM CỦA HỆ THỐNG NCKH (BẢNG TIN, BIỂU MẪU, BÀI BÁO, CHUYÊN GIA) ================= -->
+<!-- 1. BẢNG TIN BÀI VIẾT MỚI & BIỂU MẪU QUY TRÌNH (BM01 - BM15) -->
+<div class="row mt-4">
+    <!-- 1. Danh sách bài viết mới & Tin tức Khoa học Công nghệ -->
+    <div class="col-lg-7">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0 fs-14">
+                    <i class="ri-newspaper-line me-1 text-primary"></i> Bảng tin & Bài viết Khoa học Công nghệ Mới
+                </h5>
+                <span class="badge bg-primary-subtle text-primary">Cập nhật liên tục</span>
+            </div>
+            <div class="card-body">
+                <div class="vstack gap-3">
+                    @for (item of newsArticles; track item.id) {
+                        <div class="d-flex align-items-start gap-3 p-2 rounded border bg-light-subtle transition-all">
+                            <div class="avatar-lg flex-shrink-0 rounded overflow-hidden">
+                                <img [src]="item.image" alt="" class="img-fluid rounded" style="width: 85px; height: 75px; object-fit: cover;">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <span class="badge" [class]="item.categoryClass">{{ item.category }}</span>
+                                    <small class="text-muted"><i class="ri-time-line me-1"></i>{{ item.date }}</small>
+                                </div>
+                                <h6 class="fs-13 fw-semibold mb-1 text-primary">
+                                    <a href="javascript:void(0);" class="text-primary">{{ item.title }}</a>
+                                </h6>
+                                <p class="text-muted fs-11 mb-2 line-clamp-2">{{ item.summary }}</p>
+                                <div class="d-flex align-items-center justify-content-between fs-11 text-muted">
+                                    <span><i class="ri-user-3-line me-1"></i>{{ item.author }}</span>
+                                    <span><i class="ri-eye-line me-1"></i>{{ item.views }} lượt xem</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Bảng tin thông báo về quy trình & Biểu mẫu NCKH (BM01 - BM15) -->
+    <div class="col-lg-5">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0 fs-14">
+                    <i class="ri-file-download-line me-1 text-success"></i> Biểu mẫu & Hướng dẫn Quy trình
+                </h5>
+                <span class="badge bg-success-subtle text-success">BM01 - BM15</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-nowrap align-middle mb-0 fs-12">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã BM</th>
+                                <th>Tên Biểu mẫu</th>
+                                <th>Giai đoạn</th>
+                                <th class="text-end">Tải về</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (f of formsAndGuidelines; track f.code) {
+                                <tr>
+                                    <td>
+                                        <span class="badge bg-primary text-white fw-bold">{{ f.code }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold text-truncate" style="max-width: 190px;" [title]="f.name">{{ f.name }}</div>
+                                        <small class="text-muted">{{ f.fileFormat }} ({{ f.fileSize }})</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark border">{{ f.step }}</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <button type="button" (click)="downloadFormAlert(f.code, f.name)" class="btn btn-sm btn-soft-success btn-icon waves-effect waves-light" [title]="'Tải ' + f.code">
+                                            <i class="ri-download-2-line"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 2. DANH MỤC BÀI BÁO KHOA HỌC & CÁC NHÀ NGHIÊN CỨU TIÊU BIỂU -->
+<div class="row mt-4 mb-4">
+    <!-- 3. Danh mục Bài báo Khoa học đã công bố -->
+    <div class="col-lg-7">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0 fs-14">
+                    <i class="ri-book-open-line me-1 text-info"></i> Danh mục Bài báo Khoa học Đã Công bố
+                </h5>
+                <span class="badge bg-info-subtle text-info">Scopus / WoS / VJOL</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0 fs-12">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Tên bài báo & Tạp chí</th>
+                                <th>Tác giả</th>
+                                <th>Phân loại</th>
+                                <th>Trích dẫn</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (p of publishedPapers; track p.id) {
+                                <tr>
+                                    <td>
+                                        <a href="javascript:void(0);" (click)="downloadPaper(p.title)" class="fw-semibold text-primary d-block mb-1" [title]="p.title">
+                                            {{ p.title }}
+                                        </a>
+                                        <small class="text-muted d-block">
+                                            <i class="ri-bookmark-line me-1 text-muted"></i>{{ p.journal }} (Năm {{ p.year }})
+                                        </small>
+                                        <small class="text-muted">DOI: <code>{{ p.doi }}</code></small>
+                                    </td>
+                                    <td>
+                                        <span class="text-dark fs-11">{{ p.authors }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge" [class]="p.badgeClass">{{ p.badge }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-primary border">
+                                            <i class="ri-double-quotes-l me-1"></i>{{ p.citations }} citations
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Các nhà nghiên cứu tiêu biểu & Nhóm nghiên cứu mạnh -->
+    <div class="col-lg-5">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0 fs-14">
+                    <i class="ri-team-line me-1 text-warning"></i> Nhà Nghiên cứu & Nhóm Nghiên cứu Mạnh
+                </h5>
+                <span class="badge bg-warning-subtle text-warning">Chuyên gia DNTU</span>
+            </div>
+            <div class="card-body">
+                <div class="vstack gap-3">
+                    @for (r of researchersList; track r.id) {
+                        <div class="d-flex align-items-center justify-content-between p-2 rounded border bg-light-subtle">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="avatar-sm flex-shrink-0">
+                                    <img [src]="r.avatar" alt="" class="img-fluid rounded-circle shadow-sm border border-2 border-white">
+                                </div>
+                                <div>
+                                    <h6 class="fs-13 fw-semibold mb-0 text-dark">{{ r.name }}</h6>
+                                    <small class="text-muted d-block">{{ r.academicTitle }} - {{ r.unit }}</small>
+                                    <small class="text-primary fw-medium"><i class="ri-medal-line me-1"></i>{{ r.group }}</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-primary-subtle text-primary fs-11">h-index: {{ r.hIndex }}</span>
+                                <small class="text-muted d-block mt-1">{{ r.publications }} công bố</small>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -22,6 +22,10 @@ export interface UserProfile {
   avatar?: string;
   assignedAdvisorId?: string; // Nếu là sinh viên
   isFacultyLeader?: boolean;
+  accountStatus?: 'ACTIVE' | 'LOCKED' | 'PENDING_APPROVAL';
+  isBlacklisted?: boolean;
+  blacklistUntil?: string; // Ngày hết hạn Blacklist (1 năm)
+  blacklistReason?: string;
 }
 
 export type TopicType = 'TUYEN_CHON' | 'GIAO_TRUC_TIEP';
@@ -179,6 +183,17 @@ export interface TopicProposal {
   reviewedAt?: string;
   reviewerName?: string;
   auditLogs: AuditHistoryLog[];
+  // Thẩm định & Đánh giá Hội đồng
+  hasConsolidatedMinutes?: boolean;
+  hasMissingEvaluation?: boolean;
+  missingMemberName?: string;
+  missingMemberRole?: string;
+  councilName?: string;
+  councilTypeEvaluated?: 'SO_DUYET' | 'THUYET_MINH' | 'NGHIEM_THU';
+  councilResult?: 'PASS' | 'FAIL' | 'PASS_WITH_REVISION';
+  councilResultText?: string;
+  councilScoreAverage?: number;
+  councilEvaluationDate?: string;
 }
 
 export type CouncilType = 'XET_DUYET_HO_SO' | 'XET_DUYET_THUYET_MINH' | 'NGHIEM_THU';
@@ -211,4 +226,27 @@ export interface ScientificCouncil {
   members: CouncilMember[];
   assignedProposalIds: string[];
   notes?: string;
+}
+
+export interface BlacklistRecord {
+  id: string;
+  userId: string;
+  userFullName: string;
+  userIdentifierCode: string;
+  userRole: UserRole;
+  userUnit: string;
+  proposalId: string;
+  proposalCode: string;
+  proposalTitle: string;
+  cancelReason: string;
+  cancelReasonType: 'KHACH_QUAN' | 'CHU_QUAN';
+  requestedBy: string; // 'Phòng Khoa học & Công nghệ'
+  requestedAt: string;
+  decisionNumber: string; // Số QĐ hủy
+  status: 'PENDING_ADMIN' | 'BANNED_ACTIVE' | 'REVOKED' | 'EXPIRED' | 'REJECTED';
+  startDate?: string;
+  endDate?: string; // 1 năm sau startDate
+  adminApprovedBy?: string;
+  adminApprovedAt?: string;
+  adminNotes?: string;
 }

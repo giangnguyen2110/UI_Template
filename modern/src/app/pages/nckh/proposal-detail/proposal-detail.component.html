@@ -1,11 +1,12 @@
+<!-- Breadcrumb & Header -->
 <div class="row">
   <div class="col-12">
     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0">Chi tiết Đề tài NCKH</h4>
+      <h4 class="mb-sm-0 text-uppercase fw-bold text-primary">Chi tiết Đề tài NCKH</h4>
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
           <li class="breadcrumb-item"><a routerLink="/nckh/dashboard">NCKH</a></li>
-          <li class="breadcrumb-item"><a routerLink="/nckh/de-tai-cua-toi">Đề tài</a></li>
+          <li class="breadcrumb-item"><a routerLink="/nckh/danh-sach-toan-truong">Đề tài</a></li>
           <li class="breadcrumb-item active">{{ proposal?.code }}</li>
         </ol>
       </div>
@@ -13,10 +14,18 @@
   </div>
 </div>
 
+<!-- Alert notification -->
+@if (alertMessage) {
+  <div class="alert alert-{{ alertType }} alert-dismissible fade show" role="alert">
+    <i class="ri-information-line me-2"></i> {{ alertMessage }}
+    <button type="button" class="btn-close" (click)="alertMessage = ''"></button>
+  </div>
+}
+
 @if (!proposal) {
   <div class="alert alert-warning">Không tìm thấy thông tin đề tài.</div>
 } @else {
-  <!-- Header Đề tài -->
+  <!-- Header Đề tài & Nút Hành động Đánh giá -->
   <div class="row mb-3">
     <div class="col-12">
       <div class="card shadow-sm mb-0">
@@ -40,12 +49,26 @@
               </div>
             </div>
 
-            <div class="d-flex gap-2">
+            <!-- NHÓM NÚT THAO TÁC: ĐÁNH GIÁ HỘI ĐỒNG & XEM BIỂU MẪU -->
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+              <!-- NÚT 1: ĐÁNH GIÁ ĐỀ TÀI (HỘI ĐỒNG) -->
+              <button type="button" class="btn btn-success waves-effect waves-light shadow-sm" (click)="openCouncilEvaluationModal(councilModal)">
+                <i class="ri-survey-line me-1"></i> Đánh giá đề tài (Hội đồng)
+              </button>
+
+              <!-- NÚT 2: XEM BIỂU MẪU TƯƠNG ỨNG (CHỈ KHI ĐƯỢC PHÉP XEM) -->
+              @if (getFormCodeForProposal(proposal)) {
+                <button type="button" class="btn" [class]="getFormCodeForProposal(proposal)!.btnClass" (click)="openBmModal(bmModal)">
+                  <i [class]="getFormCodeForProposal(proposal)!.icon + ' me-1'"></i> {{ getFormCodeForProposal(proposal)!.label }}
+                </button>
+              }
+
               @if (proposal.status === 'NHAP' || proposal.status === 'TRA_CHINH_SUA') {
                 <a [routerLink]="['/nckh/chinh-sua', proposal.id]" class="btn btn-primary">
-                  <i class="ri-edit-line me-1"></i> Chỉnh sửa hồ sơ
+                  <i class="ri-edit-line me-1"></i> Chỉnh sửa
                 </a>
               }
+              
               <button type="button" class="btn btn-light" onclick="window.history.back()">
                 <i class="ri-arrow-left-line me-1"></i> Quay lại
               </button>
@@ -124,38 +147,39 @@
     <!-- Cột Thông tin chi tiết nội dung -->
     <div class="col-lg-8">
       <div class="card shadow-sm">
-        <div class="card-header bg-light py-2">
+        <div class="card-header bg-light py-2 d-flex align-items-center justify-content-between">
           <h6 class="card-title mb-0 fs-14 fw-bold">Nội dung Thuyết minh Tóm tắt (BM01)</h6>
+          <span class="badge bg-primary-subtle text-primary">Hồ sơ chính thức</span>
         </div>
         <div class="card-body p-4">
           <div class="mb-3">
             <h6 class="fw-bold fs-13 text-primary">1. Tính cấp thiết của đề tài</h6>
-            <p class="text-muted fs-13">{{ proposal.necessity || '(Chưa có thông tin)' }}</p>
+            <p class="text-dark fs-13">{{ proposal.necessity || '(Chưa có thông tin)' }}</p>
           </div>
 
           <div class="mb-3">
             <h6 class="fw-bold fs-13 text-primary">2. Mục tiêu nghiên cứu</h6>
-            <p class="text-muted fs-13">{{ proposal.objectives || '(Chưa có thông tin)' }}</p>
+            <p class="text-dark fs-13">{{ proposal.objectives || '(Chưa có thông tin)' }}</p>
           </div>
 
           <div class="mb-3">
             <h6 class="fw-bold fs-13 text-primary">3. Nội dung nghiên cứu chính</h6>
-            <p class="text-muted fs-13" style="white-space: pre-line;">{{ proposal.mainContents }}</p>
+            <p class="text-dark fs-13" style="white-space: pre-line;">{{ proposal.mainContents }}</p>
           </div>
 
           <div class="mb-3">
             <h6 class="fw-bold fs-13 text-primary">4. Phương pháp nghiên cứu</h6>
-            <p class="text-muted fs-13">{{ proposal.methods }}</p>
+            <p class="text-dark fs-13">{{ proposal.methods }}</p>
           </div>
 
           <div class="mb-3">
             <h6 class="fw-bold fs-13 text-primary">5. Sản phẩm dự kiến</h6>
-            <p class="text-muted fs-13" style="white-space: pre-line;">{{ proposal.expectedProducts }}</p>
+            <p class="text-dark fs-13" style="white-space: pre-line;">{{ proposal.expectedProducts }}</p>
           </div>
 
           <div class="mb-3">
             <h6 class="fw-bold fs-13 text-primary">6. Khả năng ứng dụng & chuyển giao</h6>
-            <p class="text-muted fs-13">{{ proposal.applicability || 'Áp dụng cho công tác đào tạo và nghiên cứu tại trường.' }}</p>
+            <p class="text-dark fs-13">{{ proposal.applicability || 'Áp dụng cho công tác đào tạo và nghiên cứu tại trường.' }}</p>
           </div>
 
           <!-- Bảng thành viên nhóm -->
@@ -199,6 +223,24 @@
 
     <!-- Cột File ký số & Nhật ký xử lý -->
     <div class="col-lg-4">
+      <!-- Thẻ gọi Đánh giá Hội đồng nhanh: Chỉ hiển thị cho Hội đồng hoặc P.KHCN/Admin (Trưởng khoa không có) -->
+      @if (isCouncilRole || isPkhcnOrAdmin) {
+        <div class="card shadow-sm border border-success mb-3 bg-success-subtle">
+          <div class="card-body p-3">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="fw-bold text-success fs-13"><i class="ri-shield-user-line me-1"></i> Hội đồng Thẩm định</span>
+              <span class="badge bg-success text-white">5 Thành viên</span>
+            </div>
+            <p class="fs-12 text-muted mb-2">
+              Hội đồng Khoa học thẩm định và cho điểm theo phiếu đánh giá chuẩn quy chế Nhà trường.
+            </p>
+            <button type="button" class="btn btn-sm btn-success w-100 fw-semibold" (click)="openCouncilEvaluationModal(councilModal)">
+              <i class="ri-survey-line me-1"></i> Mở Phiếu Đánh Giá Hội Đồng
+            </button>
+          </div>
+        </div>
+      }
+
       <!-- File ký số BM01 -->
       <div class="card shadow-sm mb-3">
         <div class="card-header bg-light py-2">
@@ -264,3 +306,897 @@
     </div>
   </div>
 }
+
+<!-- ========================================================================= -->
+<!-- MODAL PHIẾU ĐÁNH GIÁ CỦA CÁC THÀNH VIÊN HỘI ĐỒNG (CHỦ TỊCH, PHẢN BIỆN, THƯ KÝ) -->
+<!-- ========================================================================= -->
+<!-- ========================================================================= -->
+<!-- MODAL PHIẾU ĐÁNH GIÁ CỦA CÁC THÀNH VIÊN HỘI ĐỒNG (PHÂN QUYỀN RÕ RÀNG)    -->
+<!-- ========================================================================= -->
+<ng-template #councilModal let-modal>
+  @if (proposal) {
+    <div class="modal-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-success fs-12">Hội đồng Thẩm định</span>
+        <h5 class="modal-title fs-14 fw-bold text-dark mb-0">
+          Phiếu Đánh Giá & Thẩm Định Đề Tài: {{ proposal.title }}
+        </h5>
+      </div>
+      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body p-4 bg-white" style="font-family: 'Times New Roman', Times, serif; color: #111;">
+      <!-- Header Hội đồng -->
+      <div class="row text-center mb-3 border-bottom pb-3">
+        <div class="col-6">
+          <div class="fs-13 fw-bold text-uppercase">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
+          <div class="fs-12 fw-semibold text-primary">HỘI ĐỒNG KHOA HỌC & CÔNG NGHỆ</div>
+          <div class="fs-11 text-muted">Quyết định thành lập: {{ councilEvaluationData.decisionNumber }}</div>
+        </div>
+        <div class="col-6">
+          <div class="fs-13 fw-bold text-uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div class="fs-12 fw-semibold">Độc lập - Tự do - Hạnh phúc</div>
+          <div class="fs-11 text-muted fst-italic">Đồng Nai, ngày {{ councilEvaluationData.meetingDate }}</div>
+        </div>
+      </div>
+
+      <!-- Thông tin đề tài thẩm định -->
+      <div class="p-3 bg-light rounded mb-3 fs-13" style="line-height: 1.8;">
+        <div><strong>Đề tài thẩm định:</strong> <span class="text-primary fw-bold">{{ proposal.title }}</span></div>
+        <div class="row g-2 mt-1">
+          <div class="col-md-6"><strong>Mã số:</strong> <code>{{ proposal.code }}</code> (v{{ proposal.version }})</div>
+          <div class="col-md-6"><strong>Chủ nhiệm:</strong> {{ proposal.authorName }} ({{ proposal.faculty }})</div>
+          <div class="col-md-6"><strong>Giai đoạn đánh giá:</strong> <span class="badge bg-primary">{{ proposal.statusText }}</span></div>
+          <div class="col-md-6"><strong>Tổng kinh phí đề xuất:</strong> <strong class="text-danger">{{ proposal.budgetTotal | number }} VNĐ</strong></div>
+        </div>
+      </div>
+
+      <!-- TABS CHỌN THÀNH VIÊN HỘI ĐỒNG -->
+      <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'summary'" (click)="activeMemberTab = 'summary'" href="javascript:void(0);">
+            <i class="ri-file-list-3-line me-1"></i> Phiếu Tổng hợp Hội đồng (Biên bản)
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'chutich'" (click)="activeMemberTab = 'chutich'" href="javascript:void(0);">
+            <i class="ri-user-star-line me-1"></i> Chủ tịch: PGS.TS. Trần Văn Hùng
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'phanbien1'" (click)="activeMemberTab = 'phanbien1'" href="javascript:void(0);">
+            <i class="ri-user-search-line me-1"></i> Phản biện 1: TS. Lê Hoàng Nam
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'phanbien2'" (click)="activeMemberTab = 'phanbien2'" href="javascript:void(0);">
+            <i class="ri-user-search-line me-1"></i> Phản biện 2: TS. Vũ Minh Tuấn
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'uyvien'" (click)="activeMemberTab = 'uyvien'" href="javascript:void(0);">
+            <i class="ri-user-follow-line me-1"></i> Ủy viên: TS. Nguyễn Văn Bình
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'thuky'" (click)="activeMemberTab = 'thuky'" href="javascript:void(0);">
+            <i class="ri-edit-2-line me-1"></i> Thư ký: ThS. Đỗ Anh Khoa
+          </a>
+        </li>
+      </ul>
+
+      <!-- TAB CONTENT -->
+
+      <!-- ================= 1. TAB BIÊN BẢN / PHIẾU TỔNG HỢP HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'summary') {
+        <div class="fs-13">
+          <!-- Thông báo phân quyền rõ ràng -->
+          @if (!canEditSummaryFields) {
+            <div class="alert alert-info-subtle border border-info p-2 mb-3 fs-12 text-info-emphasis d-flex align-items-center">
+              <i class="ri-information-line fs-16 me-2"></i>
+              <span><strong>Chế độ Xem (Thành viên Hội đồng):</strong> Bạn có thể theo dõi biên bản tổng hợp. Quyền chỉnh sửa các trường biên bản thuộc về <strong>Thư ký Hội đồng</strong> và quyền ký phê duyệt thuộc về <strong>Chủ tịch Hội đồng</strong>.</span>
+            </div>
+          } @else {
+            <div class="alert alert-success-subtle border border-success p-2 mb-3 fs-12 text-success-emphasis d-flex align-items-center">
+              <i class="ri-edit-circle-line fs-16 me-2"></i>
+              <span><strong>Quyền Thư ký Hội đồng:</strong> Bạn được phép chỉnh sửa toàn bộ các trường nội dung biên bản và ký số xác thực biên bản tổng hợp.</span>
+            </div>
+          }
+
+          <h6 class="fw-bold text-primary mb-2">BẢNG TỔNG HỢP ĐIỂM SỐ CÁC THÀNH VIÊN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle fs-12 mb-0">
+              <thead class="table-light text-center">
+                <tr>
+                  <th style="width: 40px;">STT</th>
+                  <th>Họ và tên thành viên</th>
+                  <th>Vai trò trong Hội đồng</th>
+                  <th>Điểm chấm</th>
+                  <th>Kết luận đánh giá</th>
+                  <th>Ý kiến nhận xét chính</th>
+                  <th>Trạng thái ký</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td><strong>{{ councilEvaluationData.chutich.name }}</strong></td>
+                  <td><span class="badge bg-danger">{{ councilEvaluationData.chutich.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.chutich.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.chutich.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.chutich.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td><strong>{{ councilEvaluationData.phanbien1.name }}</strong></td>
+                  <td><span class="badge bg-primary">{{ councilEvaluationData.phanbien1.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.phanbien1.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.phanbien1.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.phanbien1.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td><strong>{{ councilEvaluationData.phanbien2.name }}</strong></td>
+                  <td><span class="badge bg-primary">{{ councilEvaluationData.phanbien2.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.phanbien2.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.phanbien2.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.phanbien2.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td><strong>{{ councilEvaluationData.uyvien.name }}</strong></td>
+                  <td><span class="badge bg-info">{{ councilEvaluationData.uyvien.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.uyvien.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.uyvien.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.uyvien.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td><strong>{{ councilEvaluationData.thuky.name }}</strong></td>
+                  <td><span class="badge bg-warning text-dark">{{ councilEvaluationData.thuky.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.thuky.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.thuky.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.thuky.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr class="table-success">
+                  <td colspan="3" class="fw-bold text-uppercase text-center">ĐIỂM TRUNG BÌNH HỘI ĐỒNG:</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.summary.averageScore }} / 100</td>
+                  <td colspan="3" class="fw-bold text-success fs-13 text-center">
+                    <i class="ri-checkbox-circle-fill me-1"></i> 5/5 THÀNH VIÊN NHẤT TRÍ THÔNG QUA (ĐẠT LOẠI XUẤT SẮC)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- CÁC TRƯỜNG BIÊN BẢN TỔNG HỢP: THƯ KÝ ĐƯỢC CHỈNH SỬA, THÀNH VIÊN KHÁC CHỈ XEM -->
+          <h6 class="fw-bold text-dark mb-2 mt-4">NỘI DUNG BIÊN BẢN HỌP HỘI ĐỒNG:</h6>
+          <div class="card border p-3 bg-light">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold fs-12 mb-1">1. Thành phần tham dự:</label>
+                @if (canEditSummaryFields) {
+                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.attendees">
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.attendees }}</div>
+                }
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold fs-12 mb-1">2. Kết quả bỏ phiếu:</label>
+                @if (canEditSummaryFields) {
+                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.votingResult">
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.votingResult }}</div>
+                }
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold fs-12 mb-1">3. Kết luận của Hội đồng:</label>
+                @if (canEditSummaryFields) {
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.conclusion"></textarea>
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12" style="white-space: pre-line;">{{ councilEvaluationData.summary.conclusion }}</div>
+                }
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold fs-12 mb-1">4. Kiến nghị & Khen thưởng:</label>
+                @if (canEditSummaryFields) {
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.recommendation"></textarea>
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.recommendation }}</div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Khối chữ ký số điện tử của Thư ký và Chủ tịch trên Phiếu tổng hợp -->
+          <div class="row text-center mt-4 pt-3 border-top">
+            <!-- CỘT THƯ KÝ HỘI ĐỒNG -->
+            <div class="col-6 border-end">
+              <div class="fw-bold fs-12 text-uppercase">THƯ KÝ HỘI ĐỒNG</div>
+              <div class="text-muted fs-11 fst-italic">(Lập biên bản và ký xác thực)</div>
+              <div class="mt-3">
+                @if (councilEvaluationData.summary.secretarySigned) {
+                  <span class="badge bg-success-subtle text-success fs-11 border border-success p-2">
+                    <i class="ri-shield-check-fill me-1"></i> ThS. ĐỖ ANH KHOA (ĐÃ KÝ SỐ)
+                  </span>
+                  <div class="text-muted fs-10 mt-1">{{ councilEvaluationData.summary.secretarySignedAt }}</div>
+                } @else {
+                  <span class="badge bg-warning-subtle text-warning fs-11 border border-warning p-2">Chưa ký</span>
+                }
+              </div>
+
+              @if (canSignAsSecretary) {
+                <button type="button" class="btn btn-sm btn-outline-success mt-2" (click)="signSecretary()">
+                  <i class="ri-quill-pen-line me-1"></i> Thư ký Ký số Biên bản
+                </button>
+              }
+            </div>
+
+            <!-- CỘT CHỦ TỊCH HỘI ĐỒNG -->
+            <div class="col-6">
+              <div class="fw-bold fs-12 text-uppercase">CHỦ TỊCH HỘI ĐỒNG</div>
+              <div class="text-muted fs-11 fst-italic">(Ký phê duyệt kết quả)</div>
+              <div class="mt-3">
+                @if (councilEvaluationData.summary.chairmanSigned) {
+                  <span class="badge bg-success-subtle text-success fs-11 border border-success p-2">
+                    <i class="ri-shield-check-fill me-1"></i> PGS.TS. TRẦN VĂN HÙNG (ĐÃ KÝ SỐ)
+                  </span>
+                  <div class="text-muted fs-10 mt-1">{{ councilEvaluationData.summary.chairmanSignedAt }}</div>
+                } @else {
+                  <span class="badge bg-warning-subtle text-warning fs-11 border border-warning p-2">Chưa ký</span>
+                }
+              </div>
+
+              @if (canSignAsChairman) {
+                <button type="button" class="btn btn-sm btn-outline-danger mt-2" (click)="signChairman()">
+                  <i class="ri-shield-check-line me-1"></i> Chủ tịch Ký số Phê duyệt
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- ================= 2. TAB PHIẾU CÁ NHÂN CỦA CHỦ TỊCH HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'chutich') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.chutich.name }} - <span class="badge bg-danger">{{ councilEvaluationData.chutich.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.chutich.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[0]" (input)="updateTotalScore('chutich')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[1]" (input)="updateTotalScore('chutich')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[2]" (input)="updateTotalScore('chutich')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[3]" (input)="updateTotalScore('chutich')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[4]" (input)="updateTotalScore('chutich')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.chutich.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét của Chủ tịch:</label>
+            @if (canEditPersonalTab('chutich')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.chutich.comment"></textarea>
+              <div class="d-flex justify-content-end mt-2">
+                <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('chutich')">
+                  <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Chủ tịch)
+                </button>
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.chutich.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 3. TAB PHIẾU CÁ NHÂN CỦA PHẢN BIỆN 1 ================= -->
+      @if (activeMemberTab === 'phanbien1') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.phanbien1.name }} - <span class="badge bg-primary">{{ councilEvaluationData.phanbien1.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.phanbien1.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[0]" (input)="updateTotalScore('phanbien1')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[1]" (input)="updateTotalScore('phanbien1')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[2]" (input)="updateTotalScore('phanbien1')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[3]" (input)="updateTotalScore('phanbien1')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[4]" (input)="updateTotalScore('phanbien1')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.phanbien1.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét phản biện 1:</label>
+            @if (canEditPersonalTab('phanbien1')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien1.comment"></textarea>
+              <div class="d-flex justify-content-end mt-2">
+                <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('phanbien1')">
+                  <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Phản biện 1)
+                </button>
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.phanbien1.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 4. TAB PHIẾU CÁ NHÂN CỦA PHẢN BIỆN 2 ================= -->
+      @if (activeMemberTab === 'phanbien2') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.phanbien2.name }} - <span class="badge bg-primary">{{ councilEvaluationData.phanbien2.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.phanbien2.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[0]" (input)="updateTotalScore('phanbien2')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[1]" (input)="updateTotalScore('phanbien2')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[2]" (input)="updateTotalScore('phanbien2')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[3]" (input)="updateTotalScore('phanbien2')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[4]" (input)="updateTotalScore('phanbien2')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.phanbien2.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét phản biện 2:</label>
+            @if (canEditPersonalTab('phanbien2')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien2.comment"></textarea>
+              <div class="d-flex justify-content-end mt-2">
+                <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('phanbien2')">
+                  <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Phản biện 2)
+                </button>
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.phanbien2.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 5. TAB PHIẾU CÁ NHÂN CỦA ỦY VIÊN HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'uyvien') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.uyvien.name }} - <span class="badge bg-info">{{ councilEvaluationData.uyvien.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.uyvien.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[0]" (input)="updateTotalScore('uyvien')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[1]" (input)="updateTotalScore('uyvien')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[2]" (input)="updateTotalScore('uyvien')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[3]" (input)="updateTotalScore('uyvien')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[4]" (input)="updateTotalScore('uyvien')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.uyvien.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét của Ủy viên:</label>
+            @if (canEditPersonalTab('uyvien')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.uyvien.comment"></textarea>
+              <div class="d-flex justify-content-end mt-2">
+                <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('uyvien')">
+                  <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Ủy viên)
+                </button>
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.uyvien.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 6. TAB PHIẾU CÁ NHÂN CỦA THƯ KÝ HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'thuky') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.thuky.name }} - <span class="badge bg-warning text-dark">{{ councilEvaluationData.thuky.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.thuky.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[0]" (input)="updateTotalScore('thuky')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[1]" (input)="updateTotalScore('thuky')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[2]" (input)="updateTotalScore('thuky')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[3]" (input)="updateTotalScore('thuky')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[4]" (input)="updateTotalScore('thuky')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.thuky.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét của Thư ký:</label>
+            @if (canEditPersonalTab('thuky')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.thuky.comment"></textarea>
+              <div class="d-flex justify-content-end mt-2">
+                <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('thuky')">
+                  <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Thư ký)
+                </button>
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.thuky.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="modal-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+      <div>
+        <button type="button" class="btn btn-sm btn-outline-dark" onclick="window.print()">
+          <i class="ri-printer-line me-1"></i> In Phiếu đánh giá
+        </button>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        @if (!isMember) {
+          <button type="button" class="btn btn-sm btn-success waves-effect waves-light" (click)="saveEvaluation()">
+            <i class="ri-save-line me-1"></i> Hoàn tất & Lưu Đánh Giá
+          </button>
+        }
+        <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+      </div>
+    </div>
+  }
+</ng-template>
+
+<!-- ================= MODAL XEM BIỂU MẪU CHUẨN ================= -->
+<ng-template #bmModal let-modal>
+  @if (proposal) {
+    <div class="modal-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-primary fs-12">Biểu mẫu: {{ previewBmCode }}</span>
+        <h5 class="modal-title fs-14 fw-bold text-dark mb-0">
+          Văn bản Hành chính - {{ proposal.title }}
+        </h5>
+      </div>
+      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body p-4 bg-white" style="font-family: 'Times New Roman', Times, serif; color: #111;">
+      <!-- Header Văn bản Hành chính Chuẩn Nhà trường -->
+      <div class="row text-center mb-4 border-bottom pb-3">
+        <div class="col-5">
+          <div class="fs-13 fw-bold text-uppercase">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
+          <div class="fs-12 fw-semibold text-primary">HỘI ĐỒNG KHOA HỌC & CÔNG NGHỆ</div>
+          <div class="fs-11 text-muted mt-1">Mã hồ sơ: <code>{{ proposal.code }}</code> (v{{ proposal.version }})</div>
+        </div>
+        <div class="col-7">
+          <div class="fs-13 fw-bold text-uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div class="fs-12 fw-semibold">Độc lập - Tự do - Hạnh phúc</div>
+          <div class="fs-11 text-muted fst-italic mt-1">Đồng Nai, ngày 25 tháng 08 năm 2026</div>
+        </div>
+      </div>
+
+      <div class="text-center mb-4">
+        <h4 class="fw-bold text-uppercase text-dark mb-1">
+          @if (previewBmCode === 'BM02') {
+            PHIẾU NHẬN XÉT XÉT DUYỆT HỒ SƠ ĐĂNG KÝ ĐỀ TÀI NCKH (BM02)
+          } @else if (previewBmCode === 'BM06') {
+            PHIẾU ĐÁNH GIÁ THUYẾT MINH ĐỀ TÀI NCKH CẤP TRƯỜNG (BM06)
+          } @else if (previewBmCode === 'BM11') {
+            PHIẾU NHẬN XÉT ĐÁNH GIÁ NGHIỆM THU ĐỀ TÀI NCKH CẤP TRƯỜNG (BM11)
+          } @else if (previewBmCode === 'BM13') {
+            BÁO CÁO GIẢI TRÌNH & CHỈNH SỬA HỒ SƠ THEO GÓP Ý CỦA HỘI ĐỒNG NGHIỆM THU (BM13)
+          } @else {
+            VĂN BẢN ĐỀ TÀI NGHIÊN CỨU KHOA HỌC CẤP TRƯỜNG ({{ previewBmCode }})
+          }
+        </h4>
+        <div class="fs-12 text-muted fw-bold">Mã biểu mẫu: {{ previewBmCode }}.QT.KHCN.02</div>
+      </div>
+
+      <div class="p-3 bg-light rounded mb-3 fs-13" style="line-height: 1.8;">
+        <div><strong>Tên đề tài:</strong> <span class="text-primary fw-bold">{{ proposal.title }}</span></div>
+        <div class="row g-2 mt-1">
+          <div class="col-md-6"><strong>Chủ nhiệm:</strong> {{ proposal.authorName }} ({{ proposal.faculty }})</div>
+          <div class="col-md-6"><strong>Kinh phí:</strong> <strong class="text-danger">{{ proposal.budgetTotal | number }} VNĐ</strong></div>
+        </div>
+      </div>
+
+      <div class="fs-13" style="line-height: 1.8;">
+        <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">NỘI DUNG TỔNG QUÁT:</h6>
+        <p><strong>Tính cấp thiết:</strong> {{ proposal.necessity }}</p>
+        <p><strong>Mục tiêu nghiên cứu:</strong> {{ proposal.objectives }}</p>
+        <p><strong>Phương pháp & Sản phẩm:</strong> {{ proposal.expectedProducts }}</p>
+      </div>
+    </div>
+
+    <div class="modal-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+      <div>
+        <button type="button" class="btn btn-sm btn-outline-dark" onclick="window.print()">
+          <i class="ri-printer-line me-1"></i> In biểu mẫu
+        </button>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <!-- NÚT MỞ PHIẾU ĐÁNH GIÁ: CHỈ CHO ROLE HỘI ĐỒNG HOẶC PKHCN/ADMIN (TRƯỞNG KHOA CHỈ XEM CHI TIẾT) -->
+        @if (isCouncilRole || isPkhcnOrAdmin) {
+          <button type="button" class="btn btn-sm btn-success waves-effect waves-light" (click)="openCouncilEvaluationFromBm(councilModal)">
+            <i class="ri-survey-line me-1"></i> Mở Phiếu Đánh Giá Hội Đồng
+          </button>
+        }
+        <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+      </div>
+    </div>
+  }
+</ng-template>

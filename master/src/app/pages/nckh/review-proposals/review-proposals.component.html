@@ -2,11 +2,11 @@
 <div class="row">
   <div class="col-12">
     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-      <h4 class="mb-sm-0 text-uppercase">{{ pageHeading }}</h4>
+      <h4 class="mb-sm-0 text-uppercase fw-bold text-primary">{{ pageHeading }}</h4>
       <div class="page-title-right">
         <ol class="breadcrumb m-0">
           <li class="breadcrumb-item"><a routerLink="/nckh/dashboard">NCKH</a></li>
-          <li class="breadcrumb-item active">{{ isAllSchoolRoute ? 'Đề tài toàn trường' : (isFacultyRoute ? 'Đề tài đơn vị' : 'Xét duyệt hồ sơ') }}</li>
+          <li class="breadcrumb-item active">{{ pageHeading }}</li>
         </ol>
       </div>
     </div>
@@ -21,7 +21,7 @@
   </div>
 }
 
-<!-- ================= BỘ LỌC TÌM KIẾM ĐA CHIỀU (CHO TOÀN TRƯỜNG & DANH SÁCH) ================= -->
+<!-- ================= BỘ LỌC TÌM KIẾM ĐA CHIỀU (CHO TOÀN TRƯỜNG & HỘI ĐỒNG) ================= -->
 <div class="row mb-3">
   <div class="col-12">
     <div class="card shadow-sm border-0">
@@ -30,15 +30,32 @@
           <span class="fw-bold fs-13 text-dark">
             <i class="ri-filter-3-line me-1 text-primary"></i> Bộ lọc & Tìm kiếm Đề tài NCKH
           </span>
-          @if (totalCancelRequestCount > 0) {
+          @if (isPkhcnOrAdmin && totalCancelRequestCount > 0) {
             <span class="badge bg-danger-subtle text-danger fs-11 cursor-pointer" (click)="selectedPhase = 'YEU_CAU_HUY'; onFilterChange()" title="Bấm để lọc nhanh các đề tài đang có yêu cầu hủy">
               <i class="ri-error-warning-line me-1"></i> Có {{ totalCancelRequestCount }} đề tài yêu cầu hủy
             </span>
           }
         </div>
-        <button type="button" class="btn btn-sm btn-link text-muted p-0 text-decoration-none" (click)="resetFilters()">
-          <i class="ri-refresh-line me-1"></i> Đặt lại bộ lọc
-        </button>
+        <div class="d-flex align-items-center gap-2">
+          <!-- 1. NÚT XUẤT EXCEL THEO BỘ LỌC HIỆN TẠI (ẨN ĐỐI VỚI THƯ KÝ VÀ CÁC THÀNH VIÊN HỘI ĐỒNG) -->
+          @if (!isCouncilRole && currentUser.role !== 'THU_KY_HD' && (isDean || isPkhcnOrAdmin)) {
+            <button type="button" class="btn btn-sm btn-success waves-effect waves-light shadow-sm" (click)="exportFilteredToExcel()" title="Tải xuống file Excel danh sách đề tài theo kết quả lọc">
+              <i class="ri-file-excel-2-line me-1"></i> Xuất danh sách Excel
+            </button>
+          }
+
+          <!-- 2. NÚT TRÌNH DANH SÁCH LÊN P.KHCN (CHO TRƯỞNG KHOA) -->
+          @if (isDean) {
+            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light shadow-sm" (click)="openDeanExportModal(deanExportModal)" title="Xem tờ trình và gửi danh sách đề tài lên Phòng KHCN">
+              <i class="ri-send-plane-fill me-1"></i> Trình P.KHCN
+            </button>
+          }
+
+          <!-- 3. NÚT ĐẶT LẠI BỘ LỌC -->
+          <button type="button" class="btn btn-sm btn-outline-secondary" (click)="resetFilters()" title="Xóa các điều kiện lọc">
+            <i class="ri-refresh-line me-1"></i> Đặt lại bộ lọc
+          </button>
+        </div>
       </div>
       <div class="card-body p-3">
         <div class="row g-2">
@@ -88,13 +105,16 @@
             <select class="form-select form-select-sm" [(ngModel)]="selectedPhase" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả giai đoạn & trạng thái --</option>
               <option value="B01">B01: Đăng ký đề tài (BM01A/B)</option>
-              <option value="B02">B02: Phê duyệt sơ bộ (BM02/03)</option>
-              <option value="B03">B03: Viết thuyết minh (BM04/06/07)</option>
+              <option value="B02">B02: Sơ duyệt hồ sơ (BM02/03)</option>
+              <option value="B03">B03-04: Thuyết minh (BM04/06/07)</option>
               <option value="B06">B06: Báo cáo tiến độ ½ TG (BM08)</option>
-              <option value="B07">B07: Nghiệm thu & Chỉnh sửa (BM09-BM14)</option>
-              <option value="DONE">B08-B09: Công nhận & Lưu trữ</option>
-              <option value="YEU_CAU_HUY">⚠️ Đề tài Yêu cầu hủy</option>
-              <option value="DA_HUY">❌ Đề tài Đã hủy</option>
+              <option value="B07">B07: Nghiệm thu đề tài (BM09-BM12)</option>
+              <option value="BM13">B07: Giải trình sau nghiệm thu (BM13)</option>
+              <option value="DONE">B08-B09: Công nhận & Lưu trữ (BM15)</option>
+              @if (isPkhcnOrAdmin) {
+                <option value="YEU_CAU_HUY">⚠️ Đề tài Yêu cầu hủy</option>
+                <option value="DA_HUY">❌ Đề tài Đã hủy</option>
+              }
             </select>
           </div>
 
@@ -115,6 +135,459 @@
 </div>
 
 <!-- ================= DANH SÁCH BẢNG HỒ SƠ ĐỀ TÀI ================= -->
+@if (isCouncilRole && isAllSchoolRoute) {
+  <!-- ================= VIEW 1: DANH SÁCH ĐỀ TÀI HỘI ĐỒNG ĐÃ ĐÁNH GIÁ (PASS / FAIL) ================= -->
+  <!-- THỐNG KÊ KẾT QUẢ ĐÁNH GIÁ -->
+  <div class="row mb-3">
+    <div class="col-xl-3 col-md-6">
+      <div class="card card-animate mb-3 border shadow-sm">
+        <div class="card-body py-3">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <p class="text-uppercase fw-semibold text-muted fs-11 mb-1">Tổng đề tài đã đánh giá</p>
+              <h4 class="mb-0 text-primary">{{ councilEvaluatedProposals.length }} <span class="fs-12 text-muted fw-normal">hồ sơ</span></h4>
+            </div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+                <i class="ri-file-check-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card card-animate mb-3 border shadow-sm">
+        <div class="card-body py-3">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <p class="text-uppercase fw-semibold text-success fs-11 mb-1">Kết quả ĐẠT (PASS)</p>
+              <h4 class="mb-0 text-success">{{ countPassEvaluated }} <span class="fs-12 text-success fw-normal">thông qua</span></h4>
+            </div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-success-subtle text-success rounded-circle fs-3">
+                <i class="ri-checkbox-circle-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card card-animate mb-3 border shadow-sm">
+        <div class="card-body py-3">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <p class="text-uppercase fw-semibold text-warning fs-11 mb-1">ĐẠT CÓ CHỈNH SỬA</p>
+              <h4 class="mb-0 text-warning">{{ countPassWithRevisionEvaluated }} <span class="fs-12 text-warning fw-normal">yêu cầu sửa</span></h4>
+            </div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-warning-subtle text-warning rounded-circle fs-3">
+                <i class="ri-edit-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+      <div class="card card-animate mb-3 border shadow-sm">
+        <div class="card-body py-3">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <p class="text-uppercase fw-semibold text-danger fs-11 mb-1">KHÔNG ĐẠT (FAIL)</p>
+              <h4 class="mb-0 text-danger">{{ countFailEvaluated }} <span class="fs-12 text-danger fw-normal">từ chối</span></h4>
+            </div>
+            <div class="avatar-sm flex-shrink-0">
+              <span class="avatar-title bg-danger-subtle text-danger rounded-circle fs-3">
+                <i class="ri-close-circle-line"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BẢNG DANH SÁCH ĐỀ TÀI ĐÃ ĐÁNH GIÁ -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-light d-flex align-items-center justify-content-between py-2">
+          <h5 class="card-title mb-0 fs-14 fw-bold text-dark">
+            <i class="ri-history-line me-1 text-success"></i> Danh Sách Đề Tài Hội Đồng Đã Hoàn Tất Thẩm Định & Đánh Giá ({{ councilEvaluatedProposals.length }} đề tài)
+          </h5>
+          <span class="badge bg-success-subtle text-success fs-11">Lịch sử thẩm định</span>
+        </div>
+        <div class="card-body p-0">
+          @if (councilEvaluatedProposals.length > 0) {
+            <div class="table-responsive">
+              <table class="table table-hover table-nowrap align-middle mb-0 fs-12">
+                <thead class="table-light">
+                  <tr>
+                    <th style="width: 50px;" class="text-center">STT</th>
+                    <th>Mã & Tên đề tài</th>
+                    <th>Chủ nhiệm & Khoa</th>
+                    <th>Hội đồng thẩm định</th>
+                    <th class="text-center">Ngày đánh giá</th>
+                    <th class="text-center">Điểm TB HĐ</th>
+                    <th class="text-center">Kết quả thẩm định</th>
+                    <th class="text-center" style="width: 220px;">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of councilEvaluatedProposals; track p.id; let idx = $index) {
+                    <tr>
+                      <td class="text-center">{{ idx + 1 }}</td>
+                      <td>
+                        <div class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 300px;" [title]="p.title">{{ p.title }}</div>
+                        <span class="text-muted fs-11">Mã: <code>{{ p.code }}</code></span>
+                      </td>
+                      <td>
+                        <div class="fw-medium">{{ p.authorName }}</div>
+                        <small class="text-muted">{{ p.faculty }}</small>
+                      </td>
+                      <td>
+                        @if (p.councilTypeEvaluated === 'SO_DUYET') {
+                          <span class="badge bg-primary-subtle text-primary">HĐ Sơ duyệt hồ sơ (BM03)</span>
+                        } @else if (p.councilTypeEvaluated === 'THUYET_MINH') {
+                          <span class="badge bg-warning-subtle text-warning">HĐ Phê duyệt thuyết minh (BM07)</span>
+                        } @else if (p.councilTypeEvaluated === 'NGHIEM_THU') {
+                          <span class="badge bg-success-subtle text-success">HĐ Nghiệm thu đề tài (BM12)</span>
+                        } @else {
+                          <span class="badge bg-secondary-subtle text-secondary">Hội đồng Thẩm định</span>
+                        }
+                      </td>
+                      <td class="text-center text-muted">{{ p.councilEvaluationDate || '20/08/2026' }}</td>
+                      <td class="text-center">
+                        <span class="fw-bold fs-13 text-primary">{{ p.councilScoreAverage || 85.0 }}/100</span>
+                      </td>
+                      <td class="text-center">
+                        @if (p.councilResult === 'PASS') {
+                          <span class="badge bg-success-subtle text-success border border-success px-2 py-1 fs-11">
+                            <i class="ri-checkbox-circle-fill me-1"></i> ĐẠT (PASS)
+                          </span>
+                        } @else if (p.councilResult === 'PASS_WITH_REVISION') {
+                          <span class="badge bg-warning-subtle text-warning border border-warning px-2 py-1 fs-11">
+                            <i class="ri-alert-fill me-1"></i> ĐẠT CÓ CHỈNH SỬA
+                          </span>
+                        } @else if (p.councilResult === 'FAIL') {
+                          <span class="badge bg-danger-subtle text-danger border border-danger px-2 py-1 fs-11">
+                            <i class="ri-close-circle-fill me-1"></i> KHÔNG ĐẠT (FAIL)
+                          </span>
+                        } @else {
+                          <span class="badge bg-success-subtle text-success border border-success px-2 py-1 fs-11">
+                            <i class="ri-checkbox-circle-fill me-1"></i> ĐẠT (PASS)
+                          </span>
+                        }
+                      </td>
+                      <td class="text-center">
+                        <div class="d-flex justify-content-center align-items-center gap-1">
+                          <button type="button" class="btn btn-sm btn-soft-primary" (click)="openBmModal(bmModal, p)" title="Xem toàn văn biểu mẫu PDF">
+                            <i class="ri-file-pdf-line me-1 text-danger"></i> Xem PDF
+                          </button>
+                          <button type="button" class="btn btn-sm btn-soft-secondary" (click)="openPersonalEvaluationModal(councilEvalModal, p, p.councilTypeEvaluated === 'SO_DUYET' ? 'BM02' : (p.councilTypeEvaluated === 'THUYET_MINH' ? 'BM06' : 'BM11'), true)" title="Xem lại phiếu đánh giá của Hội đồng">
+                            <i class="ri-file-list-line me-1"></i> Xem lại phiếu
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="text-center py-5 text-muted fs-13">
+              <i class="ri-inbox-line fs-32 d-block mb-2 text-muted"></i>
+              Chưa có đề tài nào ở đây
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+} @else if (isCouncilRole) {
+  <!-- ================= VIEW 2: HỘI ĐỒNG THẨM ĐỊNH ĐỀ TÀI (ĐANG THỰC HIỆN ĐÁNH GIÁ) ================= -->
+  <!-- 1. HỘI ĐỒNG PHÊ DUYỆT SƠ BỘ (BƯỚC 02: BM02 / BM03) -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary-subtle d-flex align-items-center justify-content-between py-2">
+          <div class="d-flex align-items-center gap-2">
+            <h5 class="card-title mb-0 fs-14 text-dark">
+              <i class="ri-survey-line me-1 text-primary"></i>
+              Danh sách Đề tài Phân công cho <strong class="text-primary fs-14 text-uppercase">Hội đồng Phê duyệt sơ bộ</strong> Thẩm định ({{ councilProposalsPreliminary.length }} đề tài)
+            </h5>
+          </div>
+          <span class="badge bg-primary text-white fs-11 fw-bold">Sơ duyệt (BM02 / BM03)</span>
+        </div>
+        <div class="card-body p-0">
+          @if (councilProposalsPreliminary.length > 0) {
+            <div class="table-responsive">
+              <table class="table table-hover table-nowrap align-middle mb-0 fs-12">
+                <thead class="table-light">
+                  <tr>
+                    <th style="width: 50px;">STT</th>
+                    <th>Mã & Tên đề tài</th>
+                    <th>Chủ nhiệm & Mã số</th>
+                    <th>Khoa / Đơn vị</th>
+                    <th>Giai đoạn</th>
+                    <th>Kinh phí</th>
+                    <th>Trạng thái chấm</th>
+                    <th class="text-center sticky-col-right" style="min-width: 320px; width: 320px;">Thao tác Hội đồng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of councilProposalsPreliminary; track p.id; let idx = $index) {
+                    <tr>
+                      <td>{{ idx + 1 }}</td>
+                      <td>
+                        <div class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 280px;" [title]="p.title">{{ p.title }}</div>
+                        <div class="text-muted fs-11">Mã: <code>{{ p.code }}</code> (v{{ p.version }})</div>
+                      </td>
+                      <td>
+                        <div class="fw-medium">{{ p.authorName }}</div>
+                        <div class="text-muted fs-11">Mã: <code>{{ p.authorIdentifierCode }}</code></div>
+                      </td>
+                      <td>
+                        <div>{{ p.faculty }}</div>
+                        <span class="badge bg-info-subtle text-info mt-1">{{ p.type === 'TUYEN_CHON' ? 'Tuyển chọn' : 'Giao trực tiếp' }}</span>
+                      </td>
+                      <td>
+                        <span class="badge bg-primary-subtle text-primary fs-11 py-1 px-2">B02: Sơ duyệt</span>
+                      </td>
+                      <td class="fw-semibold">{{ p.budgetTotal | number }} đ</td>
+                      <td>
+                        @if (p.hasConsolidatedMinutes) {
+                          <span class="badge bg-secondary-subtle text-secondary border border-secondary">
+                            <i class="ri-lock-2-line me-1"></i> Đã tổng hợp (Khóa chấm điểm)
+                          </span>
+                        } @else {
+                          <span class="badge bg-warning-subtle text-warning border border-warning">
+                            <i class="ri-edit-line me-1"></i> Đang mở chấm điểm
+                          </span>
+                        }
+                      </td>
+                      <td class="text-center sticky-col-right">
+                        <div class="d-flex justify-content-center align-items-center gap-1">
+                          <button type="button" class="btn btn-sm btn-soft-primary" (click)="openBmModal(bmModal, p, p.target === 'SINH_VIEN' ? 'BM01B' : 'BM01A')" title="Xem toàn văn Hồ sơ đăng ký đề tài (BM01) do Giảng viên / Sinh viên nộp">
+                            <i class="ri-file-pdf-line me-1 text-danger"></i> Xem chi tiết
+                          </button>
+                          @if (p.hasConsolidatedMinutes) {
+                            <button type="button" class="btn btn-sm btn-soft-secondary" (click)="openPersonalEvaluationModal(councilEvalModal, p, 'BM02', true)" title="Xem lại phiếu đánh giá cá nhân BM02 (Đã khóa)">
+                              <i class="ri-lock-line me-1"></i> Xem phiếu BM02 (Đã khóa)
+                            </button>
+                          } @else {
+                            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light shadow-sm" (click)="openPersonalEvaluationModal(councilEvalModal, p, 'BM02', false)" title="Mở phiếu đánh giá cá nhân BM02 của thành viên Hội đồng">
+                              <i class="ri-edit-2-line me-1"></i> Đánh giá phiếu BM02 cá nhân
+                            </button>
+                          }
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="text-center py-4 text-muted fs-13">
+              <i class="ri-inbox-line fs-24 d-block mb-1 text-muted"></i>
+              Chưa có đề tài nào ở đây
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. HỘI ĐỒNG PHÊ DUYỆT THUYẾT MINH (BƯỚC 04: BM06 / BM07) -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-warning-subtle d-flex align-items-center justify-content-between py-2">
+          <div class="d-flex align-items-center gap-2">
+            <h5 class="card-title mb-0 fs-14 text-dark">
+              <i class="ri-file-edit-line me-1 text-warning"></i>
+              Danh sách Đề tài Phân công cho <strong class="text-warning-emphasis fs-14 text-uppercase">Hội đồng Phê duyệt thuyết minh</strong> Thẩm định ({{ councilProposalsOutline.length }} đề tài)
+            </h5>
+          </div>
+          <span class="badge bg-warning text-dark fs-11 fw-bold">Thuyết minh (BM06 / BM07)</span>
+        </div>
+        <div class="card-body p-0">
+          @if (councilProposalsOutline.length > 0) {
+            <div class="table-responsive">
+              <table class="table table-hover table-nowrap align-middle mb-0 fs-12">
+                <thead class="table-light">
+                  <tr>
+                    <th style="width: 50px;">STT</th>
+                    <th>Mã & Tên đề tài</th>
+                    <th>Chủ nhiệm & Mã số</th>
+                    <th>Khoa / Đơn vị</th>
+                    <th>Giai đoạn</th>
+                    <th>Kinh phí</th>
+                    <th>Trạng thái chấm</th>
+                    <th class="text-center sticky-col-right" style="min-width: 320px; width: 320px;">Thao tác Hội đồng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of councilProposalsOutline; track p.id; let idx = $index) {
+                    <tr>
+                      <td>{{ idx + 1 }}</td>
+                      <td>
+                        <div class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 280px;" [title]="p.title">{{ p.title }}</div>
+                        <div class="text-muted fs-11">Mã: <code>{{ p.code }}</code> (v{{ p.version }})</div>
+                      </td>
+                      <td>
+                        <div class="fw-medium">{{ p.authorName }}</div>
+                        <div class="text-muted fs-11">Mã: <code>{{ p.authorIdentifierCode }}</code></div>
+                      </td>
+                      <td>
+                        <div>{{ p.faculty }}</div>
+                        <span class="badge bg-info-subtle text-info mt-1">{{ p.type === 'TUYEN_CHON' ? 'Tuyển chọn' : 'Giao trực tiếp' }}</span>
+                      </td>
+                      <td>
+                        <span class="badge bg-warning-subtle text-warning fs-11 py-1 px-2">B04: Thuyết minh</span>
+                      </td>
+                      <td class="fw-semibold">{{ p.budgetTotal | number }} đ</td>
+                      <td>
+                        @if (p.hasConsolidatedMinutes) {
+                          <span class="badge bg-secondary-subtle text-secondary border border-secondary">
+                            <i class="ri-lock-2-line me-1"></i> Đã tổng hợp (Khóa chấm điểm)
+                          </span>
+                        } @else {
+                          <span class="badge bg-warning-subtle text-warning border border-warning">
+                            <i class="ri-edit-line me-1"></i> Đang mở chấm điểm
+                          </span>
+                        }
+                      </td>
+                      <td class="text-center sticky-col-right">
+                        <div class="d-flex justify-content-center align-items-center gap-1">
+                          <button type="button" class="btn btn-sm btn-soft-primary" (click)="openBmModal(bmModal, p, p.target === 'SINH_VIEN' ? 'BM04B' : 'BM04A')" title="Xem toàn văn Bản Thuyết minh đề tài (BM04) do Giảng viên / Sinh viên nộp">
+                            <i class="ri-file-pdf-line me-1 text-danger"></i> Xem chi tiết
+                          </button>
+                          @if (p.hasConsolidatedMinutes) {
+                            <button type="button" class="btn btn-sm btn-soft-secondary" (click)="openPersonalEvaluationModal(councilEvalModal, p, 'BM06', true)" title="Xem lại phiếu đánh giá cá nhân BM06 (Đã khóa)">
+                              <i class="ri-lock-line me-1"></i> Xem phiếu BM06 (Đã khóa)
+                            </button>
+                          } @else {
+                            <button type="button" class="btn btn-sm btn-warning waves-effect waves-light shadow-sm" (click)="openPersonalEvaluationModal(councilEvalModal, p, 'BM06', false)" title="Mở phiếu nhận xét đánh giá thuyết minh BM06 của thành viên Hội đồng">
+                              <i class="ri-edit-2-line me-1"></i> Đánh giá phiếu BM06 cá nhân
+                            </button>
+                          }
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="text-center py-4 text-muted fs-13">
+              <i class="ri-inbox-line fs-24 d-block mb-1 text-muted"></i>
+              Chưa có đề tài nào ở đây
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. HỘI ĐỒNG NGHIỆM THU (BƯỚC 07: BM11 / BM12) -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-success-subtle d-flex align-items-center justify-content-between py-2">
+          <div class="d-flex align-items-center gap-2">
+            <h5 class="card-title mb-0 fs-14 text-dark">
+              <i class="ri-award-line me-1 text-success"></i>
+              Danh sách Đề tài Phân công cho <strong class="text-success fs-14 text-uppercase">Hội đồng Nghiệm thu</strong> Thẩm định ({{ councilProposalsAcceptance.length }} đề tài)
+            </h5>
+          </div>
+          <span class="badge bg-success text-white fs-11 fw-bold">Nghiệm thu (BM11 / BM12)</span>
+        </div>
+        <div class="card-body p-0">
+          @if (councilProposalsAcceptance.length > 0) {
+            <div class="table-responsive">
+              <table class="table table-hover table-nowrap align-middle mb-0 fs-12">
+                <thead class="table-light">
+                  <tr>
+                    <th style="width: 50px;">STT</th>
+                    <th>Mã & Tên đề tài</th>
+                    <th>Chủ nhiệm & Mã số</th>
+                    <th>Khoa / Đơn vị</th>
+                    <th>Giai đoạn</th>
+                    <th>Kinh phí</th>
+                    <th>Trạng thái chấm</th>
+                    <th class="text-center sticky-col-right" style="min-width: 320px; width: 320px;">Thao tác Hội đồng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (p of councilProposalsAcceptance; track p.id; let idx = $index) {
+                    <tr>
+                      <td>{{ idx + 1 }}</td>
+                      <td>
+                        <div class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 280px;" [title]="p.title">{{ p.title }}</div>
+                        <div class="text-muted fs-11">Mã: <code>{{ p.code }}</code> (v{{ p.version }})</div>
+                      </td>
+                      <td>
+                        <div class="fw-medium">{{ p.authorName }}</div>
+                        <div class="text-muted fs-11">Mã: <code>{{ p.authorIdentifierCode }}</code></div>
+                      </td>
+                      <td>
+                        <div>{{ p.faculty }}</div>
+                        <span class="badge bg-info-subtle text-info mt-1">{{ p.type === 'TUYEN_CHON' ? 'Tuyển chọn' : 'Giao trực tiếp' }}</span>
+                      </td>
+                      <td>
+                        <span class="badge bg-danger-subtle text-danger fs-11 py-1 px-2">B07: Nghiệm thu</span>
+                      </td>
+                      <td class="fw-semibold">{{ p.budgetTotal | number }} đ</td>
+                      <td>
+                        @if (p.hasConsolidatedMinutes) {
+                          <span class="badge bg-secondary-subtle text-secondary border border-secondary">
+                            <i class="ri-lock-2-line me-1"></i> Đã tổng hợp (Khóa chấm điểm)
+                          </span>
+                        } @else {
+                          <span class="badge bg-warning-subtle text-warning border border-warning">
+                            <i class="ri-edit-line me-1"></i> Đang mở chấm điểm
+                          </span>
+                        }
+                      </td>
+                      <td class="text-center sticky-col-right">
+                        <div class="d-flex justify-content-center align-items-center gap-1">
+                          <button type="button" class="btn btn-sm btn-soft-primary" (click)="openBmModal(bmModal, p, p.status === 'YEU_CAU_CHINH_SUA_NGHIEM_THU' ? 'BM13' : 'BM09')" title="Xem toàn văn Báo cáo tổng kết nghiệm thu đề tài (BM09/BM13) do Giảng viên / Sinh viên nộp">
+                            <i class="ri-file-pdf-line me-1 text-danger"></i> Xem chi tiết
+                          </button>
+                          @if (p.hasConsolidatedMinutes) {
+                            <button type="button" class="btn btn-sm btn-soft-secondary" (click)="openPersonalEvaluationModal(councilEvalModal, p, 'BM11', true)" title="Xem lại phiếu đánh giá cá nhân BM11 (Đã khóa)">
+                              <i class="ri-lock-line me-1"></i> Xem phiếu BM11 (Đã khóa)
+                            </button>
+                          } @else {
+                            <button type="button" class="btn btn-sm btn-success waves-effect waves-light shadow-sm" (click)="openPersonalEvaluationModal(councilEvalModal, p, 'BM11', false)" title="Mở phiếu nhận xét đánh giá nghiệm thu BM11 của thành viên Hội đồng">
+                              <i class="ri-edit-2-line me-1"></i> Đánh giá phiếu BM11 cá nhân
+                            </button>
+                          }
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="text-center py-4 text-muted fs-13">
+              <i class="ri-inbox-line fs-24 d-block mb-1 text-muted"></i>
+              Chưa có đề tài nào ở đây
+            </div>
+          }
+        </div>
+</div>
+</div>
+</div>
+} @else {
+<!-- ================= DANH SÁCH BẢNG HỒ SƠ ĐỀ TÀI (CHO CÁC ROLE KHÁC) ================= -->
 <div class="row">
   <div class="col-12">
     <div class="card shadow-sm">
@@ -132,7 +605,7 @@
             <span class="badge bg-danger text-white fs-11">Đang lọc Đề tài Yêu cầu hủy</span>
           }
         </div>
-        <span class="badge bg-primary-subtle text-primary">{{ isAllSchoolRoute ? 'Toàn trường' : 'Phạm vi quản lý' }}</span>
+        <span class="badge bg-primary-subtle text-primary">{{ isCouncilRole ? 'Hội đồng Khoa học' : (isAllSchoolRoute ? 'Toàn trường' : 'Phạm vi quản lý') }}</span>
       </div>
 
       <div class="card-body p-0">
@@ -158,9 +631,15 @@
                   <td>{{ (page - 1) * pageSize + idx + 1 }}</td>
                   <td>
                     <div class="d-flex flex-column">
-                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 290px;" [title]="p.title">
-                        {{ p.title }}
-                      </a>
+                      @if (isStudentOrLecturer) {
+                        <a [routerLink]="['/nckh/chi-tiet', p.id]" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 290px;" [title]="p.title">
+                          {{ p.title }}
+                        </a>
+                      } @else {
+                        <a href="javascript:void(0);" (click)="openBmModal(bmModal, p)" class="fw-semibold text-dark fs-13 text-truncate" style="max-width: 290px;" [title]="p.title">
+                          {{ p.title }}
+                        </a>
+                      }
                       <span class="text-muted fs-11">Mã: <code>{{ p.code }}</code> (Phiên bản v{{ p.version }})</span>
                     </div>
                   </td>
@@ -209,20 +688,19 @@
                   </td>
                   <td class="text-center sticky-col-right">
                     <div class="d-flex justify-content-center align-items-center gap-1 flex-nowrap">
-                      <!-- 1. Nút Xem chi tiết -->
-                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary" title="Xem chi tiết hồ sơ đề tài">
-                        <i class="ri-eye-line me-1"></i> Xem chi tiết
-                      </a>
+                      <!-- 1. NÚT XEM CHI TIẾT: GIẢNG VIÊN / SINH VIÊN MỞ TRANG CHI TIẾT, CÁC ROLE KHÁC MỞ TOÀN VĂN BIỂU MẪU PDF -->
+                      @if (isStudentOrLecturer) {
+                        <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary" title="Xem chi tiết hồ sơ đề tài">
+                          <i class="ri-eye-line me-1"></i> Xem chi tiết
+                        </a>
+                      } @else {
+                        <button type="button" class="btn btn-sm btn-soft-primary" (click)="openBmModal(bmModal, p)" title="Xem toàn văn biểu mẫu PDF theo giai đoạn quy trình">
+                          <i class="ri-file-pdf-line me-1 text-danger"></i> Xem chi tiết ({{ getFormCodeForProposal(p)?.code || 'BM' }})
+                        </button>
+                      }
 
-                      <!-- 2. Nút Xem biểu mẫu tương ứng ở bước đó -->
-                      <button type="button" class="btn btn-sm" [class]="getFormCodeForProposal(p).btnClass" 
-                              (click)="openBmModal(bmModal, p)" 
-                              title="Xem biểu mẫu chuẩn của đề tài ở giai đoạn hiện tại">
-                        <i [class]="getFormCodeForProposal(p).icon + ' me-1'"></i> {{ getFormCodeForProposal(p).label }}
-                      </button>
-
-                      <!-- 3. NÚT HỦY ĐỀ TÀI CHO P.KHCN KHI CÓ YÊU CẦU HỦY HOẶC KHI ĐANG LỌC YÊU CẦU HỦY -->
-                      @if (isPkhcnOrAdmin && (p.status === 'YEU_CAU_HUY' || p.cancelRequest?.isRequested || selectedPhase === 'YEU_CAU_HUY' )) {
+                      <!-- 2. NÚT HỦY ĐỀ TÀI CHO P.KHCN KHI CÓ YÊU CẦU HỦY HOẶC KHI ĐANG LỌC YÊU CẦU HỦY -->
+                      @if (isPkhcnOrAdmin && (p.status === 'YEU_CAU_HUY' || p.cancelRequest?.isRequested || selectedPhase === 'YEU_CAU_HUY')) {
                         <button type="button" class="btn btn-sm btn-danger waves-effect waves-light" 
                                 (click)="openCancelModal(cancelModal, p)" 
                                 title="Phê duyệt Quyết định Hủy đề tài NCKH theo đơn yêu cầu">
@@ -273,83 +751,18 @@
     </div>
   </div>
 </div>
+}
 
 <!-- ========================================================================= -->
-<!-- MODAL HỦY ĐỀ TÀI DÀNH CHO P.KHCN                                         -->
-<!-- ========================================================================= -->
-<ng-template #cancelModal let-modal>
-  @if (selectedProposalForCancel) {
-    <div class="modal-header bg-danger-subtle py-2 px-3">
-      <h5 class="modal-title fs-14 fw-bold text-danger mb-0">
-        <i class="ri-close-circle-line me-1"></i> Phê duyệt Quyết định Hủy Đề tài NCKH
-      </h5>
-      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
-    </div>
-    <div class="modal-body p-4">
-      <!-- Thông tin đề tài -->
-      <div class="p-3 bg-light rounded border mb-3">
-        <div class="d-flex align-items-center justify-content-between mb-1">
-          <span class="badge bg-primary-subtle text-primary fs-11">Mã: {{ selectedProposalForCancel.code }}</span>
-          <span class="badge bg-danger-subtle text-danger border border-danger fs-11">Có đơn xin hủy</span>
-        </div>
-        <h6 class="fs-13 fw-bold text-dark mb-1">{{ selectedProposalForCancel.title }}</h6>
-        <div class="text-muted fs-11">
-          Chủ nhiệm: <strong>{{ selectedProposalForCancel.authorName }}</strong> • Đơn vị: <strong>{{ selectedProposalForCancel.faculty }}</strong> • Kinh phí: <strong>{{ selectedProposalForCancel.budgetTotal | number }} đ</strong>
-        </div>
-      </div>
-
-      <!-- Đơn yêu cầu hủy từ Chủ nhiệm -->
-      @if (selectedProposalForCancel.cancelRequest) {
-        <div class="alert alert-warning-subtle border border-warning p-3 mb-3 fs-12 text-dark">
-          <div class="fw-bold text-warning-emphasis mb-1">
-            <i class="ri-file-user-line me-1"></i> Đơn đề nghị xin hủy đề tài từ Chủ nhiệm:
-          </div>
-          <div class="mb-1"><strong>Lý do xin hủy:</strong> {{ selectedProposalForCancel.cancelRequest.reason }}</div>
-          <div class="text-muted fs-11">
-            Người đề nghị: <strong>{{ selectedProposalForCancel.cancelRequest.requestedBy }}</strong> • Ngày gửi: {{ selectedProposalForCancel.cancelRequest.requestedAt }}
-          </div>
-        </div>
-      }
-
-      <!-- Form nhập Quyết định hủy -->
-      <div class="row g-3 mb-3">
-        <div class="col-md-6">
-          <label class="form-label fs-12 fw-semibold">Số Quyết định Hủy đề tài <span class="text-danger">*</span>:</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="cancelDecisionNumber">
-        </div>
-        <div class="col-md-6">
-          <label class="form-label fs-12 fw-semibold">Thẩm quyền ký ban hành:</label>
-          <input type="text" class="form-control form-control-sm bg-light" value="Hiệu trưởng Trường ĐH Công nghệ Đồng Nai" readonly>
-        </div>
-        <div class="col-12">
-          <label class="form-label fs-12 fw-semibold">Căn cứ & Ghi chú của Phòng KHCN:</label>
-          <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="cancelPkhcnNotes" placeholder="Nhập căn cứ xử lý hủy hồ sơ..."></textarea>
-        </div>
-      </div>
-
-      <div class="alert alert-danger fs-11 mb-0">
-        <i class="ri-error-warning-line me-1"></i> <strong>Lưu ý:</strong> Sau khi phê duyệt hủy, đề tài sẽ chuyển sang trạng thái <strong>Đã hủy</strong> và dừng toàn bộ các bước tiếp theo trong quy trình NCKH.
-      </div>
-    </div>
-    <div class="modal-footer bg-light py-2 px-3">
-      <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy bỏ</button>
-      <button type="button" class="btn btn-sm btn-danger waves-effect waves-light" (click)="confirmCancelProposal()">
-        <i class="ri-checkbox-circle-line me-1"></i> Xác nhận Phê duyệt Hủy Đề tài
-      </button>
-    </div>
-  }
-</ng-template>
-
-<!-- ========================================================================= -->
-<!-- MODAL XEM BIỂU MẪU HÀNH CHÍNH & RA QUYẾT ĐỊNH CHO P.KHCN                  -->
+<!-- MODAL XEM BIỂU MẪU HÀNH CHÍNH & RA QUYẾT ĐỊNH / ĐÁNH GIÁ HỘI ĐỒNG         -->
 <!-- ========================================================================= -->
 <ng-template #bmModal let-modal>
   @if (selectedProposalForBm) {
     <div class="modal-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
       <div class="d-flex align-items-center gap-2">
-        <span class="badge bg-primary fs-12">Biểu mẫu: {{ previewBmCode }}</span>
+        <span class="badge bg-primary fs-12">Hồ sơ tác giả: {{ previewBmCode }}</span>
         <h5 class="modal-title fs-14 fw-bold text-dark mb-0">
-          Văn bản Hành chính - {{ selectedProposalForBm.title }}
+          Toàn Văn Hồ Sơ Đề Tài NCKH ({{ previewBmCode }}) - {{ selectedProposalForBm.title }}
         </h5>
       </div>
       <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
@@ -360,13 +773,13 @@
       <div class="row text-center mb-4 border-bottom pb-3">
         <div class="col-5">
           <div class="fs-13 fw-bold text-uppercase">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
-          <div class="fs-12 fw-semibold text-primary">PHÒNG KHOA HỌC & CÔNG NGHỆ</div>
+          <div class="fs-12 fw-semibold text-primary">HỘI ĐỒNG KHOA HỌC & CÔNG NGHỆ</div>
           <div class="fs-11 text-muted mt-1">Mã hồ sơ: <code>{{ selectedProposalForBm.code }}</code> (v{{ selectedProposalForBm.version }})</div>
         </div>
         <div class="col-7">
           <div class="fs-13 fw-bold text-uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
           <div class="fs-12 fw-semibold">Độc lập - Tự do - Hạnh phúc</div>
-          <div class="fs-11 text-muted fst-italic mt-1">Đồng Nai, ngày {{ selectedProposalForBm.startDateExpected || '... tháng ... năm 2026' }}</div>
+          <div class="fs-11 text-muted fst-italic mt-1">Đồng Nai, ngày 25 tháng 08 năm 2026</div>
         </div>
       </div>
 
@@ -375,14 +788,24 @@
         <h4 class="fw-bold text-uppercase text-dark mb-1">
           @if (previewBmCode === 'BM01A' || previewBmCode === 'BM01B') {
             ĐƠN ĐĂNG KÝ ĐỀ TÀI NGHIÊN CỨU KHOA HỌC CẤP TRƯỜNG
-          } @else if (previewBmCode === 'BM02' || previewBmCode === 'BM03') {
+          } @else if (previewBmCode === 'BM02') {
+            PHIẾU NHẬN XÉT XÉT DUYỆT HỒ SƠ ĐĂNG KÝ ĐỀ TÀI NCKH (BM02)
+          } @else if (previewBmCode === 'BM03') {
             BIÊN BẢN HỌP HỘI ĐỒNG XÉT DUYỆT HỒ SƠ ĐỀ TÀI NCKH (BM03)
           } @else if (previewBmCode === 'BM04A' || previewBmCode === 'BM04B') {
             THUYẾT MINH ĐỀ CƯƠNG NGHIÊN CỨU & DỰ TOÁN KINH PHÍ CHI TIẾT ({{ previewBmCode }})
+          } @else if (previewBmCode === 'BM06') {
+            PHIẾU ĐÁNH GIÁ THUYẾT MINH ĐỀ TÀI NCKH CẤP TRƯỜNG (BM06)
+          } @else if (previewBmCode === 'BM07') {
+            BIÊN BẢN HỌP HỘI ĐỒNG THẨM ĐỊNH THUYẾT MINH ĐỀ TÀI (BM07)
           } @else if (previewBmCode === 'BM08') {
             BÁO CÁO TIẾN ĐỘ THỰC HIỆN ĐỀ TÀI NCKH CẤP TRƯỜNG (½ THỜI GIAN)
           } @else if (previewBmCode === 'BM09') {
             BÁO CÁO TỔNG KẾT ĐỀ TÀI & ĐƠN ĐỀ NGHỊ NGHIỆM THU (BM09)
+          } @else if (previewBmCode === 'BM11') {
+            PHIẾU NHẬN XÉT ĐÁNH GIÁ NGHIỆM THU ĐỀ TÀI NCKH CẤP TRƯỜNG (BM11)
+          } @else if (previewBmCode === 'BM12') {
+            BIÊN BẢN HỌP HỘI ĐỒNG NGHIỆM THU ĐỀ TÀI NCKH (BM12)
           } @else if (previewBmCode === 'BM13') {
             BÁO CÁO GIẢI TRÌNH & CHỈNH SỬA HỒ SƠ THEO GÓP Ý CỦA HỘI ĐỒNG NGHIỆM THU (BM13)
           } @else if (previewBmCode === 'BM15') {
@@ -405,122 +828,161 @@
         </div>
       </div>
 
-      <!-- 2. NỘI DUNG CHI TIẾT TÙY THEO BIỂU MẪU ĐÃ NỘP -->
+      <!-- 2. NỘI DUNG CHI TIẾT TÙY THEO BIỂU MẪU ĐƯỢC CHỌN -->
 
-      <!-- A. NẾU LÀ BM01A / BM01B -->
-      @if (previewBmCode === 'BM01A' || previewBmCode === 'BM01B') {
+      <!-- A. NẾU LÀ BM02 (PHIẾU NHẬN XÉT SƠ DUYỆT HỒ SƠ) -->
+      @if (previewBmCode === 'BM02') {
         <div class="fs-13" style="line-height: 1.8;">
-          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">I. TÍNH CẤP THIẾT & MỤC TIÊU NGHIÊN CỨU:</h6>
-          <p><strong>1. Tính cấp thiết:</strong> {{ selectedProposalForBm.necessity || 'Đề tài giải quyết bài toán ứng dụng chuyển đổi số và tối ưu hóa xử lý dữ liệu cho thực tiễn Nhà trường.' }}</p>
-          <p><strong>2. Mục tiêu nghiên cứu:</strong> {{ selectedProposalForBm.objectives || 'Xây dựng mô hình tính toán hiệu năng cao, đóng gói sản phẩm phần mềm thực nghiệm và công bố bài báo khoa học.' }}</p>
+          <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom">
+            <span class="fw-bold text-dark">Thành viên Hội đồng nhận xét: <strong>{{ mockBm02.councilMemberName }}</strong> ({{ mockBm02.councilRole }})</span>
+            <span class="text-muted fs-12">Ngày đánh giá: {{ mockBm02.evaluationDate }}</span>
+          </div>
 
-          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">II. NỘI DUNG & SẢN PHẨM DỰ KIẾN:</h6>
-          <p><strong>1. Nội dung chính:</strong> {{ selectedProposalForBm.mainContents || 'Thu thập mẫu dữ liệu chuẩn hóa, phát triển thuật toán học sâu và thử nghiệm triển khai hệ thống.' }}</p>
-          <p><strong>2. Sản phẩm dự kiến:</strong> {{ selectedProposalForBm.expectedProducts || '01 Bài báo đăng trên Tạp chí chuyên ngành, 01 Phần mềm Web demo đóng gói Docker, 01 Báo cáo tổng kết.' }}</p>
-
-          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">III. THÀNH VIÊN NHÓM NGHIÊN CỨU:</h6>
-          <div class="table-responsive">
+          <h6 class="fw-bold text-dark mb-2">BẢNG TIÊU CHÍ ĐÁNH GIÁ SƠ BỘ HỒ SƠ ĐĂNG KÝ (BM02):</h6>
+          <div class="table-responsive mb-3">
             <table class="table table-sm table-bordered fs-12 mb-0">
               <thead class="table-light">
                 <tr>
-                  <th>STT</th>
-                  <th>Họ và tên</th>
-                  <th>Mã số</th>
-                  <th>Đơn vị</th>
-                  <th>Vai trò trong đề tài</th>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí đánh giá</th>
+                  <th style="width: 90px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 80px;" class="text-center">Điểm chấm</th>
+                  <th>Ý kiến nhận xét cụ thể</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td><strong>{{ selectedProposalForBm.authorName }}</strong></td>
-                  <td>{{ selectedProposalForBm.authorIdentifierCode }}</td>
-                  <td>{{ selectedProposalForBm.faculty }}</td>
-                  <td>Chủ nhiệm đề tài</td>
-                </tr>
-                @for (mem of selectedProposalForBm.members; track mem.id; let idx = $index) {
+                @for (crit of mockBm02.criteria; track crit.no) {
                   <tr>
-                    <td>{{ idx + 2 }}</td>
-                    <td>{{ mem.fullName }}</td>
-                    <td>{{ mem.identifierCode }}</td>
-                    <td>{{ mem.unit }}</td>
-                    <td>{{ mem.roleInProject }}</td>
+                    <td class="text-center">{{ crit.no }}</td>
+                    <td><strong>{{ crit.name }}</strong></td>
+                    <td class="text-center">{{ crit.maxScore }} đ</td>
+                    <td class="text-center fw-bold text-primary">{{ crit.score }} đ</td>
+                    <td>{{ crit.comment }}</td>
                   </tr>
                 }
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">Tổng điểm đánh giá:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-13">{{ mockBm02.totalScore }}/100 đ</td>
+                  <td class="fw-bold text-success">{{ mockBm02.conclusion }}</td>
+                </tr>
               </tbody>
             </table>
           </div>
+          <p><strong>Kết luận & Đề nghị của Hội đồng:</strong> {{ mockBm02.recommendation }}</p>
         </div>
       }
 
-      <!-- B. NẾU LÀ BM02 / BM03 (Xét duyệt sơ bộ) -->
-      @if (previewBmCode === 'BM02' || previewBmCode === 'BM03') {
+      <!-- B. NẾU LÀ BM06 (PHIẾU ĐÁNH GIÁ THUYẾT MINH ĐỀ TÀI) -->
+      @if (previewBmCode === 'BM06') {
         <div class="fs-13" style="line-height: 1.8;">
-          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">KẾT QUẢ ĐÁNH GIÁ CỦA HỘI ĐỒNG XÉT DUYỆT SƠ BỘ:</h6>
-          <p><strong>1. Thời gian & Địa điểm:</strong> 08:30 ngày 05/09/2026 tại Phòng Hội thảo A204 - DNTU.</p>
-          <p><strong>2. Thành phần Hội đồng:</strong> PGS.TS. Trần Văn Hùng (Chủ tịch), TS. Lê Hoàng Nam (Phản biện), ThS. Đỗ Anh Khoa (Thư ký).</p>
-          <p><strong>3. Kết quả bỏ phiếu:</strong> <span class="badge bg-success fs-12">3/3 Phiếu ĐẠT (100% thành viên thông qua)</span></p>
-          <p><strong>4. Nhận xét chung:</strong> Hồ sơ có tính cấp thiết cao, phương pháp nghiên cứu rõ ràng, dự toán hợp lý theo quy chế Nhà trường. Nhất trí thông qua để Chủ nhiệm viết Thuyết minh đề cương BM04.</p>
+          <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom">
+            <span class="fw-bold text-dark">Thành viên Hội đồng đánh giá: <strong>{{ mockBm06.councilMemberName }}</strong> ({{ mockBm06.councilRole }})</span>
+            <span class="text-muted fs-12">Ngày thẩm định: {{ mockBm06.evaluationDate }}</span>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM THUYẾT MINH ĐỀ TÀI NCKH (BM06):</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Tiêu chuẩn đánh giá thuyết minh</th>
+                  <th style="width: 90px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 80px;" class="text-center">Điểm chấm</th>
+                  <th>Ý kiến thẩm định chuyên môn</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (crit of mockBm06.criteria; track crit.no) {
+                  <tr>
+                    <td class="text-center">{{ crit.no }}</td>
+                    <td><strong>{{ crit.name }}</strong></td>
+                    <td class="text-center">{{ crit.maxScore }} đ</td>
+                    <td class="text-center fw-bold text-info">{{ crit.score }} đ</td>
+                    <td>{{ crit.comment }}</td>
+                  </tr>
+                }
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">Tổng điểm thẩm định thuyết minh:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-13">{{ mockBm06.totalScore }}/100 đ</td>
+                  <td class="fw-bold text-success">{{ mockBm06.conclusion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Kết luận & Kiến nghị:</strong> {{ mockBm06.recommendation }}</p>
         </div>
       }
 
-      <!-- C. NẾU LÀ BM04A / BM04B (Thuyết minh đề cương) -->
+      <!-- C. NẾU LÀ BM11 (PHIẾU ĐÁNH GIÁ NGHIỆM THU ĐỀ TÀI) -->
+      @if (previewBmCode === 'BM11') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="d-flex justify-content-between align-items-center mb-2 pb-1 border-bottom">
+            <span class="fw-bold text-dark">Ủy viên Hội đồng nghiệm thu: <strong>{{ mockBm11.councilMemberName }}</strong> ({{ mockBm11.councilRole }})</span>
+            <span class="text-muted fs-12">Ngày nghiệm thu: {{ mockBm11.evaluationDate }}</span>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM NGHIỆM THU ĐỀ TÀI NCKH CẤP TRƯỜNG (BM11):</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Tiêu chí đánh giá nghiệm thu sản phẩm</th>
+                  <th style="width: 90px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 80px;" class="text-center">Điểm chấm</th>
+                  <th>Nhận xét đánh giá kết quả nghiệm thu</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (crit of mockBm11.criteria; track crit.no) {
+                  <tr>
+                    <td class="text-center">{{ crit.no }}</td>
+                    <td><strong>{{ crit.name }}</strong></td>
+                    <td class="text-center">{{ crit.maxScore }} đ</td>
+                    <td class="text-center fw-bold text-danger">{{ crit.score }} đ</td>
+                    <td>{{ crit.comment }}</td>
+                  </tr>
+                }
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">Tổng điểm nghiệm thu chính thức:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-13">{{ mockBm11.totalScore }}/100 đ</td>
+                  <td class="fw-bold text-success">{{ mockBm11.conclusion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Kết luận của Hội đồng nghiệm thu:</strong> {{ mockBm11.recommendation }}</p>
+        </div>
+      }
+
+      <!-- D. NẾU LÀ BM01A / BM01B -->
+      @if (previewBmCode === 'BM01A' || previewBmCode === 'BM01B') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">I. TÍNH CẤP THIẾT & MỤC TIÊU NGHIÊN CỨU:</h6>
+          <p><strong>1. Tính cấp thiết:</strong> {{ selectedProposalForBm.necessity }}</p>
+          <p><strong>2. Mục tiêu nghiên cứu:</strong> {{ selectedProposalForBm.objectives }}</p>
+
+          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">II. NỘI DUNG & SẢN PHẨM DỰ KIẾN:</h6>
+          <p><strong>1. Nội dung chính:</strong> {{ selectedProposalForBm.mainContents }}</p>
+          <p><strong>2. Sản phẩm dự kiến:</strong> {{ selectedProposalForBm.expectedProducts }}</p>
+        </div>
+      }
+
+      <!-- E. NẾU LÀ BM04A / BM04B -->
       @if (previewBmCode === 'BM04A' || previewBmCode === 'BM04B') {
         <div class="fs-13" style="line-height: 1.8;">
           <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">I. TỔNG QUAN TÌNH HÌNH NGHIÊN CỨU & PHƯƠNG PHÁP:</h6>
           <p><strong>1. Trong nước:</strong> {{ mockBm04.overviewDomestic }}</p>
           <p><strong>2. Ngoài nước:</strong> {{ mockBm04.overviewAbroad }}</p>
           <p><strong>3. Phương pháp luận:</strong> {{ mockBm04.researchMethodsDetail }}</p>
-
-          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">II. KẾ HOẠCH TRIỂN KHAI CHI TIẾT THEO THÁNG:</h6>
-          <div class="table-responsive mb-3">
-            <table class="table table-sm table-bordered fs-12 mb-0">
-              <thead class="table-light">
-                <tr>
-                  <th style="width: 130px;">Thời gian</th>
-                  <th>Nội dung công việc</th>
-                  <th>Sản phẩm dự kiến</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (plan of mockBm04.implementationPlan; track $index) {
-                  <tr>
-                    <td><strong>{{ plan.month }}</strong></td>
-                    <td>{{ plan.content }}</td>
-                    <td>{{ plan.outcome }}</td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-
-          <h6 class="fw-bold text-dark border-bottom pb-1 mb-2 mt-3">III. DỰ TOÁN PHÂN BỔ KINH PHÍ:</h6>
-          <div class="table-responsive">
-            <table class="table table-sm table-bordered fs-12 mb-0">
-              <thead class="table-light">
-                <tr>
-                  <th>Danh mục khoản chi</th>
-                  <th class="text-end" style="width: 160px;">Kinh phí (VNĐ)</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (b of mockBm04.budgetItems; track $index) {
-                  <tr>
-                    <td>{{ b.category }}</td>
-                    <td class="text-end fw-semibold">{{ b.amount | number }} đ</td>
-                  </tr>
-                }
-                <tr class="table-light">
-                  <td class="fw-bold text-uppercase">Tổng cộng dự toán:</td>
-                  <td class="text-end fw-bold text-danger">{{ selectedProposalForBm.budgetTotal | number }} đ</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
       }
 
-      <!-- D. NẾU LÀ BM08 (Báo cáo tiến độ) -->
+      <!-- F. NẾU LÀ BM08 -->
       @if (previewBmCode === 'BM08') {
         <div class="fs-13" style="line-height: 1.8;">
           <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">KẾT QUẢ THỰC HIỆN ½ THỜI GIAN ĐỀ TÀI:</h6>
@@ -536,18 +998,14 @@
           <p><strong>1. Nội dung đã thực hiện:</strong> {{ mockBm08.completedContents }}</p>
           <p><strong>2. Sản phẩm trung gian đã đạt:</strong> {{ mockBm08.intermediateProducts }}</p>
           <p><strong>3. Kinh phí đã giải ngân:</strong> {{ mockBm08.budgetExpended | number }} VNĐ / {{ selectedProposalForBm.budgetTotal | number }} VNĐ</p>
-          <p><strong>4. Khó khăn & Đề xuất:</strong> {{ mockBm08.difficultiesAndRequests }}</p>
-          <p><strong>5. Kế hoạch giai đoạn tiếp theo:</strong> {{ mockBm08.planNextPhase }}</p>
         </div>
       }
 
-      <!-- E. NẾU LÀ BM09 (Báo cáo tổng kết & Đơn nghiệm thu) -->
+      <!-- G. NẾU LÀ BM09 -->
       @if (previewBmCode === 'BM09') {
         <div class="fs-13" style="line-height: 1.8;">
           <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">BÁO CÁO TỔNG KẾT ĐỀ TÀI & ĐỐI CHIẾU SẢN PHẨM:</h6>
           <p><strong>1. Tóm tắt kết quả nghiên cứu:</strong> {{ mockBm09.summaryContent }}</p>
-          
-          <h6 class="fw-bold text-dark mt-3 mb-2">2. Bảng đối chiếu sản phẩm cam kết vs thực tế:</h6>
           <div class="table-responsive mb-3">
             <table class="table table-sm table-bordered fs-12 mb-0">
               <thead class="table-light">
@@ -570,12 +1028,10 @@
               </tbody>
             </table>
           </div>
-          <p><strong>3. Tự đánh giá của Chủ nhiệm:</strong> <span class="badge bg-success fs-12">{{ mockBm09.selfAssessment }}</span></p>
-          <p><strong>4. Đơn đề nghị:</strong> Kính đề nghị Nhà trường và Hội đồng tổ chức đánh giá nghiệm thu chính thức.</p>
         </div>
       }
 
-      <!-- F. NẾU LÀ BM13 (Báo cáo giải trình sau nghiệm thu) -->
+      <!-- H. NẾU LÀ BM13 -->
       @if (previewBmCode === 'BM13') {
         <div class="fs-13" style="line-height: 1.8;">
           <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">BẢNG ĐỐI CHIẾU TIẾP THU & CHỈNH SỬA THEO GÓP Ý CỦA HỘI ĐỒNG:</h6>
@@ -602,7 +1058,7 @@
         </div>
       }
 
-      <!-- G. NẾU LÀ BM15 (Quyết định công nhận kết quả) -->
+      <!-- I. NẾU LÀ BM15 -->
       @if (previewBmCode === 'BM15') {
         <div class="fs-13" style="line-height: 1.8;">
           <h6 class="fw-bold text-dark border-bottom pb-1 mb-2">NỘI DUNG QUYẾT ĐỊNH CÔNG NHẬN KẾT QUẢ NCKH:</h6>
@@ -617,11 +1073,11 @@
       <!-- KHỐI CHỮ KÝ SỐ MÔ PHỎNG CHUẨN VĂN BẢN HÀNH CHÍNH -->
       <div class="row text-center mt-5 pt-4 border-top">
         <div class="col-6">
-          <div class="fw-bold fs-12 text-uppercase">TRƯỞNG ĐƠN VỊ / HỘI ĐỒNG</div>
+          <div class="fw-bold fs-12 text-uppercase">CHỦ TỊCH HỘI ĐỒNG / TRƯỞNG ĐƠN VỊ</div>
           <div class="text-muted fs-11 fst-italic">(Ký, ghi rõ họ tên)</div>
           <div class="mt-4 pt-2">
             <span class="badge bg-success-subtle text-success fs-11 border border-success p-2">
-              <i class="ri-shield-check-fill me-1"></i> ĐÃ KÝ SỐ XÁC THỰC ĐIỆN TỬ
+              <i class="ri-shield-check-fill me-1"></i> PGS.TS. TRẦN VĂN HÙNG (ĐÃ KÝ SỐ)
             </span>
           </div>
         </div>
@@ -637,7 +1093,7 @@
       </div>
     </div>
 
-    <!-- MODAL FOOTER: IN TÀI LIỆU VÀ CÁC NÚT RA QUYẾT ĐỊNH CHO P.KHCN -->
+    <!-- MODAL FOOTER: IN TÀI LIỆU VÀ CÁC NÚT RA QUYẾT ĐỊNH -->
     <div class="modal-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between">
       <div>
         <button type="button" class="btn btn-sm btn-outline-dark" onclick="window.print()">
@@ -646,8 +1102,8 @@
       </div>
 
       <div class="d-flex align-items-center gap-2">
-        <!-- Quyết định Bước 01 -->
-        @if (selectedProposalForBm.status === 'CHO_KHOA_DUYET' || selectedProposalForBm.status === 'CHO_GVHD_DUYET' || selectedProposalForBm.status === 'CHO_DUYET_LAI') {
+        <!-- 1. DUYỆT HỒ SƠ BƯỚC 01 (BM01) - CHỈ TRƯỞNG KHOA HOẶC GVHD HOẶC PKHCN -->
+        @if ((isFacultyRole || isPkhcnOrAdmin) && (selectedProposalForBm.status === 'CHO_KHOA_DUYET' || selectedProposalForBm.status === 'CHO_GVHD_DUYET' || selectedProposalForBm.status === 'CHO_DUYET_LAI')) {
           <button type="button" class="btn btn-sm btn-success" (click)="quickApproveFromBmModal()">
             <i class="ri-check-line me-1"></i> Phê duyệt hồ sơ BM01
           </button>
@@ -656,30 +1112,36 @@
           </button>
         }
 
-        <!-- Quyết định Bước 06 (Tiếp nhận BM08) -->
+        <!-- 2. BÁO CÁO TIẾN ĐỘ GIỮA KỲ BM08: TRƯỞNG KHOA DUYỆT & CHUYỂN P.KHCN -->
         @if (selectedProposalForBm.status === 'DANG_THUC_HIEN') {
-          <button type="button" class="btn btn-sm btn-info" (click)="quickReceiveBm08FromModal()">
-            <i class="ri-inbox-archive-line me-1"></i> Tiếp nhận Báo cáo BM08
-          </button>
+          @if (isDean) {
+            <button type="button" class="btn btn-sm btn-success waves-effect waves-light" (click)="deanApproveBm08()">
+              <i class="ri-check-line me-1"></i> Trưởng Khoa duyệt BM08 & Gửi P.KHCN
+            </button>
+          }
+          @if (isPkhcnOrAdmin) {
+            <button type="button" class="btn btn-sm btn-info waves-effect waves-light" (click)="pkhcnReceiveBm08()">
+              <i class="ri-inbox-archive-line me-1"></i> P.KHCN Tiếp nhận Báo cáo BM08
+            </button>
+          }
         }
 
-        <!-- Quyết định Bước 07 (Lập HĐNT hoặc Xác nhận BM13 hoặc Thanh lý BM14) -->
-        @if (selectedProposalForBm.status === 'CHO_NGHIEM_THU') {
-          <a routerLink="/nckh/quan-ly-hoi-dong" class="btn btn-sm btn-danger" (click)="modal.dismiss()">
-            <i class="ri-government-line me-1"></i> Lập Hội đồng Nghiệm thu (BM10)
-          </a>
-        }
-        @if (selectedProposalForBm.status === 'YEU_CAU_CHINH_SUA_NGHIEM_THU') {
+        <!-- 3. XÁC NHẬN GIẢI TRÌNH BM13 - CHỦ TỊCH / THƯ KÝ HỘI ĐỒNG HOẶC PKHCN -->
+        @if ((isChairman || isSecretary || isPkhcnOrAdmin) && selectedProposalForBm.status === 'YEU_CAU_CHINH_SUA_NGHIEM_THU') {
           <button type="button" class="btn btn-sm btn-warning" (click)="quickApproveBm13FromModal()">
             <i class="ri-check-double-line me-1"></i> Xác nhận Báo cáo Giải trình BM13
           </button>
         }
-        @if (selectedProposalForBm.status === 'DA_NGHIEM_THU') {
+
+        <!-- 4. PHÁT THÔNG BÁO THANH LÝ BM14 - CHỈ PHÒNG KHCN HOẶC ADMIN -->
+        @if (isPkhcnOrAdmin && selectedProposalForBm.status === 'DA_NGHIEM_THU') {
           <button type="button" class="btn btn-sm btn-secondary" (click)="quickNoticeBm14FromModal()">
             <i class="ri-file-text-line me-1"></i> Phát thông báo Thanh lý BM14
           </button>
         }
-        @if (selectedProposalForBm.status === 'HOAN_TAT_BUOC_07') {
+
+        <!-- 5. CÔNG BỐ QUYẾT ĐỊNH CÔNG NHẬN KẾT QUẢ BM15 - CHỈ PHÒNG KHCN HOẶC ADMIN -->
+        @if (isPkhcnOrAdmin && selectedProposalForBm.status === 'HOAN_TAT_BUOC_07') {
           <button type="button" class="btn btn-sm btn-primary" (click)="quickNoticeBm15FromModal()">
             <i class="ri-award-line me-1"></i> Công bố QĐ Công nhận KQ BM15
           </button>
@@ -756,4 +1218,1122 @@
       <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
     </div>
   }
+</ng-template>
+
+<!-- ================= MODAL HỦY ĐỀ TÀI DÀNH CHO P.KHCN ================= -->
+<ng-template #cancelModal let-modal>
+  @if (selectedProposalForCancel) {
+    <div class="modal-header bg-danger-subtle py-2 px-3">
+      <h5 class="modal-title fs-14 fw-bold text-danger mb-0">
+        <i class="ri-close-circle-line me-1"></i> Phê duyệt Quyết định Hủy Đề tài NCKH
+      </h5>
+      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body p-4">
+      <div class="p-3 bg-light rounded border mb-3">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+          <span class="badge bg-primary-subtle text-primary fs-11">Mã: {{ selectedProposalForCancel.code }}</span>
+          <span class="badge bg-danger-subtle text-danger border border-danger fs-11">Có đơn xin hủy</span>
+        </div>
+        <h6 class="fs-13 fw-bold text-dark mb-1">{{ selectedProposalForCancel.title }}</h6>
+        <div class="text-muted fs-11">
+          Chủ nhiệm: <strong>{{ selectedProposalForCancel.authorName }}</strong> • Đơn vị: <strong>{{ selectedProposalForCancel.faculty }}</strong> • Kinh phí: <strong>{{ selectedProposalForCancel.budgetTotal | number }} đ</strong>
+        </div>
+      </div>
+
+      @if (selectedProposalForCancel.cancelRequest) {
+        <div class="alert alert-warning-subtle border border-warning p-3 mb-3 fs-12 text-dark">
+          <div class="fw-bold text-warning-emphasis mb-1">
+            <i class="ri-file-user-line me-1"></i> Đơn đề nghị xin hủy đề tài từ Chủ nhiệm:
+          </div>
+          <div class="mb-1"><strong>Lý do xin hủy:</strong> {{ selectedProposalForCancel.cancelRequest.reason }}</div>
+          <div class="text-muted fs-11">
+            Người đề nghị: <strong>{{ selectedProposalForCancel.cancelRequest.requestedBy }}</strong> • Ngày gửi: {{ selectedProposalForCancel.cancelRequest.requestedAt }}
+          </div>
+        </div>
+      }
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label fs-12 fw-semibold">Số Quyết định Hủy đề tài <span class="text-danger">*</span>:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="cancelDecisionNumber">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fs-12 fw-semibold">Thẩm quyền ký ban hành:</label>
+          <input type="text" class="form-control form-control-sm bg-light" value="Hiệu trưởng Trường ĐH Công nghệ Đồng Nai" readonly>
+        </div>
+        <div class="col-12">
+          <label class="form-label fs-12 fw-semibold">Căn cứ & Ghi chú của Phòng KHCN:</label>
+          <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="cancelPkhcnNotes" placeholder="Nhập căn cứ xử lý hủy hồ sơ..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer bg-light py-2 px-3">
+      <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy bỏ</button>
+      <button type="button" class="btn btn-sm btn-danger waves-effect waves-light" (click)="confirmCancelProposal()">
+        <i class="ri-checkbox-circle-line me-1"></i> Xác nhận Phê duyệt Hủy Đề tài
+      </button>
+    </div>
+  }
+</ng-template>
+
+
+<!-- ========================================================================= -->
+<!-- MODAL PHIẾU ĐÁNH GIÁ CỦA CÁC THÀNH VIÊN HỘI ĐỒNG (CHỦ TỊCH, PHẢN BIỆN, THƯ KÝ) -->
+<!-- ========================================================================= -->
+<!-- ========================================================================= -->
+<!-- MODAL PHIẾU ĐÁNH GIÁ CỦA CÁC THÀNH VIÊN HỘI ĐỒNG (PHÂN QUYỀN RÕ RÀNG)    -->
+<!-- ========================================================================= -->
+<ng-template #councilEvalModal let-modal>
+  @if (selectedProposalForBm) {
+    <div class="modal-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-success fs-12">Hội đồng Thẩm định</span>
+        <h5 class="modal-title fs-14 fw-bold text-dark mb-0">
+          Phiếu Đánh Giá & Thẩm Định Đề Tài: {{ selectedProposalForBm.title }}
+        </h5>
+      </div>
+      <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+    </div>
+
+    <div class="modal-body p-4 bg-white" style="font-family: 'Times New Roman', Times, serif; color: #111;">
+      <!-- Header Hội đồng -->
+      <div class="row text-center mb-3 border-bottom pb-3">
+        <div class="col-6">
+          <div class="fs-13 fw-bold text-uppercase">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
+          <div class="fs-12 fw-semibold text-primary">HỘI ĐỒNG KHOA HỌC & CÔNG NGHỆ</div>
+          <div class="fs-11 text-muted">Quyết định thành lập: {{ councilEvaluationData.decisionNumber }}</div>
+        </div>
+        <div class="col-6">
+          <div class="fs-13 fw-bold text-uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+          <div class="fs-12 fw-semibold">Độc lập - Tự do - Hạnh phúc</div>
+          <div class="fs-11 text-muted fst-italic">Đồng Nai, ngày {{ councilEvaluationData.meetingDate }}</div>
+        </div>
+      </div>
+
+      <!-- Thông tin đề tài thẩm định -->
+      <div class="p-3 bg-light rounded mb-3 fs-13" style="line-height: 1.8;">
+        <div><strong>Đề tài thẩm định:</strong> <span class="text-primary fw-bold">{{ selectedProposalForBm.title }}</span></div>
+        <div class="row g-2 mt-1">
+          <div class="col-md-6"><strong>Mã số:</strong> <code>{{ selectedProposalForBm.code }}</code> (v{{ selectedProposalForBm.version }})</div>
+          <div class="col-md-6"><strong>Chủ nhiệm:</strong> {{ selectedProposalForBm.authorName }} ({{ selectedProposalForBm.faculty }})</div>
+          <div class="col-md-6"><strong>Giai đoạn đánh giá:</strong> <span class="badge bg-primary">{{ selectedProposalForBm.statusText }}</span></div>
+          <div class="col-md-6"><strong>Tổng kinh phí đề xuất:</strong> <strong class="text-danger">{{ selectedProposalForBm.budgetTotal | number }} VNĐ</strong></div>
+        </div>
+      </div>
+
+      <!-- TABS CHỌN THÀNH VIÊN HỘI ĐỒNG -->
+      <ul class="nav nav-tabs nav-tabs-custom nav-success mb-3" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'summary'" (click)="activeMemberTab = 'summary'" href="javascript:void(0);">
+            <i class="ri-file-list-3-line me-1"></i> Phiếu Tổng hợp Hội đồng (Biên bản)
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'chutich'" (click)="activeMemberTab = 'chutich'" href="javascript:void(0);">
+            <i class="ri-user-star-line me-1"></i> Chủ tịch: PGS.TS. Trần Văn Hùng
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'phanbien1'" (click)="activeMemberTab = 'phanbien1'" href="javascript:void(0);">
+            <i class="ri-user-search-line me-1"></i> Phản biện 1: TS. Lê Hoàng Nam
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'phanbien2'" (click)="activeMemberTab = 'phanbien2'" href="javascript:void(0);">
+            <i class="ri-user-search-line me-1"></i> Phản biện 2: TS. Vũ Minh Tuấn
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'uyvien'" (click)="activeMemberTab = 'uyvien'" href="javascript:void(0);">
+            <i class="ri-user-follow-line me-1"></i> Ủy viên: TS. Nguyễn Văn Bình
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeMemberTab === 'thuky'" (click)="activeMemberTab = 'thuky'" href="javascript:void(0);">
+            <i class="ri-edit-2-line me-1"></i> Thư ký: ThS. Đỗ Anh Khoa
+          </a>
+        </li>
+      </ul>
+
+      <!-- TAB CONTENT -->
+
+      <!-- ================= 1. TAB BIÊN BẢN / PHIẾU TỔNG HỢP HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'summary') {
+        <div class="fs-13">
+          <!-- Thông báo phân quyền rõ ràng -->
+          @if (!canEditSummaryFields) {
+            <div class="alert alert-info-subtle border border-info p-2 mb-3 fs-12 text-info-emphasis d-flex align-items-center">
+              <i class="ri-information-line fs-16 me-2"></i>
+              <span><strong>Chế độ Xem (Thành viên Hội đồng):</strong> Bạn có thể theo dõi biên bản tổng hợp. Quyền chỉnh sửa các trường biên bản thuộc về <strong>Thư ký Hội đồng</strong> và quyền ký phê duyệt thuộc về <strong>Chủ tịch Hội đồng</strong>.</span>
+            </div>
+          } @else {
+            <div class="alert alert-success-subtle border border-success p-2 mb-3 fs-12 text-success-emphasis d-flex align-items-center">
+              <i class="ri-edit-circle-line fs-16 me-2"></i>
+              <span><strong>Quyền Thư ký Hội đồng:</strong> Bạn được phép chỉnh sửa toàn bộ các trường nội dung biên bản và ký số xác thực biên bản tổng hợp.</span>
+            </div>
+          }
+
+          <h6 class="fw-bold text-primary mb-2">BẢNG TỔNG HỢP ĐIỂM SỐ CÁC THÀNH VIÊN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle fs-12 mb-0">
+              <thead class="table-light text-center">
+                <tr>
+                  <th style="width: 40px;">STT</th>
+                  <th>Họ và tên thành viên</th>
+                  <th>Vai trò trong Hội đồng</th>
+                  <th>Điểm chấm</th>
+                  <th>Kết luận đánh giá</th>
+                  <th>Ý kiến nhận xét chính</th>
+                  <th>Trạng thái ký</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td><strong>{{ councilEvaluationData.chutich.name }}</strong></td>
+                  <td><span class="badge bg-danger">{{ councilEvaluationData.chutich.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.chutich.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.chutich.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.chutich.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td><strong>{{ councilEvaluationData.phanbien1.name }}</strong></td>
+                  <td><span class="badge bg-primary">{{ councilEvaluationData.phanbien1.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.phanbien1.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.phanbien1.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.phanbien1.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td><strong>{{ councilEvaluationData.phanbien2.name }}</strong></td>
+                  <td><span class="badge bg-primary">{{ councilEvaluationData.phanbien2.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.phanbien2.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.phanbien2.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.phanbien2.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td><strong>{{ councilEvaluationData.uyvien.name }}</strong></td>
+                  <td><span class="badge bg-info">{{ councilEvaluationData.uyvien.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.uyvien.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.uyvien.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.uyvien.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td><strong>{{ councilEvaluationData.thuky.name }}</strong></td>
+                  <td><span class="badge bg-warning text-dark">{{ councilEvaluationData.thuky.role }}</span></td>
+                  <td class="text-center fw-bold text-primary fs-13">{{ councilEvaluationData.thuky.score }}/100</td>
+                  <td class="text-center fw-bold text-success">{{ councilEvaluationData.thuky.result }}</td>
+                  <td class="fs-11">{{ councilEvaluationData.thuky.comment }}</td>
+                  <td class="text-center"><span class="badge bg-success-subtle text-success border border-success"><i class="ri-check-line me-1"></i>Đã ký số</span></td>
+                </tr>
+                <tr class="table-success">
+                  <td colspan="3" class="fw-bold text-uppercase text-center">ĐIỂM TRUNG BÌNH HỘI ĐỒNG:</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.summary.averageScore }} / 100</td>
+                  <td colspan="3" class="fw-bold text-success fs-13 text-center">
+                    <i class="ri-checkbox-circle-fill me-1"></i> 5/5 THÀNH VIÊN NHẤT TRÍ THÔNG QUA (ĐẠT LOẠI XUẤT SẮC)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- CÁC TRƯỜNG BIÊN BẢN TỔNG HỢP: THƯ KÝ ĐƯỢC CHỈNH SỬA, THÀNH VIÊN KHÁC CHỈ XEM -->
+          <h6 class="fw-bold text-dark mb-2 mt-4">NỘI DUNG BIÊN BẢN HỌP HỘI ĐỒNG:</h6>
+          <div class="card border p-3 bg-light">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold fs-12 mb-1">1. Thành phần tham dự:</label>
+                @if (canEditSummaryFields) {
+                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.attendees">
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.attendees }}</div>
+                }
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold fs-12 mb-1">2. Kết quả bỏ phiếu:</label>
+                @if (canEditSummaryFields) {
+                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.votingResult">
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.votingResult }}</div>
+                }
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold fs-12 mb-1">3. Kết luận của Hội đồng:</label>
+                @if (canEditSummaryFields) {
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.conclusion"></textarea>
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12" style="white-space: pre-line;">{{ councilEvaluationData.summary.conclusion }}</div>
+                }
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold fs-12 mb-1">4. Kiến nghị & Khen thưởng:</label>
+                @if (canEditSummaryFields) {
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.recommendation"></textarea>
+                } @else {
+                  <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.recommendation }}</div>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Khối chữ ký số điện tử của Thư ký và Chủ tịch trên Phiếu tổng hợp -->
+          <div class="row text-center mt-4 pt-3 border-top">
+            <!-- CỘT THƯ KÝ HỘI ĐỒNG -->
+            <div class="col-6 border-end">
+              <div class="fw-bold fs-12 text-uppercase">THƯ KÝ HỘI ĐỒNG</div>
+              <div class="text-muted fs-11 fst-italic">(Lập biên bản và ký xác thực)</div>
+              <div class="mt-3">
+                @if (councilEvaluationData.summary.secretarySigned) {
+                  <span class="badge bg-success-subtle text-success fs-11 border border-success p-2">
+                    <i class="ri-shield-check-fill me-1"></i> ThS. ĐỖ ANH KHOA (ĐÃ KÝ SỐ)
+                  </span>
+                  <div class="text-muted fs-10 mt-1">{{ councilEvaluationData.summary.secretarySignedAt }}</div>
+                } @else {
+                  <span class="badge bg-warning-subtle text-warning fs-11 border border-warning p-2">Chưa ký</span>
+                }
+              </div>
+
+              @if (canSignAsSecretary) {
+                <button type="button" class="btn btn-sm btn-outline-success mt-2" (click)="signSecretary()">
+                  <i class="ri-quill-pen-line me-1"></i> Thư ký Ký số Biên bản
+                </button>
+              }
+            </div>
+
+            <!-- CỘT CHỦ TỊCH HỘI ĐỒNG -->
+            <div class="col-6">
+              <div class="fw-bold fs-12 text-uppercase">CHỦ TỊCH HỘI ĐỒNG</div>
+              <div class="text-muted fs-11 fst-italic">(Ký phê duyệt kết quả)</div>
+              <div class="mt-3">
+                @if (councilEvaluationData.summary.chairmanSigned) {
+                  <span class="badge bg-success-subtle text-success fs-11 border border-success p-2">
+                    <i class="ri-shield-check-fill me-1"></i> PGS.TS. TRẦN VĂN HÙNG (ĐÃ KÝ SỐ)
+                  </span>
+                  <div class="text-muted fs-10 mt-1">{{ councilEvaluationData.summary.chairmanSignedAt }}</div>
+                } @else {
+                  <span class="badge bg-warning-subtle text-warning fs-11 border border-warning p-2">Chưa ký</span>
+                }
+              </div>
+
+              @if (canSignAsChairman) {
+                <button type="button" class="btn btn-sm btn-outline-danger mt-2" (click)="signChairman()">
+                  <i class="ri-shield-check-line me-1"></i> Chủ tịch Ký số Phê duyệt
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- ================= 2. TAB PHIẾU CÁ NHÂN CỦA CHỦ TỊCH HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'chutich') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.chutich.name }} - <span class="badge bg-danger">{{ councilEvaluationData.chutich.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.chutich.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[0]" (input)="updateTotalScore('chutich')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[1]" (input)="updateTotalScore('chutich')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[2]" (input)="updateTotalScore('chutich')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[3]" (input)="updateTotalScore('chutich')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('chutich')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[4]" (input)="updateTotalScore('chutich')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.chutich.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét của Chủ tịch:</label>
+            @if (canEditPersonalTab('chutich')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.chutich.comment"></textarea>
+              <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
+                  <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
+                </button>
+                @if (canEditPersonalTab('chutich')) {
+                  <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('chutich')">
+                    <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Chủ tịch)
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.chutich.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 3. TAB PHIẾU CÁ NHÂN CỦA PHẢN BIỆN 1 ================= -->
+      @if (activeMemberTab === 'phanbien1') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.phanbien1.name }} - <span class="badge bg-primary">{{ councilEvaluationData.phanbien1.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.phanbien1.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[0]" (input)="updateTotalScore('phanbien1')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[1]" (input)="updateTotalScore('phanbien1')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[2]" (input)="updateTotalScore('phanbien1')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[3]" (input)="updateTotalScore('phanbien1')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien1')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[4]" (input)="updateTotalScore('phanbien1')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.phanbien1.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét phản biện 1:</label>
+            @if (canEditPersonalTab('phanbien1')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien1.comment"></textarea>
+              <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
+                  <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
+                </button>
+                @if (canEditPersonalTab('phanbien1')) {
+                  <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('phanbien1')">
+                    <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Phản biện 1)
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.phanbien1.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 4. TAB PHIẾU CÁ NHÂN CỦA PHẢN BIỆN 2 ================= -->
+      @if (activeMemberTab === 'phanbien2') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.phanbien2.name }} - <span class="badge bg-primary">{{ councilEvaluationData.phanbien2.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.phanbien2.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[0]" (input)="updateTotalScore('phanbien2')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[1]" (input)="updateTotalScore('phanbien2')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[2]" (input)="updateTotalScore('phanbien2')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[3]" (input)="updateTotalScore('phanbien2')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('phanbien2')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[4]" (input)="updateTotalScore('phanbien2')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.phanbien2.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét phản biện 2:</label>
+            @if (canEditPersonalTab('phanbien2')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien2.comment"></textarea>
+              <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
+                  <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
+                </button>
+                @if (canEditPersonalTab('phanbien2')) {
+                  <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('phanbien2')">
+                    <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Phản biện 2)
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.phanbien2.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 5. TAB PHIẾU CÁ NHÂN CỦA ỦY VIÊN HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'uyvien') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.uyvien.name }} - <span class="badge bg-info">{{ councilEvaluationData.uyvien.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.uyvien.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[0]" (input)="updateTotalScore('uyvien')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[1]" (input)="updateTotalScore('uyvien')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[2]" (input)="updateTotalScore('uyvien')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[3]" (input)="updateTotalScore('uyvien')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('uyvien')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[4]" (input)="updateTotalScore('uyvien')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.uyvien.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét của Ủy viên:</label>
+            @if (canEditPersonalTab('uyvien')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.uyvien.comment"></textarea>
+              <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
+                  <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
+                </button>
+                @if (canEditPersonalTab('uyvien')) {
+                  <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('uyvien')">
+                    <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Ủy viên)
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.uyvien.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ================= 6. TAB PHIẾU CÁ NHÂN CỦA THƯ KÝ HỘI ĐỒNG ================= -->
+      @if (activeMemberTab === 'thuky') {
+        <div class="fs-13" style="line-height: 1.8;">
+          <div class="p-2 bg-light border rounded mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Thành viên:</strong> {{ councilEvaluationData.thuky.name }} - <span class="badge bg-warning text-dark">{{ councilEvaluationData.thuky.role }}</span>
+            </div>
+            <div class="text-muted fs-12">Trạng thái: <span class="badge bg-success-subtle text-success">Đã ký số ({{ councilEvaluationData.thuky.signedAt }})</span></div>
+          </div>
+
+          <h6 class="fw-bold text-dark mb-2">BẢNG CHẤM ĐIỂM TIÊU CHÍ CÁ NHÂN:</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-sm table-bordered fs-12 mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40px;" class="text-center">STT</th>
+                  <th>Nội dung tiêu chí thẩm định</th>
+                  <th style="width: 100px;" class="text-center">Điểm tối đa</th>
+                  <th style="width: 120px;" class="text-center">Điểm chấm</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-center">1</td>
+                  <td>Tính cấp thiết, giá trị khoa học và mục tiêu nghiên cứu</td>
+                  <td class="text-center">20 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[0]" (input)="updateTotalScore('thuky')" min="0" max="20">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[0] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">2</td>
+                  <td>Phương pháp nghiên cứu, thuật toán và kỹ thuật tiếp cận</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[1]" (input)="updateTotalScore('thuky')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[1] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">3</td>
+                  <td>Khối lượng công việc hoàn thành và sản phẩm thực tế đạt được</td>
+                  <td class="text-center">25 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[2]" (input)="updateTotalScore('thuky')" min="0" max="25">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[2] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">4</td>
+                  <td>Khả năng ứng dụng thực tiễn và chuyển giao công nghệ</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[3]" (input)="updateTotalScore('thuky')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[3] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td class="text-center">5</td>
+                  <td>Tính hợp lý của dự toán kinh phí và tiến độ thực hiện</td>
+                  <td class="text-center">15 đ</td>
+                  <td class="text-center">
+                    @if (canEditPersonalTab('thuky')) {
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[4]" (input)="updateTotalScore('thuky')" min="0" max="15">
+                    } @else {
+                      <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[4] }} đ</span>
+                    }
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <td colspan="2" class="fw-bold text-uppercase">TỔNG ĐIỂM ĐÁNH GIÁ:</td>
+                  <td class="text-center fw-bold">100 đ</td>
+                  <td class="text-center fw-bold text-danger fs-14">{{ councilEvaluationData.thuky.score }}/100 đ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">Ý kiến nhận xét của Thư ký:</label>
+            @if (canEditPersonalTab('thuky')) {
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.thuky.comment"></textarea>
+              <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
+                  <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
+                </button>
+                @if (canEditPersonalTab('thuky')) {
+                  <button type="button" class="btn btn-sm btn-primary" (click)="signPersonalSheet('thuky')">
+                    <i class="ri-quill-pen-line me-1"></i> Lưu & Ký số Phiếu cá nhân (Thư ký)
+                  </button>
+                }
+              </div>
+            } @else {
+              <div class="p-2 border rounded bg-light fs-12">{{ councilEvaluationData.thuky.comment }}</div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="modal-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+      <div>
+        <button type="button" class="btn btn-sm btn-outline-dark" onclick="window.print()">
+          <i class="ri-printer-line me-1"></i> In Phiếu đánh giá
+        </button>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <!-- NÚT MỞ PHIẾU ĐÁNH GIÁ HỘI ĐỒNG Ở GÓC CUỐI CỬA SỔ -->
+        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light shadow-sm" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)" title="Mở Phiếu tổng hợp / Biên bản đánh giá của toàn bộ Hội đồng">
+          <i class="ri-survey-line me-1"></i> Mở Phiếu Đánh Giá Hội Đồng
+        </button>
+
+        @if (isSecretary) {
+          <button type="button" class="btn btn-sm btn-success waves-effect waves-light" (click)="saveCouncilEvaluation()">
+            <i class="ri-save-line me-1"></i> Lưu & Đồng bộ Phiếu HĐ
+          </button>
+        }
+
+        <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+      </div>
+    </div>
+  }
+</ng-template>
+
+<!-- ========================================================================= -->
+<!-- MODAL XUẤT EXCEL & TRÌNH DANH SÁCH ĐỀ TÀI KHOA LÊN P.KHCN CHO TRƯỞNG KHOA -->
+<!-- ========================================================================= -->
+<ng-template #deanExportModal let-modal>
+  <div class="modal-header bg-success-subtle py-2 px-3 d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge bg-success fs-12"><i class="ri-file-excel-2-line me-1"></i> Tờ trình & Xuất Excel</span>
+      <h5 class="modal-title fs-14 fw-bold text-success-emphasis mb-0">
+        Tổng Hợp Danh Sách Đề Tài NCKH Khoa Trình Phòng KHCN
+      </h5>
+    </div>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+
+  <div class="modal-body p-4 bg-white" style="font-family: 'Times New Roman', Times, serif; color: #111;">
+    <!-- Tiêu đề văn bản hành chính -->
+    <div class="row text-center mb-3 border-bottom pb-3">
+      <div class="col-6">
+        <div class="fs-13 fw-bold text-uppercase">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
+        <div class="fs-12 fw-bold text-primary text-uppercase">{{ currentUser.unit || 'KHOA CÔNG NGHỆ THÔNG TIN' }}</div>
+        <div class="fs-11 text-muted">Số: {{ deanSubmissionReportNumber }}</div>
+      </div>
+      <div class="col-6">
+        <div class="fs-13 fw-bold text-uppercase">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+        <div class="fs-12 fw-semibold">Độc lập - Tự do - Hạnh phúc</div>
+        <div class="fs-11 text-muted fst-italic">Đồng Nai, ngày {{ currentDateFormatted || '26/08/2026' }}</div>
+      </div>
+    </div>
+
+    <div class="text-center my-3">
+      <h5 class="fw-bold text-uppercase mb-1" style="font-size: 16px;">TỜ TRÌNH & DANH SÁCH TỔNG HỢP ĐỀ TÀI NCKH</h5>
+      <div class="fs-12 text-muted fst-italic">Kính gửi: Phòng Khoa học & Công nghệ - Trường Đại học Công nghệ Đồng Nai</div>
+    </div>
+
+    <!-- Thông tin tổng quan -->
+    <div class="p-3 bg-light rounded mb-3 fs-13 border">
+      <div class="row g-2">
+        <div class="col-md-4"><strong>Đơn vị trình:</strong> {{ currentUser.unit || 'Khoa Công nghệ thông tin' }}</div>
+        <div class="col-md-4"><strong>Người lập tờ trình:</strong> {{ currentUser.fullName }} (Trưởng Khoa)</div>
+        <div class="col-md-4"><strong>Tổng số lượng đề tài:</strong> <strong class="text-primary">{{ facultyProposalsForReport.length }} đề tài</strong></div>
+        <div class="col-md-8"><strong>Năm học / Đợt đăng ký:</strong> Năm học 2026 - 2027 (Đợt 1)</div>
+        <div class="col-md-4"><strong>Tổng kinh phí đề xuất:</strong> <strong class="text-danger">{{ facultyTotalBudget | number }} VNĐ</strong></div>
+      </div>
+    </div>
+
+    <!-- Bảng danh sách các đề tài của Khoa -->
+    <h6 class="fw-bold text-dark mb-2">DANH SÁCH CHI TIẾT CÁC ĐỀ TÀI NCKH CỦA KHOA:</h6>
+    <div class="table-responsive mb-3">
+      <table class="table table-bordered align-middle fs-12 mb-0">
+        <thead class="table-light text-center">
+          <tr>
+            <th style="width: 40px;">STT</th>
+            <th style="width: 100px;">Mã đề tài</th>
+            <th>Tên đề tài NCKH</th>
+            <th>Chủ nhiệm & Mã số</th>
+            <th>Đối tượng</th>
+            <th>Kinh phí đề xuất</th>
+            <th>Trạng thái rà soát</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of facultyProposalsForReport; track p.id; let idx = $index) {
+            <tr>
+              <td class="text-center">{{ idx + 1 }}</td>
+              <td><code>{{ p.code }}</code></td>
+              <td>
+                <div class="fw-semibold text-primary">{{ p.title }}</div>
+                <div class="text-muted fs-11">Lĩnh vực: {{ p.faculty }}</div>
+              </td>
+              <td>
+                <div>{{ p.authorName }}</div>
+                <div class="text-muted fs-11">Mã: {{ p.authorIdentifierCode }}</div>
+              </td>
+              <td class="text-center">
+                <span class="badge" [class.bg-info]="p.target === 'GIANG_VIEN'" [class.bg-success]="p.target === 'SINH_VIEN'">
+                  {{ p.target === 'SINH_VIEN' ? 'Sinh viên' : 'Giảng viên' }}
+                </span>
+              </td>
+              <td class="text-end fw-bold text-danger">{{ p.budgetTotal | number }} đ</td>
+              <td class="text-center">
+                <span class="badge bg-success-subtle text-success border border-success">
+                  <i class="ri-check-line me-1"></i> Đã đạt sơ duyệt
+                </span>
+              </td>
+            </tr>
+          }
+          <tr class="table-success">
+            <td colspan="5" class="fw-bold text-uppercase text-center">TỔNG CỘNG KINH PHÍ TOÀN KHOA:</td>
+            <td class="text-end fw-bold text-danger fs-13">{{ facultyTotalBudget | number }} VNĐ</td>
+            <td class="text-center fw-bold text-success">100% HỢP LỆ</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Ý kiến tờ trình của Trưởng Khoa -->
+    <div class="mb-3">
+      <label class="form-label fw-bold fs-12 mb-1">Ý kiến đề nghị của Trưởng Khoa gửi Phòng KHCN:</label>
+      <textarea class="form-control fs-12" rows="3" [(ngModel)]="deanSubmissionNotes"></textarea>
+    </div>
+
+    <!-- Khối chữ ký xác nhận của Trưởng Khoa -->
+    <div class="row text-center mt-4 pt-3 border-top">
+      <div class="col-6 text-start">
+        <div class="text-muted fs-11 fst-italic">
+          * Ghi chú: Sau khi Trưởng Khoa xác nhận gửi, danh sách này sẽ được chuyển trực tiếp lên hệ thống của Phòng KHCN để lập Quyết định thành lập Hội đồng xét duyệt sơ bộ (Bước 02).
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="fw-bold fs-12 text-uppercase">TRƯỞNG KHOA</div>
+        <div class="text-muted fs-11 fst-italic">(Ký tên và xác thực tờ trình)</div>
+        <div class="mt-3">
+          <span class="badge bg-success-subtle text-success fs-12 border border-success p-2">
+            <i class="ri-shield-check-fill me-1"></i> {{ currentUser.fullName || 'TS. LÊ HOÀNG NAM' }} (ĐÃ XÁC THỰC)
+          </span>
+          <div class="text-muted fs-10 mt-1">Khoa Công nghệ thông tin - DNTU</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+    <div>
+      <button type="button" class="btn btn-sm btn-outline-success" (click)="downloadFacultyExcel()">
+        <i class="ri-file-excel-2-line me-1"></i> Tải file Excel danh sách (.csv)
+      </button>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <button type="button" class="btn btn-sm btn-success waves-effect waves-light" (click)="confirmSubmitToPkhcn()">
+        <i class="ri-send-plane-fill me-1"></i> Xác nhận & Gửi Danh Sách lên P.KHCN
+      </button>
+      <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- ========================================================================= -->
+<!-- POPUP 1: CẢNH BÁO CÒN THIẾU THÀNH VIÊN CHƯA ĐÁNH GIÁ (DÀNH CHO THƯ KÝ)     -->
+<!-- ========================================================================= -->
+<ng-template #secretaryMissingMemberModal let-modal>
+  <div class="modal-header bg-danger-subtle py-2 px-3">
+    <h5 class="modal-title fs-14 fw-bold text-danger">
+      <i class="ri-error-warning-fill me-1"></i> Chưa Thể Lập Phiếu Tổng Hợp Hội Đồng
+    </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-4 text-center">
+    <div class="avatar-lg mx-auto mb-3">
+      <span class="avatar-title bg-danger-subtle text-danger rounded-circle fs-1 shadow-sm">
+        <i class="ri-user-unfollow-line"></i>
+      </span>
+    </div>
+
+    <h5 class="fw-bold text-dark mb-2">Phát hiện Thành viên chưa nộp Phiếu Đánh giá</h5>
+    <p class="text-muted fs-13 mb-3">
+      Hội đồng chưa đủ điều kiện lập Phiếu tổng hợp do còn thiếu phiếu đánh giá cá nhân của thành viên:
+    </p>
+
+    <div class="p-3 bg-light rounded border text-start fs-12 mb-3">
+      <div class="mb-1"><strong>Thành viên chưa đánh giá:</strong> <span class="text-danger fw-bold fs-13">{{ selectedMissingMemberInfo.memberName }}</span></div>
+      <div class="mb-1"><strong>Vai trò trong Hội đồng:</strong> <span class="badge bg-danger-subtle text-danger">{{ selectedMissingMemberInfo.memberRole }}</span></div>
+      <div class="mb-1"><strong>Hội đồng:</strong> {{ selectedMissingMemberInfo.councilName }}</div>
+      <div class="mb-1"><strong>Đề tài:</strong> <span class="text-primary fw-semibold">{{ selectedMissingMemberInfo.proposalTitle }}</span> (Mã: <code>{{ selectedMissingMemberInfo.proposalCode }}</code>)</div>
+      <div><strong>Tình trạng:</strong> <span class="badge bg-warning text-dark">Chưa chấm điểm & chưa ký số</span></div>
+    </div>
+
+    <p class="fs-12 text-danger fw-medium mb-0">
+      * Theo Quy chế NCKH: Thư ký chỉ được tổng hợp khi toàn bộ 100% thành viên Hội đồng đã hoàn thành phiếu đánh giá cá nhân.
+    </p>
+  </div>
+  <div class="modal-footer bg-light py-2 px-3 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+    <button type="button" class="btn btn-sm btn-danger waves-effect waves-light shadow-sm" (click)="sendReminderToMember()">
+      <i class="ri-notification-3-line me-1"></i> Gửi Thông Báo Nhắc Nhở Đến {{ selectedMissingMemberInfo.memberName }}
+    </button>
+  </div>
+</ng-template>
+
+<!-- ========================================================================= -->
+<!-- POPUP 2: CẢNH BÁO KHÓA PHIẾU CÁ NHÂN KHI MỞ BIÊN BẢN TỔNG HỢP (THƯ KÝ)     -->
+<!-- ========================================================================= -->
+<ng-template #secretaryConfirmLockModal let-modal>
+  <div class="modal-header bg-warning-subtle py-2 px-3">
+    <h5 class="modal-title fs-14 fw-bold text-warning-emphasis">
+      <i class="ri-alert-line me-1"></i> Xác Nhận Khởi Tạo Phiếu Tổng Hợp Hội Đồng
+    </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-4 text-center">
+    <div class="avatar-lg mx-auto mb-3">
+      <span class="avatar-title bg-warning-subtle text-warning rounded-circle fs-1 shadow-sm">
+        <i class="ri-lock-2-line"></i>
+      </span>
+    </div>
+
+    <h5 class="fw-bold text-dark mb-2">Cảnh Báo Khóa Phiếu Đánh Giá Cá Nhân</h5>
+    <p class="text-muted fs-13 mb-3">
+      Sau khi Thư ký mở và khởi tạo Phiếu tổng hợp / Biên bản Hội đồng, <strong>toàn bộ Phiếu đánh giá cá nhân của các thành viên khác sẽ bị KHÓA CỐ ĐỊNH</strong> và không thể chỉnh sửa điểm số hoặc nhận xét nữa.
+    </p>
+
+    <div class="p-3 bg-light rounded border text-start fs-12 mb-2">
+      <div class="mb-1"><strong>Đề tài thẩm định:</strong> <span class="text-primary fw-semibold">{{ selectedProposalForBm?.title }}</span></div>
+      <div class="mb-1"><strong>Mã hồ sơ:</strong> <code>{{ selectedProposalForBm?.code }}</code></div>
+      <div><strong>Tình trạng thành viên:</strong> <span class="badge bg-success-subtle text-success">Đã đủ 5/5 thành viên hoàn thành phiếu cá nhân</span></div>
+    </div>
+  </div>
+  <div class="modal-footer bg-light py-2 px-3 d-flex justify-content-between">
+    <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy</button>
+    <button type="button" class="btn btn-sm btn-warning waves-effect waves-light shadow-sm fw-bold text-dark" (click)="confirmSecretaryOpenAndLock(councilEvalModal)">
+      <i class="ri-check-double-line me-1"></i> Đồng ý mở & Khóa phiếu cá nhân
+    </button>
+  </div>
 </ng-template>

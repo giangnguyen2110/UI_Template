@@ -63,9 +63,15 @@
           </div>
 
           <div>
-            <span class="badge bg-primary-subtle text-primary fs-12 py-2 px-3">
-              <i class="ri-information-line me-1"></i> Bấm "Xem chi tiết đợt" bên dưới để đăng ký
-            </span>
+            @if (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN') {
+              <span class="badge bg-primary-subtle text-primary fs-12 py-2 px-3">
+                <i class="ri-information-line me-1"></i> Bấm "Xem chi tiết đợt" bên dưới để đăng ký
+              </span>
+            } @else {
+              <span class="badge bg-info-subtle text-info fs-12 py-2 px-3">
+                <i class="ri-information-line me-1"></i> Theo dõi thông tin các đợt đăng ký NCKH
+              </span>
+            }
           </div>
         </div>
       </div>
@@ -237,9 +243,15 @@
                 <i class="ri-edit-line me-1"></i> Chỉnh sửa
               </button>
             }
-            <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" (click)="openDetailRoundModal(detailModal, r)">
-              <i class="ri-eye-line me-1"></i> Xem chi tiết đợt
-            </button>
+            @if (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN') {
+              <button type="button" class="btn btn-sm btn-primary waves-effect waves-light" (click)="openDetailRoundModal(detailModal, r)">
+                <i class="ri-eye-line me-1"></i> Xem chi tiết để đăng ký
+              </button>
+            } @else {
+              <button type="button" class="btn btn-sm btn-soft-primary waves-effect waves-light" (click)="openDetailRoundModal(detailModal, r)">
+                <i class="ri-eye-line me-1"></i> Xem thông tin đợt
+              </button>
+            }
           </div>
         </div>
       </div>

@@ -81,6 +81,10 @@ export class CouncilManagementComponent implements OnInit {
     private router: Router
   ) {}
 
+  get isPkhcnOrAdmin(): boolean {
+    return !!this.currentUser && (this.currentUser.role === 'P_KHCN' || this.currentUser.role === 'ADMIN');
+  }
+
   ngOnInit(): void {
     this.nckhDataService.currentUser$.subscribe(u => {
       if (u) {

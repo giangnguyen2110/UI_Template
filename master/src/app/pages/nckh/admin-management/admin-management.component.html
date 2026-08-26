@@ -1,0 +1,668 @@
+<div class="row">
+  <div class="col-12">
+    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+      <h4 class="mb-sm-0">Quản trị Hệ thống & Phân quyền NCKH</h4>
+      <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+          <li class="breadcrumb-item"><a routerLink="/nckh/dashboard">NCKH Cấp Trường</a></li>
+          <li class="breadcrumb-item active">Quản trị Admin</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (alertMessage) {
+  <div class="alert alert-dismissible fade show p-3 mb-3" [ngClass]="'alert-' + alertType" role="alert">
+    <i class="ri-checkbox-circle-line me-2"></i> {{ alertMessage }}
+    <button type="button" class="btn-close" (click)="alertMessage = ''"></button>
+  </div>
+}
+
+<!-- Banner Cổng Quản trị viên (Admin) -->
+<div class="row mb-3">
+  <div class="col-12">
+    <div class="card bg-dark text-white shadow-sm border-0 mb-0">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div class="d-flex align-items-center">
+            <div class="avatar-md me-3 flex-shrink-0">
+              <span class="avatar-title bg-danger-subtle text-danger rounded fs-2 shadow">
+                <i class="ri-shield-keyhole-line"></i>
+              </span>
+            </div>
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <h4 class="fw-bold text-white mb-0">Cổng Quản Trị Hệ Thống & Kiểm Soát Quyền Hạn (Admin)</h4>
+                <span class="badge bg-danger">Toàn quyền hệ thống</span>
+              </div>
+              <p class="text-white-50 fs-13 mb-0">
+                Admin chịu trách nhiệm phân quyền, kích hoạt tài khoản và thi hành Quyết định đưa vào <strong>Danh sách Hạn chế (Blacklist 1 năm)</strong> theo đề nghị từ Phòng KHCN.
+              </p>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" class="btn btn-success waves-effect waves-light shadow" (click)="openCreateUserModal(createUserModal)">
+              <i class="ri-user-add-line me-1"></i> Thêm tài khoản mới
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Thống kê nhanh dành cho Admin -->
+<div class="row mb-3">
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-animate mb-3 mb-xl-0 border shadow-sm">
+      <div class="card-body py-3">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+            <p class="text-uppercase fw-semibold text-muted fs-11 mb-1">Tổng số tài khoản</p>
+            <h4 class="mb-0 text-primary">{{ users.length }} <span class="fs-12 text-muted fw-normal">người dùng</span></h4>
+          </div>
+          <div class="avatar-sm flex-shrink-0">
+            <span class="avatar-title bg-primary-subtle text-primary rounded-circle fs-3">
+              <i class="ri-team-line"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-animate mb-3 mb-xl-0 border shadow-sm">
+      <div class="card-body py-3">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+            <p class="text-uppercase fw-semibold text-muted fs-11 mb-1">Tài khoản Hoạt động</p>
+            <h4 class="mb-0 text-success">{{ countActiveUsers }} <span class="fs-12 text-muted fw-normal">hợp lệ</span></h4>
+          </div>
+          <div class="avatar-sm flex-shrink-0">
+            <span class="avatar-title bg-success-subtle text-success rounded-circle fs-3">
+              <i class="ri-user-follow-line"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-animate mb-3 mb-xl-0 border shadow-sm">
+      <div class="card-body py-3">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+            <p class="text-uppercase fw-semibold text-muted fs-11 mb-1">Chờ Admin phê duyệt mở quyền</p>
+            <h4 class="mb-0 text-warning">{{ countPendingApprovals }} <span class="fs-12 text-muted fw-normal">chờ duyệt</span></h4>
+          </div>
+          <div class="avatar-sm flex-shrink-0">
+            <span class="avatar-title bg-warning-subtle text-warning rounded-circle fs-3">
+              <i class="ri-user-shared-line"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6">
+    <div class="card card-animate mb-3 mb-xl-0 border shadow-sm bg-danger-subtle">
+      <div class="card-body py-3">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+            <p class="text-uppercase fw-semibold text-danger fs-11 mb-1">Kiến nghị Blacklist chờ xử lý</p>
+            <h4 class="mb-0 text-danger">{{ countPendingBlacklistRequests }} <span class="fs-12 text-danger fw-normal">đề nghị từ P.KHCN</span></h4>
+          </div>
+          <div class="avatar-sm flex-shrink-0">
+            <span class="avatar-title bg-danger text-white rounded-circle fs-3 shadow">
+              <i class="ri-user-unfollow-line"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= NAVIGATION TABS CHÍNH ================= -->
+<div class="row">
+  <div class="col-12">
+    <div class="card shadow-sm border-0">
+      <div class="card-header border-0 bg-light p-2">
+        <ul class="nav nav-pills nav-custom nav-custom-light" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link fs-13 py-2 px-3 fw-semibold cursor-pointer" [class.active]="activeTab === 'users'" (click)="activeTab = 'users'">
+              <i class="ri-user-settings-line me-1"></i> Quản lý & Phân quyền Tài khoản
+              @if (countPendingApprovals > 0) {
+                <span class="badge bg-warning text-dark ms-1">{{ countPendingApprovals }}</span>
+              }
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fs-13 py-2 px-3 fw-semibold cursor-pointer" [class.active]="activeTab === 'blacklist'" (click)="activeTab = 'blacklist'">
+              <i class="ri-forbid-line me-1 text-danger"></i> Tiếp nhận & Xử lý Blacklist (P.KHCN trình)
+              @if (countPendingBlacklistRequests > 0) {
+                <span class="badge bg-danger ms-1 animate-pulse">{{ countPendingBlacklistRequests }} mới</span>
+              }
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ================= TAB 1: QUẢN LÝ TÀI KHOẢN ================= -->
+      @if (activeTab === 'users') {
+        <div class="card-body p-3">
+          <!-- Bộ lọc tài khoản -->
+          <div class="row g-2 mb-3 align-items-center">
+            <div class="col-lg-4 col-md-6">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-light"><i class="ri-search-line"></i></span>
+                <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Tìm tên, mã GV/SV, email...">
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+              <select class="form-select form-select-sm" [(ngModel)]="selectedRoleFilter">
+                <option value="ALL">-- Tất cả Vai trò --</option>
+                @for (r of rolesList; track r.value) {
+                  <option [value]="r.value">{{ r.label }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+              <select class="form-select form-select-sm" [(ngModel)]="selectedUnitFilter">
+                <option value="ALL">-- Tất cả Khoa / Đơn vị --</option>
+                @for (u of unitsList; track u) {
+                  <option [value]="u">{{ u }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+              <select class="form-select form-select-sm" [(ngModel)]="selectedStatusFilter">
+                <option value="ALL">-- Tất cả Trạng thái --</option>
+                <option value="ACTIVE">Hoạt động</option>
+                <option value="PENDING">Chờ duyệt mở quyền</option>
+                <option value="LOCKED">Bị khóa</option>
+                <option value="BLACKLIST">Đang bị Blacklist</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Bảng danh sách tài khoản -->
+          <div class="table-responsive">
+            <table class="table table-hover table-nowrap align-middle mb-0 fs-12">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 50px;">STT</th>
+                  <th>Họ tên & Email</th>
+                  <th>Mã định danh</th>
+                  <th>Khoa / Đơn vị</th>
+                  <th>Vai trò phân quyền</th>
+                  <th>Trạng thái tài khoản</th>
+                  <th class="text-center" style="width: 180px;">Thao tác Admin</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (u of pagedUsers; track u.id; let idx = $index) {
+                  <tr>
+                    <td>{{ (pageUsers - 1) * pageSizeUsers + idx + 1 }}</td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <img [src]="u.avatar || 'assets/images/users/user-dummy-img.jpg'" class="avatar-xs rounded-circle border shadow-sm" alt="">
+                        <div>
+                          <div class="fw-bold text-dark">{{ u.fullName }}</div>
+                          <small class="text-muted">{{ u.email }}</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td><code>{{ u.identifierCode }}</code></td>
+                    <td>
+                      <div class="text-dark">{{ u.unit }}</div>
+                      <small class="text-muted">{{ u.academicTitle || 'Cán bộ' }}</small>
+                    </td>
+                    <td>
+                      <span class="badge {{ getRoleBadgeClass(u.role) }}">{{ u.roleTitle }}</span>
+                    </td>
+                    <td>
+                      @if (u.isBlacklisted) {
+                        <span class="badge bg-danger-subtle text-danger border border-danger">
+                          <i class="ri-forbid-line me-1"></i> Blacklist đến {{ u.blacklistUntil }}
+                        </span>
+                      } @else if (u.accountStatus === 'PENDING_APPROVAL') {
+                        <span class="badge bg-warning-subtle text-warning border border-warning">
+                          <i class="ri-time-line me-1"></i> Chờ duyệt mở quyền
+                        </span>
+                      } @else if (u.accountStatus === 'LOCKED') {
+                        <span class="badge bg-secondary-subtle text-secondary">
+                          <i class="ri-lock-line me-1"></i> Bị khóa
+                        </span>
+                      } @else {
+                        <span class="badge bg-success-subtle text-success">
+                          <i class="ri-check-line me-1"></i> Đang hoạt động
+                        </span>
+                      }
+                    </td>
+                    <td class="text-center">
+                      <div class="d-flex align-items-center justify-content-center gap-1">
+                        @if (u.accountStatus === 'PENDING_APPROVAL') {
+                          <button type="button" class="btn btn-xs btn-success waves-effect waves-light" (click)="approveUser(u)" title="Phê duyệt mở quyền">
+                            <i class="ri-check-line me-1"></i> Phê duyệt
+                          </button>
+                        }
+
+                        <button type="button" class="btn btn-xs btn-outline-primary" (click)="openRoleModal(roleModal, u)" title="Cấp quyền / Đổi vai trò">
+                          <i class="ri-user-settings-line me-1"></i> Phân quyền
+                        </button>
+
+                        @if (u.role !== 'ADMIN') {
+                          <button type="button" class="btn btn-xs" [class.btn-soft-danger]="u.accountStatus !== 'LOCKED'" [class.btn-soft-success]="u.accountStatus === 'LOCKED'" (click)="toggleLockUser(u)" [title]="u.accountStatus === 'LOCKED' ? 'Mở khóa tài khoản' : 'Khóa tài khoản'">
+                            <i [class]="u.accountStatus === 'LOCKED' ? 'ri-lock-unlock-line' : 'ri-lock-line'"></i>
+                          </button>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Phân trang Users -->
+          @if (filteredUsers.length > 0) {
+            <div class="d-flex align-items-center justify-content-between p-3 border-top bg-light-subtle">
+              <div class="text-muted fs-12">
+                Hiển thị <span class="fw-semibold">{{ (pageUsers - 1) * pageSizeUsers + 1 }}</span> đến <span class="fw-semibold">{{ Math.min(pageUsers * pageSizeUsers, filteredUsers.length) }}</span> trên tổng số <span class="fw-semibold">{{ filteredUsers.length }}</span> tài khoản
+              </div>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" [class.disabled]="pageUsers === 1">
+                  <a class="page-link cursor-pointer" (click)="pageUsers = pageUsers - 1">Trước</a>
+                </li>
+                @for (p of userPageNumbers; track p) {
+                  <li class="page-item" [class.active]="pageUsers === p">
+                    <a class="page-link cursor-pointer" (click)="pageUsers = p">{{ p }}</a>
+                  </li>
+                }
+                <li class="page-item" [class.disabled]="pageUsers >= totalUserPages">
+                  <a class="page-link cursor-pointer" (click)="pageUsers = pageUsers + 1">Sau</a>
+                </li>
+              </ul>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- ================= TAB 2: TIẾP NHẬN & XỬ LÝ BLACKLIST ================= -->
+      @if (activeTab === 'blacklist') {
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+            <div>
+              <h5 class="fs-14 fw-bold text-danger mb-1">
+                <i class="ri-error-warning-line me-1"></i> Danh Sách Kiến Nghị Kỷ Luật & Hạn Chế Tham Gia NCKH (Blacklist)
+              </h5>
+              <p class="text-muted fs-12 mb-0">
+                Theo Điều 28 Quy chế NCKH: Các đề tài bị hủy do lý do chủ quan vi phạm quy chế sẽ được P.KHCN lập biên bản kiến nghị Admin phê duyệt đưa vào Blacklist cấm nộp đề tài mới trong <strong>01 năm</strong>.
+              </p>
+            </div>
+
+            <div>
+              <select class="form-select form-select-sm" [(ngModel)]="selectedBlacklistFilter">
+                <option value="ALL">-- Tất cả trạng thái hồ sơ --</option>
+                <option value="PENDING_ADMIN">Chờ Admin phê duyệt ({{ countPendingBlacklistRequests }})</option>
+                <option value="BANNED_ACTIVE">Đang thi hành kỷ luật (1 năm)</option>
+                <option value="REVOKED">Đã gỡ trước hạn</option>
+                <option value="REJECTED">Đã miễn phạt / Từ chối</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle mb-0 fs-12">
+              <thead class="table-light text-center">
+                <tr>
+                  <th style="width: 40px;">STT</th>
+                  <th>Cá nhân vi phạm & Đơn vị</th>
+                  <th>Đề tài bị hủy</th>
+                  <th>Lý do vi phạm & Đề xuất P.KHCN</th>
+                  <th>Thời hạn hạn chế (01 Năm)</th>
+                  <th>Trạng thái hồ sơ</th>
+                  <th style="width: 170px;">Thao tác Quyết định của Admin</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (b of pagedBlacklist; track b.id; let idx = $index) {
+                  <tr>
+                    <td class="text-center">{{ (pageBlacklist - 1) * pageSizeBlacklist + idx + 1 }}</td>
+                    <td>
+                      <div class="fw-bold text-danger">{{ b.userFullName }}</div>
+                      <div>Mã: <code>{{ b.userIdentifierCode }}</code> | {{ b.userUnit }}</div>
+                      <small class="badge bg-secondary-subtle text-secondary mt-1">{{ b.userRole }}</small>
+                    </td>
+                    <td>
+                      <div class="fw-semibold text-primary text-truncate" style="max-width: 200px;" [title]="b.proposalTitle">
+                        {{ b.proposalTitle }}
+                      </div>
+                      <small class="text-muted">Mã: <code>{{ b.proposalCode }}</code></small>
+                      <div class="text-muted fs-11">Số QĐ hủy: {{ b.decisionNumber }}</div>
+                    </td>
+                    <td>
+                      <div class="text-danger fw-medium mb-1 line-clamp-2" [title]="b.cancelReason">
+                        <i class="ri-alert-line me-1"></i> {{ b.cancelReason }}
+                      </div>
+                      <small class="text-muted">Đề nghị bởi: {{ b.requestedBy }} ({{ b.requestedAt }})</small>
+                    </td>
+                    <td class="text-center">
+                      @if (b.status === 'BANNED_ACTIVE') {
+                        <div class="text-danger fw-bold">{{ b.startDate }} ➔ {{ b.endDate }}</div>
+                        <span class="badge bg-danger-subtle text-danger">01 năm</span>
+                      } @else if (b.status === 'PENDING_ADMIN') {
+                        <div class="text-muted fst-italic">Dự kiến 01 năm</div>
+                        <span class="badge bg-warning-subtle text-warning">Chờ Admin duyệt</span>
+                      } @else {
+                        <span class="text-muted">{{ b.endDate || 'Đã kết thúc' }}</span>
+                      }
+                    </td>
+                    <td class="text-center">
+                      @if (b.status === 'PENDING_ADMIN') {
+                        <span class="badge bg-danger text-white p-2 animate-pulse shadow-sm">
+                          <i class="ri-hourglass-fill me-1"></i> Chờ Admin phê duyệt
+                        </span>
+                      } @else if (b.status === 'BANNED_ACTIVE') {
+                        <span class="badge bg-danger-subtle text-danger border border-danger p-2">
+                          <i class="ri-forbid-line me-1"></i> Đang Blacklist 1 năm
+                        </span>
+                      } @else if (b.status === 'REVOKED') {
+                        <span class="badge bg-success-subtle text-success border border-success p-1">
+                          <i class="ri-shield-check-line me-1"></i> Đã gỡ trước hạn
+                        </span>
+                      } @else if (b.status === 'REJECTED') {
+                        <span class="badge bg-info-subtle text-info border border-info p-1">
+                          <i class="ri-close-circle-line me-1"></i> Miễn phạt / Bỏ qua
+                        </span>
+                      }
+                    </td>
+                    <td class="text-center">
+                      <div class="vstack gap-1">
+                        @if (b.status === 'PENDING_ADMIN') {
+                          <button type="button" class="btn btn-sm btn-danger waves-effect waves-light shadow-sm" (click)="openApproveBlacklistModal(blacklistModal, b)">
+                            <i class="ri-scales-3-line me-1"></i> Duyệt phạt 1 năm
+                          </button>
+                          <button type="button" class="btn btn-xs btn-outline-secondary" (click)="rejectBlacklist(b)">
+                            <i class="ri-close-line me-1"></i> Miễn phạt
+                          </button>
+                        } @else if (b.status === 'BANNED_ACTIVE') {
+                          <button type="button" class="btn btn-xs btn-soft-success" (click)="revokeBlacklist(b)">
+                            <i class="ri-lock-unlock-line me-1"></i> Gỡ Blacklist sớm
+                          </button>
+                        }
+
+                        <button type="button" class="btn btn-xs btn-link text-muted p-0" (click)="openBlacklistDetailModal(blacklistDetailModal, b)">
+                          <i class="ri-file-text-line me-1"></i> Xem chi tiết hồ sơ
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Phân trang Blacklist -->
+          @if (filteredBlacklist.length > 0) {
+            <div class="d-flex align-items-center justify-content-between p-3 border-top bg-light-subtle">
+              <div class="text-muted fs-12">
+                Hiển thị <span class="fw-semibold">{{ (pageBlacklist - 1) * pageSizeBlacklist + 1 }}</span> đến <span class="fw-semibold">{{ Math.min(pageBlacklist * pageSizeBlacklist, filteredBlacklist.length) }}</span> trên tổng số <span class="fw-semibold">{{ filteredBlacklist.length }}</span> kiến nghị
+              </div>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item" [class.disabled]="pageBlacklist === 1">
+                  <a class="page-link cursor-pointer" (click)="pageBlacklist = pageBlacklist - 1">Trước</a>
+                </li>
+                @for (p of blacklistPageNumbers; track p) {
+                  <li class="page-item" [class.active]="pageBlacklist === p">
+                    <a class="page-link cursor-pointer" (click)="pageBlacklist = p">{{ p }}</a>
+                  </li>
+                }
+                <li class="page-item" [class.disabled]="pageBlacklist >= totalBlacklistPages">
+                  <a class="page-link cursor-pointer" (click)="pageBlacklist = pageBlacklist + 1">Sau</a>
+                </li>
+              </ul>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL CẤP QUYỀN / ĐỔI VAI TRÒ ================= -->
+<ng-template #roleModal let-modal>
+  <div class="modal-header bg-primary-subtle py-2 px-3">
+    <h5 class="modal-title fs-14 fw-bold text-primary">
+      <i class="ri-user-settings-line me-1"></i> Cấp Quyền & Phân Bổ Vai Trò Tài Khoản
+    </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-4">
+    @if (selectedUser) {
+      <div class="d-flex align-items-center gap-3 p-3 bg-light rounded mb-3 border">
+        <img [src]="selectedUser.avatar || 'assets/images/users/user-dummy-img.jpg'" class="avatar-md rounded-circle border shadow-sm" alt="">
+        <div>
+          <h5 class="mb-1 text-primary">{{ selectedUser.fullName }}</h5>
+          <div class="text-muted fs-12">Mã định danh: <strong>{{ selectedUser.identifierCode }}</strong> | Email: <code>{{ selectedUser.email }}</code></div>
+          <div class="mt-1">Vai trò hiện tại: <span class="badge {{ getRoleBadgeClass(selectedUser.role) }}">{{ selectedUser.roleTitle }}</span></div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold fs-12">Vai trò mới (Role System):</label>
+          <select class="form-select form-select-sm" [(ngModel)]="newRole" (change)="onRoleChange()">
+            @for (r of rolesList; track r.value) {
+              <option [value]="r.value">{{ r.label }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold fs-12">Tên hiển thị chức vụ:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newRoleTitle">
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold fs-12">Khoa / Phòng ban trực thuộc:</label>
+          <select class="form-select form-select-sm" [(ngModel)]="newUnit">
+            @for (u of unitsList; track u) {
+              <option [value]="u">{{ u }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label fw-semibold fs-12">Học hàm / Học vị:</label>
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newAcademicTitle" placeholder="PGS.TS, TS, ThS, CN...">
+        </div>
+      </div>
+    }
+  </div>
+  <div class="modal-footer bg-light py-2 px-3">
+    <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy</button>
+    <button type="button" class="btn btn-sm btn-primary" (click)="saveRoleChange()">
+      <i class="ri-save-line me-1"></i> Lưu thay đổi quyền
+    </button>
+  </div>
+</ng-template>
+
+<!-- ================= MODAL TẠO TÀI KHOẢN MỚI ================= -->
+<ng-template #createUserModal let-modal>
+  <div class="modal-header bg-success-subtle py-2 px-3">
+    <h5 class="modal-title fs-14 fw-bold text-success">
+      <i class="ri-user-add-line me-1"></i> Thêm Mới & Kích Hoạt Tài Khoản Người Dùng
+    </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-4">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold fs-12">Họ và tên <span class="text-danger">*</span>:</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.fullName" placeholder="VD: ThS. Trần Văn Bình">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold fs-12">Email tài khoản <span class="text-danger">*</span>:</label>
+        <input type="email" class="form-control form-control-sm" [(ngModel)]="createUserData.email" placeholder="VD: binh.tv@dntu.edu.vn">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold fs-12">Mã định danh (GV/SV):</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.identifierCode">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold fs-12">Số điện thoại:</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.phone" placeholder="0912 345 678">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold fs-12">Vai trò:</label>
+        <select class="form-select form-select-sm" [(ngModel)]="createUserData.role">
+          @for (r of rolesList; track r.value) {
+            <option [value]="r.value">{{ r.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold fs-12">Khoa / Đơn vị:</label>
+        <select class="form-select form-select-sm" [(ngModel)]="createUserData.unit">
+          @for (u of unitsList; track u) {
+            <option [value]="u">{{ u }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer bg-light py-2 px-3">
+    <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy</button>
+    <button type="button" class="btn btn-sm btn-success" (click)="confirmCreateUser()">
+      <i class="ri-check-line me-1"></i> Tạo tài khoản
+    </button>
+  </div>
+</ng-template>
+
+<!-- ================= MODAL PHÊ DUYỆT ĐƯA VÀO BLACKLIST 1 NĂM ================= -->
+<ng-template #blacklistModal let-modal>
+  <div class="modal-header bg-danger-subtle py-2 px-3">
+    <h5 class="modal-title fs-14 fw-bold text-danger">
+      <i class="ri-scales-3-line me-1"></i> Phê Duyệt Quyết Định Kỷ Luật & Đưa Vào Blacklist (1 Năm)
+    </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-4">
+    @if (selectedBlacklistRecord) {
+      <div class="alert alert-danger p-3 mb-3">
+        <div class="d-flex align-items-center">
+          <i class="ri-alert-fill fs-24 me-3 text-danger"></i>
+          <div>
+            <h6 class="text-danger fw-bold mb-1">Cảnh báo thi hành kỷ luật hạn chế NCKH</h6>
+            <div class="fs-12">
+              Sau khi Admin phê duyệt, tài khoản của <strong>{{ selectedBlacklistRecord.userFullName }}</strong> ({{ selectedBlacklistRecord.userIdentifierCode }}) sẽ bị đưa vào danh sách Blacklist và <strong>bị cấm nộp đề tài NCKH mới trong vòng 01 năm</strong>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-3 bg-light rounded border mb-3 fs-12">
+        <div class="row g-2">
+          <div class="col-md-6"><strong>Cá nhân vi phạm:</strong> {{ selectedBlacklistRecord.userFullName }} ({{ selectedBlacklistRecord.userIdentifierCode }})</div>
+          <div class="col-md-6"><strong>Đơn vị:</strong> {{ selectedBlacklistRecord.userUnit }}</div>
+          <div class="col-md-12"><strong>Đề tài bị hủy:</strong> {{ selectedBlacklistRecord.proposalTitle }} (Mã: <code>{{ selectedBlacklistRecord.proposalCode }}</code>)</div>
+          <div class="col-md-12"><strong>Lý do vi phạm:</strong> <span class="text-danger">{{ selectedBlacklistRecord.cancelReason }}</span></div>
+          <div class="col-md-6"><strong>Cơ quan đề nghị:</strong> {{ selectedBlacklistRecord.requestedBy }}</div>
+          <div class="col-md-6"><strong>Thời hạn kỷ luật:</strong> <strong class="text-danger">01 năm (12 tháng)</strong></div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold fs-12">Số Quyết định kỷ luật Nhà trường:</label>
+        <input type="text" class="form-control form-control-sm font-monospace" [(ngModel)]="blacklistDecisionNumber">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold fs-12">Ghi chú & Căn cứ xử lý của Admin:</label>
+        <textarea class="form-control fs-12" rows="3" [(ngModel)]="blacklistAdminNotes"></textarea>
+      </div>
+    }
+  </div>
+  <div class="modal-footer bg-light py-2 px-3">
+    <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Hủy</button>
+    <button type="button" class="btn btn-sm btn-danger waves-effect waves-light" (click)="confirmApproveBlacklist()">
+      <i class="ri-forbid-line me-1"></i> Xác nhận Thi hành Blacklist 1 Năm
+    </button>
+  </div>
+</ng-template>
+
+<!-- ================= MODAL XEM CHI TIẾT HỒ SƠ BLACKLIST ================= -->
+<ng-template #blacklistDetailModal let-modal>
+  <div class="modal-header bg-light py-2 px-3">
+    <h5 class="modal-title fs-14 fw-bold text-dark">
+      <i class="ri-file-text-line me-1 text-primary"></i> Chi Tiết Biên Bản & Đề Nghị Xử Lý Vi Phạm
+    </h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body p-4 fs-12">
+    @if (selectedBlacklistRecord) {
+      <div class="text-center pb-3 border-bottom mb-3">
+        <div class="fw-bold fs-14 text-uppercase">TRƯỜNG ĐẠI HỌC CÔNG NGHỆ ĐỒNG NAI</div>
+        <div class="fw-semibold text-primary">PHÒNG KHOA HỌC & CÔNG NGHỆ - HỆ THỐNG NCKH</div>
+        <div class="text-muted fs-11 fst-italic">Số đề nghị: {{ selectedBlacklistRecord.decisionNumber }} - Ngày: {{ selectedBlacklistRecord.requestedAt }}</div>
+      </div>
+
+      <div class="table-responsive mb-3">
+        <table class="table table-bordered mb-0">
+          <tbody>
+            <tr>
+              <th class="table-light" style="width: 180px;">Chủ nhiệm / Thành viên:</th>
+              <td><strong>{{ selectedBlacklistRecord.userFullName }}</strong> (Mã: {{ selectedBlacklistRecord.userIdentifierCode }})</td>
+            </tr>
+            <tr>
+              <th class="table-light">Đơn vị công tác:</th>
+              <td>{{ selectedBlacklistRecord.userUnit }}</td>
+            </tr>
+            <tr>
+              <th class="table-light">Tên đề tài NCKH:</th>
+              <td class="text-primary fw-semibold">{{ selectedBlacklistRecord.proposalTitle }} (Mã: {{ selectedBlacklistRecord.proposalCode }})</td>
+            </tr>
+            <tr>
+              <th class="table-light">Lý do hủy đề tài:</th>
+              <td class="text-danger">{{ selectedBlacklistRecord.cancelReason }}</td>
+            </tr>
+            <tr>
+              <th class="table-light">Phân loại tính chất:</th>
+              <td><span class="badge bg-danger-subtle text-danger">Vi phạm chủ quan (Quy chế PRD Điều 28)</span></td>
+            </tr>
+            <tr>
+              <th class="table-light">Trạng thái xử lý:</th>
+              <td>
+                <span class="badge bg-danger">{{ selectedBlacklistRecord.status }}</span>
+              </td>
+            </tr>
+            @if (selectedBlacklistRecord.adminNotes) {
+              <tr>
+                <th class="table-light">Ghi chú của Admin:</th>
+                <td class="text-muted">{{ selectedBlacklistRecord.adminNotes }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+  <div class="modal-footer bg-light py-2 px-3">
+    <button type="button" class="btn btn-sm btn-light" (click)="modal.dismiss()">Đóng</button>
+  </div>
+</ng-template>

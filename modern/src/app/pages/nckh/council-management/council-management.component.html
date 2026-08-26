@@ -1,3 +1,22 @@
+@if (!isPkhcnOrAdmin) {
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm border-danger">
+        <div class="card-body text-center p-5">
+          <i class="ri-lock-2-line fs-48 text-danger mb-3 d-block"></i>
+          <h4 class="fw-bold text-danger">TRUY CẬP BỊ HẠN CHẾ (CHỈ DÀNH CHO P.KHCN)</h4>
+          <p class="text-muted fs-13 mb-4">
+            Trang Quản lý & Thành lập Hội đồng Khoa học thuộc thẩm quyền nghiệp vụ bảo mật của <strong>Phòng Khoa học & Công nghệ</strong>.<br>
+            Các thành viên Hội đồng vui lòng truy cập chức năng <strong>"Hội đồng thẩm định đề tài"</strong> để thực hiện nhiệm vụ đánh giá.
+          </p>
+          <a routerLink="/nckh/xet-duyet-ho-so" class="btn btn-primary">
+            <i class="ri-arrow-left-line me-1"></i> Quay về Hội đồng thẩm định đề tài
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
 <div class="row">
   <div class="col-12">
     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -272,25 +291,10 @@
                     </span>
                   </td>
                   <td class="text-center sticky-col-right">
-                    <div class="d-flex justify-content-center align-items-center gap-2">
+                    <div class="d-flex justify-content-center align-items-center">
                       <!-- Xem chi tiết -->
-                      <button type="button" class="btn btn-sm btn-soft-primary" (click)="openDetailCouncilModal(detailModal, c)" title="Xem chi tiết & danh sách đề tài">
-                        <i class="ri-eye-line me-1"></i> Xem
-                      </button>
-
-                      <!-- Chỉnh sửa -->
-                      <button type="button" class="btn btn-sm btn-soft-secondary btn-icon" (click)="openEditCouncilModal(councilModal, c)" title="Chỉnh sửa thông tin">
-                        <i class="ri-edit-line"></i>
-                      </button>
-
-                      <!-- Chuyển trạng thái -->
-                      <button type="button" class="btn btn-sm btn-soft-warning btn-icon" (click)="toggleCouncilStatus(c)" title="Cập nhật trạng thái họp">
-                        <i class="ri-refresh-line"></i>
-                      </button>
-
-                      <!-- Xóa -->
-                      <button type="button" class="btn btn-sm btn-soft-danger btn-icon" (click)="deleteCouncil(c)" title="Xóa Hội đồng">
-                        <i class="ri-delete-bin-line"></i>
+                      <button type="button" class="btn btn-sm btn-soft-primary" (click)="openDetailCouncilModal(detailModal, c)" title="Xem chi tiết Hội đồng & danh sách đề tài">
+                        <i class="ri-eye-line me-1"></i> Xem chi tiết
                       </button>
                     </div>
                   </td>
@@ -723,3 +727,5 @@
     </div>
   }
 </ng-template>
+
+}
