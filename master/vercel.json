@@ -1,5 +1,6 @@
 {
-  "outputDirectory": "browser",
+  "outputDirectory": "dist/velzon/browser",
+  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/(.*)",
