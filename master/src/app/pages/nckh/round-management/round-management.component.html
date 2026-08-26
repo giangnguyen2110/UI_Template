@@ -439,7 +439,7 @@
               <td><code>{{ dt.code }}</code></td>
               <td class="fw-medium">{{ dt.name }}</td>
               <td>{{ dt.assignedFaculty }}</td>
-              <td>{{ dt.budgetEst | number }} đ</td>
+              <td>{{ formatNumber(dt.budgetEst) }} đ</td>
               <td class="text-center">
                 <button type="button" class="btn btn-sm btn-link link-danger p-0" (click)="removeDirectTopicFromForm(idx)">
                   <i class="ri-delete-bin-line"></i>
@@ -567,7 +567,7 @@
                         <div class="text-muted fs-11 mt-1 text-truncate" style="max-width: 280px;">{{ dt.description }}</div>
                       </td>
                       <td>{{ dt.assignedFaculty }}</td>
-                      <td><span class="text-primary fw-medium">{{ dt.budgetEst | number }} đ</span></td>
+                      <td><span class="text-primary fw-medium">{{ formatNumber(dt.budgetEst) }} đ</span></td>
                       <td>
                         @if (dt.isTaken) {
                           <span class="badge bg-secondary-subtle text-secondary">Đã có chủ nhiệm</span>

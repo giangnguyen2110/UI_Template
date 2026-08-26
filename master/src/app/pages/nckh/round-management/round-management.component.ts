@@ -20,6 +20,10 @@ export class RoundManagementComponent implements OnInit {
   pageSize = 5;
   readonly Math = Math;
 
+  formatNumber(val?: number): string {
+    return (val || 0).toLocaleString('vi-VN');
+  }
+
   get pagedRounds(): RegistrationRound[] {
     const startIndex = (this.page - 1) * this.pageSize;
     return this.rounds.slice(startIndex, startIndex + this.pageSize);
