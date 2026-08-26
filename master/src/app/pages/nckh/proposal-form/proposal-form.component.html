@@ -126,33 +126,37 @@
   <div class="col-xl-12">
     <div class="card shadow-sm">
       <div class="card-header bg-light-subtle py-3 border-bottom d-flex align-items-center justify-content-between">
-        <!-- Wizard Navigation Tabs -->
-        <ul class="nav nav-pills custom-wizard-nav" role="tablist">
-          <li class="nav-item">
-            <button class="nav-link" [class.active]="currentStep === 1" [class.done]="currentStep > 1" (click)="setStep(1)" type="button">
-              <span class="step-icon"><i class="ri-information-line"></i></span>
-              <span class="step-title">1. Thông tin chung</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-link" [class.active]="currentStep === 2" [class.done]="currentStep > 2" (click)="setStep(2)" type="button">
-              <span class="step-icon"><i class="ri-file-text-line"></i></span>
-              <span class="step-title">2. Mục tiêu & Nội dung (Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường)</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-link" [class.active]="currentStep === 3" [class.done]="currentStep > 3" (click)="setStep(3)" type="button">
-              <span class="step-icon"><i class="ri-group-line"></i></span>
-              <span class="step-title">3. Nhóm & Kinh phí</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-link" [class.active]="currentStep === 4" [class.done]="currentStep > 4" (click)="setStep(4)" type="button">
-              <span class="step-icon"><i class="ri-attachment-line"></i></span>
-              <span class="step-title">4. Đính kèm file đã ký & Nộp hồ sơ</span>
-            </button>
-          </li>
-        </ul>
+        <!-- Wizard Navigation Tabs (2 Dòng: Mục 3 dưới Mục 1, Mục 4 dưới Mục 2) -->
+        <div class="d-flex flex-column gap-2 flex-grow-1 me-3">
+          <ul class="nav nav-pills custom-wizard-nav gap-2 mb-0" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link py-1 px-3 fs-12" [class.active]="currentStep === 1" [class.done]="currentStep > 1" (click)="setStep(1)" type="button">
+                <span class="step-icon me-1"><i class="ri-information-line"></i></span>
+                <span class="step-title">1. Thông tin chung</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link py-1 px-3 fs-12" [class.active]="currentStep === 2" [class.done]="currentStep > 2" (click)="setStep(2)" type="button">
+                <span class="step-icon me-1"><i class="ri-file-text-line"></i></span>
+                <span class="step-title">2. Mục tiêu & Nội dung (Phiếu đăng ký đề tài nghiên cứu khoa học cấp trường)</span>
+              </button>
+            </li>
+          </ul>
+          <ul class="nav nav-pills custom-wizard-nav gap-2 mb-0" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link py-1 px-3 fs-12" [class.active]="currentStep === 3" [class.done]="currentStep > 3" (click)="setStep(3)" type="button">
+                <span class="step-icon me-1"><i class="ri-group-line"></i></span>
+                <span class="step-title">3. Nhóm & Kinh phí</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link py-1 px-3 fs-12" [class.active]="currentStep === 4" [class.done]="currentStep > 4" (click)="setStep(4)" type="button">
+                <span class="step-icon me-1"><i class="ri-attachment-line"></i></span>
+                <span class="step-title">4. Đính kèm file đã ký & Nộp hồ sơ</span>
+              </button>
+            </li>
+          </ul>
+        </div>
 
         <div class="d-flex gap-2">
           <button type="button" class="btn btn-sm btn-outline-primary" (click)="openPreviewModal(previewModal, proposal.target === 'GIANG_VIEN' ? 'BM01A' : 'BM01B')">
