@@ -725,7 +725,7 @@ export class ProposalFormComponent implements OnInit {
       return;
     }
     if (!this.proposal.signedPdfFile || this.proposal.signedPdfFile.signatureStatus !== 'DA_KY') {
-      alert('Vui lòng bấm "Ký số biểu mẫu" ở Bước 4 trước khi nộp chính thức.');
+      alert('Vui lòng tải lên tệp Phiếu đăng ký đề tài đã ký ở Bước 4 trước khi nộp chính thức.');
       return;
     }
 
