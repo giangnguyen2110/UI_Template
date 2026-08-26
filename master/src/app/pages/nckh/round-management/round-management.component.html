@@ -310,17 +310,17 @@
     <div class="row g-3 mb-4">
       <div class="col-md-8">
         <label class="form-label fs-13 fw-semibold">Tên Đợt đăng ký <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="roundForm.name" placeholder="Ví dụ: Đợt 2: Đăng ký đề tài NCKH Cấp Trường năm 2026">
+        <input type="text" class="form-control" [(ngModel)]="roundForm.name" name="roundName" placeholder="Ví dụ: Đợt 2: Đăng ký đề tài NCKH Cấp Trường năm 2026">
       </div>
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Mã Đợt <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="roundForm.code" placeholder="DOT-2026-02">
+        <input type="text" class="form-control" [(ngModel)]="roundForm.code" name="roundCode" placeholder="DOT-2026-02">
       </div>
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Năm học áp dụng</label>
-        <select class="form-select" [(ngModel)]="roundForm.academicYear">
+        <select class="form-select" [(ngModel)]="roundForm.academicYear" name="roundAcademicYear">
           <option value="2026-2027">2026 - 2027</option>
           <option value="2025-2026">2025 - 2026</option>
           <option value="2027-2028">2027 - 2028</option>
@@ -347,7 +347,7 @@
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Hình thức</label>
-        <select class="form-select" [(ngModel)]="roundForm.type">
+        <select class="form-select" [(ngModel)]="roundForm.type" name="roundType">
           <option value="TUYEN_CHON">Tuyển chọn</option>
           <option value="GIAO_TRUC_TIEP">Giao trực tiếp</option>
         </select>
@@ -355,7 +355,7 @@
 
       <div class="col-12">
         <label class="form-label fs-13 fw-semibold">Thông báo / Mô tả hướng dẫn</label>
-        <textarea class="form-control" rows="2" [(ngModel)]="roundForm.description" placeholder="Nhập thông báo gửi đến các khoa và chủ nhiệm đề tài..."></textarea>
+        <textarea class="form-control" rows="2" [(ngModel)]="roundForm.description" name="roundDescription" placeholder="Nhập thông báo gửi đến các khoa và chủ nhiệm đề tài..."></textarea>
       </div>
     </div>
 
@@ -365,12 +365,12 @@
     <div class="row g-3 mb-4">
       <div class="col-md-6">
         <label class="form-label fs-13 fw-semibold">Ngày bắt đầu nhận hồ sơ <span class="text-danger">*</span></label>
-        <input type="date" class="form-control" [(ngModel)]="roundForm.startDate">
+        <input type="date" class="form-control" [(ngModel)]="roundForm.startDate" name="roundStartDate">
       </div>
 
       <div class="col-md-6">
         <label class="form-label fs-13 fw-semibold">Hạn chót nộp hồ sơ (Deadline Bước 01) <span class="text-danger">*</span></label>
-        <input type="date" class="form-control border-danger" [(ngModel)]="roundForm.endDate">
+        <input type="date" class="form-control border-danger" [(ngModel)]="roundForm.endDate" name="roundEndDate">
         <div class="text-muted fs-11 mt-1 text-danger">
           * Theo PRD FR-12: Sau mốc này, hệ thống sẽ tự động khóa chức năng nộp hồ sơ cho đợt.
         </div>
@@ -386,15 +386,15 @@
       <div class="row g-2">
         <div class="col-md-3">
           <label class="form-label fs-12 mb-1">Mã đề tài</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.code" placeholder="DTT-2026-01">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.code" name="directCode" placeholder="DTT-2026-01">
         </div>
         <div class="col-md-6">
           <label class="form-label fs-12 mb-1">Tên đề tài giao trực tiếp</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.name" placeholder="Nhập tên đề tài đặt hàng">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.name" name="directName" placeholder="Nhập tên đề tài đặt hàng">
         </div>
         <div class="col-md-3">
           <label class="form-label fs-12 mb-1">Khoa thực hiện</label>
-          <select class="form-select form-select-sm" [(ngModel)]="newDirectTopic.assignedFaculty">
+          <select class="form-select form-select-sm" [(ngModel)]="newDirectTopic.assignedFaculty" name="directFaculty">
             <option value="Khoa Công nghệ thông tin">Khoa CNTT</option>
             <option value="Khoa Kỹ thuật">Khoa Kỹ thuật</option>
             <option value="Khoa Kinh tế - Quản trị">Khoa Kinh tế</option>
@@ -403,15 +403,15 @@
         </div>
         <div class="col-md-4">
           <label class="form-label fs-12 mb-1">Lĩnh vực</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.field" placeholder="CNTT & AI">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.field" name="directField" placeholder="CNTT & AI">
         </div>
         <div class="col-md-4">
           <label class="form-label fs-12 mb-1">Kinh phí dự kiến (VNĐ)</label>
-          <input type="number" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.budgetEst" step="1000000">
+          <input type="number" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.budgetEst" name="directBudget" step="1000000">
         </div>
         <div class="col-md-4">
           <label class="form-label fs-12 mb-1">Sản phẩm đầu ra</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.expectedOutcome" placeholder="01 Bài báo + Phần mềm">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newDirectTopic.expectedOutcome" name="directOutcome" placeholder="01 Bài báo + Phần mềm">
         </div>
         <div class="col-12 mt-2 text-end">
           <button type="button" class="btn btn-sm btn-success" (click)="addDirectTopicToForm()">
