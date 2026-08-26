@@ -176,7 +176,7 @@
             <div class="row g-3">
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Đợt đăng ký NCKH <span class="text-danger">*</span></label>
-                <select class="form-select" [(ngModel)]="proposal.roundId" (ngModelChange)="onRoundChange($event)" [disabled]="isRoundFixed || !isStepEditable(1)">
+                <select class="form-select" [(ngModel)]="proposal.roundId" [ngModelOptions]="{standalone: true}" (ngModelChange)="onRoundChange($event)" [disabled]="isRoundFixed || !isStepEditable(1)">
                   @for (r of rounds; track r.id) {
                     <option [value]="r.id">{{ r.name }} ({{ r.academicYear }}) - {{ r.target === 'GIANG_VIEN' ? 'Dành cho GV' : 'Dành cho SV' }}</option>
                   }
@@ -185,7 +185,7 @@
 
               <div class="col-md-3">
                 <label class="form-label fw-semibold">Loại hình đề tài</label>
-                <select class="form-select" [(ngModel)]="proposal.type" [disabled]="proposal.type === 'GIAO_TRUC_TIEP' || !isStepEditable(1)">
+                <select class="form-select" [(ngModel)]="proposal.type" [ngModelOptions]="{standalone: true}" [disabled]="proposal.type === 'GIAO_TRUC_TIEP' || !isStepEditable(1)">
                   <option value="TUYEN_CHON">Đề tài Tuyển chọn</option>
                   <option value="GIAO_TRUC_TIEP">Đề tài Giao trực tiếp</option>
                 </select>
@@ -198,17 +198,17 @@
 
               <div class="col-12">
                 <label class="form-label fw-semibold">Tên đề tài nghiên cứu <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="2" [(ngModel)]="proposal.title" placeholder="Nhập tên đề tài nghiên cứu đầy đủ, rõ ràng và cô đọng..." [disabled]="!isStepEditable(1)"></textarea>
+                <textarea class="form-control" rows="2" [(ngModel)]="proposal.title" [ngModelOptions]="{standalone: true}" placeholder="Nhập tên đề tài nghiên cứu đầy đủ, rõ ràng và cô đọng..." [disabled]="!isStepEditable(1)"></textarea>
               </div>
 
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Lĩnh vực nghiên cứu <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" [(ngModel)]="proposal.field" placeholder="Ví dụ: Công nghệ thông tin & Trí tuệ nhân tạo..." [disabled]="!isStepEditable(1)">
+                <input type="text" class="form-control" [(ngModel)]="proposal.field" [ngModelOptions]="{standalone: true}" placeholder="Ví dụ: Công nghệ thông tin & Trí tuệ nhân tạo..." [disabled]="!isStepEditable(1)">
               </div>
 
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Khoa / Đơn vị chủ trì <span class="text-danger">*</span></label>
-                <input type="text" class="form-control bg-light" [(ngModel)]="proposal.faculty" readonly>
+                <input type="text" class="form-control bg-light" [(ngModel)]="proposal.faculty" [ngModelOptions]="{standalone: true}" readonly>
               </div>
 
               <!-- Thông tin Chủ nhiệm đề tài -->
@@ -220,23 +220,23 @@
                   <div class="row g-3 fs-13">
                     <div class="col-md-4">
                       <label class="form-label text-muted mb-1">Họ và tên Chủ nhiệm:</label>
-                      <input type="text" class="form-control bg-white" [(ngModel)]="proposal.authorName" readonly>
+                      <input type="text" class="form-control bg-white" [(ngModel)]="proposal.authorName" [ngModelOptions]="{standalone: true}" readonly>
                     </div>
                     <div class="col-md-4">
                       <label class="form-label text-muted mb-1">Mã định danh (GV/SV):</label>
-                      <input type="text" class="form-control bg-white" [(ngModel)]="proposal.authorIdentifierCode" readonly>
+                      <input type="text" class="form-control bg-white" [(ngModel)]="proposal.authorIdentifierCode" [ngModelOptions]="{standalone: true}" readonly>
                     </div>
                     <div class="col-md-4">
                       <label class="form-label text-muted mb-1">Học hàm / Học vị / Chức vụ:</label>
-                      <input type="text" class="form-control" [(ngModel)]="proposal.authorAcademicTitle" [disabled]="!isStepEditable(1)">
+                      <input type="text" class="form-control" [(ngModel)]="proposal.authorAcademicTitle" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
                     </div>
                     <div class="col-md-6">
                       <label class="form-label text-muted mb-1">Email liên hệ:</label>
-                      <input type="email" class="form-control bg-white" [(ngModel)]="proposal.authorEmail" readonly>
+                      <input type="email" class="form-control bg-white" [(ngModel)]="proposal.authorEmail" [ngModelOptions]="{standalone: true}" readonly>
                     </div>
                     <div class="col-md-6">
                       <label class="form-label text-muted mb-1">Số điện thoại:</label>
-                      <input type="text" class="form-control" [(ngModel)]="proposal.authorPhone" [disabled]="!isStepEditable(1)">
+                      <input type="text" class="form-control" [(ngModel)]="proposal.authorPhone" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
                     </div>
                   </div>
                 </div>
@@ -252,7 +252,7 @@
                     <div class="row g-3">
                       <div class="col-md-6">
                         <label class="form-label fs-12 fw-medium">Chọn Giảng viên hướng dẫn:</label>
-                        <select class="form-select fs-12" [(ngModel)]="proposal.advisorId" [disabled]="!isStepEditable(1)">
+                        <select class="form-select fs-12" [(ngModel)]="proposal.advisorId" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
                           @for (adv of advisorsList; track adv.id) {
                             <option [value]="adv.id">{{ adv.fullName }} ({{ adv.academicTitle || 'Giảng viên' }} - {{ adv.unit }})</option>
                           }
@@ -294,32 +294,32 @@
             <div class="row g-4">
               <div class="col-12">
                 <label class="form-label fw-semibold">1. Tính cấp thiết của đề tài <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="4" [(ngModel)]="proposal.necessity" placeholder="Nêu rõ lý do lựa chọn đề tài, khoảng trống nghiên cứu, ý nghĩa khoa học và thực tiễn..." [disabled]="!isStepEditable(1)"></textarea>
+                <textarea class="form-control" rows="4" [(ngModel)]="proposal.necessity" [ngModelOptions]="{standalone: true}" placeholder="Nêu rõ lý do lựa chọn đề tài, khoảng trống nghiên cứu, ý nghĩa khoa học và thực tiễn..." [disabled]="!isStepEditable(1)"></textarea>
               </div>
 
               <div class="col-12">
                 <label class="form-label fw-semibold">2. Mục tiêu nghiên cứu <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="3" [(ngModel)]="proposal.objectives" placeholder="Mục tiêu chung và các mục tiêu cụ thể cần đạt được của đề tài..." [disabled]="!isStepEditable(1)"></textarea>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.objectives" [ngModelOptions]="{standalone: true}" placeholder="Mục tiêu chung và các mục tiêu cụ thể cần đạt được của đề tài..." [disabled]="!isStepEditable(1)"></textarea>
               </div>
 
               <div class="col-12">
                 <label class="form-label fw-semibold">3. Nội dung nghiên cứu chính <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="4" [(ngModel)]="proposal.mainContents" placeholder="Liệt kê chi tiết các nội dung / gói công việc nghiên cứu chính..." [disabled]="!isStepEditable(1)"></textarea>
+                <textarea class="form-control" rows="4" [(ngModel)]="proposal.mainContents" [ngModelOptions]="{standalone: true}" placeholder="Liệt kê chi tiết các nội dung / gói công việc nghiên cứu chính..." [disabled]="!isStepEditable(1)"></textarea>
               </div>
 
               <div class="col-12">
                 <label class="form-label fw-semibold">4. Phương pháp nghiên cứu <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="3" [(ngModel)]="proposal.methods" placeholder="Phương pháp tiếp cận, thu thập dữ liệu, thuật toán, công cụ thực nghiệm..." [disabled]="!isStepEditable(1)"></textarea>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.methods" [ngModelOptions]="{standalone: true}" placeholder="Phương pháp tiếp cận, thu thập dữ liệu, thuật toán, công cụ thực nghiệm..." [disabled]="!isStepEditable(1)"></textarea>
               </div>
 
               <div class="col-md-6">
                 <label class="form-label fw-semibold">5. Sản phẩm dự kiến <span class="text-danger">*</span></label>
-                <textarea class="form-control" rows="3" [(ngModel)]="proposal.expectedProducts" placeholder="Ví dụ: 01 Bài báo Scopus, 01 Phần mềm Web demo, Báo cáo tổng kết..." [disabled]="!isStepEditable(1)"></textarea>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.expectedProducts" [ngModelOptions]="{standalone: true}" placeholder="Ví dụ: 01 Bài báo Scopus, 01 Phần mềm Web demo, Báo cáo tổng kết..." [disabled]="!isStepEditable(1)"></textarea>
               </div>
 
               <div class="col-md-6">
                 <label class="form-label fw-semibold">6. Khả năng ứng dụng & Địa chỉ ứng dụng</label>
-                <textarea class="form-control" rows="3" [(ngModel)]="proposal.applicability" placeholder="Chuyển giao cho các Khoa, Doanh nghiệp đối tác hoặc ứng dụng nội bộ Nhà trường..." [disabled]="!isStepEditable(1)"></textarea>
+                <textarea class="form-control" rows="3" [(ngModel)]="proposal.applicability" [ngModelOptions]="{standalone: true}" placeholder="Chuyển giao cho các Khoa, Doanh nghiệp đối tác hoặc ứng dụng nội bộ Nhà trường..." [disabled]="!isStepEditable(1)"></textarea>
               </div>
             </div>
 
@@ -359,13 +359,13 @@
               @if (isStepEditable(1)) {
                 <div class="row g-2 mb-3 bg-light p-2 rounded border">
                   <div class="col-md-4">
-                    <input type="text" class="form-control form-control-sm" placeholder="Họ và tên thành viên..." [(ngModel)]="newMember.fullName">
+                    <input type="text" class="form-control form-control-sm" placeholder="Họ và tên thành viên..." [(ngModel)]="newMember.fullName" [ngModelOptions]="{standalone: true}">
                   </div>
                   <div class="col-md-3">
-                    <input type="text" class="form-control form-control-sm" placeholder="Mã định danh (GV/SV)..." [(ngModel)]="newMember.identifierCode">
+                    <input type="text" class="form-control form-control-sm" placeholder="Mã định danh (GV/SV)..." [(ngModel)]="newMember.identifierCode" [ngModelOptions]="{standalone: true}">
                   </div>
                   <div class="col-md-3">
-                    <input type="text" class="form-control form-control-sm" placeholder="Vai trò trong đề tài..." [(ngModel)]="newMember.roleInProject">
+                    <input type="text" class="form-control form-control-sm" placeholder="Vai trò trong đề tài..." [(ngModel)]="newMember.roleInProject" [ngModelOptions]="{standalone: true}">
                   </div>
                   <div class="col-md-2">
                     <button type="button" class="btn btn-sm btn-primary w-100" (click)="addMember()">
@@ -425,24 +425,24 @@
             <div class="row g-3">
               <div class="col-md-4">
                 <label class="form-label fw-semibold">Thời gian thực hiện (Tháng) <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" [(ngModel)]="proposal.durationMonths" min="1" max="24" [disabled]="!isStepEditable(1)">
+                <input type="number" class="form-control" [(ngModel)]="proposal.durationMonths" [ngModelOptions]="{standalone: true}" min="1" max="24" [disabled]="!isStepEditable(1)">
               </div>
               <div class="col-md-4">
                 <label class="form-label fw-semibold">Ngày bắt đầu dự kiến</label>
-                <input type="date" class="form-control" [(ngModel)]="proposal.startDateExpected" [disabled]="!isStepEditable(1)">
+                <input type="date" class="form-control" [(ngModel)]="proposal.startDateExpected" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
               </div>
               <div class="col-md-4">
                 <label class="form-label fw-semibold">Ngày kết thúc dự kiến</label>
-                <input type="date" class="form-control" [(ngModel)]="proposal.endDateExpected" [disabled]="!isStepEditable(1)">
+                <input type="date" class="form-control" [(ngModel)]="proposal.endDateExpected" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(1)">
               </div>
 
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Tổng kinh phí đề xuất (VNĐ) <span class="text-danger">*</span></label>
-                <input type="number" class="form-control fs-14 fw-bold text-primary" [(ngModel)]="proposal.budgetTotal" step="1000000" [disabled]="!isStepEditable(1)">
+                <input type="number" class="form-control fs-14 fw-bold text-primary" [(ngModel)]="proposal.budgetTotal" [ngModelOptions]="{standalone: true}" step="1000000" [disabled]="!isStepEditable(1)">
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Kinh phí Nhà trường cấp (VNĐ)</label>
-                <input type="number" class="form-control bg-light fs-14 fw-bold" [(ngModel)]="proposal.budgetSchoolFunded" readonly>
+                <input type="number" class="form-control bg-light fs-14 fw-bold" [(ngModel)]="proposal.budgetSchoolFunded" [ngModelOptions]="{standalone: true}" readonly>
               </div>
             </div>
 
@@ -588,7 +588,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">1. Tính cấp thiết & Tính mới của đề tài (Tối đa 25đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria1" min="0" max="25" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria1" [ngModelOptions]="{standalone: true}" min="0" max="25" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 25 điểm</span>
                     </div>
                   </div>
@@ -596,7 +596,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">2. Tính khả thi & Mục tiêu rõ ràng (Tối đa 25đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria2" min="0" max="25" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria2" [ngModelOptions]="{standalone: true}" min="0" max="25" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 25 điểm</span>
                     </div>
                   </div>
@@ -604,7 +604,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">3. Phương pháp nghiên cứu phù hợp (Tối đa 20đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria3" min="0" max="20" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria3" [ngModelOptions]="{standalone: true}" min="0" max="20" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 20 điểm</span>
                     </div>
                   </div>
@@ -612,7 +612,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">4. Năng lực của Chủ nhiệm và Nhóm nghiên cứu (Tối đa 15đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria4" min="0" max="15" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria4" [ngModelOptions]="{standalone: true}" min="0" max="15" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 15 điểm</span>
                     </div>
                   </div>
@@ -620,7 +620,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">5. Dự toán kinh phí hợp lý, đúng định mức (Tối đa 15đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria5" min="0" max="15" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm02Form.criteria5" [ngModelOptions]="{standalone: true}" min="0" max="15" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 15 điểm</span>
                     </div>
                   </div>
@@ -632,7 +632,7 @@
 
                   <div class="col-12">
                     <label class="form-label fw-medium">Kết luận đánh giá:</label>
-                    <select class="form-select form-select-sm" [(ngModel)]="bm02Form.conclusion" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                    <select class="form-select form-select-sm" [(ngModel)]="bm02Form.conclusion" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <option value="DAT">ĐẠT YÊU CẦU (Cho phép viết Thuyết minh BM04)</option>
                       <option value="KHONG_DAT">KHÔNG ĐẠT</option>
                     </select>
@@ -640,7 +640,7 @@
 
                   <div class="col-12">
                     <label class="form-label fw-medium">Ý kiến nhận xét chuyên môn:</label>
-                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm02Form.notes" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
+                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm02Form.notes" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(2) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
                   </div>
                 </div>
 
@@ -669,7 +669,7 @@
                   <div class="mb-2"><strong>Tổng hợp phiếu:</strong> <span class="badge bg-success">{{ bm03Form.summaryVotes }}</span></div>
                   <div class="mb-2">
                     <label class="form-label fw-medium mb-1">Kết luận chung của Hội đồng:</label>
-                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm03Form.generalAssessment" [disabled]="!isStepEditable(2) || (currentUser.role !== 'THU_KY_HD' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
+                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm03Form.generalAssessment" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(2) || (currentUser.role !== 'THU_KY_HD' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
                   </div>
                   <div class="d-flex justify-content-between text-muted fs-11 border-top pt-2">
                     <div><i class="ri-checkbox-circle-fill text-success me-1"></i> Thư ký: <strong>Đã ký số</strong></div>
@@ -714,18 +714,18 @@
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label class="form-label fs-12 fw-medium">Tổng quan trong nước:</label>
-                    <textarea class="form-control fs-12" rows="4" [(ngModel)]="bm04Form.overviewDomestic" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                    <textarea class="form-control fs-12" rows="4" [(ngModel)]="bm04Form.overviewDomestic" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
                   </div>
                   <div class="col-md-6">
                     <label class="form-label fs-12 fw-medium">Tổng quan quốc tế:</label>
-                    <textarea class="form-control fs-12" rows="4" [(ngModel)]="bm04Form.overviewAbroad" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                    <textarea class="form-control fs-12" rows="4" [(ngModel)]="bm04Form.overviewAbroad" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
                   </div>
                 </div>
               </div>
 
               <div class="card border p-3 bg-light-subtle mb-3">
                 <h6 class="fw-bold fs-13 text-primary mb-2">2. Phương pháp nghiên cứu chi tiết & Giải pháp kỹ thuật</h6>
-                <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm04Form.researchMethodsDetail" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm04Form.researchMethodsDetail" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
               </div>
 
               <!-- Bảng Kế hoạch triển khai theo tháng -->
@@ -734,13 +734,13 @@
                 @if (isStepEditable(3) && (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN')) {
                   <div class="row g-2 mb-2 bg-light p-2 rounded border">
                     <div class="col-md-3">
-                      <input type="text" class="form-control form-control-sm" placeholder="Mốc thời gian (VD: Tháng 1-3)..." [(ngModel)]="newPlanItem.month">
+                      <input type="text" class="form-control form-control-sm" placeholder="Mốc thời gian (VD: Tháng 1-3)..." [(ngModel)]="newPlanItem.month" [ngModelOptions]="{standalone: true}">
                     </div>
                     <div class="col-md-5">
-                      <input type="text" class="form-control form-control-sm" placeholder="Nội dung công việc thực hiện..." [(ngModel)]="newPlanItem.content">
+                      <input type="text" class="form-control form-control-sm" placeholder="Nội dung công việc thực hiện..." [(ngModel)]="newPlanItem.content" [ngModelOptions]="{standalone: true}">
                     </div>
                     <div class="col-md-3">
-                      <input type="text" class="form-control form-control-sm" placeholder="Sản phẩm / Kết quả..." [(ngModel)]="newPlanItem.outcome">
+                      <input type="text" class="form-control form-control-sm" placeholder="Sản phẩm / Kết quả..." [(ngModel)]="newPlanItem.outcome" [ngModelOptions]="{standalone: true}">
                     </div>
                     <div class="col-md-1">
                       <button type="button" class="btn btn-sm btn-primary w-100" (click)="addPlanItem()"><i class="ri-add-line"></i></button>
@@ -786,10 +786,10 @@
                 @if (isStepEditable(3) && (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN')) {
                   <div class="row g-2 mb-2 bg-light p-2 rounded border">
                     <div class="col-md-8">
-                      <input type="text" class="form-control form-control-sm" placeholder="Danh mục chi phí dự toán..." [(ngModel)]="newBudgetItem.category">
+                      <input type="text" class="form-control form-control-sm" placeholder="Danh mục chi phí dự toán..." [(ngModel)]="newBudgetItem.category" [ngModelOptions]="{standalone: true}">
                     </div>
                     <div class="col-md-3">
-                      <input type="number" class="form-control form-control-sm" placeholder="Số tiền (VNĐ)..." [(ngModel)]="newBudgetItem.amount" step="500000">
+                      <input type="number" class="form-control form-control-sm" placeholder="Số tiền (VNĐ)..." [(ngModel)]="newBudgetItem.amount" [ngModelOptions]="{standalone: true}" step="500000">
                     </div>
                     <div class="col-md-1">
                       <button type="button" class="btn btn-sm btn-primary w-100" (click)="addBudgetItem()"><i class="ri-add-line"></i></button>
@@ -836,7 +836,7 @@
               <!-- Sản phẩm dự kiến -->
               <div class="card border p-3 bg-light-subtle mb-3">
                 <h6 class="fw-bold fs-13 text-primary mb-2">5. Chi tiết sản phẩm khoa học & Địa chỉ chuyển giao</h6>
-                <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm04Form.expectedProductsDetail" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm04Form.expectedProductsDetail" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(3) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
               </div>
 
               @if (isStepEditable(3) && (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN')) {
@@ -888,7 +888,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">1. Mục tiêu & Nội dung nghiên cứu (Tối đa 25đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria1" min="0" max="25" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria1" [ngModelOptions]="{standalone: true}" min="0" max="25" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 25 điểm</span>
                     </div>
                   </div>
@@ -896,7 +896,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">2. Phương pháp nghiên cứu & Giải pháp kỹ thuật (Tối đa 25đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria2" min="0" max="25" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria2" [ngModelOptions]="{standalone: true}" min="0" max="25" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 25 điểm</span>
                     </div>
                   </div>
@@ -904,7 +904,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">3. Kế hoạch triển khai & Khả năng thực hiện (Tối đa 20đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria3" min="0" max="20" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria3" [ngModelOptions]="{standalone: true}" min="0" max="20" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 20 điểm</span>
                     </div>
                   </div>
@@ -912,7 +912,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">4. Sản phẩm dự kiến & Giá trị ứng dụng (Tối đa 20đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria4" min="0" max="20" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria4" [ngModelOptions]="{standalone: true}" min="0" max="20" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 20 điểm</span>
                     </div>
                   </div>
@@ -920,7 +920,7 @@
                   <div class="col-12">
                     <label class="form-label fw-medium">5. Dự toán kinh phí hợp lý, tiết kiệm (Tối đa 10đ):</label>
                     <div class="d-flex align-items-center gap-2">
-                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria5" min="0" max="10" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                      <input type="number" class="form-control form-control-sm w-80" [(ngModel)]="bm06Form.criteria5" [ngModelOptions]="{standalone: true}" min="0" max="10" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <span class="text-muted">/ 10 điểm</span>
                     </div>
                   </div>
@@ -932,7 +932,7 @@
 
                   <div class="col-12">
                     <label class="form-label fw-medium">Kết luận đánh giá:</label>
-                    <select class="form-select form-select-sm" [(ngModel)]="bm06Form.conclusion" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
+                    <select class="form-select form-select-sm" [(ngModel)]="bm06Form.conclusion" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')">
                       <option value="THUC_HIEN">THỰC HIỆN (Thông qua Thuyết minh & Ký hợp đồng)</option>
                       <option value="CHINH_SUA">CHỈNH SỬA BỔ SUNG</option>
                       <option value="KHONG_THUC_HIEN">KHÔNG THỰC HIỆN</option>
@@ -941,7 +941,7 @@
 
                   <div class="col-12">
                     <label class="form-label fw-medium">Nhận xét chi tiết:</label>
-                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm06Form.notes" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
+                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm06Form.notes" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(4) || (currentUser.role !== 'HOI_DONG_MEMBER' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
                   </div>
                 </div>
 
@@ -971,7 +971,7 @@
                   <div class="mb-2"><strong>Kiến nghị kinh phí:</strong> {{ bm07Form.budgetRecommendation }}</div>
                   <div class="mb-2">
                     <label class="form-label fw-medium mb-1">Nhận xét chung của Hội đồng:</label>
-                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm07Form.generalAssessment" [disabled]="!isStepEditable(4) || (currentUser.role !== 'THU_KY_HD' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
+                    <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="bm07Form.generalAssessment" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(4) || (currentUser.role !== 'THU_KY_HD' && currentUser.role !== 'CHU_TICH_HD')"></textarea>
                   </div>
                   <div class="d-flex justify-content-between text-muted fs-11 border-top pt-2">
                     <div><i class="ri-checkbox-circle-fill text-success me-1"></i> Thư ký: <strong>Đã ký</strong></div>
@@ -1095,7 +1095,7 @@
                 @if (isStepEditable(6) && (currentUser.role === 'GIANG_VIEN' || currentUser.role === 'SINH_VIEN')) {
                   <div class="d-flex align-items-center gap-2">
                     <label class="form-label fs-12 mb-0">Điều chỉnh % tiến độ:</label>
-                    <input type="range" class="form-range w-50" min="0" max="100" [(ngModel)]="bm08Form.progressPercent">
+                    <input type="range" class="form-range w-50" min="0" max="100" [(ngModel)]="bm08Form.progressPercent" [ngModelOptions]="{standalone: true}">
                   </div>
                 }
               </div>
@@ -1103,28 +1103,28 @@
               <div class="row g-3">
                 <div class="col-12">
                   <label class="form-label fw-semibold fs-12">1. Nội dung các công việc nghiên cứu đã hoàn thành:</label>
-                  <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm08Form.completedContents" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                  <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm08Form.completedContents" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
                 </div>
 
                 <div class="col-md-6">
                   <label class="form-label fw-semibold fs-12">2. Sản phẩm trung gian đã đạt được:</label>
-                  <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm08Form.intermediateProducts" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                  <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm08Form.intermediateProducts" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
                 </div>
 
                 <div class="col-md-6">
                   <label class="form-label fw-semibold fs-12">3. Tình hình sử dụng kinh phí (VNĐ):</label>
-                  <input type="number" class="form-control fs-12 font-monospace fw-bold" [(ngModel)]="bm08Form.budgetExpended" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')">
+                  <input type="number" class="form-control fs-12 font-monospace fw-bold" [(ngModel)]="bm08Form.budgetExpended" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')">
                   <div class="text-muted fs-11 mt-1">Đã giải ngân: {{ bm08Form.budgetExpended | number }} / {{ proposal.budgetTotal | number }} đ</div>
                 </div>
 
                 <div class="col-12">
                   <label class="form-label fw-semibold fs-12">4. Khó khăn, vướng mắc & Đề xuất giải pháp:</label>
-                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="bm08Form.difficultiesAndRequests" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="bm08Form.difficultiesAndRequests" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
                 </div>
 
                 <div class="col-12">
                   <label class="form-label fw-semibold fs-12">5. Kế hoạch triển khai giai đoạn còn lại:</label>
-                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="bm08Form.planNextPhase" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="bm08Form.planNextPhase" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(6) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
                 </div>
               </div>
 
@@ -1204,7 +1204,7 @@
 
                 <div class="mb-3">
                   <label class="form-label fs-12 fw-medium">Tóm tắt kết quả nghiên cứu toàn diện:</label>
-                  <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm09Form.summaryContent" [disabled]="!isStepEditable(7) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
+                  <textarea class="form-control fs-12" rows="3" [(ngModel)]="bm09Form.summaryContent" [ngModelOptions]="{standalone: true}" [disabled]="!isStepEditable(7) || (currentUser.role !== 'GIANG_VIEN' && currentUser.role !== 'SINH_VIEN')"></textarea>
                 </div>
 
                 <h6 class="fw-bold fs-12 text-dark mb-2">Bảng đối chiếu sản phẩm đăng ký vs thực tế:</h6>

@@ -64,14 +64,14 @@
             <label class="form-label fs-11 text-muted mb-1">Từ khóa (Tên đề tài / Mã / Chủ nhiệm)</label>
             <div class="input-group input-group-sm">
               <span class="input-group-text bg-light"><i class="ri-search-line"></i></span>
-              <input type="text" class="form-control" [(ngModel)]="searchTerm" (input)="onFilterChange()" placeholder="Tìm tên đề tài, mã, chủ nhiệm...">
+              <input type="text" class="form-control" [(ngModel)]="searchTerm" [ngModelOptions]="{standalone: true}" (input)="onFilterChange()" placeholder="Tìm tên đề tài, mã, chủ nhiệm...">
             </div>
           </div>
 
           <!-- 2. Khoa / Đơn vị -->
           <div class="col-lg-3 col-md-6">
             <label class="form-label fs-11 text-muted mb-1">Khoa / Đơn vị chủ quản</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedFaculty" (change)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedFaculty" [ngModelOptions]="{standalone: true}" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả Khoa / Viện --</option>
               @for (fac of facultiesList; track fac) {
                 <option [value]="fac">{{ fac }}</option>
@@ -82,7 +82,7 @@
           <!-- 3. Đối tượng -->
           <div class="col-lg-2 col-md-4">
             <label class="form-label fs-11 text-muted mb-1">Đối tượng</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedTarget" (change)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedTarget" [ngModelOptions]="{standalone: true}" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả đối tượng --</option>
               <option value="GIANG_VIEN">Giảng viên (BM01A)</option>
               <option value="SINH_VIEN">Sinh viên (BM01B)</option>
@@ -92,7 +92,7 @@
           <!-- 4. Hình thức thực hiện -->
           <div class="col-lg-3 col-md-4">
             <label class="form-label fs-11 text-muted mb-1">Hình thức</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedType" (change)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedType" [ngModelOptions]="{standalone: true}" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả hình thức --</option>
               <option value="TUYEN_CHON">Đề tài Tuyển chọn</option>
               <option value="GIAO_TRUC_TIEP">Đề tài Giao trực tiếp</option>
@@ -102,7 +102,7 @@
           <!-- 5. Giai đoạn quy trình & Trạng thái -->
           <div class="col-lg-4 col-md-4">
             <label class="form-label fs-11 text-muted mb-1">Giai đoạn quy trình & Trạng thái</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedPhase" (change)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedPhase" [ngModelOptions]="{standalone: true}" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả giai đoạn & trạng thái --</option>
               <option value="B01">B01: Đăng ký đề tài (BM01A/B)</option>
               <option value="B02">B02: Sơ duyệt hồ sơ (BM02/03)</option>
@@ -121,7 +121,7 @@
           <!-- 6. Đợt đăng ký -->
           <div class="col-lg-8 col-md-8">
             <label class="form-label fs-11 text-muted mb-1">Đợt đăng ký NCKH</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedRound" (change)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedRound" [ngModelOptions]="{standalone: true}" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả các đợt đăng ký trong năm học --</option>
               @for (r of rounds; track r.id) {
                 <option [value]="r.id">{{ r.name }} ({{ r.academicYear }})</option>
@@ -1171,7 +1171,7 @@
       <label class="form-label fs-13 fw-bold text-danger">
         Lý do / Nội dung yêu cầu chỉnh sửa <span class="text-danger">*</span> (Bắt buộc theo PRD FR-22):
       </label>
-      <textarea class="form-control" rows="4" [(ngModel)]="returnReason" placeholder="Ghi rõ các điểm cần chỉnh sửa (ví dụ: bổ sung phương pháp, làm rõ sản phẩm, điều chỉnh dự trù kinh phí...)"></textarea>
+      <textarea class="form-control" rows="4" [(ngModel)]="returnReason" [ngModelOptions]="{standalone: true}" placeholder="Ghi rõ các điểm cần chỉnh sửa (ví dụ: bổ sung phương pháp, làm rõ sản phẩm, điều chỉnh dự trù kinh phí...)"></textarea>
       <div class="text-muted fs-11 mt-1">
         * Lưu ý: Khi bị trả sửa, bản ký BM01 cũ sẽ mất hiệu lực; Chủ nhiệm đề tài phải sửa nội dung, xuất và ký số lại bản mới trước khi nộp lại.
       </div>
@@ -1256,7 +1256,7 @@
       <div class="row g-3 mb-3">
         <div class="col-md-6">
           <label class="form-label fs-12 fw-semibold">Số Quyết định Hủy đề tài <span class="text-danger">*</span>:</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="cancelDecisionNumber">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="cancelDecisionNumber" [ngModelOptions]="{standalone: true}">
         </div>
         <div class="col-md-6">
           <label class="form-label fs-12 fw-semibold">Thẩm quyền ký ban hành:</label>
@@ -1264,7 +1264,7 @@
         </div>
         <div class="col-12">
           <label class="form-label fs-12 fw-semibold">Căn cứ & Ghi chú của Phòng KHCN:</label>
-          <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="cancelPkhcnNotes" placeholder="Nhập căn cứ xử lý hủy hồ sơ..."></textarea>
+          <textarea class="form-control form-control-sm" rows="3" [(ngModel)]="cancelPkhcnNotes" [ngModelOptions]="{standalone: true}" placeholder="Nhập căn cứ xử lý hủy hồ sơ..."></textarea>
         </div>
       </div>
     </div>
@@ -1452,7 +1452,7 @@
               <div class="col-md-6">
                 <label class="form-label fw-bold fs-12 mb-1">1. Thành phần tham dự:</label>
                 @if (canEditSummaryFields) {
-                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.attendees">
+                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.attendees" [ngModelOptions]="{standalone: true}">
                 } @else {
                   <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.attendees }}</div>
                 }
@@ -1461,7 +1461,7 @@
               <div class="col-md-6">
                 <label class="form-label fw-bold fs-12 mb-1">2. Kết quả bỏ phiếu:</label>
                 @if (canEditSummaryFields) {
-                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.votingResult">
+                  <input type="text" class="form-control form-control-sm fs-12" [(ngModel)]="councilEvaluationData.summary.votingResult" [ngModelOptions]="{standalone: true}">
                 } @else {
                   <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.votingResult }}</div>
                 }
@@ -1470,7 +1470,7 @@
               <div class="col-12">
                 <label class="form-label fw-bold fs-12 mb-1">3. Kết luận của Hội đồng:</label>
                 @if (canEditSummaryFields) {
-                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.conclusion"></textarea>
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.conclusion" [ngModelOptions]="{standalone: true}"></textarea>
                 } @else {
                   <div class="p-2 border rounded bg-white fs-12" style="white-space: pre-line;">{{ councilEvaluationData.summary.conclusion }}</div>
                 }
@@ -1479,7 +1479,7 @@
               <div class="col-12">
                 <label class="form-label fw-bold fs-12 mb-1">4. Kiến nghị & Khen thưởng:</label>
                 @if (canEditSummaryFields) {
-                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.recommendation"></textarea>
+                  <textarea class="form-control fs-12" rows="2" [(ngModel)]="councilEvaluationData.summary.recommendation" [ngModelOptions]="{standalone: true}"></textarea>
                 } @else {
                   <div class="p-2 border rounded bg-white fs-12">{{ councilEvaluationData.summary.recommendation }}</div>
                 }
@@ -1564,7 +1564,7 @@
                   <td class="text-center">20 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('chutich')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[0]" (input)="updateTotalScore('chutich')" min="0" max="20">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[0]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('chutich')" min="0" max="20">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[0] }} đ</span>
                     }
@@ -1576,7 +1576,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('chutich')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[1]" (input)="updateTotalScore('chutich')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[1]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('chutich')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[1] }} đ</span>
                     }
@@ -1588,7 +1588,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('chutich')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[2]" (input)="updateTotalScore('chutich')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[2]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('chutich')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[2] }} đ</span>
                     }
@@ -1600,7 +1600,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('chutich')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[3]" (input)="updateTotalScore('chutich')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[3]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('chutich')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[3] }} đ</span>
                     }
@@ -1612,7 +1612,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('chutich')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[4]" (input)="updateTotalScore('chutich')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.chutich.criteriaScores[4]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('chutich')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.chutich.criteriaScores[4] }} đ</span>
                     }
@@ -1630,7 +1630,7 @@
           <div class="mb-3">
             <label class="form-label fw-bold">Ý kiến nhận xét của Chủ tịch:</label>
             @if (canEditPersonalTab('chutich')) {
-              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.chutich.comment"></textarea>
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.chutich.comment" [ngModelOptions]="{standalone: true}"></textarea>
               <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
                   <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
@@ -1676,7 +1676,7 @@
                   <td class="text-center">20 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien1')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[0]" (input)="updateTotalScore('phanbien1')" min="0" max="20">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[0]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien1')" min="0" max="20">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[0] }} đ</span>
                     }
@@ -1688,7 +1688,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien1')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[1]" (input)="updateTotalScore('phanbien1')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[1]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien1')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[1] }} đ</span>
                     }
@@ -1700,7 +1700,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien1')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[2]" (input)="updateTotalScore('phanbien1')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[2]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien1')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[2] }} đ</span>
                     }
@@ -1712,7 +1712,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien1')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[3]" (input)="updateTotalScore('phanbien1')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[3]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien1')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[3] }} đ</span>
                     }
@@ -1724,7 +1724,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien1')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[4]" (input)="updateTotalScore('phanbien1')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien1.criteriaScores[4]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien1')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien1.criteriaScores[4] }} đ</span>
                     }
@@ -1742,7 +1742,7 @@
           <div class="mb-3">
             <label class="form-label fw-bold">Ý kiến nhận xét phản biện 1:</label>
             @if (canEditPersonalTab('phanbien1')) {
-              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien1.comment"></textarea>
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien1.comment" [ngModelOptions]="{standalone: true}"></textarea>
               <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
                   <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
@@ -1788,7 +1788,7 @@
                   <td class="text-center">20 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien2')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[0]" (input)="updateTotalScore('phanbien2')" min="0" max="20">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[0]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien2')" min="0" max="20">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[0] }} đ</span>
                     }
@@ -1800,7 +1800,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien2')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[1]" (input)="updateTotalScore('phanbien2')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[1]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien2')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[1] }} đ</span>
                     }
@@ -1812,7 +1812,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien2')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[2]" (input)="updateTotalScore('phanbien2')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[2]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien2')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[2] }} đ</span>
                     }
@@ -1824,7 +1824,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien2')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[3]" (input)="updateTotalScore('phanbien2')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[3]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien2')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[3] }} đ</span>
                     }
@@ -1836,7 +1836,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('phanbien2')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[4]" (input)="updateTotalScore('phanbien2')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.phanbien2.criteriaScores[4]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('phanbien2')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.phanbien2.criteriaScores[4] }} đ</span>
                     }
@@ -1854,7 +1854,7 @@
           <div class="mb-3">
             <label class="form-label fw-bold">Ý kiến nhận xét phản biện 2:</label>
             @if (canEditPersonalTab('phanbien2')) {
-              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien2.comment"></textarea>
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.phanbien2.comment" [ngModelOptions]="{standalone: true}"></textarea>
               <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
                   <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
@@ -1900,7 +1900,7 @@
                   <td class="text-center">20 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('uyvien')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[0]" (input)="updateTotalScore('uyvien')" min="0" max="20">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[0]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('uyvien')" min="0" max="20">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[0] }} đ</span>
                     }
@@ -1912,7 +1912,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('uyvien')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[1]" (input)="updateTotalScore('uyvien')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[1]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('uyvien')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[1] }} đ</span>
                     }
@@ -1924,7 +1924,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('uyvien')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[2]" (input)="updateTotalScore('uyvien')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[2]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('uyvien')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[2] }} đ</span>
                     }
@@ -1936,7 +1936,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('uyvien')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[3]" (input)="updateTotalScore('uyvien')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[3]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('uyvien')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[3] }} đ</span>
                     }
@@ -1948,7 +1948,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('uyvien')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[4]" (input)="updateTotalScore('uyvien')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.uyvien.criteriaScores[4]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('uyvien')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.uyvien.criteriaScores[4] }} đ</span>
                     }
@@ -1966,7 +1966,7 @@
           <div class="mb-3">
             <label class="form-label fw-bold">Ý kiến nhận xét của Ủy viên:</label>
             @if (canEditPersonalTab('uyvien')) {
-              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.uyvien.comment"></textarea>
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.uyvien.comment" [ngModelOptions]="{standalone: true}"></textarea>
               <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
                   <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
@@ -2012,7 +2012,7 @@
                   <td class="text-center">20 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('thuky')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[0]" (input)="updateTotalScore('thuky')" min="0" max="20">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[0]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('thuky')" min="0" max="20">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[0] }} đ</span>
                     }
@@ -2024,7 +2024,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('thuky')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[1]" (input)="updateTotalScore('thuky')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[1]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('thuky')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[1] }} đ</span>
                     }
@@ -2036,7 +2036,7 @@
                   <td class="text-center">25 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('thuky')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[2]" (input)="updateTotalScore('thuky')" min="0" max="25">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[2]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('thuky')" min="0" max="25">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[2] }} đ</span>
                     }
@@ -2048,7 +2048,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('thuky')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[3]" (input)="updateTotalScore('thuky')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[3]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('thuky')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[3] }} đ</span>
                     }
@@ -2060,7 +2060,7 @@
                   <td class="text-center">15 đ</td>
                   <td class="text-center">
                     @if (canEditPersonalTab('thuky')) {
-                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[4]" (input)="updateTotalScore('thuky')" min="0" max="15">
+                      <input type="number" class="form-control form-control-sm text-center fw-bold" [(ngModel)]="councilEvaluationData.thuky.criteriaScores[4]" [ngModelOptions]="{standalone: true}" (input)="updateTotalScore('thuky')" min="0" max="15">
                     } @else {
                       <span class="fw-bold text-primary">{{ councilEvaluationData.thuky.criteriaScores[4] }} đ</span>
                     }
@@ -2078,7 +2078,7 @@
           <div class="mb-3">
             <label class="form-label fw-bold">Ý kiến nhận xét của Thư ký:</label>
             @if (canEditPersonalTab('thuky')) {
-              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.thuky.comment"></textarea>
+              <textarea class="form-control fs-12" rows="3" [(ngModel)]="councilEvaluationData.thuky.comment" [ngModelOptions]="{standalone: true}"></textarea>
               <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
                 <button type="button" class="btn btn-sm btn-outline-primary" (click)="openCouncilSummaryTab(secretaryConfirmLockModal, secretaryMissingMemberModal)">
                   <i class="ri-survey-line me-1"></i> Mở phiếu đánh giá hội đồng
@@ -2220,7 +2220,7 @@
     <!-- Ý kiến tờ trình của Trưởng Khoa -->
     <div class="mb-3">
       <label class="form-label fw-bold fs-12 mb-1">Ý kiến đề nghị của Trưởng Khoa gửi Phòng KHCN:</label>
-      <textarea class="form-control fs-12" rows="3" [(ngModel)]="deanSubmissionNotes"></textarea>
+      <textarea class="form-control fs-12" rows="3" [(ngModel)]="deanSubmissionNotes" [ngModelOptions]="{standalone: true}"></textarea>
     </div>
 
     <!-- Khối chữ ký xác nhận của Trưởng Khoa -->

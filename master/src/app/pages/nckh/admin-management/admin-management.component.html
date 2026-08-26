@@ -161,12 +161,12 @@
             <div class="col-lg-4 col-md-6">
               <div class="input-group input-group-sm">
                 <span class="input-group-text bg-light"><i class="ri-search-line"></i></span>
-                <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Tìm tên, mã GV/SV, email...">
+                <input type="text" class="form-control" [(ngModel)]="searchTerm" [ngModelOptions]="{standalone: true}" placeholder="Tìm tên, mã GV/SV, email...">
               </div>
             </div>
 
             <div class="col-lg-3 col-md-6">
-              <select class="form-select form-select-sm" [(ngModel)]="selectedRoleFilter">
+              <select class="form-select form-select-sm" [(ngModel)]="selectedRoleFilter" [ngModelOptions]="{standalone: true}">
                 <option value="ALL">-- Tất cả Vai trò --</option>
                 @for (r of rolesList; track r.value) {
                   <option [value]="r.value">{{ r.label }}</option>
@@ -175,7 +175,7 @@
             </div>
 
             <div class="col-lg-3 col-md-6">
-              <select class="form-select form-select-sm" [(ngModel)]="selectedUnitFilter">
+              <select class="form-select form-select-sm" [(ngModel)]="selectedUnitFilter" [ngModelOptions]="{standalone: true}">
                 <option value="ALL">-- Tất cả Khoa / Đơn vị --</option>
                 @for (u of unitsList; track u) {
                   <option [value]="u">{{ u }}</option>
@@ -184,7 +184,7 @@
             </div>
 
             <div class="col-lg-2 col-md-6">
-              <select class="form-select form-select-sm" [(ngModel)]="selectedStatusFilter">
+              <select class="form-select form-select-sm" [(ngModel)]="selectedStatusFilter" [ngModelOptions]="{standalone: true}">
                 <option value="ALL">-- Tất cả Trạng thái --</option>
                 <option value="ACTIVE">Hoạt động</option>
                 <option value="PENDING">Chờ duyệt mở quyền</option>
@@ -311,7 +311,7 @@
             </div>
 
             <div>
-              <select class="form-select form-select-sm" [(ngModel)]="selectedBlacklistFilter">
+              <select class="form-select form-select-sm" [(ngModel)]="selectedBlacklistFilter" [ngModelOptions]="{standalone: true}">
                 <option value="ALL">-- Tất cả trạng thái hồ sơ --</option>
                 <option value="PENDING_ADMIN">Chờ Admin phê duyệt ({{ countPendingBlacklistRequests }})</option>
                 <option value="BANNED_ACTIVE">Đang thi hành kỷ luật (1 năm)</option>
@@ -461,7 +461,7 @@
       <div class="row g-3">
         <div class="col-md-6">
           <label class="form-label fw-semibold fs-12">Vai trò mới (Role System):</label>
-          <select class="form-select form-select-sm" [(ngModel)]="newRole" (change)="onRoleChange()">
+          <select class="form-select form-select-sm" [(ngModel)]="newRole" [ngModelOptions]="{standalone: true}" (change)="onRoleChange()">
             @for (r of rolesList; track r.value) {
               <option [value]="r.value">{{ r.label }}</option>
             }
@@ -470,12 +470,12 @@
 
         <div class="col-md-6">
           <label class="form-label fw-semibold fs-12">Tên hiển thị chức vụ:</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newRoleTitle">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newRoleTitle" [ngModelOptions]="{standalone: true}">
         </div>
 
         <div class="col-md-6">
           <label class="form-label fw-semibold fs-12">Khoa / Phòng ban trực thuộc:</label>
-          <select class="form-select form-select-sm" [(ngModel)]="newUnit">
+          <select class="form-select form-select-sm" [(ngModel)]="newUnit" [ngModelOptions]="{standalone: true}">
             @for (u of unitsList; track u) {
               <option [value]="u">{{ u }}</option>
             }
@@ -484,7 +484,7 @@
 
         <div class="col-md-6">
           <label class="form-label fw-semibold fs-12">Học hàm / Học vị:</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newAcademicTitle" placeholder="PGS.TS, TS, ThS, CN...">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newAcademicTitle" [ngModelOptions]="{standalone: true}" placeholder="PGS.TS, TS, ThS, CN...">
         </div>
       </div>
     }
@@ -509,27 +509,27 @@
     <div class="row g-3">
       <div class="col-md-6">
         <label class="form-label fw-semibold fs-12">Họ và tên <span class="text-danger">*</span>:</label>
-        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.fullName" placeholder="VD: ThS. Trần Văn Bình">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.fullName" [ngModelOptions]="{standalone: true}" placeholder="VD: ThS. Trần Văn Bình">
       </div>
 
       <div class="col-md-6">
         <label class="form-label fw-semibold fs-12">Email tài khoản <span class="text-danger">*</span>:</label>
-        <input type="email" class="form-control form-control-sm" [(ngModel)]="createUserData.email" placeholder="VD: binh.tv@dntu.edu.vn">
+        <input type="email" class="form-control form-control-sm" [(ngModel)]="createUserData.email" [ngModelOptions]="{standalone: true}" placeholder="VD: binh.tv@dntu.edu.vn">
       </div>
 
       <div class="col-md-6">
         <label class="form-label fw-semibold fs-12">Mã định danh (GV/SV):</label>
-        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.identifierCode">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.identifierCode" [ngModelOptions]="{standalone: true}">
       </div>
 
       <div class="col-md-6">
         <label class="form-label fw-semibold fs-12">Số điện thoại:</label>
-        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.phone" placeholder="0912 345 678">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="createUserData.phone" [ngModelOptions]="{standalone: true}" placeholder="0912 345 678">
       </div>
 
       <div class="col-md-6">
         <label class="form-label fw-semibold fs-12">Vai trò:</label>
-        <select class="form-select form-select-sm" [(ngModel)]="createUserData.role">
+        <select class="form-select form-select-sm" [(ngModel)]="createUserData.role" [ngModelOptions]="{standalone: true}">
           @for (r of rolesList; track r.value) {
             <option [value]="r.value">{{ r.label }}</option>
           }
@@ -538,7 +538,7 @@
 
       <div class="col-md-6">
         <label class="form-label fw-semibold fs-12">Khoa / Đơn vị:</label>
-        <select class="form-select form-select-sm" [(ngModel)]="createUserData.unit">
+        <select class="form-select form-select-sm" [(ngModel)]="createUserData.unit" [ngModelOptions]="{standalone: true}">
           @for (u of unitsList; track u) {
             <option [value]="u">{{ u }}</option>
           }
@@ -589,12 +589,12 @@
 
       <div class="mb-3">
         <label class="form-label fw-bold fs-12">Số Quyết định kỷ luật Nhà trường:</label>
-        <input type="text" class="form-control form-control-sm font-monospace" [(ngModel)]="blacklistDecisionNumber">
+        <input type="text" class="form-control form-control-sm font-monospace" [(ngModel)]="blacklistDecisionNumber" [ngModelOptions]="{standalone: true}">
       </div>
 
       <div class="mb-3">
         <label class="form-label fw-bold fs-12">Ghi chú & Căn cứ xử lý của Admin:</label>
-        <textarea class="form-control fs-12" rows="3" [(ngModel)]="blacklistAdminNotes"></textarea>
+        <textarea class="form-control fs-12" rows="3" [(ngModel)]="blacklistAdminNotes" [ngModelOptions]="{standalone: true}"></textarea>
       </div>
     }
   </div>

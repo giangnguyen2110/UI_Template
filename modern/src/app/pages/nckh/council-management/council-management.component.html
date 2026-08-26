@@ -162,7 +162,7 @@
           <div class="col-lg-4 col-md-6">
             <label class="form-label fs-12 mb-1 text-muted">Từ khóa (Tên Hội đồng / Mã / Số Quyết định)</label>
             <div class="search-box">
-              <input type="text" class="form-control form-control-sm" placeholder="Tìm tên Hội đồng, mã, số QĐ..." [(ngModel)]="searchTerm" (ngModelChange)="onFilterChange()">
+              <input type="text" class="form-control form-control-sm" placeholder="Tìm tên Hội đồng, mã, số QĐ..." [(ngModel)]="searchTerm" [ngModelOptions]="{standalone: true}" (ngModelChange)="onFilterChange()">
               <i class="ri-search-line search-icon fs-14"></i>
             </div>
           </div>
@@ -170,7 +170,7 @@
           <!-- 2. Loại Hội đồng -->
           <div class="col-lg-3 col-md-6">
             <label class="form-label fs-12 mb-1 text-muted">Loại Hội đồng đánh giá</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedCouncilType" (ngModelChange)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedCouncilType" [ngModelOptions]="{standalone: true}" (ngModelChange)="onFilterChange()">
               <option value="ALL">-- Tất cả loại Hội đồng --</option>
               <option value="XET_DUYET_HO_SO">Bước 02: HĐ Xét duyệt sơ bộ hồ sơ (BM02)</option>
               <option value="XET_DUYET_THUYET_MINH">Bước 04: HĐ Xét duyệt Thuyết minh (BM04/05)</option>
@@ -181,7 +181,7 @@
           <!-- 3. Khoa / Lĩnh vực -->
           <div class="col-lg-3 col-md-6">
             <label class="form-label fs-12 mb-1 text-muted">Khoa / Đơn vị chuyên môn</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedFaculty" (ngModelChange)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedFaculty" [ngModelOptions]="{standalone: true}" (ngModelChange)="onFilterChange()">
               <option value="ALL">-- Tất cả Khoa / Lĩnh vực --</option>
               @for (f of facultiesList; track f) {
                 <option [value]="f">{{ f }}</option>
@@ -192,7 +192,7 @@
           <!-- 4. Trạng thái -->
           <div class="col-lg-2 col-md-6">
             <label class="form-label fs-12 mb-1 text-muted">Trạng thái</label>
-            <select class="form-select form-select-sm" [(ngModel)]="selectedStatus" (ngModelChange)="onFilterChange()">
+            <select class="form-select form-select-sm" [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" (ngModelChange)="onFilterChange()">
               <option value="ALL">-- Tất cả trạng thái --</option>
               <option value="DA_BAN_HANH">Đã ban hành QĐ</option>
               <option value="DANG_HOP">Đang tổ chức họp</option>
@@ -364,17 +364,17 @@
     <div class="row g-3 mb-4">
       <div class="col-md-8">
         <label class="form-label fs-13 fw-semibold">Tên Hội đồng Khoa học <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="councilForm.name" placeholder="VD: Hội đồng Xét duyệt Đề tài NCKH Lĩnh vực CNTT & AI">
+        <input type="text" class="form-control" [(ngModel)]="councilForm.name" [ngModelOptions]="{standalone: true}" placeholder="VD: Hội đồng Xét duyệt Đề tài NCKH Lĩnh vực CNTT & AI">
       </div>
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Mã Hội đồng <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="councilForm.code" placeholder="HĐ-2026-B02-01">
+        <input type="text" class="form-control" [(ngModel)]="councilForm.code" [ngModelOptions]="{standalone: true}" placeholder="HĐ-2026-B02-01">
       </div>
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Loại Hội đồng <span class="text-danger">*</span></label>
-        <select class="form-select" [(ngModel)]="councilForm.councilType">
+        <select class="form-select" [(ngModel)]="councilForm.councilType" [ngModelOptions]="{standalone: true}">
           <option value="XET_DUYET_HO_SO">Bước 02: HĐ Xét duyệt sơ bộ hồ sơ (BM02)</option>
           <option value="XET_DUYET_THUYET_MINH">Bước 04: HĐ Xét duyệt Thuyết minh (BM04/05)</option>
           <option value="NGHIEM_THU">Bước 07: HĐ Đánh giá Nghiệm thu (BM07-09)</option>
@@ -383,17 +383,17 @@
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Số Quyết định thành lập <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="councilForm.decisionNumber" placeholder="128/QĐ-ĐHNT-KHCN">
+        <input type="text" class="form-control" [(ngModel)]="councilForm.decisionNumber" [ngModelOptions]="{standalone: true}" placeholder="128/QĐ-ĐHNT-KHCN">
       </div>
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Ngày ký Quyết định</label>
-        <input type="date" class="form-control" [(ngModel)]="councilForm.decisionDate">
+        <input type="date" class="form-control" [(ngModel)]="councilForm.decisionDate" [ngModelOptions]="{standalone: true}">
       </div>
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Khoa / Đơn vị chuyên môn</label>
-        <select class="form-select" [(ngModel)]="councilForm.faculty">
+        <select class="form-select" [(ngModel)]="councilForm.faculty" [ngModelOptions]="{standalone: true}">
           @for (f of facultiesList; track f) {
             <option [value]="f">{{ f }}</option>
           }
@@ -402,7 +402,7 @@
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Đợt đăng ký liên kết</label>
-        <select class="form-select" [(ngModel)]="councilForm.roundId">
+        <select class="form-select" [(ngModel)]="councilForm.roundId" [ngModelOptions]="{standalone: true}">
           <option value="">-- Chọn đợt đăng ký --</option>
           @for (r of rounds; track r.id) {
             <option [value]="r.id">{{ r.name }}</option>
@@ -412,7 +412,7 @@
 
       <div class="col-md-4">
         <label class="form-label fs-13 fw-semibold">Trạng thái Hội đồng</label>
-        <select class="form-select" [(ngModel)]="councilForm.status">
+        <select class="form-select" [(ngModel)]="councilForm.status" [ngModelOptions]="{standalone: true}">
           <option value="DA_BAN_HANH">Đã ban hành QĐ</option>
           <option value="DANG_HOP">Đang tổ chức họp</option>
           <option value="DA_HOAN_THANH">Đã hoàn thành đánh giá</option>
@@ -422,17 +422,17 @@
 
       <div class="col-md-6">
         <label class="form-label fs-13 fw-semibold">Thời gian tổ chức họp</label>
-        <input type="text" class="form-control" [(ngModel)]="councilForm.meetingDate" placeholder="VD: 2026-09-10 08:30">
+        <input type="text" class="form-control" [(ngModel)]="councilForm.meetingDate" [ngModelOptions]="{standalone: true}" placeholder="VD: 2026-09-10 08:30">
       </div>
 
       <div class="col-md-6">
         <label class="form-label fs-13 fw-semibold">Địa điểm / Phòng họp</label>
-        <input type="text" class="form-control" [(ngModel)]="councilForm.meetingLocation" placeholder="Phòng Hội thảo A204 / MS Teams">
+        <input type="text" class="form-control" [(ngModel)]="councilForm.meetingLocation" [ngModelOptions]="{standalone: true}" placeholder="Phòng Hội thảo A204 / MS Teams">
       </div>
 
       <div class="col-12">
         <label class="form-label fs-13 fw-semibold">Ghi chú & Căn cứ thành lập</label>
-        <textarea class="form-control" rows="2" [(ngModel)]="councilForm.notes" placeholder="Căn cứ quy chế NCKH và đề xuất của Hội đồng Khoa học cơ sở..."></textarea>
+        <textarea class="form-control" rows="2" [(ngModel)]="councilForm.notes" [ngModelOptions]="{standalone: true}" placeholder="Căn cứ quy chế NCKH và đề xuất của Hội đồng Khoa học cơ sở..."></textarea>
       </div>
     </div>
 
@@ -448,11 +448,11 @@
       <div class="row g-2 align-items-end">
         <div class="col-md-3">
           <label class="form-label fs-11 text-muted mb-1">Họ và tên thành viên <span class="text-danger">*</span></label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newMember.fullName" placeholder="VD: TS. Nguyễn Văn An">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newMember.fullName" [ngModelOptions]="{standalone: true}" placeholder="VD: TS. Nguyễn Văn An">
         </div>
         <div class="col-md-2">
           <label class="form-label fs-11 text-muted mb-1">Học hàm / Học vị</label>
-          <select class="form-select form-select-sm" [(ngModel)]="newMember.academicTitle">
+          <select class="form-select form-select-sm" [(ngModel)]="newMember.academicTitle" [ngModelOptions]="{standalone: true}">
             <option value="GS.TS">GS.TS</option>
             <option value="PGS.TS">PGS.TS</option>
             <option value="Tiến sĩ">Tiến sĩ (TS)</option>
@@ -462,7 +462,7 @@
         </div>
         <div class="col-md-3">
           <label class="form-label fs-11 text-muted mb-1">Vai trò trong Hội đồng <span class="text-danger">*</span></label>
-          <select class="form-select form-select-sm" [(ngModel)]="newMember.roleInCouncil">
+          <select class="form-select form-select-sm" [(ngModel)]="newMember.roleInCouncil" [ngModelOptions]="{standalone: true}">
             <option value="CHU_TICH">Chủ tịch Hội đồng</option>
             <option value="PHO_CHU_TICH">Phó Chủ tịch</option>
             <option value="UY_VIEN_PHAN_BIEN_1">Ủy viên Phản biện 1</option>
@@ -473,7 +473,7 @@
         </div>
         <div class="col-md-3">
           <label class="form-label fs-11 text-muted mb-1">Đơn vị công tác</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="newMember.workUnit" placeholder="Khoa / Viện...">
+          <input type="text" class="form-control form-control-sm" [(ngModel)]="newMember.workUnit" [ngModelOptions]="{standalone: true}" placeholder="Khoa / Viện...">
         </div>
         <div class="col-md-1">
           <button type="button" class="btn btn-sm btn-primary w-100" (click)="addMemberToForm()" title="Thêm thành viên">
