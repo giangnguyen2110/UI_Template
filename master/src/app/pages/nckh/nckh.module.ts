@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDropdownModule, NgbNavModule, NgbModalModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -26,6 +26,7 @@ import { AdminManagementComponent } from './admin-management/admin-management.co
   ],
   imports: [
     CommonModule,
+    DecimalPipe,
     FormsModule,
     ReactiveFormsModule,
     NgbDropdownModule,
@@ -34,6 +35,8 @@ import { AdminManagementComponent } from './admin-management/admin-management.co
     NgbTooltipModule,
     NckhRoutingModule
   ],
+  providers: [DecimalPipe],
+  exports: [DecimalPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NckhModule {}
