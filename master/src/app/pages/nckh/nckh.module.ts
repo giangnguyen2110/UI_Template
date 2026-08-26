@@ -35,8 +35,20 @@ import { AdminManagementComponent } from './admin-management/admin-management.co
     NgbTooltipModule,
     NckhRoutingModule
   ],
+  exports: [
+    NckhDashboardComponent,
+    MyProposalsComponent,
+    ProposalFormComponent,
+    ReviewProposalsComponent,
+    RoundManagementComponent,
+    ProposalDetailComponent,
+    CouncilManagementComponent,
+    AdminManagementComponent,
+    DecimalPipe,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   providers: [DecimalPipe],
-  exports: [DecimalPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class NckhModule {}
