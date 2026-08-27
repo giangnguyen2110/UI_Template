@@ -65,22 +65,22 @@
           </li>
           <li class="nav-item">
             <a class="nav-link py-2" [class.active]="currentFilter === 'B01'" href="javascript:void(0);" (click)="filterByStatus('B01')">
-              1. Đăng ký đề tài (B01)
+              1. Đăng ký đề tài (B1)
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link py-2" [class.active]="currentFilter === 'B03'" href="javascript:void(0);" (click)="filterByStatus('B03')">
-              2. Viết thuyết minh (B03)
+              2. Viết thuyết minh (B3)
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link py-2" [class.active]="currentFilter === 'B06'" href="javascript:void(0);" (click)="filterByStatus('B06')">
-              3. Báo cáo tiến độ ½ TG (B06)
+              3. Báo cáo tiến độ ½ TG (B6)
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link py-2" [class.active]="currentFilter === 'B07'" href="javascript:void(0);" (click)="filterByStatus('B07')">
-              4. Nghiệm thu đề tài (B07)
+              4. Nghiệm thu đề tài (B7)
             </a>
           </li>
           <li class="nav-item">
@@ -141,25 +141,31 @@
                     }
                   </td>
                   <td>
-                    <div class="d-flex align-items-center gap-1">
+                    <div class="d-flex flex-column align-items-start gap-1">
                       <span [class]="getStatusBadge(p.status) + ' fs-11 py-1 px-2'">
                         {{ p.statusText }}
                       </span>
                       @if (p.status === 'TRA_CHINH_SUA' && p.rejectionReason) {
-                        <button type="button" class="btn btn-sm btn-ghost-danger btn-icon p-0 fs-15" 
+                        <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2 fs-11 d-inline-flex align-items-center gap-1 shadow-none" 
                                 (click)="openReasonModal(reasonModal, p)" 
-                                title="Bấm để xem chi tiết lý do trả hồ sơ">
-                          <i class="ri-eye-line text-danger"></i>
+                                title="Bấm để xem chi tiết lý do Khoa không ký / trả hồ sơ">
+                          <i class="ri-error-warning-fill text-danger"></i> Xem lý do trả về
                         </button>
                       }
                     </div>
                   </td>
                   <td class="text-center sticky-col-right">
                     <div class="d-flex justify-content-center align-items-center gap-2">
-                      <!-- Xem chi tiết (Chuyển đến màn hình hồ sơ đề tài) -->
-                      <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary">
-                        <i class="ri-eye-line me-1"></i> Xem chi tiết
-                      </a>
+                      <!-- Xem chi tiết hoặc Chỉnh sửa & Nộp lại -->
+                      @if (p.status === 'TRA_CHINH_SUA') {
+                        <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-danger text-white">
+                          <i class="ri-edit-box-line me-1"></i> Chỉnh sửa & Nộp lại
+                        </a>
+                      } @else {
+                        <a [routerLink]="['/nckh/chi-tiet', p.id]" class="btn btn-sm btn-soft-primary">
+                          <i class="ri-eye-line me-1"></i> Xem chi tiết
+                        </a>
+                      }
 
                       <!-- Xóa (chỉ khi Nháp và đúng quyền tác giả) -->
                       @if (canDeleteProposal(p)) {

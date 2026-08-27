@@ -75,7 +75,7 @@
                     </p>
                 </div>
                 <div class="mt-2">
-                    <a routerLink="/nckh/dashboard" class="btn btn-sm btn-primary w-100 fw-semibold">
+                    <a [routerLink]="getFirstNckhUrl()" class="btn btn-sm btn-primary w-100 fw-semibold">
                         <i class="ri-login-circle-line me-1"></i> Vào bàn làm việc
                     </a>
                 </div>
@@ -196,7 +196,8 @@
     </div>
 </div>
 
-<!-- ================= DASHBOARD BIỂU ĐỒ & THỐNG KÊ TỔNG QUAN ================= -->
+<!-- ================= DASHBOARD BIỂU ĐỒ & THỐNG KÊ TỔNG QUAN (CHỈ DÀNH CHO P.KHCN / ADMIN) ================= -->
+@if (currentUser.role === 'P_KHCN' || currentUser.role === 'ADMIN') {
 <div class="row">
     <div class="col">
         <div class="h-100">
@@ -431,7 +432,7 @@
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Hồ Sơ Đăng Ký Đề Tài Mới Nhất</h4>
                             <div class="flex-shrink-0">
-                                <a routerLink="/nckh/dashboard" class="btn btn-soft-info btn-sm">
+                                <a [routerLink]="getFirstNckhUrl()" class="btn btn-soft-info btn-sm">
                                     <i class="ri-file-list-3-line align-middle me-1"></i> Bàn làm việc Phân hệ 1
                                 </a>
                             </div>
@@ -449,6 +450,7 @@
         </div>
     </div>
 </div>
+}
 
 <!-- ================= 4 PHẦN TRỌNG TÂM CỦA HỆ THỐNG NCKH (BẢNG TIN, BIỂU MẪU, BÀI BÁO, CHUYÊN GIA) ================= -->
 <!-- 1. BẢNG TIN BÀI VIẾT MỚI & BIỂU MẪU QUY TRÌNH (BM01 - BM15) -->

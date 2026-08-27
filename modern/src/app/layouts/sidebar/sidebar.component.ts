@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { MenuItem } from './menu.model';
 import { environment } from 'src/environments/environment';
 import { NckhDataService } from '../../core/services/nckh-data.service';
-import { getMenuForRole } from './nckh-menu';
+import { getMenuForRole, getFirstNckhRouteForRole } from './nckh-menu';
 
 @Component({
   selector: 'app-sidebar',
@@ -27,6 +27,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     private nckhDataService: NckhDataService
   ) {
     translate.setDefaultLang('en');
+  }
+
+  getFirstNckhUrl(): string {
+    return getFirstNckhRouteForRole(this.currentUser?.role);
   }
 
   ngOnInit(): void {

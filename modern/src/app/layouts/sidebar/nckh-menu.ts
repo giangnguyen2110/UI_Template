@@ -259,3 +259,14 @@ export function getMenuForRole(role?: UserRole): MenuItem[] {
 
   return menuItems;
 }
+
+export function getFirstNckhRouteForRole(role?: UserRole): string {
+  if (!role) return '/nckh/de-tai-cua-toi';
+  const menu = getMenuForRole(role);
+  const nckhItem = menu.find(item => item.id === 20 || item.label.includes('nghiên cứu khoa học cấp trường'));
+  if (nckhItem && nckhItem.subItems && nckhItem.subItems.length > 0 && nckhItem.subItems[0].link) {
+    return nckhItem.subItems[0].link;
+  }
+  return '/nckh/de-tai-cua-toi';
+}
+

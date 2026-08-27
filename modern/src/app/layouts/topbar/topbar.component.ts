@@ -10,6 +10,7 @@ import { cartData } from './data';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NckhDataService, DEMO_USERS } from '../../core/services/nckh-data.service';
 import { UserProfile, UserRole } from '../../core/models/nckh.model';
+import { getFirstNckhRouteForRole } from '../sidebar/nckh-menu';
 
 @Component({
   selector: 'app-topbar',
@@ -83,7 +84,12 @@ export class TopbarComponent implements OnInit {
   // Chuyển role nhanh
   switchRole(role: UserRole) {
     this.nckhDataService.switchRole(role);
-    this.router.navigate(['/nckh/dashboard']);
+    const targetUrl = getFirstNckhRouteForRole(role);
+    this.router.navigate([targetUrl]);
+  }
+
+  getFirstNckhUrl(): string {
+    return getFirstNckhRouteForRole(this.currentUserProfile?.role);
   }
 
   getRoleBadgeClass(role: UserRole): string {

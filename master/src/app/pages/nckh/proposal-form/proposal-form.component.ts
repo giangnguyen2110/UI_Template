@@ -48,15 +48,15 @@ export class ProposalFormComponent implements OnInit {
   reviewComment = '';
 
   readonly workflowSteps = [
-    { id: 1, code: 'B01', title: 'Đăng ký đề tài', fullName: 'B01: Đăng ký đề tài (BM01A/BM01B)' },
-    { id: 2, code: 'B02', title: 'Phê duyệt sơ bộ', fullName: 'B02: Phê duyệt sơ bộ (BM02 & BM03)' },
-    { id: 3, code: 'B03', title: 'Viết thuyết minh', fullName: 'B03: Viết thuyết minh & Dự toán (BM04)' },
-    { id: 4, code: 'B04', title: 'Phê duyệt TM', fullName: 'B04: Phê duyệt thuyết minh (BM06 & BM07)' },
-    { id: 5, code: 'B05', title: 'Ký hợp đồng', fullName: 'B05: Thông báo QĐ Giao việc & Hợp đồng (BM05)' },
-    { id: 6, code: 'B06', title: 'BC tiến độ ½ TG', fullName: 'B06: Báo cáo tiến độ ½ thời gian (BM08)' },
-    { id: 7, code: 'B07', title: 'Nghiệm thu đề tài', fullName: 'B07: Nghiệm thu & Chỉnh sửa BM13 & Thanh lý BM14' },
-    { id: 8, code: 'B08', title: 'QĐ công nhận KQ', fullName: 'B08: Thông báo QĐ công nhận kết quả (BM15)' },
-    { id: 9, code: 'B09', title: 'Triển khai & Lưu HS', fullName: 'B09: Triển khai ứng dụng & Lưu hồ sơ' }
+    { id: 1, code: 'B1', title: 'Đăng ký đề tài', fullName: 'B1: Đăng ký đề tài (BM01A/BM01B)' },
+    { id: 2, code: 'B2', title: 'Phê duyệt sơ bộ', fullName: 'B2: Phê duyệt sơ bộ (BM02 & BM03)' },
+    { id: 3, code: 'B3', title: 'Viết thuyết minh', fullName: 'B3: Viết thuyết minh & Dự toán (BM04)' },
+    { id: 4, code: 'B4', title: 'Phê duyệt TM', fullName: 'B4: Phê duyệt thuyết minh (BM06 & BM07)' },
+    { id: 5, code: 'B5', title: 'Ký hợp đồng', fullName: 'B5: Thông báo QĐ Giao việc & Hợp đồng (BM05)' },
+    { id: 6, code: 'B6', title: 'BC tiến độ ½ TG', fullName: 'B6: Báo cáo tiến độ ½ thời gian (BM08)' },
+    { id: 7, code: 'B7', title: 'Nghiệm thu đề tài', fullName: 'B7: Nghiệm thu & Chỉnh sửa BM13 & Thanh lý BM14' },
+    { id: 8, code: 'B8', title: 'QĐ công nhận KQ', fullName: 'B8: Thông báo QĐ công nhận kết quả (BM15)' },
+    { id: 9, code: 'B9', title: 'Triển khai & Lưu HS', fullName: 'B9: Triển khai ứng dụng & Lưu hồ sơ' }
   ];
 
   // ===== DỮ LIỆU CÁC BIỂU MẪU ĐIỆN TỬ TƯƠNG TÁC =====
@@ -383,23 +383,25 @@ export class ProposalFormComponent implements OnInit {
       }
     });
 
-    this.nckhDataService.rounds$.subscribe(r => {
-      this.rounds = r;
-      if (this.rounds.length > 0 && !this.proposal.roundId) {
-        this.onRoundChange(this.rounds[0].id);
-      }
-    });
-
     this.route.queryParams.subscribe(params => {
       if (params['roundId']) {
         this.pendingRoundId = params['roundId'];
         this.isRoundFixed = true;
-        if (this.rounds.length > 0 && this.pendingRoundId) {
-          this.onRoundChange(this.pendingRoundId);
-        }
       }
       if (params['directTopicId']) {
         this.pendingDirectTopicId = params['directTopicId'];
+        this.proposal.type = 'GIAO_TRUC_TIEP';
+      }
+      if (this.rounds.length > 0) {
+        this.applyRoundAndDirectTopic(this.pendingRoundId, this.pendingDirectTopicId);
+      }
+    });
+
+    this.nckhDataService.rounds$.subscribe(r => {
+      this.rounds = r;
+      if (this.rounds.length > 0) {
+        const roundToSelect = this.pendingRoundId || this.proposal.roundId || this.rounds[0].id;
+        this.applyRoundAndDirectTopic(roundToSelect, this.pendingDirectTopicId);
       }
     });
 
@@ -583,13 +585,28 @@ export class ProposalFormComponent implements OnInit {
     this.currentStep = step;
   }
 
+  applyRoundAndDirectTopic(roundId?: string, directTopicId?: string) {
+    if (roundId) {
+      this.onRoundChange(roundId);
+    }
+    if (directTopicId) {
+      this.selectDirectTopic(directTopicId);
+    }
+  }
+
   onRoundChange(roundId: string) {
     this.proposal.roundId = roundId;
-    const r = this.rounds.find(x => x.id === roundId);
+    const r = this.rounds.find(x => x.id === roundId || x.code === roundId);
     if (r) {
       this.selectedRound = r;
+      this.proposal.roundId = r.id;
       this.proposal.roundName = r.name;
       this.proposal.target = r.target;
+      if (r.type === 'GIAO_TRUC_TIEP' || this.pendingDirectTopicId) {
+        this.proposal.type = 'GIAO_TRUC_TIEP';
+      } else {
+        this.proposal.type = r.type;
+      }
       this.directTopics = r.directTopics || [];
       if (this.pendingDirectTopicId) {
         this.selectDirectTopic(this.pendingDirectTopicId);
@@ -598,7 +615,76 @@ export class ProposalFormComponent implements OnInit {
   }
 
   selectDirectTopic(topicId: string) {
-    const dt = this.directTopics.find(t => t.id === topicId);
+    if (!topicId) return;
+
+    this.proposal.directTopicId = topicId;
+    this.proposal.type = 'GIAO_TRUC_TIEP';
+
+    let dt: DirectAssignmentTopic | undefined = undefined;
+
+    // 1. Search in current round directTopics
+    if (this.directTopics && this.directTopics.length > 0) {
+      dt = this.directTopics.find(t => t.id === topicId || t.code === topicId);
+    }
+
+    // 2. Search in selectedRound directTopics
+    if (!dt && this.selectedRound?.directTopics) {
+      dt = this.selectedRound.directTopics.find(t => t.id === topicId || t.code === topicId);
+    }
+
+    // 3. Search in all rounds
+    if (!dt && this.rounds) {
+      for (const r of this.rounds) {
+        if (r.directTopics) {
+          const found = r.directTopics.find(t => t.id === topicId || t.code === topicId);
+          if (found) { dt = found; break; }
+        }
+      }
+    }
+
+    // 4. Default fallback list if not found
+    if (!dt) {
+      const fallbackList: DirectAssignmentTopic[] = [
+        {
+          id: 'dir-01',
+          code: 'DTGTT-CNTT-01',
+          name: 'Xây dựng nền tảng trợ lý ảo AI phục vụ sinh viên DNTU tra cứu học tập và quy chế đào tạo',
+          field: 'Khoa học máy tính & Trí tuệ nhân tạo',
+          description: 'Phát triển mô hình RAG dựa trên LLM để trả lời tự động câu hỏi của sinh viên về quy chế đào tạo, chuẩn đầu ra và học bổng.',
+          expectedOutcome: 'Hệ thống Web App tích hợp API và bài báo khoa học đăng trên tạp chí uy tín.',
+          assignedFaculty: 'Khoa Công nghệ thông tin',
+          budgetEst: 45000000,
+          isTaken: false,
+          submissionDeadline: '2026-09-25'
+        },
+        {
+          id: 'dir-02',
+          code: 'DTGTT-DTVT-02',
+          name: 'Hệ thống giám sát và cảnh báo thông minh chất lượng không khí trong khuôn viên trường',
+          field: 'Kỹ thuật Điện tử & IoT',
+          description: 'Mạng cảm biến IoT đo nồng độ CO2, bụi mịn PM2.5 hiển thị thời gian thực qua dashboard trung tâm.',
+          expectedOutcome: 'Thiết bị phần cứng mẫu và phần mềm giám sát.',
+          assignedFaculty: 'Khoa Kỹ thuật Điện tử',
+          budgetEst: 38000000,
+          isTaken: false,
+          submissionDeadline: '2026-09-25'
+        },
+        {
+          id: 'dir-03',
+          code: 'DTGTT-KT-03',
+          name: 'Nghiên cứu mô hình kinh tế tuần hoàn và giải pháp phát triển bền vững cho các doanh nghiệp tỉnh Đồng Nai',
+          field: 'Kinh tế & Quản trị kinh doanh',
+          description: 'Khảo sát thực trạng và xây dựng bộ chỉ số đánh giá mức độ sẵn sàng chuyển đổi mô hình kinh tế tuần hoàn.',
+          expectedOutcome: '01 Sách chuyên khảo và 02 Bài báo Hội thảo Quốc tế.',
+          assignedFaculty: 'Khoa Kinh tế - Quản trị',
+          budgetEst: 50000000,
+          isTaken: false,
+          submissionDeadline: '2026-09-25'
+        }
+      ];
+      dt = fallbackList.find(t => t.id === topicId || t.code === topicId) || fallbackList[0];
+    }
+
     if (dt) {
       this.proposal.directTopicId = dt.id;
       this.proposal.type = 'GIAO_TRUC_TIEP';

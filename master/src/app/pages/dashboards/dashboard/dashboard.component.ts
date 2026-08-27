@@ -5,6 +5,7 @@ import { ChartType } from './dashboard.model';
 import { BestSelling, Recentelling, TopSelling, statData } from 'src/app/core/data';
 import { NckhDataService, DEMO_USERS } from 'src/app/core/services/nckh-data.service';
 import { UserProfile, UserRole, RegistrationRound, TopicProposal } from 'src/app/core/models/nckh.model';
+import { getFirstNckhRouteForRole } from 'src/app/layouts/sidebar/nckh-menu';
 
 @Component({
     selector: 'app-dashboard',
@@ -50,6 +51,10 @@ export class DashboardComponent implements OnInit {
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     this.currentDate = { from: firstDay, to: lastDay };
+  }
+
+  getFirstNckhUrl(): string {
+    return getFirstNckhRouteForRole(this.currentUser?.role);
   }
 
   get isStudentOrLecturer(): boolean {

@@ -313,23 +313,60 @@
 <div class="row">
   <div class="col-12">
     <div class="card">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="card-title mb-0 fs-14">
-          <i class="ri-route-line align-middle me-1 text-primary"></i> Dòng thời gian 9 Bước Vòng đời Đề tài NCKH Cấp Trường (PRD §3.1)
-        </h5>
-        <span class="badge bg-primary-subtle text-primary">Chuẩn P.KHCN</span>
-      </div>
-      <div class="card-body p-3">
-        <div class="row g-2 text-center fs-11">
-          @for (s of workflowOverviewSteps; track s.code) {
-            <div class="col-md col-sm-4">
-              <div class="p-2 border rounded transition-all h-100 bg-light" [class.border-primary]="s.code === 'B01'" [class.bg-primary-subtle]="s.code === 'B01'">
-                <div class="fw-bold" [class.text-primary]="s.code === 'B01'" [class.text-dark]="s.code !== 'B01'">{{ s.code }}</div>
-                <div class="fw-semibold mt-1 text-truncate" [title]="s.title">{{ s.title }}</div>
-                <div class="badge bg-secondary-subtle text-secondary mt-1 fs-10" [class.bg-primary]="s.code === 'B01'" [class.text-white]="s.code === 'B01'">{{ s.bm }}</div>
-              </div>
-            </div>
+      <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <h5 class="card-title mb-0 fs-14">
+            <i class="ri-route-line align-middle me-1 text-primary"></i> Dòng thời gian 9 Bước Vòng đời Đề tài NCKH Cấp Trường (PRD §3.1)
+          </h5>
+          @if (myProposals.length > 1) {
+            <select class="form-select form-select-sm d-inline-block w-auto py-0 px-2 fs-12 border-primary-subtle bg-light fw-medium" [(ngModel)]="selectedProposalIdForTimeline" [ngModelOptions]="{standalone: true}">
+              @for (p of myProposals; track p.id) {
+                <option [value]="p.id">{{ p.code || p.title | slice:0:35 }}... ({{ getProposalStepCode(p) }})</option>
+              }
+            </select>
+          } @else if (myProposals.length === 1) {
+            <span class="badge bg-light text-dark border fs-12 fw-normal">
+              Đề tài: <strong>{{ myProposals[0].code || (myProposals[0].title | slice:0:30) }}</strong> ({{ getProposalStepCode(myProposals[0]) }})
+            </span>
           }
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-success-subtle text-success fs-11"><i class="ri-checkbox-circle-line me-1"></i>Xanh: Đã làm</span>
+          <span class="badge bg-danger text-white fs-11"><i class="ri-record-circle-line me-1"></i>Đỏ: Đang làm</span>
+          <span class="badge bg-light text-muted border fs-11"><i class="ri-time-line me-1"></i>Xám: Chưa làm</span>
+        </div>
+      </div>
+      <div class="card-body p-2">
+        <div class="step-arrow-nav">
+          <ul class="nav nav-pills custom-nav nav-justified" role="tablist">
+            @for (step of workflowOverviewSteps; track step.id) {
+              <li class="nav-item" role="presentation">
+                <div class="nav-link"
+                     [class.step-completed]="getDashboardStepState(step.id) === 'COMPLETED'"
+                     [class.step-in-progress]="getDashboardStepState(step.id) === 'IN_PROGRESS'"
+                     [class.step-pending]="getDashboardStepState(step.id) === 'PENDING'"
+                     [attr.title]="step.desc">
+                  <div class="step-code-title">
+                    @if (getDashboardStepState(step.id) === 'COMPLETED') {
+                      <i class="ri-checkbox-circle-fill text-success me-1 fs-12"></i>
+                    } @else if (getDashboardStepState(step.id) === 'IN_PROGRESS') {
+                      <i class="ri-record-circle-line text-danger me-1 fs-12"></i>
+                    }
+                    <span>{{ step.code }}: {{ step.title }}</span>
+                  </div>
+                  <div class="step-status-tag">
+                    @if (getDashboardStepState(step.id) === 'COMPLETED') {
+                      <span class="badge bg-success-subtle text-success">Đã làm</span>
+                    } @else if (getDashboardStepState(step.id) === 'IN_PROGRESS') {
+                      <span class="badge bg-danger text-white">Đang làm</span>
+                    } @else {
+                      <span class="badge bg-light text-muted border">Chưa làm</span>
+                    }
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
         </div>
       </div>
     </div>

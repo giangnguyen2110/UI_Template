@@ -104,13 +104,13 @@
             <label class="form-label fs-11 text-muted mb-1">Giai đoạn quy trình & Trạng thái</label>
             <select class="form-select form-select-sm" [(ngModel)]="selectedPhase" [ngModelOptions]="{standalone: true}" (change)="onFilterChange()">
               <option value="ALL">-- Tất cả giai đoạn & trạng thái --</option>
-              <option value="B01">B01: Đăng ký đề tài (BM01A/B)</option>
-              <option value="B02">B02: Sơ duyệt hồ sơ (BM02/03)</option>
-              <option value="B03">B03-04: Thuyết minh (BM04/06/07)</option>
-              <option value="B06">B06: Báo cáo tiến độ ½ TG (BM08)</option>
-              <option value="B07">B07: Nghiệm thu đề tài (BM09-BM12)</option>
-              <option value="BM13">B07: Giải trình sau nghiệm thu (BM13)</option>
-              <option value="DONE">B08-B09: Công nhận & Lưu trữ (BM15)</option>
+              <option value="B01">B1: Đăng ký đề tài (BM01A/B)</option>
+              <option value="B02">B2: Sơ duyệt hồ sơ (BM02/03)</option>
+              <option value="B03">B3-B4: Thuyết minh (BM04/06/07)</option>
+              <option value="B06">B6: Báo cáo tiến độ ½ TG (BM08)</option>
+              <option value="B07">B7: Nghiệm thu đề tài (BM09-BM12)</option>
+              <option value="BM13">B7: Giải trình sau nghiệm thu (BM13)</option>
+              <option value="DONE">B8-B9: Công nhận & Lưu trữ (BM15)</option>
               @if (isPkhcnOrAdmin) {
                 <option value="YEU_CAU_HUY">⚠️ Đề tài Yêu cầu hủy</option>
                 <option value="DA_HUY">❌ Đề tài Đã hủy</option>

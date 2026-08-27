@@ -116,27 +116,27 @@ export class MyProposalsComponent implements OnInit {
       case 'CHO_GVHD_DUYET':
       case 'TRA_CHINH_SUA':
       case 'CHO_DUYET_LAI':
-        return { text: 'B01: Đăng ký đề tài', class: 'badge bg-secondary-subtle text-secondary' };
+        return { text: 'B1: Đăng ký đề tài', class: 'badge bg-secondary-subtle text-secondary' };
       case 'CHO_HOI_DONG_XET_DUYET_HO_SO':
       case 'DANG_XET_DUYET_HO_SO':
       case 'DAT_XET_DUYET_HO_SO':
-        return { text: 'B02: Phê duyệt sơ bộ', class: 'badge bg-primary-subtle text-primary' };
+        return { text: 'B2: Phê duyệt sơ bộ', class: 'badge bg-primary-subtle text-primary' };
       case 'CHO_NOP_THUYET_MINH':
       case 'DANG_XET_DUYET_THUYET_MINH':
-        return { text: 'B03: Viết thuyết minh', class: 'badge bg-info-subtle text-info' };
+        return { text: 'B3: Viết thuyết minh', class: 'badge bg-info-subtle text-info' };
       case 'DANG_THUC_HIEN':
-        return { text: 'B06: BC tiến độ ½ TG', class: 'badge bg-warning-subtle text-warning' };
+        return { text: 'B6: BC tiến độ ½ TG', class: 'badge bg-warning-subtle text-warning' };
       case 'CHO_NGHIEM_THU':
       case 'DANG_NGHIEM_THU':
       case 'DA_NGHIEM_THU':
       case 'HOAN_TAT_BUOC_07':
-        return { text: 'B07: Nghiệm thu đề tài', class: 'badge bg-danger-subtle text-danger' };
+        return { text: 'B7: Nghiệm thu đề tài', class: 'badge bg-danger-subtle text-danger' };
       case 'YEU_CAU_CHINH_SUA_NGHIEM_THU':
-        return { text: 'B07: Chỉnh sửa góp ý HĐNT', class: 'badge bg-warning text-dark' };
+        return { text: 'B7: Chỉnh sửa góp ý HĐNT', class: 'badge bg-warning text-dark' };
       case 'DA_CONG_NHAN_KET_QUA':
       case 'LUU_HO_SO':
       case 'TRIEN_KHAI_UNG_DUNG':
-        return { text: 'B08-B09: Hoàn thành', class: 'badge bg-success-subtle text-success' };
+        return { text: 'B8-B9: Hoàn thành', class: 'badge bg-success-subtle text-success' };
       default:
         return { text: 'Quy trình NCKH', class: 'badge bg-light text-dark' };
     }

@@ -1,0 +1,37 @@
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Miscellaneous
+.angular/cache
+.sass-cache/
+/connect.project
+/coverage
+/libpeerconnection.log
+test.ts
+typings/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Agentic / Dev tools
+.agents/
+.lavish/
+skills-lock.json

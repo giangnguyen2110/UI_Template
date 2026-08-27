@@ -1188,23 +1188,23 @@ openPersonalEvaluationModalFromBm(content: TemplateRef<any>) {
       case 'CHO_GVHD_DUYET':
       case 'TRA_CHINH_SUA':
       case 'CHO_DUYET_LAI':
-        return { text: 'B01: Đăng ký đề tài', class: 'badge bg-secondary-subtle text-secondary' };
+        return { text: 'B1: Đăng ký đề tài', class: 'badge bg-secondary-subtle text-secondary' };
       case 'CHO_HOI_DONG_XET_DUYET_HO_SO':
       case 'DANG_XET_DUYET_HO_SO':
       case 'DAT_XET_DUYET_HO_SO':
-        return { text: 'B02: Sơ duyệt (BM02/03)', class: 'badge bg-primary-subtle text-primary' };
+        return { text: 'B2: Sơ duyệt (BM02/03)', class: 'badge bg-primary-subtle text-primary' };
       case 'CHO_NOP_THUYET_MINH':
       case 'DANG_XET_DUYET_THUYET_MINH':
-        return { text: 'B04: Thuyết minh (BM06/07)', class: 'badge bg-info-subtle text-info' };
+        return { text: 'B4: Thuyết minh (BM06/07)', class: 'badge bg-info-subtle text-info' };
       case 'DANG_THUC_HIEN':
-        return { text: 'B06: BC tiến độ (BM08)', class: 'badge bg-warning-subtle text-warning' };
+        return { text: 'B6: BC tiến độ (BM08)', class: 'badge bg-warning-subtle text-warning' };
       case 'CHO_NGHIEM_THU':
       case 'DANG_NGHIEM_THU':
       case 'DA_NGHIEM_THU':
       case 'HOAN_TAT_BUOC_07':
-        return { text: 'B07: Nghiệm thu (BM11/12)', class: 'badge bg-danger-subtle text-danger' };
+        return { text: 'B7: Nghiệm thu (BM11/12)', class: 'badge bg-danger-subtle text-danger' };
       case 'YEU_CAU_CHINH_SUA_NGHIEM_THU':
-        return { text: 'B07: Giải trình HĐNT (BM13)', class: 'badge bg-warning text-dark' };
+        return { text: 'B7: Giải trình HĐNT (BM13)', class: 'badge bg-warning text-dark' };
       case 'YEU_CAU_HUY':
         return { text: 'Yêu cầu hủy đề tài', class: 'badge bg-danger-subtle text-danger border border-danger' };
       case 'DA_HUY':
@@ -1212,7 +1212,7 @@ openPersonalEvaluationModalFromBm(content: TemplateRef<any>) {
       case 'DA_CONG_NHAN_KET_QUA':
       case 'LUU_HO_SO':
       case 'TRIEN_KHAI_UNG_DUNG':
-        return { text: 'B08-B09: Hoàn thành (BM15)', class: 'badge bg-success-subtle text-success' };
+        return { text: 'B8-B9: Hoàn thành (BM15)', class: 'badge bg-success-subtle text-success' };
       default:
         return { text: 'Quy trình NCKH', class: 'badge bg-light text-dark' };
     }

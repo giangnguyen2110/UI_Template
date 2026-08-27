@@ -141,12 +141,24 @@ export const DEMO_USERS: (UserProfile & { password: string })[] = [
 
 const INITIAL_ROUNDS: RegistrationRound[] = [
   {
-    id: 'round-2026-01',
-    code: 'DOT-2026-01',
-    name: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giảng viên)',
+    id: 'round-2026-03',
+    code: 'DOT-2026-03',
+    name: 'Đợt 3: Đăng ký đề tài NCKH Cấp Trường năm 2026',
     academicYear: '2026-2027',
     target: 'GIANG_VIEN',
     type: 'TUYEN_CHON',
+    status: 'DA_CONG_BO',
+    startDate: '2026-08-24',
+    endDate: '2026-09-23',
+    description: 'Phòng Khoa học & Công nghệ thông báo tiếp nhận hồ sơ đăng ký đề tài NCKH cấp trường theo biểu mẫu quy định.'
+  },
+  {
+    id: 'round-2026-01',
+    code: 'DOT-2026-01',
+    name: 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giao trực tiếp)',
+    academicYear: '2026-2027',
+    target: 'GIANG_VIEN',
+    type: 'GIAO_TRUC_TIEP',
     status: 'DA_CONG_BO',
     startDate: '2026-08-01',
     endDate: '2026-09-30',
@@ -173,6 +185,18 @@ const INITIAL_ROUNDS: RegistrationRound[] = [
         expectedOutcome: 'Thiết bị phần cứng mẫu và phần mềm giám sát.',
         assignedFaculty: 'Khoa Kỹ thuật Điện tử',
         budgetEst: 38000000,
+        isTaken: false,
+        submissionDeadline: '2026-09-25'
+      },
+      {
+        id: 'dir-03',
+        code: 'DTGTT-KT-03',
+        name: 'Nghiên cứu mô hình kinh tế tuần hoàn và giải pháp phát triển bền vững cho các doanh nghiệp tỉnh Đồng Nai',
+        field: 'Kinh tế & Quản trị kinh doanh',
+        description: 'Khảo sát thực trạng và xây dựng bộ chỉ số đánh giá mức độ sẵn sàng chuyển đổi mô hình kinh tế tuần hoàn.',
+        expectedOutcome: '01 Sách chuyên khảo và 02 Bài báo Hội thảo Quốc tế.',
+        assignedFaculty: 'Khoa Kinh tế - Quản trị',
+        budgetEst: 50000000,
         isTaken: false,
         submissionDeadline: '2026-09-25'
       }
@@ -449,9 +473,9 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
     status: 'TRA_CHINH_SUA',
     statusText: 'Cần chỉnh sửa hồ sơ (Bước 01)',
     version: 1,
-    rejectionReason: 'Cần bổ sung làm rõ chi tiết phương pháp thu thập dữ liệu ảnh y tế chuẩn hóa và chi tiết dự toán kinh phí.',
+    rejectionReason: 'Khoa không ký duyệt hồ sơ: Thuyết minh sơ bộ chưa nêu rõ phương pháp thu thập dữ liệu ảnh y tế chuẩn hóa và dự toán kinh phí chưa có bảng phân rã cụ thể từng hạng mục. Đề nghị chủ nhiệm đề tài cập nhật hoàn thiện hồ sơ và gửi lại để Khoa xem xét ký duyệt.',
     reviewedAt: '2026-08-19 16:45',
-    reviewerName: 'TS. Lê Hoàng Nam (Trưởng Khoa)',
+    reviewerName: 'TS. Lê Hoàng Nam (Trưởng Khoa Công nghệ thông tin)',
     submittedAt: '2026-08-19 14:22',
     auditLogs: [
       {
@@ -473,13 +497,13 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
       },
       {
         id: 'log-gv1-3',
-        action: 'Trưởng Khoa trả hồ sơ yêu cầu chỉnh sửa',
+        action: 'Trưởng Khoa từ chối ký và trả hồ sơ yêu cầu chỉnh sửa',
         actorName: 'TS. Lê Hoàng Nam',
         actorRole: 'Trưởng Khoa',
         timestamp: '2026-08-19 16:45',
         oldStatus: 'CHO_KHOA_DUYET',
         newStatus: 'TRA_CHINH_SUA',
-        comment: 'Cần bổ sung làm rõ chi tiết phương pháp thu thập dữ liệu ảnh y tế chuẩn hóa và chi tiết dự toán kinh phí.'
+        comment: 'Khoa không ký duyệt hồ sơ: Thuyết minh sơ bộ chưa nêu rõ phương pháp thu thập dữ liệu ảnh y tế chuẩn hóa và dự toán kinh phí chưa có bảng phân rã cụ thể từng hạng mục.'
       }
     ]
   },
@@ -762,6 +786,92 @@ const INITIAL_PROPOSALS: TopicProposal[] = [
         timestamp: '2026-08-20 10:18',
         oldStatus: 'NHAP',
         newStatus: 'CHO_GVHD_DUYET'
+      }
+    ]
+  },
+
+  // 5.1 ĐỀ TÀI DEMO: BỊ KHOA / GVHD TỪ CHỐI KÝ & TRẢ HỒ SƠ YÊU CẦU CHỈNH SỬA (BƯỚC 01 - BM01B)
+  {
+    id: 'prop-sv-returned',
+    code: 'DT-SV-2026-008',
+    title: 'Xây dựng Chatbot AI hỗ trợ giải đáp quy chế đào tạo và tư vấn học vụ cho sinh viên DNTU',
+    roundId: 'round-2026-sv',
+    roundName: 'Đợt Đăng ký đề tài NCKH Sinh viên năm học 2026-2027',
+    type: 'TUYEN_CHON',
+    target: 'SINH_VIEN',
+    field: 'Công nghệ phần mềm & Trí tuệ nhân tạo',
+    faculty: 'Khoa Công nghệ thông tin',
+    durationMonths: 6,
+    startDateExpected: '2026-10-15',
+    endDateExpected: '2027-04-15',
+    authorId: 'u-sv-01',
+    authorName: 'Trần Văn Minh',
+    authorEmail: 'sinhvien@gmail.com',
+    authorIdentifierCode: 'SV210045',
+    authorPhone: '0987 654 321',
+    authorClass: '21DTH1',
+    advisorId: 'u-gvhd-01',
+    advisorName: 'ThS. Phạm Hải Đăng',
+    advisorEmail: 'gvhd@gmail.com',
+    advisorTitle: 'Thạc sĩ',
+    necessity: 'Sinh viên năm nhất thường gặp khó khăn khi tìm kiếm thông tin về quy chế tín chỉ và thủ tục học vụ.',
+    objectives: 'Phát triển Chatbot AI RAG trả lời tự động câu hỏi về quy chế đào tạo với độ chính xác trên 90%.',
+    mainContents: '1. Thu thập bộ câu hỏi quy chế đào tạo DNTU.\n2. Tích hợp mô hình RAG và cơ sở tri thức.\n3. Xây dựng giao diện web chat cho sinh viên.',
+    methods: 'RAG (Retrieval-Augmented Generation), Vector Database, LLM API.',
+    expectedProducts: '- 01 Ứng dụng Web Chatbot hoàn chỉnh.\n- Báo cáo kết quả nghiên cứu khoa học sinh viên.',
+    applicability: 'Thử nghiệm hỗ trợ sinh viên Khoa CNTT.',
+    members: [
+      {
+        id: 'm-sv-ret-1',
+        fullName: 'Lê Văn An',
+        identifierCode: 'SV210088',
+        unit: 'Khoa Công nghệ thông tin',
+        roleInProject: 'Thành viên nghiên cứu chính'
+      }
+    ],
+    budgetTotal: 9000000,
+    budgetSchoolFunded: 9000000,
+    signedPdfFile: {
+      fileName: 'BM01B_ChatbotRAG_Signed.pdf',
+      fileSize: '1.3 MB',
+      uploadedAt: '2026-08-20 14:10',
+      signatureStatus: 'DA_KY',
+      signedBy: 'Trần Văn Minh (Trưởng nhóm SV)'
+    },
+    status: 'TRA_CHINH_SUA',
+    statusText: 'Cần chỉnh sửa hồ sơ (Bước 01)',
+    version: 1,
+    rejectionReason: 'Khoa không ký duyệt hồ sơ: Thuyết minh sơ bộ chưa có ý kiến xác nhận bằng văn bản của GVHD (ThS. Phạm Hải Đăng) và dự toán chi phí bản quyền LLM chưa có bảng báo giá đính kèm. Đề nghị nhóm sinh viên bổ sung và gửi lại để Khoa ký duyệt.',
+    reviewedAt: '2026-08-21 11:30',
+    reviewerName: 'TS. Lê Hoàng Nam (Trưởng Khoa Công nghệ thông tin)',
+    submittedAt: '2026-08-20 14:15',
+    auditLogs: [
+      {
+        id: 'log-sv-ret-1',
+        action: 'Tạo hồ sơ BM01B',
+        actorName: 'Trần Văn Minh',
+        actorRole: 'Sinh viên',
+        timestamp: '2026-08-20 09:00',
+        newStatus: 'NHAP'
+      },
+      {
+        id: 'log-sv-ret-2',
+        action: 'Nộp hồ sơ cho Khoa phê duyệt',
+        actorName: 'Trần Văn Minh',
+        actorRole: 'Sinh viên',
+        timestamp: '2026-08-20 14:15',
+        oldStatus: 'NHAP',
+        newStatus: 'CHO_KHOA_DUYET'
+      },
+      {
+        id: 'log-sv-ret-3',
+        action: 'Khoa từ chối ký và trả hồ sơ yêu cầu chỉnh sửa',
+        actorName: 'TS. Lê Hoàng Nam',
+        actorRole: 'Trưởng Khoa',
+        timestamp: '2026-08-21 11:30',
+        oldStatus: 'CHO_KHOA_DUYET',
+        newStatus: 'TRA_CHINH_SUA',
+        comment: 'Khoa không ký duyệt hồ sơ: Thuyết minh sơ bộ chưa có ý kiến xác nhận bằng văn bản của GVHD và dự toán chi phí chưa rõ ràng.'
       }
     ]
   },
@@ -1498,9 +1608,36 @@ export class NckhDataService {
     this.currentUserSubject = new BehaviorSubject<UserProfile | null>(initialUser);
     this.currentUser$ = this.currentUserSubject.asObservable();
 
-    // Load Rounds
+    // Load Rounds (Đảm bảo DOT-2026-01 luôn là loại GIAO_TRUC_TIEP với danh mục đề tài đặt hàng)
     const savedRounds = localStorage.getItem('nckh_rounds');
-    const initialRounds: RegistrationRound[] = savedRounds ? JSON.parse(savedRounds) : INITIAL_ROUNDS;
+    let initialRounds: RegistrationRound[] = INITIAL_ROUNDS;
+    if (savedRounds) {
+      try {
+        const parsed: RegistrationRound[] = JSON.parse(savedRounds);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          initialRounds = parsed.map(r => {
+            if (r.code === 'DOT-2026-01' || r.id === 'round-2026-01') {
+              const defaultRound = INITIAL_ROUNDS.find(x => x.code === 'DOT-2026-01')!;
+              return {
+                ...r,
+                type: 'GIAO_TRUC_TIEP',
+                name: r.name.includes('Giao trực tiếp') ? r.name : 'Đợt 1: Đăng ký đề tài NCKH Cấp Trường năm 2026 (Giao trực tiếp)',
+                directTopics: (r.directTopics && r.directTopics.length > 0) ? r.directTopics : defaultRound.directTopics
+              };
+            }
+            return r;
+          });
+          localStorage.setItem('nckh_rounds', JSON.stringify(initialRounds));
+        } else {
+          localStorage.setItem('nckh_rounds', JSON.stringify(INITIAL_ROUNDS));
+        }
+      } catch (e) {
+        initialRounds = INITIAL_ROUNDS;
+        localStorage.setItem('nckh_rounds', JSON.stringify(INITIAL_ROUNDS));
+      }
+    } else {
+      localStorage.setItem('nckh_rounds', JSON.stringify(INITIAL_ROUNDS));
+    }
     this.roundsSubject = new BehaviorSubject<RegistrationRound[]>(initialRounds);
     this.rounds$ = this.roundsSubject.asObservable();
 

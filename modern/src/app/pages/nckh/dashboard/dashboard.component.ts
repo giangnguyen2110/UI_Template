@@ -260,16 +260,18 @@ export class NckhDashboardComponent implements OnInit {
 
   // 9 Bước quy trình
   workflowOverviewSteps = [
-    { code: 'B01', title: 'Đăng ký đề tài', bm: 'BM01A/B', desc: 'Nộp hồ sơ & Duyệt sơ bộ cấp Khoa/GVHD' },
-    { code: 'B02', title: 'Phê duyệt sơ bộ', bm: 'BM02, BM03', desc: 'HĐ Xét duyệt hồ sơ đăng ký' },
-    { code: 'B03', title: 'Viết thuyết minh', bm: 'BM04A/B', desc: 'Chủ nhiệm nộp Thuyết minh chi tiết' },
-    { code: 'B04', title: 'Phê duyệt TM', bm: 'BM06, BM07', desc: 'HĐ Thẩm định thuyết minh & dự toán' },
-    { code: 'B05', title: 'Ký hợp đồng', bm: 'BM05, HĐ', desc: 'QĐ Giao nhiệm vụ & Ký hợp đồng pháp lý' },
-    { code: 'B06', title: 'BC tiến độ ½ TG', bm: 'BM08', desc: 'Thực hiện nghiên cứu & Báo cáo tiến độ' },
-    { code: 'B07', title: 'Nghiệm thu đề tài', bm: 'BM09 - BM14', desc: 'Nộp BC, HĐ Nghiệm thu & Giải trình BM13' },
-    { code: 'B08', title: 'QĐ công nhận KQ', bm: 'BM15', desc: 'Quyết định công nhận kết quả NCKH' },
-    { code: 'B09', title: 'Triển khai & Lưu HS', bm: 'Lưu trữ', desc: 'Triển khai ứng dụng thực tế & Lưu hồ sơ' },
+    { id: 1, code: 'B1', title: 'Đăng ký đề tài', bm: 'BM01A/B', desc: 'Nộp hồ sơ & Duyệt sơ bộ cấp Khoa/GVHD' },
+    { id: 2, code: 'B2', title: 'Phê duyệt sơ bộ', bm: 'BM02, BM03', desc: 'HĐ Xét duyệt hồ sơ đăng ký' },
+    { id: 3, code: 'B3', title: 'Viết thuyết minh', bm: 'BM04A/B', desc: 'Chủ nhiệm nộp Thuyết minh chi tiết' },
+    { id: 4, code: 'B4', title: 'Phê duyệt TM', bm: 'BM06, BM07', desc: 'HĐ Thẩm định thuyết minh & dự toán' },
+    { id: 5, code: 'B5', title: 'Ký hợp đồng', bm: 'BM05, HĐ', desc: 'QĐ Giao nhiệm vụ & Ký hợp đồng pháp lý' },
+    { id: 6, code: 'B6', title: 'BC tiến độ ½ TG', bm: 'BM08', desc: 'Thực hiện nghiên cứu & Báo cáo tiến độ' },
+    { id: 7, code: 'B7', title: 'Nghiệm thu đề tài', bm: 'BM09 - BM14', desc: 'Nộp BC, HĐ Nghiệm thu & Giải trình BM13' },
+    { id: 8, code: 'B8', title: 'QĐ công nhận KQ', bm: 'BM15', desc: 'Quyết định công nhận kết quả NCKH' },
+    { id: 9, code: 'B9', title: 'Triển khai & Lưu HS', bm: 'Lưu trữ', desc: 'Triển khai ứng dụng thực tế & Lưu hồ sơ' },
   ];
+
+  selectedProposalIdForTimeline: string = '';
 
   constructor(
     public nckhDataService: NckhDataService,
@@ -299,6 +301,14 @@ export class NckhDashboardComponent implements OnInit {
     this.myProposals = this.nckhDataService.getMyProposals();
     this.activeQuota = this.nckhDataService.getActivePendingCount();
 
+    if (this.myProposals.length > 0) {
+      if (!this.selectedProposalIdForTimeline || !this.myProposals.find(p => p.id === this.selectedProposalIdForTimeline)) {
+        this.selectedProposalIdForTimeline = this.myProposals[0].id;
+      }
+    } else {
+      this.selectedProposalIdForTimeline = '';
+    }
+
     if (this.currentUser.role === 'TRUONG_KHOA') {
       this.pendingReviews = this.nckhDataService.getProposalsForFaculty();
     } else if (this.currentUser.role === 'GIANG_VIEN_HD') {
@@ -306,6 +316,132 @@ export class NckhDashboardComponent implements OnInit {
     } else if (this.currentUser.role === 'P_KHCN' || this.currentUser.role === 'CHU_TICH_HD' || this.currentUser.role === 'ADMIN') {
       this.pendingReviews = this.proposals.filter(p => p.status === 'CHO_HOI_DONG_XET_DUYET_HO_SO');
     }
+  }
+
+  get activeTimelineProposal(): TopicProposal | null {
+    if (!this.myProposals || this.myProposals.length === 0) return null;
+    return this.myProposals.find(p => p.id === this.selectedProposalIdForTimeline) || this.myProposals[0];
+  }
+
+  getDashboardStepState(stepNumber: number): 'COMPLETED' | 'IN_PROGRESS' | 'PENDING' {
+    const prop = this.activeTimelineProposal;
+    if (!prop) {
+      return stepNumber === 1 ? 'IN_PROGRESS' : 'PENDING';
+    }
+
+    const s = prop.status;
+
+    // Step 1: Đăng ký đề tài & Duyệt cấp Khoa/GVHD
+    if (stepNumber === 1) {
+      if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI'].includes(s)) {
+        return 'IN_PROGRESS';
+      }
+      return 'COMPLETED';
+    }
+
+    // Step 2: Phê duyệt sơ bộ BM02 & BM03
+    if (stepNumber === 2) {
+      if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI'].includes(s)) {
+        return 'PENDING';
+      }
+      if (['CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO'].includes(s)) {
+        return 'IN_PROGRESS';
+      }
+      return 'COMPLETED';
+    }
+
+    // Step 3: Viết thuyết minh BM04
+    if (stepNumber === 3) {
+      if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI', 'CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO'].includes(s)) {
+        return 'PENDING';
+      }
+      if (['CHO_NOP_THUYET_MINH', 'DAT_XET_DUYET_HO_SO'].includes(s)) {
+        return 'IN_PROGRESS';
+      }
+      return 'COMPLETED';
+    }
+
+    // Step 4: Phê duyệt Thuyết minh BM06 & BM07
+    if (stepNumber === 4) {
+      if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI', 'CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO', 'CHO_NOP_THUYET_MINH', 'DAT_XET_DUYET_HO_SO'].includes(s)) {
+        return 'PENDING';
+      }
+      if (s === 'DANG_XET_DUYET_THUYET_MINH') {
+        return 'IN_PROGRESS';
+      }
+      return 'COMPLETED';
+    }
+
+    // Step 5: Ký hợp đồng & QĐ giao việc BM05
+    if (stepNumber === 5) {
+      if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI', 'CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO', 'CHO_NOP_THUYET_MINH', 'DAT_XET_DUYET_HO_SO', 'DANG_XET_DUYET_THUYET_MINH'].includes(s)) {
+        return 'PENDING';
+      }
+      return 'COMPLETED';
+    }
+
+    // Step 6: Thực hiện & Báo cáo tiến độ BM08
+    if (stepNumber === 6) {
+      if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI', 'CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO', 'CHO_NOP_THUYET_MINH', 'DAT_XET_DUYET_HO_SO', 'DANG_XET_DUYET_THUYET_MINH'].includes(s)) {
+        return 'PENDING';
+      }
+      if (s === 'DANG_THUC_HIEN') {
+        return 'IN_PROGRESS';
+      }
+      return 'COMPLETED';
+    }
+
+    // Step 7: Nghiệm thu & Chỉnh sửa BM13
+    if (stepNumber === 7) {
+      if (s === 'CHO_NGHIEM_THU' || s === 'DANG_NGHIEM_THU' || s === 'YEU_CAU_CHINH_SUA_NGHIEM_THU') {
+        return 'IN_PROGRESS';
+      }
+      if (['DA_NGHIEM_THU', 'HOAN_TAT_BUOC_07', 'DA_CONG_NHAN_KET_QUA', 'TRIEN_KHAI_UNG_DUNG', 'LUU_HO_SO'].includes(s)) {
+        return 'COMPLETED';
+      }
+      return 'PENDING';
+    }
+
+    // Step 8: QĐ công nhận kết quả BM15
+    if (stepNumber === 8) {
+      if (['DA_NGHIEM_THU', 'HOAN_TAT_BUOC_07'].includes(s)) {
+        return 'IN_PROGRESS';
+      }
+      if (['DA_CONG_NHAN_KET_QUA', 'TRIEN_KHAI_UNG_DUNG', 'LUU_HO_SO'].includes(s)) {
+        return 'COMPLETED';
+      }
+      return 'PENDING';
+    }
+
+    // Step 9: Triển khai & Lưu hồ sơ
+    if (stepNumber === 9) {
+      if (['TRIEN_KHAI_UNG_DUNG', 'LUU_HO_SO'].includes(s)) {
+        return 'COMPLETED';
+      }
+      if (s === 'DA_CONG_NHAN_KET_QUA') {
+        return 'IN_PROGRESS';
+      }
+      return 'PENDING';
+    }
+
+    return 'PENDING';
+  }
+
+  getProposalStepCode(p: TopicProposal): string {
+    const s = p.status;
+    if (['NHAP', 'CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'TRA_CHINH_SUA', 'CHO_DUYET_LAI'].includes(s)) return 'B1';
+    if (['CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO'].includes(s)) return 'B2';
+    if (['CHO_NOP_THUYET_MINH', 'DAT_XET_DUYET_HO_SO'].includes(s)) return 'B3';
+    if (s === 'DANG_XET_DUYET_THUYET_MINH') return 'B4';
+    if (s === 'DANG_THUC_HIEN') return 'B6';
+    if (['CHO_NGHIEM_THU', 'DANG_NGHIEM_THU', 'YEU_CAU_CHINH_SUA_NGHIEM_THU'].includes(s)) return 'B7';
+    if (['DA_NGHIEM_THU', 'HOAN_TAT_BUOC_07'].includes(s)) return 'B8';
+    if (['DA_CONG_NHAN_KET_QUA', 'TRIEN_KHAI_UNG_DUNG', 'LUU_HO_SO'].includes(s)) return 'B9';
+    return 'B1';
+  }
+
+  viewProposalDetail(propId: string) {
+    this.router.navigate(['/nckh/de-tai', propId]);
   }
 
   get isAuthorRole(): boolean {

@@ -59,6 +59,43 @@ export class RoundManagementComponent implements OnInit {
     return this.rounds.filter(r => r.target === 'SINH_VIEN').length;
   }
 
+  // --- THỐNG KÊ TỔNG QUAN PHÂN HỆ NCKH CẤP TRƯỜNG DÀNH CHO P.KHCN ---
+  get activeRoundsCount(): number {
+    return this.rounds.filter(r => r.status === 'DA_CONG_BO').length;
+  }
+
+  get gvProposalsCount(): number {
+    return this.proposals.filter(p => p.target === 'GIANG_VIEN').length;
+  }
+
+  get svProposalsCount(): number {
+    return this.proposals.filter(p => p.target === 'SINH_VIEN').length;
+  }
+
+  get inProgressProposalsCount(): number {
+    return this.proposals.filter(p => !['DA_CONG_NHAN_KET_QUA', 'TRIEN_KHAI_UNG_DUNG', 'LUU_HO_SO', 'DA_HUY'].includes(p.status)).length;
+  }
+
+  get pendingReviewProposalsCount(): number {
+    return this.proposals.filter(p => ['CHO_KHOA_DUYET', 'CHO_GVHD_DUYET', 'CHO_HOI_DONG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_HO_SO', 'DANG_XET_DUYET_THUYET_MINH', 'CHO_NGHIEM_THU', 'DANG_NGHIEM_THU', 'YEU_CAU_CHINH_SUA_NGHIEM_THU'].includes(p.status)).length;
+  }
+
+  get completedProposalsCount(): number {
+    return this.proposals.filter(p => ['DA_CONG_NHAN_KET_QUA', 'TRIEN_KHAI_UNG_DUNG', 'LUU_HO_SO'].includes(p.status)).length;
+  }
+
+  get totalFundedBudget(): number {
+    return this.proposals.reduce((sum, p) => sum + (p.budgetTotal || p.budgetSchoolFunded || 0), 0);
+  }
+
+  get directTopicsTotalCount(): number {
+    let count = 0;
+    this.rounds.forEach(r => {
+      if (r.directTopics) count += r.directTopics.length;
+    });
+    return count;
+  }
+
   get pagedRounds(): RegistrationRound[] {
     const filtered = this.filteredRounds;
     const startIndex = (this.page - 1) * this.pageSize;

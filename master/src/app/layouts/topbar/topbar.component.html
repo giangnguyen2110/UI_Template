@@ -528,7 +528,7 @@
                             <i class="ri-qr-code-line me-1"></i> Mã: {{ currentUserProfile.identifierCode }}
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" routerLink="/nckh/dashboard"><i class="ri-dashboard-2-line text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Bàn làm việc NCKH</span></a>
+                        <a class="dropdown-item" [routerLink]="getFirstNckhUrl()"><i class="ri-dashboard-2-line text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Bàn làm việc NCKH</span></a>
                         <a class="dropdown-item" routerLink="/nckh/de-tai-cua-toi"><i class="ri-folder-user-line text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Danh sách đề tài của tôi</span></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i class="mdi mdi-logout text-danger fs-16 align-middle me-1"></i> <span class="align-middle" data-key="t-logout">Đăng xuất</span></a>
